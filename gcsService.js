@@ -34,49 +34,68 @@ try {
   if (credentials) {
     storage = new Storage({ credentials });
     bucket = storage.bucket(BUCKET_NAME);
-    console.log(`[Google Cloud Storage] ✅ Conectado exitosamente | Entorno: '${ENV_FOLDER.toUpperCase()}' | Bucket: '${BUCKET_NAME}'`);
+    console.log(`[Google Cloud Storage] ✅ Conectado en Memoria | Entorno: '${ENV_FOLDER.toUpperCase()}' | Bucket: '${BUCKET_NAME}'`);
   } else {
-    console.log(`[Google Cloud Storage] ℹ️ Sin credenciales GCS. Operando en modo local JSON en carpeta '${ENV_FOLDER}'.`);
+    console.log(`[Google Cloud Storage] ℹ️ Sin credenciales GCS. Operando en memoria temporal ('${ENV_FOLDER}').`);
   }
 } catch (err) {
   console.warn(`[Google Cloud Storage] ⚠️ No se pudo inicializar GCS:`, err.message);
 }
 
-// Download file from GCS bucket
-async function downloadFromCloud(remotePath, localPath) {
-  if (!bucket) return false;
+// Read JSON directly from GCS into JS object (in-memory, no disk write)
+async function readJsonFromCloud(remotePath, defaultValue = {}) {
+  if (!bucket) return defaultValue;
   try {
     const fullRemotePath = `${ENV_FOLDER}/${remotePath}`;
     const file = bucket.file(fullRemotePath);
     const [exists] = await file.exists();
     if (exists) {
-      const dir = path.dirname(localPath);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      await file.download({ destination: localPath });
-      console.log(`[GCS Sync ⬇️] Restaurado desde Cloud: ${fullRemotePath}`);
-      return true;
+      const [buffer] = await file.download();
+      const content = buffer.toString('utf8');
+      console.log(`[GCS Read ☁️] Leído desde GCS: ${fullRemotePath}`);
+      return JSON.parse(content);
     }
   } catch (err) {
-    console.error(`[GCS Sync ❌ Error Descarga] ${remotePath}:`, err.message);
+    console.error(`[GCS Read Error] ${remotePath}:`, err.message);
   }
-  return false;
+  return defaultValue;
 }
 
-// Upload file to GCS bucket
-async function uploadToCloud(localPath, remotePath) {
-  if (!bucket || !fs.existsSync(localPath)) return false;
+// Save JS object directly to GCS as JSON string (in-memory Buffer, no disk write)
+async function saveJsonToCloud(remotePath, dataObject) {
+  if (!bucket) return false;
   try {
     const fullRemotePath = `${ENV_FOLDER}/${remotePath}`;
-    await bucket.upload(localPath, {
-      destination: fullRemotePath,
+    const file = bucket.file(fullRemotePath);
+    const jsonString = JSON.stringify(dataObject, null, 2);
+    await file.save(jsonString, {
+      contentType: 'application/json',
       resumable: false
     });
-    console.log(`[GCS Sync ⬆️] Sincronizado en Cloud: ${fullRemotePath}`);
+    console.log(`[GCS Save ☁️] Guardado directo en Cloud: ${fullRemotePath}`);
     return true;
   } catch (err) {
-    console.error(`[GCS Sync ❌ Error Carga] ${remotePath}:`, err.message);
+    console.error(`[GCS Save Error] ${remotePath}:`, err.message);
+    return false;
   }
-  return false;
+}
+
+// Save Buffer (e.g. image PNG/SVG) directly to GCS (in-memory Buffer, no disk write)
+async function saveBufferToCloud(remotePath, buffer, contentType = 'image/png') {
+  if (!bucket) return null;
+  try {
+    const fullRemotePath = `${ENV_FOLDER}/${remotePath}`;
+    const file = bucket.file(fullRemotePath);
+    await file.save(buffer, {
+      contentType: contentType,
+      resumable: false
+    });
+    console.log(`[GCS Buffer Save 📷] Imagen subida directamente a GCS: ${fullRemotePath}`);
+    return `https://storage.googleapis.com/${BUCKET_NAME}/${fullRemotePath}`;
+  } catch (err) {
+    console.error(`[GCS Buffer Save Error] ${remotePath}:`, err.message);
+    return null;
+  }
 }
 
 // Ensure bucket exists or create it
@@ -102,6 +121,7 @@ ensureBucketExists();
 module.exports = {
   isConfigured: () => !!bucket,
   getEnv: () => ENV_FOLDER,
-  downloadFromCloud,
-  uploadToCloud
+  readJsonFromCloud,
+  saveJsonToCloud,
+  saveBufferToCloud
 };

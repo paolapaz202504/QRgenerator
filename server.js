@@ -11,60 +11,35 @@ const PORT = process.env.PORT || 3030;
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
-// JSON Document Database Directories and Subfolders (usuario, history, downloaded)
-const DATA_DIR = path.join(__dirname, 'data');
-const USUARIO_DIR = path.join(DATA_DIR, 'usuario');
-const HISTORY_DIR = path.join(DATA_DIR, 'history');
-const DOWNLOADED_DIR = path.join(DATA_DIR, 'downloaded');
-
-const USERS_FILE = path.join(USUARIO_DIR, 'users.json');
-const HISTORY_FILE = path.join(HISTORY_DIR, 'qr_history.json');
-const STATS_FILE = path.join(HISTORY_DIR, 'stats.json');
-
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-if (!fs.existsSync(USUARIO_DIR)) fs.mkdirSync(USUARIO_DIR, { recursive: true });
-if (!fs.existsSync(HISTORY_DIR)) fs.mkdirSync(HISTORY_DIR, { recursive: true });
-if (!fs.existsSync(DOWNLOADED_DIR)) fs.mkdirSync(DOWNLOADED_DIR, { recursive: true });
+// 100% Cloud-Native In-Memory Database (No Local Disk Storage / No Local Files)
+let usersStore = {};
+let historyStore = [];
+let statsStore = { totalGenerations: 0, totalDownloads: 0 };
 
 async function initCloudSync() {
   if (gcsService.isConfigured()) {
-    console.log(`[GCS Cloud Sync] Sincronizando datos iniciales desde Google Cloud Storage (${gcsService.getEnv().toUpperCase()})...`);
-    await gcsService.downloadFromCloud('usuario/users.json', USERS_FILE);
-    await gcsService.downloadFromCloud('history/qr_history.json', HISTORY_FILE);
-    await gcsService.downloadFromCloud('history/stats.json', STATS_FILE);
+    console.log(`[GCS Cloud Sync ☁️] Cargando base de datos directamente desde Google Cloud Storage (${gcsService.getEnv().toUpperCase()})...`);
+    usersStore = await gcsService.readJsonFromCloud('usuario/users.json', {});
+    historyStore = await gcsService.readJsonFromCloud('history/qr_history.json', []);
+    statsStore = await gcsService.readJsonFromCloud('history/stats.json', { totalGenerations: 0, totalDownloads: 0 });
   }
 }
 initCloudSync();
 
-function readJsonFile(filePath, defaultValue) {
-  try {
-    if (!fs.existsSync(filePath)) {
-      const dir = path.dirname(filePath);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(filePath, JSON.stringify(defaultValue, null, 2), 'utf8');
-      return defaultValue;
-    }
-    const data = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(data);
-  } catch (err) {
-    console.error(`Error reading ${filePath}:`, err);
-    return defaultValue;
-  }
+async function updateUsersStore(newUsers) {
+  usersStore = newUsers;
+  await gcsService.saveJsonToCloud('usuario/users.json', usersStore);
 }
 
-function writeJsonFile(filePath, data) {
-  try {
-    const dir = path.dirname(filePath);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
-    const relativePath = path.relative(DATA_DIR, filePath).replace(/\\/g, '/');
-    gcsService.uploadToCloud(filePath, relativePath);
-  } catch (err) {
-    console.error(`Error writing ${filePath}:`, err);
-  }
+async function updateHistoryStore(newHistory) {
+  historyStore = newHistory;
+  await gcsService.saveJsonToCloud('history/qr_history.json', historyStore);
 }
 
-app.use('/downloaded', express.static(DOWNLOADED_DIR));
+async function updateStatsStore(newStats) {
+  statsStore = newStats;
+  await gcsService.saveJsonToCloud('history/stats.json', statsStore);
+}
 
 // 15 Categories definition
 const CATEGORIES = [
@@ -341,17 +316,16 @@ app.get('/api/designs', (req, res) => {
   });
 });
 
-app.post('/api/auth/oauth-login', (req, res) => {
+app.post('/api/auth/oauth-login', async (req, res) => {
   const { provider, email, name } = req.body;
   if (!email || !provider) {
     return res.status(400).json({ success: false, error: 'Faltan parámetros OAuth 2.0' });
   }
 
-  const users = readJsonFile(USERS_FILE, {});
   const userKey = email.toLowerCase().trim();
   const token = 'oauth2_token_' + Math.random().toString(36).substring(2, 15);
 
-  let existingUser = users[userKey];
+  let existingUser = usersStore[userKey];
   if (!existingUser) {
     existingUser = {
       id: 'user_' + Date.now(),
@@ -372,14 +346,14 @@ app.post('/api/auth/oauth-login', (req, res) => {
     if (provider) existingUser.provider = provider;
   }
 
-  users[userKey] = existingUser;
-  writeJsonFile(USERS_FILE, users);
+  usersStore[userKey] = existingUser;
+  await updateUsersStore(usersStore);
 
   oauthSessions.set(token, existingUser);
   res.json({ success: true, token, user: existingUser });
 });
 
-// Track QR Download, save metadata & image, enforce free tier limit
+// Track QR Download, save metadata & image directly to GCS bucket, enforce free tier limit
 app.post('/api/track-download', async (req, res) => {
   try {
     const { userEmail, title, url, format = 'png', resolution = 800, imageDataUrl } = req.body;
@@ -393,8 +367,7 @@ app.post('/api/track-download', async (req, res) => {
     }
 
     const emailKey = userEmail.toLowerCase().trim();
-    const users = readJsonFile(USERS_FILE, {});
-    let user = users[emailKey];
+    let user = usersStore[emailKey];
 
     if (!user) {
       user = {
@@ -410,7 +383,7 @@ app.post('/api/track-download', async (req, res) => {
         createdAt: new Date().toISOString(),
         lastActive: new Date().toISOString()
       };
-      users[emailKey] = user;
+      usersStore[emailKey] = user;
     }
 
     const maxLimit = user.maxDownloads || 20;
@@ -426,17 +399,17 @@ app.post('/api/track-download', async (req, res) => {
 
     let savedImagePath = null;
     const qrId = 'qr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
-    
+
     if (imageDataUrl && imageDataUrl.startsWith('data:image')) {
       const base64Data = imageDataUrl.replace(/^data:image\/\w+;base64,/, '');
+      const buffer = Buffer.from(base64Data, 'base64');
       const fileName = `${qrId}.${format === 'svg' ? 'svg' : 'png'}`;
-      const filePath = path.join(DOWNLOADED_DIR, fileName);
-      fs.writeFileSync(filePath, base64Data, 'base64');
-      savedImagePath = `/downloaded/${fileName}`;
-      gcsService.uploadToCloud(filePath, `downloaded/${fileName}`);
+      const contentType = format === 'svg' ? 'image/svg+xml' : 'image/png';
+      
+      // Save image directly to GCS bucket without local disk creation
+      savedImagePath = await gcsService.saveBufferToCloud(`downloaded/${fileName}`, buffer, contentType);
     }
 
-    const history = readJsonFile(HISTORY_FILE, []);
     const historyEntry = {
       id: qrId,
       userEmail: emailKey,
@@ -447,37 +420,27 @@ app.post('/api/track-download', async (req, res) => {
       imagePath: savedImagePath,
       createdAt: new Date().toISOString()
     };
-    history.unshift(historyEntry);
-    writeJsonFile(HISTORY_FILE, history);
 
-    const stats = readJsonFile(STATS_FILE, { totalGenerations: 0, totalDownloads: 0 });
-    stats.totalDownloads = (stats.totalDownloads || 0) + 1;
-    writeJsonFile(STATS_FILE, stats);
+    historyStore.unshift(historyEntry);
+    await updateHistoryStore(historyStore);
 
-    if (user) {
-      user.downloadsCount = (user.downloadsCount || 0) + 1;
-      users[emailKey] = user;
-      writeJsonFile(USERS_FILE, users);
-    }
+    statsStore.totalDownloads = (statsStore.totalDownloads || 0) + 1;
+    await updateStatsStore(statsStore);
 
-    const activeUserObj = user || {
-      email: 'invitado@anonimo.com',
-      plan: 'free',
-      maxDownloads: 20,
-      downloadsCount: currentDownloads + 1,
-      generationsCount: 1
-    };
+    user.downloadsCount = (user.downloadsCount || 0) + 1;
+    usersStore[emailKey] = user;
+    await updateUsersStore(usersStore);
 
     res.json({
       success: true,
-      message: 'Descarga registrada y guardada exitosamente.',
+      message: 'Descarga registrada y guardada exitosamente en la nube.',
       savedQr: historyEntry,
       userStats: {
-        downloadsCount: activeUserObj.downloadsCount,
-        generationsCount: activeUserObj.generationsCount || 1,
-        maxDownloads: activeUserObj.maxDownloads || 20,
-        remainingDownloads: Math.max(0, (activeUserObj.maxDownloads || 20) - activeUserObj.downloadsCount),
-        plan: activeUserObj.plan || 'free'
+        downloadsCount: user.downloadsCount,
+        generationsCount: user.generationsCount || 1,
+        maxDownloads: user.maxDownloads || 20,
+        remainingDownloads: Math.max(0, (user.maxDownloads || 20) - user.downloadsCount),
+        plan: user.plan || 'free'
       }
     });
   } catch (err) {
@@ -489,13 +452,10 @@ app.post('/api/track-download', async (req, res) => {
 // User Stats & Recent QR History API
 app.get('/api/user/stats', (req, res) => {
   const userEmail = req.query.email ? req.query.email.toLowerCase().trim() : null;
-  const users = readJsonFile(USERS_FILE, {});
-  const globalStats = readJsonFile(STATS_FILE, { totalGenerations: 0, totalDownloads: 0 });
 
-  if (userEmail && users[userEmail]) {
-    const user = users[userEmail];
-    const history = readJsonFile(HISTORY_FILE, []);
-    const userHistory = history.filter(h => h.userEmail === userEmail).slice(0, 10);
+  if (userEmail && usersStore[userEmail]) {
+    const user = usersStore[userEmail];
+    const userHistory = historyStore.filter(h => h.userEmail === userEmail).slice(0, 10);
 
     return res.json({
       success: true,
@@ -509,14 +469,14 @@ app.get('/api/user/stats', (req, res) => {
         remainingDownloads: Math.max(0, (user.maxDownloads || 20) - (user.downloadsCount || 0))
       },
       history: userHistory,
-      globalStats
+      globalStats: statsStore
     });
   }
 
   res.json({
     success: true,
     userStats: null,
-    globalStats
+    globalStats: statsStore
   });
 });
 
@@ -545,17 +505,15 @@ app.post('/api/generate', async (req, res) => {
       customLogoDataUrl = null
     } = req.body;
 
-    // Increment generation stats
-    const stats = readJsonFile(STATS_FILE, { totalGenerations: 0, totalDownloads: 0 });
-    stats.totalGenerations = (stats.totalGenerations || 0) + 1;
-    writeJsonFile(STATS_FILE, stats);
+    // Increment generation stats in memory & cloud
+    statsStore.totalGenerations = (statsStore.totalGenerations || 0) + 1;
+    updateStatsStore(statsStore);
 
     if (req.body.userEmail) {
       const uEmailKey = req.body.userEmail.toLowerCase().trim();
-      const users = readJsonFile(USERS_FILE, {});
-      if (users[uEmailKey]) {
-        users[uEmailKey].generationsCount = (users[uEmailKey].generationsCount || 0) + 1;
-        writeJsonFile(USERS_FILE, users);
+      if (usersStore[uEmailKey]) {
+        usersStore[uEmailKey].generationsCount = (usersStore[uEmailKey].generationsCount || 0) + 1;
+        updateUsersStore(usersStore);
       }
     }
 

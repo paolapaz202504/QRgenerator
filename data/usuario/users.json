@@ -1,15 +1,15 @@
 {
-  "usuario.registrado@gmail.com": {
-    "id": "user_1789686358136",
-    "name": "usuario.registrado",
-    "email": "usuario.registrado@gmail.com",
-    "provider": "Registered",
-    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=usuario.registrado%40gmail.com",
+  "usuario.google@gmail.com": {
+    "id": "user_1789686835713",
+    "name": "Usuario GOOGLE",
+    "email": "usuario.google@gmail.com",
+    "provider": "google",
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=usuario.google%40gmail.com",
     "plan": "free",
     "maxDownloads": 20,
-    "generationsCount": 1,
-    "downloadsCount": 1,
-    "createdAt": "2026-09-17T23:05:58.136Z",
-    "lastActive": "2026-09-17T23:05:58.136Z"
+    "generationsCount": 0,
+    "downloadsCount": 0,
+    "createdAt": "2026-09-17T23:13:55.713Z",
+    "lastActive": "2026-09-17T23:13:55.713Z"
   }
 }
