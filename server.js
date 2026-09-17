@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const QRCode = require('qrcode');
 const { createCanvas, loadImage } = require('canvas');
 
@@ -8,6 +9,40 @@ const PORT = process.env.PORT || 3030;
 
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+
+// JSON Document Database Directories and Files
+const DATA_DIR = path.join(__dirname, 'data');
+const USERS_FILE = path.join(DATA_DIR, 'users.json');
+const HISTORY_FILE = path.join(DATA_DIR, 'qr_history.json');
+const STATS_FILE = path.join(DATA_DIR, 'stats.json');
+const SAVED_QRS_DIR = path.join(DATA_DIR, 'saved_qrs');
+
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+if (!fs.existsSync(SAVED_QRS_DIR)) fs.mkdirSync(SAVED_QRS_DIR, { recursive: true });
+
+function readJsonFile(filePath, defaultValue) {
+  try {
+    if (!fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, JSON.stringify(defaultValue, null, 2), 'utf8');
+      return defaultValue;
+    }
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error(`Error reading ${filePath}:`, err);
+    return defaultValue;
+  }
+}
+
+function writeJsonFile(filePath, data) {
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.error(`Error writing ${filePath}:`, err);
+  }
+}
+
+app.use('/saved_qrs', express.static(SAVED_QRS_DIR));
 
 // 15 Categories definition
 const CATEGORIES = [
@@ -290,18 +325,168 @@ app.post('/api/auth/oauth-login', (req, res) => {
     return res.status(400).json({ success: false, error: 'Faltan parámetros OAuth 2.0' });
   }
 
+  const users = readJsonFile(USERS_FILE, {});
+  const userKey = email.toLowerCase().trim();
   const token = 'oauth2_token_' + Math.random().toString(36).substring(2, 15);
-  const user = {
-    id: 'user_' + Date.now(),
-    name: name || email.split('@')[0],
-    email: email,
-    provider: provider,
-    avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(email)}`,
-    createdAt: new Date().toISOString()
-  };
 
-  oauthSessions.set(token, user);
-  res.json({ success: true, token, user });
+  let existingUser = users[userKey];
+  if (!existingUser) {
+    existingUser = {
+      id: 'user_' + Date.now(),
+      name: name || email.split('@')[0],
+      email: userKey,
+      provider: provider,
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(userKey)}`,
+      plan: 'free',
+      maxDownloads: 20,
+      generationsCount: 0,
+      downloadsCount: 0,
+      createdAt: new Date().toISOString(),
+      lastActive: new Date().toISOString()
+    };
+  } else {
+    existingUser.lastActive = new Date().toISOString();
+    if (name) existingUser.name = name;
+    if (provider) existingUser.provider = provider;
+  }
+
+  users[userKey] = existingUser;
+  writeJsonFile(USERS_FILE, users);
+
+  oauthSessions.set(token, existingUser);
+  res.json({ success: true, token, user: existingUser });
+});
+
+// Track QR Download, save metadata & image, enforce free tier limit
+app.post('/api/track-download', async (req, res) => {
+  try {
+    const { userEmail, title, url, format = 'png', resolution = 800, imageDataUrl } = req.body;
+    const emailKey = userEmail ? userEmail.toLowerCase().trim() : 'invitado@anonimo.com';
+
+    const users = readJsonFile(USERS_FILE, {});
+    let user = users[emailKey];
+
+    if (!user && emailKey !== 'invitado@anonimo.com') {
+      user = {
+        id: 'user_' + Date.now(),
+        name: emailKey.split('@')[0],
+        email: emailKey,
+        provider: 'Guest',
+        avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(emailKey)}`,
+        plan: 'free',
+        maxDownloads: 20,
+        generationsCount: 1,
+        downloadsCount: 0,
+        createdAt: new Date().toISOString(),
+        lastActive: new Date().toISOString()
+      };
+      users[emailKey] = user;
+    }
+
+    const maxLimit = user ? (user.maxDownloads || 20) : 20;
+    const currentDownloads = user ? (user.downloadsCount || 0) : 0;
+
+    if (user && user.plan === 'free' && currentDownloads >= maxLimit) {
+      return res.status(403).json({
+        success: false,
+        limitReached: true,
+        message: `Has alcanzado el límite gratuito de ${maxLimit} descargas. ¡Apoya con una donación o pasa a Pro para descargas ilimitadas!`
+      });
+    }
+
+    let savedImagePath = null;
+    const qrId = 'qr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+    
+    if (imageDataUrl && imageDataUrl.startsWith('data:image')) {
+      const base64Data = imageDataUrl.replace(/^data:image\/\w+;base64,/, '');
+      const fileName = `${qrId}.${format === 'svg' ? 'svg' : 'png'}`;
+      const filePath = path.join(SAVED_QRS_DIR, fileName);
+      fs.writeFileSync(filePath, base64Data, 'base64');
+      savedImagePath = `/saved_qrs/${fileName}`;
+    }
+
+    const history = readJsonFile(HISTORY_FILE, []);
+    const historyEntry = {
+      id: qrId,
+      userEmail: emailKey,
+      title: title || 'Código QR',
+      url: url || 'https://qrfy.com',
+      format,
+      resolution,
+      imagePath: savedImagePath,
+      createdAt: new Date().toISOString()
+    };
+    history.unshift(historyEntry);
+    writeJsonFile(HISTORY_FILE, history);
+
+    const stats = readJsonFile(STATS_FILE, { totalGenerations: 0, totalDownloads: 0 });
+    stats.totalDownloads = (stats.totalDownloads || 0) + 1;
+    writeJsonFile(STATS_FILE, stats);
+
+    if (user) {
+      user.downloadsCount = (user.downloadsCount || 0) + 1;
+      users[emailKey] = user;
+      writeJsonFile(USERS_FILE, users);
+    }
+
+    const activeUserObj = user || {
+      email: 'invitado@anonimo.com',
+      plan: 'free',
+      maxDownloads: 20,
+      downloadsCount: currentDownloads + 1,
+      generationsCount: 1
+    };
+
+    res.json({
+      success: true,
+      message: 'Descarga registrada y guardada exitosamente.',
+      savedQr: historyEntry,
+      userStats: {
+        downloadsCount: activeUserObj.downloadsCount,
+        generationsCount: activeUserObj.generationsCount || 1,
+        maxDownloads: activeUserObj.maxDownloads || 20,
+        remainingDownloads: Math.max(0, (activeUserObj.maxDownloads || 20) - activeUserObj.downloadsCount),
+        plan: activeUserObj.plan || 'free'
+      }
+    });
+  } catch (err) {
+    console.error('Error tracking download:', err);
+    res.status(500).json({ success: false, error: 'Error interno al guardar descarga' });
+  }
+});
+
+// User Stats & Recent QR History API
+app.get('/api/user/stats', (req, res) => {
+  const userEmail = req.query.email ? req.query.email.toLowerCase().trim() : null;
+  const users = readJsonFile(USERS_FILE, {});
+  const globalStats = readJsonFile(STATS_FILE, { totalGenerations: 0, totalDownloads: 0 });
+
+  if (userEmail && users[userEmail]) {
+    const user = users[userEmail];
+    const history = readJsonFile(HISTORY_FILE, []);
+    const userHistory = history.filter(h => h.userEmail === userEmail).slice(0, 10);
+
+    return res.json({
+      success: true,
+      userStats: {
+        email: user.email,
+        name: user.name,
+        plan: user.plan || 'free',
+        maxDownloads: user.maxDownloads || 20,
+        downloadsCount: user.downloadsCount || 0,
+        generationsCount: user.generationsCount || 0,
+        remainingDownloads: Math.max(0, (user.maxDownloads || 20) - (user.downloadsCount || 0))
+      },
+      history: userHistory,
+      globalStats
+    });
+  }
+
+  res.json({
+    success: true,
+    userStats: null,
+    globalStats
+  });
 });
 
 app.post('/api/generate', async (req, res) => {
@@ -328,6 +513,20 @@ app.post('/api/generate', async (req, res) => {
       iconSize = 34,
       customLogoDataUrl = null
     } = req.body;
+
+    // Increment generation stats
+    const stats = readJsonFile(STATS_FILE, { totalGenerations: 0, totalDownloads: 0 });
+    stats.totalGenerations = (stats.totalGenerations || 0) + 1;
+    writeJsonFile(STATS_FILE, stats);
+
+    if (req.body.userEmail) {
+      const uEmailKey = req.body.userEmail.toLowerCase().trim();
+      const users = readJsonFile(USERS_FILE, {});
+      if (users[uEmailKey]) {
+        users[uEmailKey].generationsCount = (users[uEmailKey].generationsCount || 0) + 1;
+        writeJsonFile(USERS_FILE, users);
+      }
+    }
 
     const design = DESIGNS_150.find(d => d.id === designId) || DESIGNS_150[0];
 

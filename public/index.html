@@ -4,8 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Studio Pro — Generador de Códigos QR Avanzado</title>
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS CDN + Production Console Warning Suppressor -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    if (typeof console !== 'undefined' && console.warn) {
+      const _origWarn = console.warn;
+      console.warn = function(...args) {
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com should not be used in production')) return;
+        _origWarn.apply(console, args);
+      };
+    }
+  </script>
   <!-- FontAwesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -43,6 +52,7 @@
         <div id="user-profile-widget" class="hidden flex items-center gap-2.5 bg-slate-800/80 border border-slate-700/80 rounded-full px-3 py-1 text-xs">
           <img id="user-avatar" src="" alt="Avatar" class="w-6 h-6 rounded-full bg-slate-700">
           <span id="user-name" class="font-semibold text-slate-200 truncate max-w-[120px]"></span>
+          <span id="user-download-counter" class="bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold" title="Descargas Usadas / Límite Gratuito">0/20 QRs</span>
           <button id="btn-logout" title="Cerrar Sesión" class="text-slate-400 hover:text-rose-400 ml-1 transition">
             <i class="fa-solid fa-right-from-bracket"></i>
           </button>

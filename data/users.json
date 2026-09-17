@@ -1,0 +1,15 @@
+{
+  "demo@empresa.com": {
+    "id": "user_1789682799201",
+    "name": "demo",
+    "email": "demo@empresa.com",
+    "provider": "Guest",
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=demo%40empresa.com",
+    "plan": "free",
+    "maxDownloads": 20,
+    "generationsCount": 1,
+    "downloadsCount": 1,
+    "createdAt": "2026-09-17T22:06:39.201Z",
+    "lastActive": "2026-09-17T22:06:39.203Z"
+  }
+}

@@ -428,17 +428,45 @@ function checkOAuthSession() {
   }
 }
 
-function updateUserWidget(user) {
+async function updateUserWidget(user) {
   const userProfileWidget = document.getElementById('user-profile-widget');
   const btnOpenOAuth = document.getElementById('btn-open-oauth');
   const userAvatar = document.getElementById('user-avatar');
   const userName = document.getElementById('user-name');
+  const userCounter = document.getElementById('user-download-counter');
+  const btnLogout = document.getElementById('btn-logout');
 
   if (userProfileWidget && userAvatar && userName) {
     userAvatar.src = user.avatar;
     userName.textContent = user.name;
     userProfileWidget.classList.remove('hidden');
     if (btnOpenOAuth) btnOpenOAuth.classList.add('hidden');
+
+    try {
+      const res = await fetch(`/api/user/stats?email=${encodeURIComponent(user.email)}`);
+      const data = await res.json();
+      if (data.success && data.userStats) {
+        if (userCounter) {
+          userCounter.textContent = `${data.userStats.downloadsCount}/${data.userStats.maxDownloads} QRs`;
+          if (data.userStats.remainingDownloads <= 3) {
+            userCounter.className = 'bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold';
+          } else {
+            userCounter.className = 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold';
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Error fetching stats:', e);
+    }
+
+    if (btnLogout) {
+      btnLogout.onclick = () => {
+        localStorage.removeItem('oauth_user');
+        userProfileWidget.classList.add('hidden');
+        if (btnOpenOAuth) btnOpenOAuth.classList.remove('hidden');
+        showToast('Sesión Cerrada', 'Has cerrado sesión exitosamente.', 'info');
+      };
+    }
   }
 }
 
@@ -810,12 +838,39 @@ async function downloadQR(format = 'png', resolution = 800) {
 
     const data = await res.json();
     if (data.success && data.image) {
+      const savedUserStr = localStorage.getItem('oauth_user');
+      const currentUserEmail = savedUserStr ? JSON.parse(savedUserStr).email : null;
+
+      const trackRes = await fetch('/api/track-download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userEmail: currentUserEmail,
+          title: title,
+          url: formattedUrl,
+          format: format,
+          resolution: resolution,
+          imageDataUrl: data.image
+        })
+      });
+
+      const trackData = await trackRes.json();
+      if (!trackData.success && trackData.limitReached) {
+        showToast('Límite de Descargas', trackData.message, 'info');
+        if (loader) loader.classList.add('hidden');
+        return;
+      }
+
       const link = document.createElement('a');
       link.download = `QR_${cleanTitle}_${resolution}px.${format}`;
       link.href = data.image;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      if (currentUserEmail && savedUserStr) {
+        updateUserWidget(JSON.parse(savedUserStr));
+      }
     }
   } catch (err) {
     console.error('Error downloading QR PNG:', err);
