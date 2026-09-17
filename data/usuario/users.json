@@ -1,0 +1,15 @@
+{
+  "usuario.registrado@gmail.com": {
+    "id": "user_1789686358136",
+    "name": "usuario.registrado",
+    "email": "usuario.registrado@gmail.com",
+    "provider": "Registered",
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=usuario.registrado%40gmail.com",
+    "plan": "free",
+    "maxDownloads": 20,
+    "generationsCount": 1,
+    "downloadsCount": 1,
+    "createdAt": "2026-09-17T23:05:58.136Z",
+    "lastActive": "2026-09-17T23:05:58.136Z"
+  }
+}

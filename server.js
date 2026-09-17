@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const QRCode = require('qrcode');
 const { createCanvas, loadImage } = require('canvas');
+const gcsService = require('./gcsService');
 
 const app = express();
 const PORT = process.env.PORT || 3030;
@@ -10,19 +11,36 @@ const PORT = process.env.PORT || 3030;
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
-// JSON Document Database Directories and Files
+// JSON Document Database Directories and Subfolders (usuario, history, downloaded)
 const DATA_DIR = path.join(__dirname, 'data');
-const USERS_FILE = path.join(DATA_DIR, 'users.json');
-const HISTORY_FILE = path.join(DATA_DIR, 'qr_history.json');
-const STATS_FILE = path.join(DATA_DIR, 'stats.json');
-const SAVED_QRS_DIR = path.join(DATA_DIR, 'saved_qrs');
+const USUARIO_DIR = path.join(DATA_DIR, 'usuario');
+const HISTORY_DIR = path.join(DATA_DIR, 'history');
+const DOWNLOADED_DIR = path.join(DATA_DIR, 'downloaded');
+
+const USERS_FILE = path.join(USUARIO_DIR, 'users.json');
+const HISTORY_FILE = path.join(HISTORY_DIR, 'qr_history.json');
+const STATS_FILE = path.join(HISTORY_DIR, 'stats.json');
 
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-if (!fs.existsSync(SAVED_QRS_DIR)) fs.mkdirSync(SAVED_QRS_DIR, { recursive: true });
+if (!fs.existsSync(USUARIO_DIR)) fs.mkdirSync(USUARIO_DIR, { recursive: true });
+if (!fs.existsSync(HISTORY_DIR)) fs.mkdirSync(HISTORY_DIR, { recursive: true });
+if (!fs.existsSync(DOWNLOADED_DIR)) fs.mkdirSync(DOWNLOADED_DIR, { recursive: true });
+
+async function initCloudSync() {
+  if (gcsService.isConfigured()) {
+    console.log(`[GCS Cloud Sync] Sincronizando datos iniciales desde Google Cloud Storage (${gcsService.getEnv().toUpperCase()})...`);
+    await gcsService.downloadFromCloud('usuario/users.json', USERS_FILE);
+    await gcsService.downloadFromCloud('history/qr_history.json', HISTORY_FILE);
+    await gcsService.downloadFromCloud('history/stats.json', STATS_FILE);
+  }
+}
+initCloudSync();
 
 function readJsonFile(filePath, defaultValue) {
   try {
     if (!fs.existsSync(filePath)) {
+      const dir = path.dirname(filePath);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(filePath, JSON.stringify(defaultValue, null, 2), 'utf8');
       return defaultValue;
     }
@@ -36,13 +54,17 @@ function readJsonFile(filePath, defaultValue) {
 
 function writeJsonFile(filePath, data) {
   try {
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+    const relativePath = path.relative(DATA_DIR, filePath).replace(/\\/g, '/');
+    gcsService.uploadToCloud(filePath, relativePath);
   } catch (err) {
     console.error(`Error writing ${filePath}:`, err);
   }
 }
 
-app.use('/saved_qrs', express.static(SAVED_QRS_DIR));
+app.use('/downloaded', express.static(DOWNLOADED_DIR));
 
 // 15 Categories definition
 const CATEGORIES = [
@@ -361,17 +383,25 @@ app.post('/api/auth/oauth-login', (req, res) => {
 app.post('/api/track-download', async (req, res) => {
   try {
     const { userEmail, title, url, format = 'png', resolution = 800, imageDataUrl } = req.body;
-    const emailKey = userEmail ? userEmail.toLowerCase().trim() : 'invitado@anonimo.com';
 
+    if (!userEmail || userEmail.trim() === '' || userEmail.toLowerCase().includes('invitado@anonimo')) {
+      return res.status(401).json({
+        success: false,
+        authRequired: true,
+        message: 'Para descargar tu código QR debes estar registrado.'
+      });
+    }
+
+    const emailKey = userEmail.toLowerCase().trim();
     const users = readJsonFile(USERS_FILE, {});
     let user = users[emailKey];
 
-    if (!user && emailKey !== 'invitado@anonimo.com') {
+    if (!user) {
       user = {
         id: 'user_' + Date.now(),
         name: emailKey.split('@')[0],
         email: emailKey,
-        provider: 'Guest',
+        provider: 'Registered',
         avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(emailKey)}`,
         plan: 'free',
         maxDownloads: 20,
@@ -383,10 +413,10 @@ app.post('/api/track-download', async (req, res) => {
       users[emailKey] = user;
     }
 
-    const maxLimit = user ? (user.maxDownloads || 20) : 20;
-    const currentDownloads = user ? (user.downloadsCount || 0) : 0;
+    const maxLimit = user.maxDownloads || 20;
+    const currentDownloads = user.downloadsCount || 0;
 
-    if (user && user.plan === 'free' && currentDownloads >= maxLimit) {
+    if (user.plan === 'free' && currentDownloads >= maxLimit) {
       return res.status(403).json({
         success: false,
         limitReached: true,
@@ -400,9 +430,10 @@ app.post('/api/track-download', async (req, res) => {
     if (imageDataUrl && imageDataUrl.startsWith('data:image')) {
       const base64Data = imageDataUrl.replace(/^data:image\/\w+;base64,/, '');
       const fileName = `${qrId}.${format === 'svg' ? 'svg' : 'png'}`;
-      const filePath = path.join(SAVED_QRS_DIR, fileName);
+      const filePath = path.join(DOWNLOADED_DIR, fileName);
       fs.writeFileSync(filePath, base64Data, 'base64');
-      savedImagePath = `/saved_qrs/${fileName}`;
+      savedImagePath = `/downloaded/${fileName}`;
+      gcsService.uploadToCloud(filePath, `downloaded/${fileName}`);
     }
 
     const history = readJsonFile(HISTORY_FILE, []);

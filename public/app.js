@@ -316,18 +316,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     showToast('Restablecido', 'Configuración restaurada por defecto.', 'info');
   });
 
-  // Downloads
+  function requireRegistration() {
+    const savedUser = localStorage.getItem('oauth_user');
+    if (!savedUser) {
+      showToast('Registro Requerido', 'Para descargar tu código QR debes estar registrado. Inicia sesión o regístrate gratis.', 'info');
+      const modal = document.getElementById('oauth-modal');
+      if (modal) modal.classList.remove('hidden');
+      return false;
+    }
+    return true;
+  }
+
+  // Downloads (Registration Required)
   btnDownloadPng.addEventListener('click', () => {
+    if (!requireRegistration()) return;
     showToast('Descargando PNG', 'Generando imagen PNG de 800px alta calidad...', 'success');
     downloadQR('png', 800);
   });
 
   btnDownloadHd.addEventListener('click', () => {
+    if (!requireRegistration()) return;
     showToast('Descargando HD 2000px', 'Procesando archivo PNG en máxima resolución (2000px)...', 'purple');
     downloadQR('png', 2000);
   });
 
   btnDownloadSvg.addEventListener('click', () => {
+    if (!requireRegistration()) return;
     showToast('Descargando Vector SVG', 'Exportando gráfico vectorial SVG para impresión...', 'info');
     downloadSvgQR();
   });

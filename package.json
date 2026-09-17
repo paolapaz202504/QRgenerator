@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^8.2.0",
     "canvas": "^3.2.3",
     "express": "^5.2.1",
     "qrcode": "^1.5.4"
