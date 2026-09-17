@@ -1,0 +1,940 @@
+// Global App State
+let currentDesign = null;
+let currentPattern = 'square';
+let categoriesList = [];
+let designsList = [];
+let patternsList = [];
+
+let activeCategory = 'all';
+let debounceTimer = null;
+let currentQRDataUrl = null;
+
+// Icon & Custom Image Logo State
+let currentIconMode = 'icon'; // 'icon' or 'image'
+let customLogoDataUrl = null;
+
+// Popular FontAwesome Icons (40 Options)
+const POPULAR_ICONS = [
+  'fa-qrcode', 'fa-globe', 'fa-store', 'fa-heart', 'fa-star', 
+  'fa-wifi', 'fa-utensils', 'fa-car', 'fa-briefcase', 'fa-graduation-cap', 
+  'fa-bolt', 'fa-cart-shopping', 'fa-gem', 'fa-envelope', 'fa-phone', 
+  'fa-lock', 'fa-gift', 'fa-camera', 'fa-gamepad', 'fa-hospital',
+  'fa-trophy', 'fa-sun', 'fa-moon', 'fa-plane', 'fa-fire',
+  'fa-shield-halved', 'fa-music', 'fa-film', 'fa-user', 'fa-location-dot',
+  'fa-building', 'fa-cloud', 'fa-ticket', 'fa-coffee', 'fa-bell',
+  'fa-thumbs-up', 'fa-circle-info', 'fa-laptop', 'fa-key', 'fa-comments'
+];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const urlInput = document.getElementById('qr-url');
+  const titleInput = document.getElementById('qr-title');
+  const bannerTextInput = document.getElementById('qr-banner-text');
+  const titleFontInput = document.getElementById('qr-title-font');
+  const bannerFontInput = document.getElementById('qr-banner-font');
+
+  // Icon Controls
+  const iconShowInput = document.getElementById('qr-icon-show');
+  const iconNameInput = document.getElementById('qr-icon-name');
+  const iconPosInput = document.getElementById('qr-icon-position');
+  const iconColorInput = document.getElementById('qr-icon-color');
+  const iconColorHex = document.getElementById('qr-icon-color-hex');
+  const iconBgColorInput = document.getElementById('qr-icon-bg-color');
+  const iconBgColorHex = document.getElementById('qr-icon-bg-hex');
+  const iconBorderColorInput = document.getElementById('qr-icon-border-color');
+  const iconBorderColorHex = document.getElementById('qr-icon-border-hex');
+  const iconSizeInput = document.getElementById('qr-icon-size');
+  const iconSizeVal = document.getElementById('qr-icon-size-val');
+
+  // Mode Buttons
+  const btnModeIcon = document.getElementById('btn-mode-icon');
+  const btnModeImage = document.getElementById('btn-mode-image');
+  const sectionIconMode = document.getElementById('section-icon-mode');
+  const sectionImageMode = document.getElementById('section-image-mode');
+  const iconColorContainer = document.getElementById('icon-color-container');
+
+  // File Upload Elements
+  const logoFileInput = document.getElementById('qr-logo-file');
+  const logoPreviewContainer = document.getElementById('logo-preview-container');
+  const logoUploadPrompt = document.getElementById('logo-upload-prompt');
+  const logoThumb = document.getElementById('qr-logo-thumb');
+  const logoFilename = document.getElementById('logo-filename');
+  const btnClearLogo = document.getElementById('btn-clear-logo');
+
+  const btnGenerate = document.getElementById('btn-generate');
+  const btnReset = document.getElementById('btn-reset');
+  const btnDownloadPng = document.getElementById('btn-download-png');
+  const btnDownloadHd = document.getElementById('btn-download-hd');
+  const btnDownloadSvg = document.getElementById('btn-download-svg');
+
+  // Customizer Controls
+  const toggleCustomizerBtn = document.getElementById('toggle-customizer');
+  const customizerPanel = document.getElementById('customizer-panel');
+  const customizerIcon = document.getElementById('customizer-icon');
+  const customQrColor = document.getElementById('custom-qr-color');
+  const customBgColor = document.getElementById('custom-bg-color');
+  const customFrameColor = document.getElementById('custom-frame-color');
+  const customEyeStyle = document.getElementById('custom-eye-style');
+
+  const customQrHex = document.getElementById('custom-qr-color-hex');
+  const customBgHex = document.getElementById('custom-bg-color-hex');
+  const customFrameHex = document.getElementById('custom-frame-color-hex');
+
+  // OAuth 2.0 Elements
+  const btnOpenOAuth = document.getElementById('btn-open-oauth');
+  const btnCloseOAuth = document.getElementById('btn-close-oauth');
+  const oauthModal = document.getElementById('oauth-modal');
+  const oauthEmailForm = document.getElementById('oauth-email-form');
+  const userProfileWidget = document.getElementById('user-profile-widget');
+
+  if (document.fonts && document.fonts.ready) {
+    await document.fonts.ready;
+  }
+
+  // Load designs from API
+  try {
+    const res = await fetch('/api/designs');
+    const data = await res.json();
+    if (data.success) {
+      categoriesList = data.categories || [];
+      designsList = data.designs || [];
+      patternsList = data.patterns || [];
+    }
+  } catch (e) {
+    console.warn('Error loading designs API', e);
+  }
+
+  currentDesign = designsList.length ? { ...designsList[0] } : null;
+
+  renderIconPickerGrid();
+  renderCategoryTabs(categoriesList);
+  renderDesignGrid(designsList);
+  renderPatternGrid(patternsList);
+  if (currentDesign) syncCustomizerInputs(currentDesign);
+
+  await generateQR();
+  checkOAuthSession();
+
+  // Mode Switcher Listeners
+  if (btnModeIcon && btnModeImage) {
+    btnModeIcon.addEventListener('click', () => {
+      currentIconMode = 'icon';
+      btnModeIcon.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow';
+      btnModeImage.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-400 hover:text-white';
+      sectionIconMode.classList.remove('hidden');
+      sectionImageMode.classList.add('hidden');
+      if (iconColorContainer) iconColorContainer.classList.remove('hidden');
+      scheduleGenerateQR();
+    });
+
+    btnModeImage.addEventListener('click', () => {
+      currentIconMode = 'image';
+      btnModeImage.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow';
+      btnModeIcon.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-400 hover:text-white';
+      sectionImageMode.classList.remove('hidden');
+      sectionIconMode.classList.add('hidden');
+      if (iconColorContainer) iconColorContainer.classList.add('hidden');
+      scheduleGenerateQR();
+    });
+  }
+
+  // File Upload Reader
+  if (logoFileInput) {
+    logoFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        if (!file.type.startsWith('image/')) {
+          showToast('Archivo no válido', 'Selecciona un archivo de imagen (PNG, JPG, SVG).', 'info');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          customLogoDataUrl = event.target.result;
+          if (logoThumb) logoThumb.src = customLogoDataUrl;
+          if (logoFilename) logoFilename.textContent = file.name;
+          if (logoUploadPrompt) logoUploadPrompt.classList.add('hidden');
+          if (logoPreviewContainer) logoPreviewContainer.classList.remove('hidden');
+
+          showToast('Logotipo Cargado', `Imagen "${file.name}" cargada con éxito.`, 'success');
+          scheduleGenerateQR();
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Clear Custom Logo
+  if (btnClearLogo) {
+    btnClearLogo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      customLogoDataUrl = null;
+      if (logoFileInput) logoFileInput.value = '';
+      if (logoUploadPrompt) logoUploadPrompt.classList.remove('hidden');
+      if (logoPreviewContainer) logoPreviewContainer.classList.add('hidden');
+      showToast('Logotipo Eliminado', 'Se quitó la imagen personalizada.', 'info');
+      scheduleGenerateQR();
+    });
+  }
+
+  // Real-time Input Listeners
+  if (urlInput) urlInput.addEventListener('input', scheduleGenerateQR);
+  if (titleInput) titleInput.addEventListener('input', scheduleGenerateQR);
+  if (bannerTextInput) bannerTextInput.addEventListener('input', scheduleGenerateQR);
+  function updateFontStyles() {
+    if (titleFontInput && titleInput) {
+      const val = titleFontInput.value || 'Plus Jakarta Sans';
+      titleFontInput.style.fontFamily = `'${val}', sans-serif`;
+      titleInput.style.fontFamily = `'${val}', sans-serif`;
+    }
+    if (bannerFontInput && bannerTextInput) {
+      const val = bannerFontInput.value || 'Plus Jakarta Sans';
+      bannerFontInput.style.fontFamily = `'${val}', sans-serif`;
+      bannerTextInput.style.fontFamily = `'${val}', sans-serif`;
+    }
+  }
+
+  if (titleFontInput) {
+    titleFontInput.addEventListener('change', () => {
+      updateFontStyles();
+      scheduleGenerateQR();
+    });
+  }
+  if (bannerFontInput) {
+    bannerFontInput.addEventListener('change', () => {
+      updateFontStyles();
+      scheduleGenerateQR();
+    });
+  }
+  updateFontStyles();
+
+  // Icon Controls Event Listeners
+  if (iconShowInput) iconShowInput.addEventListener('change', scheduleGenerateQR);
+  if (iconBgColorInput) {
+    iconBgColorInput.addEventListener('input', () => {
+      if (iconBgColorHex) iconBgColorHex.textContent = iconBgColorInput.value;
+      scheduleGenerateQR();
+    });
+  }
+  if (iconBorderColorInput) {
+    iconBorderColorInput.addEventListener('input', () => {
+      if (iconBorderColorHex) iconBorderColorHex.textContent = iconBorderColorInput.value;
+      scheduleGenerateQR();
+    });
+  }
+  if (iconSizeInput) {
+    iconSizeInput.addEventListener('input', () => {
+      if (iconSizeVal) iconSizeVal.textContent = `${iconSizeInput.value}px`;
+      scheduleGenerateQR();
+    });
+  }
+  if (iconNameInput) {
+    iconNameInput.addEventListener('input', () => {
+      const prev = document.getElementById('selected-icon-preview');
+      if (prev) prev.className = `fa-solid ${iconNameInput.value.trim() || 'fa-qrcode'} text-cyan-400`;
+      scheduleGenerateQR();
+    });
+  }
+  if (iconPosInput) iconPosInput.addEventListener('change', scheduleGenerateQR);
+  if (iconColorInput) {
+    iconColorInput.addEventListener('input', () => {
+      if (iconColorHex) iconColorHex.textContent = iconColorInput.value;
+      scheduleGenerateQR();
+    });
+  }
+
+  // Customizer Controls
+  if (toggleCustomizerBtn) {
+    toggleCustomizerBtn.addEventListener('click', () => {
+      customizerPanel.classList.toggle('hidden');
+      customizerIcon.classList.toggle('rotate-180');
+    });
+  }
+
+  [customQrColor, customBgColor, customFrameColor, customEyeStyle].forEach(input => {
+    if (!input) return;
+    input.addEventListener('input', () => {
+      if (input === customQrColor && customQrHex) customQrHex.textContent = customQrColor.value;
+      if (input === customBgColor && customBgHex) customBgHex.textContent = customBgColor.value;
+      if (input === customFrameColor && customFrameHex) customFrameHex.textContent = customFrameColor.value;
+      
+      if (currentDesign) {
+        currentDesign.qrColor = customQrColor.value;
+        currentDesign.bgColor = customBgColor.value;
+        currentDesign.frameColor = customFrameColor.value;
+        currentDesign.eyeStyle = customEyeStyle.value;
+      }
+      
+      scheduleGenerateQR();
+    });
+  });
+
+  // Action Buttons
+  btnGenerate.addEventListener('click', async () => {
+    btnGenerate.classList.add('scale-95');
+    setTimeout(() => btnGenerate.classList.remove('scale-95'), 150);
+    await generateQR();
+    const titleVal = titleInput.value.trim() || 'Mi Código QR';
+    showToast('¡Código QR Generado!', `QR procesado para: "${titleVal}"`, 'success');
+  });
+
+  btnReset.addEventListener('click', async () => {
+    urlInput.value = 'Escribe o pega tu enlace';
+    titleInput.value = 'Escribe o pega el texto del titulo';
+    if (bannerTextInput) bannerTextInput.value = 'Escanéame';
+    if (titleFontInput) titleFontInput.value = 'Plus Jakarta Sans';
+    if (bannerFontInput) bannerFontInput.value = 'Plus Jakarta Sans';
+    
+    if (iconShowInput) iconShowInput.checked = true;
+    if (iconNameInput) iconNameInput.value = 'fa-qrcode';
+    if (iconPosInput) iconPosInput.value = 'center';
+    if (iconColorInput) iconColorInput.value = '#2563eb';
+    if (iconColorHex) iconColorHex.textContent = '#2563eb';
+    if (iconBgColorInput) iconBgColorInput.value = '#ffffff';
+    if (iconBgColorHex) iconBgColorHex.textContent = '#ffffff';
+    if (iconSizeInput) {
+      iconSizeInput.value = 34;
+      if (iconSizeVal) iconSizeVal.textContent = '34px';
+    }
+
+    customLogoDataUrl = null;
+    currentIconMode = 'icon';
+    if (logoFileInput) logoFileInput.value = '';
+    if (logoUploadPrompt) logoUploadPrompt.classList.remove('hidden');
+    if (logoPreviewContainer) logoPreviewContainer.classList.add('hidden');
+    if (sectionIconMode) sectionIconMode.classList.remove('hidden');
+    if (sectionImageMode) sectionImageMode.classList.add('hidden');
+
+    currentDesign = designsList.length ? { ...designsList[0] } : null;
+    currentPattern = 'square';
+    activeCategory = 'all';
+    
+    renderCategoryTabs(categoriesList);
+    renderDesignGrid(designsList);
+    renderPatternGrid(patternsList);
+    if (currentDesign) syncCustomizerInputs(currentDesign);
+    await generateQR();
+    showToast('Restablecido', 'Configuración restaurada por defecto.', 'info');
+  });
+
+  // Downloads
+  btnDownloadPng.addEventListener('click', () => {
+    showToast('Descargando PNG', 'Generando imagen PNG de 800px alta calidad...', 'success');
+    downloadQR('png', 800);
+  });
+
+  btnDownloadHd.addEventListener('click', () => {
+    showToast('Descargando HD 2000px', 'Procesando archivo PNG en máxima resolución (2000px)...', 'purple');
+    downloadQR('png', 2000);
+  });
+
+  btnDownloadSvg.addEventListener('click', () => {
+    showToast('Descargando Vector SVG', 'Exportando gráfico vectorial SVG para impresión...', 'info');
+    downloadSvgQR();
+  });
+
+  // OAuth 2.0 Controls
+  if (btnOpenOAuth) btnOpenOAuth.addEventListener('click', () => oauthModal.classList.remove('hidden'));
+  if (btnCloseOAuth) btnCloseOAuth.addEventListener('click', () => oauthModal.classList.add('hidden'));
+
+  document.querySelectorAll('.oauth-provider-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const provider = btn.dataset.provider;
+      const mockEmail = `usuario.${provider}@gmail.com`;
+      await executeOAuthLogin(provider, mockEmail, `Usuario ${provider.toUpperCase()}`);
+    });
+  });
+
+  if (oauthEmailForm) {
+    oauthEmailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('oauth-email').value.trim();
+      if (email) {
+        const domain = email.split('@')[1] || 'empresa.com';
+        const providerName = domain.includes('gmail') ? 'Google / Gmail' : 
+                             domain.includes('hotmail') || domain.includes('outlook') ? 'Microsoft / Hotmail' : 'Corporativo';
+        await executeOAuthLogin(providerName, email, email.split('@')[0]);
+      }
+    });
+  }
+});
+
+// Render Icon Picker Grid (40 Icons with Active Highlighting)
+function renderIconPickerGrid() {
+  const container = document.getElementById('icon-picker-grid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const nameInput = document.getElementById('qr-icon-name');
+  const currentSelected = nameInput ? nameInput.value.trim() : 'fa-qrcode';
+
+  POPULAR_ICONS.forEach(iconClass => {
+    const isSelected = (currentSelected === iconClass);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `icon-btn w-9 h-9 rounded-lg flex items-center justify-center text-sm transition shadow-sm ${
+      isSelected 
+        ? 'active bg-cyan-600 border-2 border-cyan-400 ring-2 ring-cyan-400/50 text-white shadow-cyan-500/20 font-bold scale-105' 
+        : 'bg-slate-950/80 border border-slate-700/70 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50'
+    }`;
+    btn.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+    btn.title = iconClass.replace(/^fa-/, '');
+
+    btn.addEventListener('click', () => {
+      if (nameInput) nameInput.value = iconClass;
+      const prev = document.getElementById('selected-icon-preview');
+      if (prev) prev.className = `fa-solid ${iconClass} text-cyan-400`;
+      
+      const activeLabel = document.getElementById('active-icon-label');
+      if (activeLabel) {
+        const cleanName = iconClass.replace(/^fa-/, '').toUpperCase();
+        activeLabel.textContent = `Seleccionado: ${cleanName}`;
+      }
+
+      renderIconPickerGrid();
+      scheduleGenerateQR();
+    });
+    container.appendChild(btn);
+  });
+}
+
+// Execute OAuth 2.0 Login / Registration
+async function executeOAuthLogin(provider, email, name) {
+  try {
+    const res = await fetch('/api/auth/oauth-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ provider, email, name })
+    });
+
+    const data = await res.json();
+    if (data.success && data.user) {
+      localStorage.setItem('oauth_user', JSON.stringify(data.user));
+      updateUserWidget(data.user);
+      document.getElementById('oauth-modal').classList.add('hidden');
+      showToast('OAuth 2.0 Exitoso', `Bienvenido(a) ${data.user.name} (${provider.toUpperCase()})`, 'success');
+    }
+  } catch (err) {
+    console.error('Error in OAuth login:', err);
+  }
+}
+
+function checkOAuthSession() {
+  const saved = localStorage.getItem('oauth_user');
+  if (saved) {
+    try {
+      const user = JSON.parse(saved);
+      updateUserWidget(user);
+    } catch (e) {}
+  }
+}
+
+function updateUserWidget(user) {
+  const userProfileWidget = document.getElementById('user-profile-widget');
+  const btnOpenOAuth = document.getElementById('btn-open-oauth');
+  const userAvatar = document.getElementById('user-avatar');
+  const userName = document.getElementById('user-name');
+
+  if (userProfileWidget && userAvatar && userName) {
+    userAvatar.src = user.avatar;
+    userName.textContent = user.name;
+    userProfileWidget.classList.remove('hidden');
+    if (btnOpenOAuth) btnOpenOAuth.classList.add('hidden');
+  }
+}
+
+// Render 15 Category Filter Tabs forming multiline wrapped rows
+function renderCategoryTabs(categories) {
+  const tabsContainer = document.getElementById('category-tabs');
+  if (!tabsContainer) return;
+  tabsContainer.innerHTML = '';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = `cat-btn whitespace-nowrap text-xs px-3.5 py-1.5 rounded-lg font-medium transition ${
+    activeCategory === 'all' ? 'active bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
+  }`;
+  allBtn.textContent = 'Todas (150)';
+  allBtn.addEventListener('click', () => {
+    activeCategory = 'all';
+    renderCategoryTabs(categories);
+    renderDesignGrid(designsList);
+  });
+  tabsContainer.appendChild(allBtn);
+
+  categories.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = `cat-btn whitespace-nowrap text-xs px-3.5 py-1.5 rounded-lg font-medium transition ${
+      activeCategory === cat ? 'active bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
+    }`;
+    btn.textContent = `${cat} (10)`;
+    btn.addEventListener('click', () => {
+      activeCategory = cat;
+      renderCategoryTabs(categories);
+      const filtered = designsList.filter(d => d.category === cat);
+      renderDesignGrid(filtered);
+    });
+    tabsContainer.appendChild(btn);
+  });
+}
+
+// Render Design Cards Grid
+function renderDesignGrid(designs) {
+  const grid = document.getElementById('design-grid');
+  const badge = document.getElementById('design-count-badge');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  if (badge) badge.textContent = `${designs.length} Diseños`;
+
+  const bannerTextInput = document.getElementById('qr-banner-text');
+
+  designs.forEach(design => {
+    const isSelected = currentDesign && currentDesign.id === design.id;
+    const card = document.createElement('div');
+    card.className = `design-card relative cursor-pointer border rounded-xl p-3 flex flex-col items-center gap-2 text-center transition-all bg-slate-900/60 hover:bg-slate-800/80 ${
+      isSelected ? 'active border-indigo-500 ring-2 ring-indigo-500/50 bg-slate-800' : 'border-slate-800 hover:border-slate-700'
+    }`;
+    card.dataset.id = design.id;
+
+    const cardIconClass = design.iconName || 'fa-qrcode';
+    const cardIconClr = design.iconColor || design.qrColor;
+    const cardIconBgClr = design.iconBgColor || '#ffffff';
+    const cardIconBorderClr = design.iconBorderColor || design.frameColor;
+
+    card.innerHTML = `
+      <div class="relative w-full h-16 rounded-lg flex items-center justify-center p-2 overflow-hidden border border-slate-700/50" style="background-color: ${design.bgColor}">
+        <div class="w-10 h-10 rounded flex items-center justify-center border-2" style="border-color: ${cardIconBorderClr}; background-color: ${cardIconBgClr}">
+          <i class="fa-solid ${cardIconClass} text-lg" style="color: ${cardIconClr}"></i>
+        </div>
+        ${design.bannerText ? `
+          <div class="absolute top-1 text-[9px] font-bold px-1.5 py-0.5 rounded shadow" style="background-color: ${design.badgeBg}; color: ${design.badgeText}">
+            ${design.bannerText.substring(0, 10)}
+          </div>
+        ` : ''}
+      </div>
+      <div class="w-full text-left">
+        <h4 class="text-xs font-bold text-slate-200 truncate">${design.name}</h4>
+        <p class="text-[10px] text-slate-400 truncate">${design.category}</p>
+      </div>
+      <div class="check-icon absolute top-2 right-2 w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] flex items-center justify-center transition-all opacity-0 scale-75">
+        <i class="fa-solid fa-check"></i>
+      </div>
+    `;
+
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.design-card').forEach(c => c.classList.remove('active', 'border-indigo-500', 'ring-2', 'ring-indigo-500/50', 'bg-slate-800'));
+      card.classList.add('active', 'border-indigo-500', 'ring-2', 'ring-indigo-500/50', 'bg-slate-800');
+      
+      currentDesign = { ...design };
+      if (design.dotStyle) {
+        currentPattern = design.dotStyle;
+        renderPatternGrid(patternsList);
+      }
+      syncCustomizerInputs(currentDesign);
+      generateQR();
+      showToast('Diseño Seleccionado', `Plantilla de ${design.category}: "${design.name}"`, 'info');
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+// Render Pattern Selector Cards Grid
+function renderPatternGrid(patterns) {
+  const grid = document.getElementById('pattern-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  patterns.forEach(pattern => {
+    const isSelected = currentPattern === pattern.id;
+    const card = document.createElement('div');
+    card.className = `pattern-card cursor-pointer border rounded-xl p-2.5 flex flex-col items-center justify-center gap-1.5 text-center transition-all text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800/80 ${
+      isSelected ? 'active border-pink-500 ring-2 ring-pink-500/40 bg-slate-800 text-white font-bold' : 'border-slate-800 hover:border-slate-700'
+    }`;
+    card.dataset.id = pattern.id;
+
+    card.innerHTML = `
+      <div class="w-7 h-7 rounded-lg bg-slate-800/90 flex items-center justify-center text-pink-400 text-sm shadow">
+        <i class="fa-solid ${pattern.icon}"></i>
+      </div>
+      <span class="text-[11px] font-medium leading-tight truncate w-full">${pattern.name}</span>
+    `;
+
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.pattern-card').forEach(c => c.classList.remove('active', 'border-pink-500', 'ring-2', 'ring-pink-500/40', 'bg-slate-800', 'text-white'));
+      card.classList.add('active', 'border-pink-500', 'ring-2', 'ring-pink-500/40', 'bg-slate-800', 'text-white');
+      
+      currentPattern = pattern.id;
+      if (currentDesign) currentDesign.dotStyle = pattern.id;
+      generateQR();
+      showToast('Patrón Seleccionado', `Forma de módulos: "${pattern.name}"`, 'pink');
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+function syncCustomizerInputs(design) {
+  if (!design) return;
+
+  if (document.getElementById('custom-qr-color')) document.getElementById('custom-qr-color').value = design.qrColor || '#111827';
+  if (document.getElementById('custom-bg-color')) document.getElementById('custom-bg-color').value = design.bgColor || '#ffffff';
+  if (document.getElementById('custom-frame-color')) document.getElementById('custom-frame-color').value = design.frameColor || '#2563eb';
+  if (document.getElementById('custom-eye-style')) document.getElementById('custom-eye-style').value = design.eyeStyle || 'square';
+
+  if (document.getElementById('custom-qr-color-hex')) document.getElementById('custom-qr-color-hex').textContent = design.qrColor || '#111827';
+  if (document.getElementById('custom-bg-color-hex')) document.getElementById('custom-bg-color-hex').textContent = design.bgColor || '#ffffff';
+  if (document.getElementById('custom-frame-color-hex')) document.getElementById('custom-frame-color-hex').textContent = design.frameColor || '#2563eb';
+
+  // Icon & Icon Box
+  if (design.iconName && document.getElementById('qr-icon-name')) {
+    document.getElementById('qr-icon-name').value = design.iconName;
+    const activeLabel = document.getElementById('active-icon-label');
+    if (activeLabel) {
+      const cleanName = design.iconName.replace(/^fa-/, '').toUpperCase();
+      activeLabel.textContent = `Seleccionado: ${cleanName}`;
+    }
+  }
+
+  if (document.getElementById('qr-icon-color')) {
+    const iconClr = design.iconColor || design.frameColor || '#2563eb';
+    document.getElementById('qr-icon-color').value = iconClr;
+    if (document.getElementById('qr-icon-color-hex')) document.getElementById('qr-icon-color-hex').textContent = iconClr;
+  }
+
+  if (document.getElementById('qr-icon-bg-color')) {
+    const iconBgClr = design.iconBgColor || '#ffffff';
+    document.getElementById('qr-icon-bg-color').value = iconBgClr;
+    if (document.getElementById('qr-icon-bg-hex')) document.getElementById('qr-icon-bg-hex').textContent = iconBgClr;
+  }
+
+  if (document.getElementById('qr-icon-border-color')) {
+    const iconBorderClr = design.iconBorderColor || design.frameColor || '#2563eb';
+    document.getElementById('qr-icon-border-color').value = iconBorderClr;
+    if (document.getElementById('qr-icon-border-hex')) document.getElementById('qr-icon-border-hex').textContent = iconBorderClr;
+  }
+
+  // Banner Text & Fonts
+  if (design.bannerText && document.getElementById('qr-banner-text')) {
+    document.getElementById('qr-banner-text').value = design.bannerText;
+  }
+
+  if (design.fontTitle && document.getElementById('qr-title-font')) {
+    document.getElementById('qr-title-font').value = design.fontTitle;
+  }
+
+  if (design.fontBanner && document.getElementById('qr-banner-font')) {
+    document.getElementById('qr-banner-font').value = design.fontBanner;
+  }
+
+  renderIconPickerGrid();
+
+  const tFontInput = document.getElementById('qr-title-font');
+  const bFontInput = document.getElementById('qr-banner-font');
+  const tInput = document.getElementById('qr-title');
+  const bTextInput = document.getElementById('qr-banner-text');
+
+  if (tFontInput && tInput) {
+    const val = tFontInput.value || 'Plus Jakarta Sans';
+    tFontInput.style.fontFamily = `'${val}', sans-serif`;
+    tInput.style.fontFamily = `'${val}', sans-serif`;
+  }
+  if (bFontInput && bTextInput) {
+    const val = bFontInput.value || 'Plus Jakarta Sans';
+    bFontInput.style.fontFamily = `'${val}', sans-serif`;
+    bTextInput.style.fontFamily = `'${val}', sans-serif`;
+  }
+}
+
+function scheduleGenerateQR() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => generateQR(), 120);
+}
+
+// Generate QR Code via server API
+async function generateQR(targetWidth = 600) {
+  const canvas = document.getElementById('qr-canvas');
+  if (!canvas) return;
+
+  const loader = document.getElementById('canvas-loader');
+  if (loader) loader.classList.remove('hidden');
+
+  const rawUrl = document.getElementById('qr-url').value.trim() || 'Escribe o pega tu enlace';
+  let formattedUrl = rawUrl;
+  if (!/^https?:\/\//i.test(formattedUrl) && !/^mailto:/i.test(formattedUrl) && !/^tel:/i.test(formattedUrl)) {
+    formattedUrl = 'https://' + formattedUrl;
+  }
+
+  const title = document.getElementById('qr-title').value.trim() || 'Escribe o pega el texto del titulo';
+  const bannerTextInput = document.getElementById('qr-banner-text');
+  const bannerText = bannerTextInput ? bannerTextInput.value.trim() : 'Escanéame';
+
+  const titleFontInput = document.getElementById('qr-title-font');
+  const bannerFontInput = document.getElementById('qr-banner-font');
+
+  const fontTitle = titleFontInput ? titleFontInput.value : 'Plus Jakarta Sans';
+  const fontBanner = bannerFontInput ? bannerFontInput.value : 'Plus Jakarta Sans';
+
+  const iconShowInput = document.getElementById('qr-icon-show');
+  const iconBgColorInput = document.getElementById('qr-icon-bg-color');
+  const iconBorderColorInput = document.getElementById('qr-icon-border-color');
+  const iconSizeInput = document.getElementById('qr-icon-size');
+  const iconNameInput = document.getElementById('qr-icon-name');
+  const iconPosInput = document.getElementById('qr-icon-position');
+  const iconColorInput = document.getElementById('qr-icon-color');
+
+  const showIcon = iconShowInput ? iconShowInput.checked : true;
+  const iconBgColor = iconBgColorInput ? iconBgColorInput.value : '#ffffff';
+  const iconBorderColor = iconBorderColorInput ? iconBorderColorInput.value : '#2563eb';
+  const iconSize = iconSizeInput ? parseInt(iconSizeInput.value, 10) : 34;
+  const iconName = iconNameInput ? iconNameInput.value.trim() : 'fa-qrcode';
+  const iconPosition = iconPosInput ? iconPosInput.value : 'center';
+  const iconColor = iconColorInput ? iconColorInput.value : '#2563eb';
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url: formattedUrl,
+        title: title,
+        bannerText: bannerText,
+        designId: currentDesign ? currentDesign.id : 'design-institucional-1',
+        customColors: {
+          bgColor: currentDesign ? currentDesign.bgColor : '#ffffff',
+          qrColor: currentDesign ? currentDesign.qrColor : '#111827',
+          frameColor: currentDesign ? currentDesign.frameColor : '#2563eb',
+          textColor: currentDesign ? currentDesign.textColor : '#111827',
+          badgeBg: currentDesign ? currentDesign.badgeBg : '#2563eb',
+          badgeText: currentDesign ? currentDesign.badgeText : '#ffffff'
+        },
+        customDotStyle: currentPattern,
+        customEyeStyle: currentDesign ? currentDesign.eyeStyle : 'square',
+        targetWidth: targetWidth,
+        fontTitle: fontTitle,
+        fontBanner: fontBanner,
+        showIcon: showIcon,
+        iconMode: currentIconMode,
+        iconName: iconName,
+        iconPosition: iconPosition,
+        iconColor: iconColor,
+        iconBgColor: iconBgColor,
+        iconBorderColor: iconBorderColor,
+        iconSize: iconSize,
+        customLogoDataUrl: customLogoDataUrl
+      })
+    });
+
+    const data = await res.json();
+    if (data.success && data.image) {
+      currentQRDataUrl = data.image;
+
+      const img = new Image();
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, img.width, img.height);
+        ctx.drawImage(img, 0, 0);
+
+        if (loader) loader.classList.add('hidden');
+      };
+      img.src = data.image;
+      return data.image;
+    }
+  } catch (err) {
+    console.error('API Error during QR generation:', err);
+    if (loader) loader.classList.add('hidden');
+  }
+}
+
+// Download QR as PNG
+async function downloadQR(format = 'png', resolution = 800) {
+  const title = document.getElementById('qr-title').value.trim() || 'Codigo_QR';
+  const cleanTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
+
+  const loader = document.getElementById('canvas-loader');
+  if (loader) loader.classList.remove('hidden');
+
+  try {
+    const rawUrl = document.getElementById('qr-url').value.trim() || 'https://qrfy.com';
+    let formattedUrl = rawUrl;
+    if (!/^https?:\/\//i.test(formattedUrl) && !/^mailto:/i.test(formattedUrl) && !/^tel:/i.test(formattedUrl)) {
+      formattedUrl = 'https://' + formattedUrl;
+    }
+    const bannerTextInput = document.getElementById('qr-banner-text');
+    const bannerText = bannerTextInput ? bannerTextInput.value.trim() : 'Escanéame';
+    
+    const fontTitle = document.getElementById('qr-title-font') ? document.getElementById('qr-title-font').value : 'Plus Jakarta Sans';
+    const fontBanner = document.getElementById('qr-banner-font') ? document.getElementById('qr-banner-font').value : 'Plus Jakarta Sans';
+
+    const iconShowInput = document.getElementById('qr-icon-show');
+    const iconBgColorInput = document.getElementById('qr-icon-bg-color');
+    const iconBorderColorInput = document.getElementById('qr-icon-border-color');
+    const iconSizeInput = document.getElementById('qr-icon-size');
+    const iconNameInput = document.getElementById('qr-icon-name');
+    const iconPosInput = document.getElementById('qr-icon-position');
+    const iconColorInput = document.getElementById('qr-icon-color');
+
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url: formattedUrl,
+        title: title,
+        bannerText: bannerText,
+        designId: currentDesign ? currentDesign.id : 'design-institucional-1',
+        customColors: {
+          bgColor: currentDesign ? currentDesign.bgColor : '#ffffff',
+          qrColor: currentDesign ? currentDesign.qrColor : '#111827',
+          frameColor: currentDesign ? currentDesign.frameColor : '#2563eb',
+          textColor: currentDesign ? currentDesign.textColor : '#111827',
+          badgeBg: currentDesign ? currentDesign.badgeBg : '#2563eb',
+          badgeText: currentDesign ? currentDesign.badgeText : '#ffffff'
+        },
+        customDotStyle: currentPattern,
+        customEyeStyle: currentDesign ? currentDesign.eyeStyle : 'square',
+        targetWidth: resolution,
+        fontTitle: fontTitle,
+        fontBanner: fontBanner,
+        showIcon: iconShowInput ? iconShowInput.checked : true,
+        iconMode: currentIconMode,
+        iconName: iconNameInput ? iconNameInput.value.trim() : 'fa-qrcode',
+        iconPosition: iconPosInput ? iconPosInput.value : 'center',
+        iconColor: iconColorInput ? iconColorInput.value : '#2563eb',
+        iconBgColor: iconBgColorInput ? iconBgColorInput.value : '#ffffff',
+        iconBorderColor: iconBorderColorInput ? iconBorderColorInput.value : '#2563eb',
+        iconSize: iconSizeInput ? parseInt(iconSizeInput.value, 10) : 34,
+        customLogoDataUrl: customLogoDataUrl
+      })
+    });
+
+    const data = await res.json();
+    if (data.success && data.image) {
+      const link = document.createElement('a');
+      link.download = `QR_${cleanTitle}_${resolution}px.${format}`;
+      link.href = data.image;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  } catch (err) {
+    console.error('Error downloading QR PNG:', err);
+  } finally {
+    if (loader) loader.classList.add('hidden');
+  }
+}
+
+// Download QR as Vector SVG
+function downloadSvgQR() {
+  const url = document.getElementById('qr-url').value.trim() || 'https://qrfy.com';
+  const title = document.getElementById('qr-title').value.trim() || 'Codigo QR';
+  const bannerTextInput = document.getElementById('qr-banner-text');
+  const bannerText = bannerTextInput ? bannerTextInput.value.trim() : 'Escanéame';
+  const cleanTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_').toLowerCase();
+
+  try {
+    const qrData = QRCode.create(url, { errorCorrectionLevel: 'H' });
+    const modules = qrData.modules;
+    const size = modules.size;
+
+    const bgColor = currentDesign ? currentDesign.bgColor : '#ffffff';
+    const qrColor = currentDesign ? currentDesign.qrColor : '#111827';
+    const frameColor = currentDesign ? currentDesign.frameColor : '#2563eb';
+    const textColor = currentDesign ? currentDesign.textColor : frameColor;
+
+    const width = 600;
+    const height = 760;
+    const qrAreaSize = 340;
+    const qrX = (width - qrAreaSize) / 2;
+    const qrY = 175;
+    const cellSize = qrAreaSize / size;
+
+    let rectsSvg = '';
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (modules.get(r, c)) {
+          const x = qrX + c * cellSize;
+          const y = qrY + r * cellSize;
+          rectsSvg += `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${cellSize.toFixed(2)}" height="${cellSize.toFixed(2)}" fill="${qrColor}" rx="2" />\n`;
+        }
+      }
+    }
+
+    const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
+  <style>
+    .title-text { font-family: sans-serif; font-weight: bold; font-size: 24px; fill: ${textColor}; text-anchor: middle; }
+    .banner-text { font-family: sans-serif; font-weight: bold; font-size: 16px; fill: #ffffff; text-anchor: middle; }
+  </style>
+  <rect width="${width}" height="${height}" fill="${bgColor}" />
+  <rect x="35" y="35" width="530" height="690" rx="24" fill="none" stroke="${frameColor}" stroke-width="4" />
+  <rect x="170" y="13" width="260" height="44" rx="22" fill="${frameColor}" />
+  <text x="300" y="40" class="banner-text">${escapeXml(bannerText)}</text>
+  <rect x="${qrX - 16}" y="${qrY - 16}" width="${qrAreaSize + 32}" height="${qrAreaSize + 32}" rx="18" fill="#ffffff" />
+  ${rectsSvg}
+  <text x="300" y="580" class="title-text">${escapeXml(title)}</text>
+</svg>`;
+
+    const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = `QR_${cleanTitle}.svg`;
+    link.href = blobUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
+  } catch (e) {
+    console.error('Error exporting SVG:', e);
+  }
+}
+
+// Toast Notification System
+function showToast(title, message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = `toast-msg pointer-events-auto p-4 rounded-xl shadow-2xl border flex items-start gap-3 bg-slate-900/95 backdrop-blur-md text-slate-100 ${
+    type === 'success' ? 'border-emerald-500/40 text-emerald-400' :
+    type === 'purple' ? 'border-purple-500/40 text-purple-400' :
+    type === 'pink' ? 'border-pink-500/40 text-pink-400' :
+    'border-indigo-500/40 text-indigo-400'
+  }`;
+
+  const iconClass = type === 'success' ? 'fa-circle-check text-emerald-400' :
+                    type === 'purple' ? 'fa-wand-magic-sparkles text-purple-400' :
+                    type === 'pink' ? 'fa-shapes text-pink-400' : 'fa-circle-info text-indigo-400';
+
+  toast.innerHTML = `
+    <div class="mt-0.5 text-base">
+      <i class="fa-solid ${iconClass}"></i>
+    </div>
+    <div class="flex-1">
+      <h4 class="text-xs font-bold text-slate-100">${escapeXml(title)}</h4>
+      <p class="text-[11px] text-slate-300 mt-0.5 leading-snug">${escapeXml(message)}</p>
+    </div>
+    <button type="button" class="text-slate-500 hover:text-slate-300 text-xs ml-1" onclick="this.parentElement.remove()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  `;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add('toast-leave');
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+function escapeXml(unsafe) {
+  return unsafe.replace(/[<>&'"]/g, c => {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+    }
+  });
+}
