@@ -25,6 +25,8 @@
   
   <!-- Client-side QRCode lib -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <!-- Official Google Identity Services OAuth 2.0 SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="h-full flex flex-col font-['Plus_Jakarta_Sans'] bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
@@ -512,7 +514,7 @@
 
   <!-- OAuth 2.0 Modal -->
   <div id="oauth-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-6 relative">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 relative">
       <button id="btn-close-oauth" type="button" class="absolute top-5 right-5 text-slate-400 hover:text-slate-200 text-lg">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -521,48 +523,43 @@
         <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center mx-auto text-xl shadow-lg shadow-indigo-500/10">
           <i class="fa-solid fa-user-shield"></i>
         </div>
-        <h3 class="text-xl font-bold font-['Outfit'] text-slate-100">Acceso seguro con OAuth 2.0</h3>
-        <p class="text-xs text-slate-400">Inicia sesión con tu cuenta corporativa o correo</p>
+        <h3 class="text-xl font-bold font-['Outfit'] text-slate-100">Registro con Proveedor Autorizado</h3>
+        <p class="text-xs text-slate-400">Selecciona tu proveedor para verificar e ingresar tu cuenta</p>
       </div>
 
-      <div class="space-y-3">
-        <button data-provider="google" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition">
+      <!-- Container for Official Google GIS Button when Client ID is configured -->
+      <div id="google-gsi-container" class="hidden w-full flex justify-center py-1"></div>
+
+      <div id="provider-buttons-container" class="space-y-3">
+        <button data-provider="google" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
           <i class="fa-brands fa-google text-red-500 text-base"></i>
-          Continuar con Google / Gmail (OAuth 2.0)
+          Continuar con Google / Gmail
         </button>
-        <button data-provider="microsoft" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition">
+        <button data-provider="microsoft" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
           <i class="fa-brands fa-microsoft text-sky-400 text-base"></i>
-          Continuar con Microsoft / Hotmail (OAuth 2.0)
+          Continuar con Microsoft / Hotmail
         </button>
-        <button data-provider="github" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition">
+        <button data-provider="github" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
           <i class="fa-brands fa-github text-slate-300 text-base"></i>
-          Continuar con GitHub (OAuth 2.0)
+          Continuar con GitHub
         </button>
-        <button data-provider="apple" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition">
+        <button data-provider="apple" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
           <i class="fa-brands fa-apple text-slate-200 text-base"></i>
-          Continuar con Apple ID (OAuth 2.0)
+          Continuar con Apple ID
         </button>
-        <button data-provider="facebook" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition">
+        <button data-provider="facebook" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
           <i class="fa-brands fa-facebook text-blue-500 text-base"></i>
-          Continuar con Facebook / Meta (OAuth 2.0)
+          Continuar con Facebook / Meta
         </button>
       </div>
 
-      <div class="relative flex py-1 items-center">
-        <div class="flex-grow border-t border-slate-800"></div>
-        <span class="flex-shrink mx-3 text-[10px] text-slate-500 uppercase tracking-widest">O con correo corporativo</span>
-        <div class="flex-grow border-t border-slate-800"></div>
-      </div>
-
-      <form id="oauth-email-form" class="space-y-3">
-        <div>
-          <input type="email" id="oauth-email" required placeholder="tu-correo@empresa.com"
-            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <!-- OAuth Status Indicator -->
+      <div id="oauth-status-banner" class="hidden text-center p-3.5 rounded-xl bg-slate-950 border border-cyan-500/30 space-y-1 transition">
+        <div class="flex items-center justify-center gap-2 text-xs font-semibold text-cyan-400">
+          <i class="fa-solid fa-circle-notch fa-spin text-sm"></i>
+          <span id="oauth-status-text">Conectando con el servidor de autenticación autorizada...</span>
         </div>
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition">
-          Iniciar Sesión / Registrarse
-        </button>
-      </form>
+      </div>
 
     </div>
   </div>

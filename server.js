@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -306,6 +307,13 @@ const PATTERNS = [
 ];
 
 const oauthSessions = new Map();
+
+app.get('/api/config', (req, res) => {
+  res.json({
+    success: true,
+    googleClientId: process.env.GOOGLE_CLIENT_ID || ''
+  });
+});
 
 app.get('/api/designs', (req, res) => {
   res.json({
