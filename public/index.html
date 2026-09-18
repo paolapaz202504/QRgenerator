@@ -516,88 +516,100 @@
       </div>
 
     </div>
-  </main>
 
-  <!-- OAuth 2.0 Modal -->
-  <div id="oauth-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 relative">
-      <button id="btn-close-oauth" type="button" class="absolute top-5 right-5 text-slate-400 hover:text-slate-200 text-lg">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <div class="text-center space-y-2">
-        <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center mx-auto text-xl shadow-lg shadow-indigo-500/10">
-          <i class="fa-solid fa-user-shield"></i>
-        </div>
-        <h3 class="text-xl font-bold font-['Outfit'] text-slate-100">Registro con Proveedor Autorizado</h3>
-        <p class="text-xs text-slate-400">Selecciona tu proveedor para verificar e ingresar tu cuenta</p>
-      </div>
-
-      <!-- Container for Official Google GIS Button when Client ID is configured -->
-      <div id="google-gsi-container" class="hidden w-full flex justify-center py-1"></div>
-
-      <div id="provider-buttons-container" class="space-y-3">
-        <button data-provider="google" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
-          <i class="fa-brands fa-google text-red-500 text-base"></i>
-          Continuar con Google / Gmail
-        </button>
-        <button data-provider="microsoft" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
-          <i class="fa-brands fa-microsoft text-sky-400 text-base"></i>
-          Continuar con Microsoft / Hotmail
-        </button>
-        <button data-provider="github" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
-          <i class="fa-brands fa-github text-slate-300 text-base"></i>
-          Continuar con GitHub
-        </button>
-        <button data-provider="apple" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
-          <i class="fa-brands fa-apple text-slate-200 text-base"></i>
-          Continuar con Apple ID
-        </button>
-        <button data-provider="facebook" class="oauth-provider-btn w-full bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 text-xs transition transform hover:scale-[1.01] active:scale-95">
-          <i class="fa-brands fa-facebook text-blue-500 text-base"></i>
-          Continuar con Facebook / Meta
-        </button>
-      </div>
-
-      <!-- OAuth Status Indicator -->
-      <div id="oauth-status-banner" class="hidden text-center p-3.5 rounded-xl bg-slate-950 border border-cyan-500/30 space-y-1 transition">
-        <div class="flex items-center justify-center gap-2 text-xs font-semibold text-cyan-400">
-          <i class="fa-solid fa-circle-notch fa-spin text-sm"></i>
-          <span id="oauth-status-text">Conectando con el servidor de autenticación autorizada...</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- History Modal (Listar Códigos QR Generados con Título, Vínculo e Imagen) -->
-  <div id="history-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-4xl w-full shadow-2xl space-y-5 relative max-h-[90vh] flex flex-col">
-      <button id="btn-close-history" type="button" class="absolute top-5 right-5 text-slate-400 hover:text-slate-200 text-lg">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <!-- Sección Incorporada: Historial y Tabla de Códigos QR Generados -->
+    <section id="section-history" class="mt-12 bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+      
+      <!-- Encabezado de la Sección -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-lg shadow-lg shadow-indigo-500/10">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white flex items-center justify-center text-lg shadow-lg shadow-indigo-500/20">
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold font-['Outfit'] text-slate-100">Historial de Códigos QR Generados</h2>
+            <p class="text-xs text-slate-400">Tabla interactiva con búsqueda en tiempo real, paginación y zona horaria</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span id="history-total-count" class="text-xs font-semibold px-3.5 py-1.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">
+            0 Registros
+          </span>
+          <button id="btn-refresh-history" type="button" title="Actualizar Tabla" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center border border-slate-700 transition">
+            <i class="fa-solid fa-arrows-rotate text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros: Búsqueda y Paginador de Filas -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <!-- Buscador -->
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="history-search-input" placeholder="Buscar por título, enlace o fecha..." 
+            class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-2.5 pl-10 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+          <div class="absolute left-3.5 top-3 text-slate-500 text-xs">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </div>
+
+        <!-- Selector de Tamaño de Página -->
+        <div class="flex items-center gap-2 text-xs text-slate-400 self-end sm:self-auto">
+          <span>Mostrar:</span>
+          <select id="history-page-size" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none cursor-pointer">
+            <option value="5">5 por página</option>
+            <option value="10" selected>10 por página</option>
+            <option value="25">25 por página</option>
+            <option value="50">50 por página</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tabla Responsive de Registros -->
+      <div class="overflow-x-auto rounded-2xl border border-slate-800/80 bg-slate-950/60 shadow-inner">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-900/90 border-b border-slate-800 text-slate-400 font-semibold uppercase text-[11px] tracking-wider">
+              <th class="py-3.5 px-4 w-28">Miniatura</th>
+              <th class="py-3.5 px-4 min-w-[180px]">Título / Nombre del QR</th>
+              <th class="py-3.5 px-4 min-w-[220px]">Enlace de Destino</th>
+              <th class="py-3.5 px-4 min-w-[200px]">Fecha y Hora (Zona Horaria)</th>
+              <th class="py-3.5 px-4 text-center w-32">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body" class="divide-y divide-slate-800/60 text-slate-200 font-normal">
+            <!-- Dynamically populated rows -->
+          </tbody>
+        </table>
+
+        <!-- Estado Vacío (Sin registros) -->
+        <div id="history-empty-state" class="hidden flex flex-col items-center justify-center py-12 text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl shadow-lg shadow-indigo-500/10">
             <i class="fa-solid fa-qrcode"></i>
           </div>
           <div>
-            <h3 class="text-xl font-bold font-['Outfit'] text-slate-100">Mis Códigos QR Generados</h3>
-            <p class="text-xs text-slate-400">Listado con título, vínculo de destino e imagen del código QR</p>
+            <h4 class="text-sm font-bold text-slate-100">Sin registros, genera un código QR</h4>
+            <p class="text-xs text-slate-400 max-w-sm mt-1">Genera y descarga tu primer código QR para que se guarde automáticamente en tu historial.</p>
           </div>
         </div>
-        <span id="history-count-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-          0 Códigos
-        </span>
       </div>
 
-      <!-- History List Grid Container -->
-      <div id="history-list-container" class="flex-1 overflow-y-auto pr-1 space-y-3 custom-scrollbar max-h-[60vh]">
-        <!-- Dynamically populated cards -->
+      <!-- Paginación y Contador de Registros -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-slate-800/80 text-xs text-slate-400">
+        <!-- Info del rango -->
+        <div id="history-pagination-info" class="font-medium">
+          Mostrando 0 a 0 de 0 registros
+        </div>
+
+        <!-- Controles de Paginación -->
+        <div id="history-pagination-controls" class="flex items-center gap-1.5 flex-wrap">
+          <!-- Dynamically populated pagination buttons -->
+        </div>
       </div>
-    </div>
-  </div>
+
+    </section>
+
+  </main>
 
   <footer class="border-t border-slate-800/80 bg-slate-900/40 py-6 mt-12 text-center text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4">

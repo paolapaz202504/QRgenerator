@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3030;
 
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 100% Cloud-Native In-Memory Database (No Local Disk Storage / No Local Files)
 let usersStore = {};
@@ -665,9 +666,9 @@ app.post('/api/generate', async (req, res) => {
   }
 });
 
-app.get('/favicon.ico', (req, res) => res.status(204).end());
-
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api', (req, res) => {
+  res.status(404).json({ success: false, error: 'Endpoint API no encontrado' });
+});
 
 function roundRect(ctx, x, y, width, height, radius) {
   if (typeof ctx.roundRect === 'function') {

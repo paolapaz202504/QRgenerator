@@ -469,22 +469,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // History Modal Event Listeners
+  // History Section Event Listeners & Table Controls
   const btnOpenHistory = document.getElementById('btn-open-history');
-  const btnCloseHistory = document.getElementById('btn-close-history');
-  const historyModal = document.getElementById('history-modal');
+  const btnRefreshHistory = document.getElementById('btn-refresh-history');
+  const historySearchInput = document.getElementById('history-search-input');
+  const historyPageSizeSelect = document.getElementById('history-page-size');
 
   if (btnOpenHistory) {
     btnOpenHistory.addEventListener('click', () => {
-      loadAndRenderHistory();
-      if (historyModal) historyModal.classList.remove('hidden');
+      const section = document.getElementById('section-history');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+      loadAndRenderHistoryTable();
     });
   }
-  if (btnCloseHistory) {
-    btnCloseHistory.addEventListener('click', () => {
-      if (historyModal) historyModal.classList.add('hidden');
+
+  if (btnRefreshHistory) {
+    btnRefreshHistory.addEventListener('click', () => {
+      loadAndRenderHistoryTable();
+      showToast('Historial Actualizado', 'La tabla de códigos QR se ha actualizado.', 'info');
     });
   }
+
+  if (historySearchInput) {
+    historySearchInput.addEventListener('input', () => {
+      historyCurrentPage = 1;
+      applyHistoryFiltersAndRender();
+    });
+  }
+
+  if (historyPageSizeSelect) {
+    historyPageSizeSelect.addEventListener('change', () => {
+      historyCurrentPage = 1;
+      applyHistoryFiltersAndRender();
+    });
+  }
+
+  loadAndRenderHistoryTable();
 });
 
 // Render Icon Picker Grid (40 Icons with Active Highlighting)
@@ -541,24 +563,58 @@ async function executeOAuthLogin(provider, email, name) {
       updateUserWidget(data.user);
       document.getElementById('oauth-modal').classList.add('hidden');
       showToast('OAuth 2.0 Exitoso', `Bienvenido(a) ${data.user.name} (${provider.toUpperCase()})`, 'success');
+      loadAndRenderHistoryTable();
     }
   } catch (err) {
     console.error('Error in OAuth login:', err);
   }
 }
+let historyTableData = [];
+let historyFilteredData = [];
+let historyCurrentPage = 1;
+let historyPageSize = 10;
 
-// Load and Render QR History (Title, Link & QR Image)
-async function loadAndRenderHistory() {
-  const container = document.getElementById('history-list-container');
-  const badge = document.getElementById('history-count-badge');
-  if (!container) return;
+// Format Date with TimeZone (e.g., 18/09/2026, 07:20:14 GMT-6 / CST)
+function formatDateWithTimezone(dateStr) {
+  if (!dateStr) return 'Fecha no disponible';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
 
-  container.innerHTML = `
-    <div class="flex items-center justify-center py-12 text-slate-400 gap-2">
-      <i class="fa-solid fa-circle-notch fa-spin text-lg text-indigo-400"></i>
-      <span class="text-xs">Cargando códigos QR generados...</span>
-    </div>
+    const dateOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZoneName: 'short'
+    };
+    return d.toLocaleString('es-ES', dateOptions);
+  } catch (e) {
+    return dateStr;
+  }
+}
+
+// Load History from API and render interactive table
+async function loadAndRenderHistoryTable() {
+  const tbody = document.getElementById('history-table-body');
+  const emptyState = document.getElementById('history-empty-state');
+  const totalBadge = document.getElementById('history-total-count');
+  if (!tbody) return;
+
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="5" class="py-8 text-center text-slate-400">
+        <div class="flex items-center justify-center gap-2">
+          <i class="fa-solid fa-circle-notch fa-spin text-indigo-400 text-sm"></i>
+          <span>Cargando tabla de historial de códigos QR...</span>
+        </div>
+      </td>
+    </tr>
   `;
+  if (emptyState) emptyState.classList.add('hidden');
 
   const savedUserStr = localStorage.getItem('oauth_user');
   const userEmail = savedUserStr ? JSON.parse(savedUserStr).email : null;
@@ -568,71 +624,193 @@ async function loadAndRenderHistory() {
     const res = await fetch(url);
     const data = await res.json();
 
-    if (data.success && data.history && data.history.length > 0) {
-      if (badge) badge.textContent = `${data.history.length} Código(s)`;
-      container.innerHTML = '';
-
-      data.history.forEach((item) => {
-        const card = document.createElement('div');
-        card.className = 'bg-slate-950/80 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 transition shadow-md hover:shadow-indigo-500/5';
-        
-        const qrImageSrc = item.imageDataUrl || item.imagePath || 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(item.url);
-        const formattedDate = item.createdAt ? new Date(item.createdAt).toLocaleString('es-ES', { dateStyle: 'medium', timeStyle: 'short' }) : 'Fecha desconocida';
-
-        card.innerHTML = `
-          <!-- Imagen del Código QR en Recuadro Blanco -->
-          <div class="relative w-28 h-28 bg-white rounded-xl p-2 flex items-center justify-center flex-shrink-0 shadow-inner border border-slate-700/40">
-            <img src="${qrImageSrc}" alt="${escapeXml(item.title)}" class="w-full h-full object-contain drop-shadow">
-          </div>
-
-          <!-- Detalles: Título y Vínculo -->
-          <div class="flex-1 space-y-2 text-center sm:text-left min-w-0 w-full">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <h4 class="text-sm font-bold text-slate-100 truncate">${escapeXml(item.title)}</h4>
-              <span class="text-[10px] text-slate-400 font-mono bg-slate-900 px-2 py-0.5 rounded border border-slate-800 flex-shrink-0">${formattedDate}</span>
-            </div>
-
-            <!-- Vínculo (URL) con Enlace Clickeable -->
-            <div class="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-indigo-400 bg-indigo-500/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 truncate">
-              <i class="fa-solid fa-link text-indigo-400 flex-shrink-0"></i>
-              <a href="${escapeXml(item.url)}" target="_blank" title="Abrir enlace en nueva pestaña" class="hover:underline font-medium truncate flex-1 text-indigo-300">
-                ${escapeXml(item.url)}
-              </a>
-              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-70 flex-shrink-0"></i>
-            </div>
-          </div>
-
-          <!-- Acciones: Descargar de nuevo -->
-          <div class="flex sm:flex-col gap-2 flex-shrink-0 w-full sm:w-auto">
-            <a href="${qrImageSrc}" download="QR_${escapeXml(item.title).replace(/[^a-zA-Z0-9_-]/g, '_')}.png" 
-              class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 shadow transition">
-              <i class="fa-solid fa-download"></i> Descargar
-            </a>
-          </div>
-        `;
-        container.appendChild(card);
-      });
+    if (data.success && Array.isArray(data.history)) {
+      historyTableData = data.history;
     } else {
-      if (badge) badge.textContent = '0 Códigos';
-      container.innerHTML = `
-        <div class="flex flex-col items-center justify-center py-12 text-center space-y-3">
-          <div class="w-12 h-12 rounded-2xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl shadow-lg shadow-indigo-500/10">
-            <i class="fa-solid fa-qrcode"></i>
-          </div>
-          <div>
-            <h4 class="text-sm font-bold text-slate-100">Sin registros, genera un código QR</h4>
-            <p class="text-xs text-slate-400 max-w-sm mt-1">Genera y descarga tu primer código QR para que se guarde automáticamente en tu historial.</p>
-          </div>
-        </div>
-      `;
+      historyTableData = [];
     }
   } catch (err) {
-    console.error('Error loading QR history:', err);
-    container.innerHTML = `
-      <div class="text-center py-8 text-rose-400 text-xs">
-        <i class="fa-solid fa-triangle-exclamation mr-1"></i> No se pudo cargar el historial de códigos QR.
-      </div>
+    console.error('Error fetching QR history:', err);
+    historyTableData = [];
+  }
+
+  historyCurrentPage = 1;
+  applyHistoryFiltersAndRender();
+}
+
+function applyHistoryFiltersAndRender() {
+  const tbody = document.getElementById('history-table-body');
+  const emptyState = document.getElementById('history-empty-state');
+  const totalBadge = document.getElementById('history-total-count');
+  const paginationInfo = document.getElementById('history-pagination-info');
+  const paginationControls = document.getElementById('history-pagination-controls');
+  const searchInput = document.getElementById('history-search-input');
+  const pageSizeSelect = document.getElementById('history-page-size');
+
+  if (!tbody) return;
+
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  historyPageSize = pageSizeSelect ? parseInt(pageSizeSelect.value, 10) : 10;
+
+  // Filter items
+  if (query) {
+    historyFilteredData = historyTableData.filter(item => {
+      const titleStr = (item.title || '').toLowerCase();
+      const urlStr = (item.url || '').toLowerCase();
+      const dateStr = formatDateWithTimezone(item.createdAt).toLowerCase();
+      return titleStr.includes(query) || urlStr.includes(query) || dateStr.includes(query);
+    });
+  } else {
+    historyFilteredData = [...historyTableData];
+  }
+
+  const totalItems = historyFilteredData.length;
+  if (totalBadge) totalBadge.textContent = `${historyTableData.length} Registros`;
+
+  if (totalItems === 0) {
+    tbody.innerHTML = '';
+    if (emptyState) emptyState.classList.remove('hidden');
+    if (paginationInfo) paginationInfo.textContent = 'Mostrando 0 a 0 de 0 registros';
+    if (paginationControls) paginationControls.innerHTML = '';
+    return;
+  }
+
+  if (emptyState) emptyState.classList.add('hidden');
+
+  // Calculate pagination
+  const totalPages = Math.ceil(totalItems / historyPageSize) || 1;
+  if (historyCurrentPage > totalPages) historyCurrentPage = totalPages;
+  if (historyCurrentPage < 1) historyCurrentPage = 1;
+
+  const startIndex = (historyCurrentPage - 1) * historyPageSize;
+  const endIndex = Math.min(startIndex + historyPageSize, totalItems);
+  const pageItems = historyFilteredData.slice(startIndex, endIndex);
+
+  // Render Table Rows
+  tbody.innerHTML = '';
+  pageItems.forEach((item) => {
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-slate-900/60 transition border-b border-slate-800/40';
+
+    const qrImageSrc = item.imageDataUrl || item.imagePath || ('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(item.url));
+    const formattedDate = formatDateWithTimezone(item.createdAt);
+    const cleanTitle = (item.title || 'codigo_qr').replace(/[^a-zA-Z0-9_-]/g, '_');
+
+    tr.innerHTML = `
+      <!-- Columna 1: Miniatura -->
+      <td class="py-3 px-4">
+        <div class="w-14 h-14 bg-white rounded-xl p-1 flex items-center justify-center border border-slate-700/60 shadow-sm hover:scale-105 transition transform">
+          <img src="${qrImageSrc}" alt="${escapeXml(item.title || 'QR')}" class="w-full h-full object-contain">
+        </div>
+      </td>
+
+      <!-- Columna 2: Título o Nombre del QR -->
+      <td class="py-3 px-4">
+        <div class="flex flex-col">
+          <span class="font-bold text-slate-100 text-xs">${escapeXml(item.title || 'Código QR')}</span>
+          <span class="text-[10px] text-slate-500 font-mono">ID: ${escapeXml(item.id || 'N/A')}</span>
+        </div>
+      </td>
+
+      <!-- Columna 3: Enlace de Destino -->
+      <td class="py-3 px-4 max-w-[240px]">
+        <a href="${escapeXml(item.url)}" target="_blank" title="Abrir en nueva pestaña: ${escapeXml(item.url)}" 
+          class="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center gap-1.5 truncate max-w-full hover:underline">
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px] flex-shrink-0"></i>
+          <span class="truncate">${escapeXml(item.url)}</span>
+        </a>
+      </td>
+
+      <!-- Columna 4: Fecha y Hora (Zona Horaria) -->
+      <td class="py-3 px-4 whitespace-nowrap">
+        <span class="font-mono text-slate-300 text-[11px] bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">
+          <i class="fa-regular fa-clock text-indigo-400 mr-1"></i>${escapeXml(formattedDate)}
+        </span>
+      </td>
+
+      <!-- Columna 5: Acción Descargar -->
+      <td class="py-3 px-4 text-center">
+        <a href="${qrImageSrc}" download="QR_${cleanTitle}.png" 
+          class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-3 py-1.5 rounded-xl text-xs inline-flex items-center gap-1.5 shadow transition transform active:scale-95">
+          <i class="fa-solid fa-download"></i> Descargar
+        </a>
+      </td>
     `;
+    tbody.appendChild(tr);
+  });
+
+  // Update Pagination Info
+  if (paginationInfo) {
+    paginationInfo.textContent = `Mostrando ${startIndex + 1} a ${endIndex} de ${totalItems} registros`;
+  }
+
+  // Update Pagination Controls
+  if (paginationControls) {
+    paginationControls.innerHTML = '';
+
+    // Prev Button
+    const prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.disabled = (historyCurrentPage === 1);
+    prevBtn.className = `px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1 transition ${
+      historyCurrentPage === 1 
+        ? 'opacity-40 border-slate-800 bg-slate-900 text-slate-500 cursor-not-allowed' 
+        : 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+    }`;
+    prevBtn.innerHTML = `<i class="fa-solid fa-chevron-left text-[10px]"></i> Anterior`;
+    prevBtn.addEventListener('click', () => {
+      if (historyCurrentPage > 1) {
+        historyCurrentPage--;
+        applyHistoryFiltersAndRender();
+      }
+    });
+    paginationControls.appendChild(prevBtn);
+
+    // Page Numbers
+    for (let p = 1; p <= totalPages; p++) {
+      if (totalPages > 7 && Math.abs(p - historyCurrentPage) > 2 && p !== 1 && p !== totalPages) {
+        if (p === 2 || p === totalPages - 1) {
+          const dots = document.createElement('span');
+          dots.className = 'px-1.5 text-slate-500 text-xs';
+          dots.textContent = '...';
+          paginationControls.appendChild(dots);
+        }
+        continue;
+      }
+
+      const pageBtn = document.createElement('button');
+      pageBtn.type = 'button';
+      const isCurrent = (p === historyCurrentPage);
+      pageBtn.className = `w-8 h-8 rounded-xl border text-xs font-bold transition flex items-center justify-center ${
+        isCurrent 
+          ? 'bg-indigo-600 border-indigo-500 text-white shadow-md shadow-indigo-500/20' 
+          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+      }`;
+      pageBtn.textContent = p;
+      pageBtn.addEventListener('click', () => {
+        historyCurrentPage = p;
+        applyHistoryFiltersAndRender();
+      });
+      paginationControls.appendChild(pageBtn);
+    }
+
+    // Next Button
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.disabled = (historyCurrentPage === totalPages);
+    nextBtn.className = `px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1 transition ${
+      historyCurrentPage === totalPages 
+        ? 'opacity-40 border-slate-800 bg-slate-900 text-slate-500 cursor-not-allowed' 
+        : 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+    }`;
+    nextBtn.innerHTML = `Siguiente <i class="fa-solid fa-chevron-right text-[10px]"></i>`;
+    nextBtn.addEventListener('click', () => {
+      if (historyCurrentPage < totalPages) {
+        historyCurrentPage++;
+        applyHistoryFiltersAndRender();
+      }
+    });
+    paginationControls.appendChild(nextBtn);
   }
 }
 
@@ -1089,6 +1267,7 @@ async function downloadQR(format = 'png', resolution = 800) {
       if (currentUserEmail && savedUserStr) {
         updateUserWidget(JSON.parse(savedUserStr));
       }
+      loadAndRenderHistoryTable();
     }
   } catch (err) {
     console.error('Error downloading QR PNG:', err);
