@@ -60,6 +60,12 @@
           </button>
         </div>
 
+        <button id="btn-open-history" type="button"
+          class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3.5 py-2 rounded-xl text-xs shadow-sm transition transform active:scale-95">
+          <i class="fa-solid fa-list-check text-indigo-400"></i>
+          Mis Códigos QR
+        </button>
+
         <button id="btn-open-oauth" type="button"
           class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold px-4 py-2 rounded-xl text-xs shadow-md transition transform active:scale-95">
           <i class="fa-solid fa-user-plus"></i>
@@ -561,6 +567,35 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- History Modal (Listar Códigos QR Generados con Título, Vínculo e Imagen) -->
+  <div id="history-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-4xl w-full shadow-2xl space-y-5 relative max-h-[90vh] flex flex-col">
+      <button id="btn-close-history" type="button" class="absolute top-5 right-5 text-slate-400 hover:text-slate-200 text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-lg shadow-lg shadow-indigo-500/10">
+            <i class="fa-solid fa-qrcode"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold font-['Outfit'] text-slate-100">Mis Códigos QR Generados</h3>
+            <p class="text-xs text-slate-400">Listado con título, vínculo de destino e imagen del código QR</p>
+          </div>
+        </div>
+        <span id="history-count-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          0 Códigos
+        </span>
+      </div>
+
+      <!-- History List Grid Container -->
+      <div id="history-list-container" class="flex-1 overflow-y-auto pr-1 space-y-3 custom-scrollbar max-h-[60vh]">
+        <!-- Dynamically populated cards -->
+      </div>
     </div>
   </div>
 

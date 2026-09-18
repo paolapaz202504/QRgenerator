@@ -426,6 +426,7 @@ app.post('/api/track-download', async (req, res) => {
       format,
       resolution,
       imagePath: savedImagePath,
+      imageDataUrl: imageDataUrl,
       createdAt: new Date().toISOString()
     };
 
@@ -457,13 +458,31 @@ app.post('/api/track-download', async (req, res) => {
   }
 });
 
+// Full User QR History API Endpoint
+app.get('/api/user/history', (req, res) => {
+  const userEmail = req.query.email ? req.query.email.toLowerCase().trim() : null;
+
+  if (userEmail) {
+    const userHistory = historyStore.filter(h => h.userEmail === userEmail);
+    return res.json({
+      success: true,
+      history: userHistory
+    });
+  }
+
+  res.json({
+    success: true,
+    history: historyStore
+  });
+});
+
 // User Stats & Recent QR History API
 app.get('/api/user/stats', (req, res) => {
   const userEmail = req.query.email ? req.query.email.toLowerCase().trim() : null;
 
   if (userEmail && usersStore[userEmail]) {
     const user = usersStore[userEmail];
-    const userHistory = historyStore.filter(h => h.userEmail === userEmail).slice(0, 10);
+    const userHistory = historyStore.filter(h => h.userEmail === userEmail);
 
     return res.json({
       success: true,
@@ -484,6 +503,7 @@ app.get('/api/user/stats', (req, res) => {
   res.json({
     success: true,
     userStats: null,
+    history: historyStore,
     globalStats: statsStore
   });
 });

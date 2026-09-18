@@ -468,6 +468,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       }, 1800);
     });
   });
+
+  // History Modal Event Listeners
+  const btnOpenHistory = document.getElementById('btn-open-history');
+  const btnCloseHistory = document.getElementById('btn-close-history');
+  const historyModal = document.getElementById('history-modal');
+
+  if (btnOpenHistory) {
+    btnOpenHistory.addEventListener('click', () => {
+      loadAndRenderHistory();
+      if (historyModal) historyModal.classList.remove('hidden');
+    });
+  }
+  if (btnCloseHistory) {
+    btnCloseHistory.addEventListener('click', () => {
+      if (historyModal) historyModal.classList.add('hidden');
+    });
+  }
 });
 
 // Render Icon Picker Grid (40 Icons with Active Highlighting)
@@ -527,6 +544,95 @@ async function executeOAuthLogin(provider, email, name) {
     }
   } catch (err) {
     console.error('Error in OAuth login:', err);
+  }
+}
+
+// Load and Render QR History (Title, Link & QR Image)
+async function loadAndRenderHistory() {
+  const container = document.getElementById('history-list-container');
+  const badge = document.getElementById('history-count-badge');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="flex items-center justify-center py-12 text-slate-400 gap-2">
+      <i class="fa-solid fa-circle-notch fa-spin text-lg text-indigo-400"></i>
+      <span class="text-xs">Cargando códigos QR generados...</span>
+    </div>
+  `;
+
+  const savedUserStr = localStorage.getItem('oauth_user');
+  const userEmail = savedUserStr ? JSON.parse(savedUserStr).email : null;
+
+  try {
+    const url = userEmail ? `/api/user/history?email=${encodeURIComponent(userEmail)}` : '/api/user/history';
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.success && data.history && data.history.length > 0) {
+      if (badge) badge.textContent = `${data.history.length} Código(s)`;
+      container.innerHTML = '';
+
+      data.history.forEach((item) => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-950/80 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 transition shadow-md hover:shadow-indigo-500/5';
+        
+        const qrImageSrc = item.imageDataUrl || item.imagePath || 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(item.url);
+        const formattedDate = item.createdAt ? new Date(item.createdAt).toLocaleString('es-ES', { dateStyle: 'medium', timeStyle: 'short' }) : 'Fecha desconocida';
+
+        card.innerHTML = `
+          <!-- Imagen del Código QR en Recuadro Blanco -->
+          <div class="relative w-28 h-28 bg-white rounded-xl p-2 flex items-center justify-center flex-shrink-0 shadow-inner border border-slate-700/40">
+            <img src="${qrImageSrc}" alt="${escapeXml(item.title)}" class="w-full h-full object-contain drop-shadow">
+          </div>
+
+          <!-- Detalles: Título y Vínculo -->
+          <div class="flex-1 space-y-2 text-center sm:text-left min-w-0 w-full">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <h4 class="text-sm font-bold text-slate-100 truncate">${escapeXml(item.title)}</h4>
+              <span class="text-[10px] text-slate-400 font-mono bg-slate-900 px-2 py-0.5 rounded border border-slate-800 flex-shrink-0">${formattedDate}</span>
+            </div>
+
+            <!-- Vínculo (URL) con Enlace Clickeable -->
+            <div class="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-indigo-400 bg-indigo-500/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 truncate">
+              <i class="fa-solid fa-link text-indigo-400 flex-shrink-0"></i>
+              <a href="${escapeXml(item.url)}" target="_blank" title="Abrir enlace en nueva pestaña" class="hover:underline font-medium truncate flex-1 text-indigo-300">
+                ${escapeXml(item.url)}
+              </a>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-70 flex-shrink-0"></i>
+            </div>
+          </div>
+
+          <!-- Acciones: Descargar de nuevo -->
+          <div class="flex sm:flex-col gap-2 flex-shrink-0 w-full sm:w-auto">
+            <a href="${qrImageSrc}" download="QR_${escapeXml(item.title).replace(/[^a-zA-Z0-9_-]/g, '_')}.png" 
+              class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 shadow transition">
+              <i class="fa-solid fa-download"></i> Descargar
+            </a>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    } else {
+      if (badge) badge.textContent = '0 Códigos';
+      container.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-12 text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl shadow-lg shadow-indigo-500/10">
+            <i class="fa-solid fa-qrcode"></i>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-slate-100">Sin registros, genera un código QR</h4>
+            <p class="text-xs text-slate-400 max-w-sm mt-1">Genera y descarga tu primer código QR para que se guarde automáticamente en tu historial.</p>
+          </div>
+        </div>
+      `;
+    }
+  } catch (err) {
+    console.error('Error loading QR history:', err);
+    container.innerHTML = `
+      <div class="text-center py-8 text-rose-400 text-xs">
+        <i class="fa-solid fa-triangle-exclamation mr-1"></i> No se pudo cargar el historial de códigos QR.
+      </div>
+    `;
   }
 }
 
