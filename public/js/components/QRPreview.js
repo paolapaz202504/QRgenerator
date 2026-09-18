@@ -24,7 +24,7 @@ export class QRPreview extends UIComponent {
     this.currentBlobUrl = null;
 
     appState.subscribe((state, eventKey) => {
-      if (['INIT_DATA', 'CHANGE_DESIGN', 'CHANGE_PATTERN', 'CHANGE_ICON', 'CHANGE_ICON_SOURCE', 'CHANGE_ICON_MODE', 'CHANGE_INPUTS'].includes(eventKey)) {
+      if (['INIT_DATA', 'CHANGE_DESIGN'].includes(eventKey)) {
         this.scheduleGenerate();
       }
     });
@@ -35,7 +35,6 @@ export class QRPreview extends UIComponent {
       if (input) {
         input.addEventListener('input', () => {
           this.syncFontStyles();
-          this.scheduleGenerate();
         });
       }
     });
@@ -44,7 +43,6 @@ export class QRPreview extends UIComponent {
       if (select) {
         select.addEventListener('change', () => {
           this.syncFontStyles();
-          this.scheduleGenerate();
         });
       }
     });
@@ -58,7 +56,7 @@ export class QRPreview extends UIComponent {
     }
 
     if (this.btnGenerate) {
-      this.btnGenerate.addEventListener('click', () => this.generateNow());
+      this.btnGenerate.addEventListener('click', () => this.generateNow(true));
     }
 
     if (this.btnReset) {
@@ -95,10 +93,10 @@ export class QRPreview extends UIComponent {
 
   scheduleGenerate() {
     clearTimeout(this.debounceTimer);
-    this.debounceTimer = setTimeout(() => this.generateNow(), 150);
+    this.debounceTimer = setTimeout(() => this.generateNow(false), 150);
   }
 
-  getPayload(targetWidth = 600) {
+  getPayload(targetWidth = 600, isExplicit = false) {
     const state = appState.getState();
     const design = state.currentDesign || {};
 
@@ -131,16 +129,17 @@ export class QRPreview extends UIComponent {
       iconBorderColor: state.iconBorderColor,
       iconSize: parseInt(state.iconSize, 10) || 34,
       customLogoDataUrl: (state.iconShow !== false) ? (state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null)) : null,
-      userEmail: state.user ? state.user.email : null
+      userEmail: state.user ? state.user.email : null,
+      isExplicitGenerate: isExplicit
     };
   }
 
-  async generateNow() {
+  async generateNow(isExplicit = false) {
     if (!this.container) return;
     if (this.canvasLoader) this.canvasLoader.classList.remove('hidden');
 
     try {
-      const payload = this.getPayload(600);
+      const payload = this.getPayload(600, isExplicit);
       const blob = await ApiService.generateQR(payload);
       const url = URL.createObjectURL(blob);
 
@@ -154,9 +153,25 @@ export class QRPreview extends UIComponent {
         if (this.canvasLoader) this.canvasLoader.classList.add('hidden');
       };
       img.src = url;
+
+      // Update user generation credits counter in reactive state ONLY if explicit generate button clicked
+      if (isExplicit) {
+        const state = appState.getState();
+        if (state.user) {
+          const updatedUser = {
+            ...state.user,
+            generationsCount: (state.user.generationsCount || 0) + 1,
+            creditsUsed: (state.user.generationsCount || 0) + 1
+          };
+          appState.setState({ user: updatedUser }, 'CREDIT_USED');
+        }
+      }
     } catch (err) {
       console.error('[QRPreview] Error generating preview:', err);
       if (this.canvasLoader) this.canvasLoader.classList.add('hidden');
+      if (err.data && err.data.limitReached) {
+        alert(`⚠️ ${err.data.message || 'Has alcanzado el límite de 200 créditos del Plan Gratuito.'}`);
+      }
     }
   }
 

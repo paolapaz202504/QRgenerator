@@ -1,4 +1,5 @@
 const userRepository = require('../repositories/UserRepository');
+const config = require('../config/env');
 
 class AuthService {
   constructor() {
@@ -12,6 +13,7 @@ class AuthService {
 
     const userKey = email.toLowerCase().trim();
     const token = 'oauth2_token_' + Math.random().toString(36).substring(2, 15);
+    const planConfig = config.getPlanConfig('free');
 
     let existingUser = userRepository.findByEmail(userKey);
     if (!existingUser) {
@@ -22,7 +24,8 @@ class AuthService {
         provider: provider,
         avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(userKey)}`,
         plan: 'free',
-        maxDownloads: 20,
+        maxDownloads: planConfig.maxDownloads,
+        maxCredits: planConfig.maxCredits,
         generationsCount: 0,
         downloadsCount: 0,
         createdAt: new Date().toISOString(),
@@ -32,6 +35,8 @@ class AuthService {
       existingUser.lastActive = new Date().toISOString();
       if (name) existingUser.name = name;
       if (provider) existingUser.provider = provider;
+      if (!existingUser.maxCredits) existingUser.maxCredits = planConfig.maxCredits;
+      if (!existingUser.maxDownloads) existingUser.maxDownloads = planConfig.maxDownloads;
     }
 
     await userRepository.saveUser(existingUser);

@@ -1,5 +1,5 @@
 <!-- Header Navbar Component -->
-<header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-40">
+<header class="border-b border-slate-800 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 shadow-lg">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
@@ -18,6 +18,7 @@
       <div id="user-profile-widget" class="hidden flex items-center gap-2.5 bg-slate-800/80 border border-slate-700/80 rounded-full px-3 py-1 text-xs">
         <img id="user-avatar" src="" alt="Avatar" class="w-6 h-6 rounded-full bg-slate-700">
         <span id="user-name" class="font-semibold text-slate-200 truncate max-w-[120px]"></span>
+        <span id="user-credit-counter" class="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold" title="Créditos de Generación Usados / Límite Gratuito">0/200 Créditos</span>
         <span id="user-download-counter" class="bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold" title="Descargas Usadas / Límite Gratuito">0/20 QRs</span>
         <button id="btn-logout" title="Cerrar Sesión" class="text-slate-400 hover:text-rose-400 ml-1 transition">
           <i class="fa-solid fa-right-from-bracket"></i>

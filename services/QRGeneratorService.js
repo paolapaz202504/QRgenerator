@@ -1,5 +1,6 @@
 const QRCode = require('qrcode');
 const { createCanvas, loadImage } = require('canvas');
+const config = require('../config/env');
 const gcsService = require('./GCSService');
 const userRepository = require('../repositories/UserRepository');
 const historyRepository = require('../repositories/HistoryRepository');
@@ -1368,18 +1369,33 @@ class QRGeneratorService {
       iconBorderColor = '#2563eb',
       iconSize = 34,
       customLogoDataUrl = null,
-      userEmail = null
+      userEmail = null,
+      isExplicitGenerate = false
     } = params;
 
-    await statsRepository.incrementGenerations();
-
-    if (userEmail) {
+    if (userEmail && isExplicitGenerate) {
       const emailKey = userEmail.toLowerCase().trim();
-      const user = userRepository.findByEmail(emailKey);
+      let user = userRepository.findByEmail(emailKey);
+      const planConfig = config.getPlanConfig(user ? user.plan : 'free');
+      const maxCredits = user ? (user.maxCredits || planConfig.maxCredits) : planConfig.maxCredits;
+      const currentGen = user ? (user.generationsCount || 0) : 0;
+
+      if (currentGen >= maxCredits) {
+        return {
+          success: false,
+          limitReached: true,
+          message: `Has alcanzado el límite de ${maxCredits} créditos de generación del Plan Gratuito.`
+        };
+      }
+
       if (user) {
-        user.generationsCount = (user.generationsCount || 0) + 1;
+        user.generationsCount = currentGen + 1;
         await userRepository.saveUser(user);
       }
+    }
+
+    if (isExplicitGenerate) {
+      await statsRepository.incrementGenerations();
     }
 
     let loadedIconImg = null;

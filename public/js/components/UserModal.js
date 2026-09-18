@@ -11,11 +11,13 @@ export class UserModal extends UIComponent {
     this.userAvatar = document.getElementById('user-avatar');
     this.userName = document.getElementById('user-name');
     this.userDownloadCounter = document.getElementById('user-download-counter');
+    this.userCreditCounter = document.getElementById('user-credit-counter');
+    this.creditCounterBadge = document.getElementById('credit-counter-badge');
     this.btnLogout = document.getElementById('btn-logout');
     this.googleClientId = '144230109272-pbt85eqhr5ecnb8i2ffvv0j1kjqr2o2g.apps.googleusercontent.com';
 
     appState.subscribe((state, eventKey) => {
-      if (['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'DOWNLOAD_TRACKED'].includes(eventKey)) {
+      if (['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'DOWNLOAD_TRACKED', 'CREDIT_USED', 'INIT_DATA'].includes(eventKey)) {
         this.updateWidget(state.user);
       }
     });
@@ -135,14 +137,29 @@ export class UserModal extends UIComponent {
       if (this.btnOpenOAuth) this.btnOpenOAuth.classList.add('hidden');
       if (this.userName) this.userName.textContent = user.name || user.email.split('@')[0];
       if (this.userAvatar) this.userAvatar.src = user.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(user.email)}`;
+      
+      const genUsed = user.generationsCount || user.creditsUsed || 0;
+      const genMax = user.maxCredits || 200;
+      const dlUsed = user.downloadsCount || 0;
+      const dlMax = user.maxDownloads || 20;
+
+      if (this.userCreditCounter) {
+        this.userCreditCounter.textContent = `${genUsed}/${genMax} Créditos`;
+      }
       if (this.userDownloadCounter) {
-        const used = user.downloadsCount || 0;
-        const max = user.maxDownloads || 20;
-        this.userDownloadCounter.textContent = `${used}/${max} QRs`;
+        this.userDownloadCounter.textContent = `${dlUsed}/${dlMax} QRs`;
+      }
+      if (this.creditCounterBadge) {
+        this.creditCounterBadge.textContent = `${genUsed}/${genMax} Créditos`;
       }
     } else {
       this.userWidget.classList.add('hidden');
       if (this.btnOpenOAuth) this.btnOpenOAuth.classList.remove('hidden');
+
+      // Update standalone credit counter badge for guest user
+      if (this.creditCounterBadge) {
+        this.creditCounterBadge.textContent = `0/200 Créditos`;
+      }
     }
   }
 

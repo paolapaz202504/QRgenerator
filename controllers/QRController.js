@@ -12,9 +12,12 @@ class QRController {
 
   async generate(req, res) {
     try {
-      const buffer = await qrGeneratorService.generateCanvas(req.body);
+      const result = await qrGeneratorService.generateCanvas(req.body);
+      if (result && typeof result === 'object' && result.success === false) {
+        return res.status(403).json(result);
+      }
       res.setHeader('Content-Type', 'image/png');
-      res.send(buffer);
+      res.send(result);
     } catch (err) {
       console.error('[QR Generation Error]:', err);
       res.status(500).json({ success: false, error: 'Error al generar código QR' });

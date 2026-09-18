@@ -59,6 +59,24 @@ class Application {
       });
     }
 
+    // Sync persisted user stats from server on init
+    const state = appState.getState();
+    if (state.user && state.user.email) {
+      try {
+        const statsRes = await ApiService.getUserStats(state.user.email);
+        if (statsRes.success && statsRes.userStats) {
+          appState.setState({
+            user: {
+              ...state.user,
+              ...statsRes.userStats
+            }
+          }, 'USER_LOGGED_IN');
+        }
+      } catch (err) {
+        console.warn('Failed to sync user stats on load:', err);
+      }
+    }
+
     // Fetch initial user history
     this.historyTable.fetchHistory();
   }

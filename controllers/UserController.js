@@ -37,7 +37,10 @@ class UserController {
             plan: user.plan || 'free',
             maxDownloads: user.maxDownloads || 20,
             downloadsCount: user.downloadsCount || 0,
+            maxCredits: user.maxCredits || 200,
+            creditsUsed: user.generationsCount || 0,
             generationsCount: user.generationsCount || 0,
+            remainingCredits: Math.max(0, (user.maxCredits || 200) - (user.generationsCount || 0)),
             remainingDownloads: Math.max(0, (user.maxDownloads || 20) - (user.downloadsCount || 0))
           },
           history: userHistory,

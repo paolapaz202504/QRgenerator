@@ -29,7 +29,13 @@ export class ApiService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('Error al generar código QR');
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const error = new Error(data.message || 'Error al generar código QR');
+      error.status = res.status;
+      error.data = data;
+      throw error;
+    }
     return await res.blob();
   }
 
@@ -50,6 +56,17 @@ export class ApiService {
     } catch (err) {
       console.warn('[ApiService] Error fetching history:', err);
       return { success: false, history: [] };
+    }
+  }
+
+  static async getUserStats(email) {
+    try {
+      const url = email ? `/api/user/stats?email=${encodeURIComponent(email)}` : '/api/user/stats';
+      const res = await fetch(url);
+      return await res.json();
+    } catch (err) {
+      console.warn('[ApiService] Error fetching user stats:', err);
+      return { success: false, userStats: null };
     }
   }
 
