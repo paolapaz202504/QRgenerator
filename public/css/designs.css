@@ -1,0 +1,28 @@
+/* Category Tab Buttons */
+.cat-btn.active {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+}
+
+/* Design Card Selection */
+.design-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.design-card.active {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.35) !important;
+  background-color: rgba(30, 41, 59, 0.9) !important;
+}
+
+/* Pattern Card Selection */
+.pattern-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.pattern-card.active {
+  border-color: #ec4899 !important;
+  box-shadow: 0 0 12px rgba(236, 72, 153, 0.35) !important;
+  background-color: rgba(131, 24, 67, 0.25) !important;
+  color: #ffffff !important;
+}

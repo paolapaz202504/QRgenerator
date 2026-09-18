@@ -1,3 +1,4 @@
+import { ComponentLoader } from './ComponentLoader.js';
 import { appState } from './state/AppState.js';
 import { ApiService } from './services/ApiService.js';
 import { DesignPicker } from './components/DesignPicker.js';
@@ -8,17 +9,19 @@ import { UserModal } from './components/UserModal.js';
 import { QRPreview } from './components/QRPreview.js';
 
 class Application {
-  constructor() {
+  async init() {
+    console.log('🚀 Inicializando QR Studio Pro Frontend Architecture...');
+
+    // 1. Load modularized HTML component partials from ./html/
+    await ComponentLoader.loadComponents();
+
+    // 2. Instantiate and mount UI Component controllers after DOM is populated
     this.designPicker = new DesignPicker();
     this.iconPicker = new IconPicker();
     this.colorCustomizer = new ColorCustomizer();
     this.historyTable = new HistoryTable();
     this.userModal = new UserModal();
     this.qrPreview = new QRPreview();
-  }
-
-  async init() {
-    console.log('🚀 Inicializando QR Studio Pro Frontend Architecture...');
 
     // Wait for document fonts if available
     if (document.fonts && document.fonts.ready) {

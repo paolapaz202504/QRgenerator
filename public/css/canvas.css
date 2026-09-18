@@ -1,0 +1,28 @@
+/* Canvas styling */
+#qr-canvas {
+  background: transparent;
+  max-height: 480px;
+}
+
+/* Responsive Touch & Mobile Enhancements */
+@media (max-width: 640px) {
+  #qr-canvas {
+    max-height: 320px;
+  }
+
+  .design-card {
+    padding: 0.5rem;
+  }
+
+  table th, table td {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Tablet & iPad Adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  #qr-canvas {
+    max-height: 420px;
+  }
+}

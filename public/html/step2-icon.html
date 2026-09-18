@@ -1,0 +1,146 @@
+<!-- Customization of Icon OR Upload Custom Logo Image -->
+<div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+  <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+    <div class="flex items-center gap-3">
+      <span class="w-7 h-7 rounded-lg bg-cyan-600/20 border border-cyan-500/30 text-cyan-400 font-bold text-sm flex items-center justify-center">
+        <i class="fa-solid fa-icons text-xs"></i>
+      </span>
+      <div>
+        <h2 class="text-base font-semibold text-slate-100">Personalización del Ícono o Logotipo Imagen</h2>
+        <p class="text-xs text-slate-400">Selecciona entre 40 íconos vectoriales o sube tu propia imagen</p>
+      </div>
+    </div>
+    <!-- Show/Hide Toggle -->
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input type="checkbox" id="qr-icon-show" class="sr-only peer" checked>
+      <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600"></div>
+      <span class="ml-2 text-xs font-semibold text-slate-300">Activo</span>
+    </label>
+  </div>
+
+  <div id="icon-controls-wrapper" class="space-y-4">
+    <!-- Mode Switcher: Vector Icon vs Custom Image Upload -->
+    <div class="flex items-center gap-3 bg-slate-950/80 border border-slate-800 p-1.5 rounded-xl">
+      <button id="btn-mode-icon" type="button" class="flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow">
+        <i class="fa-solid fa-icons mr-1.5"></i> 40 Íconos Vectoriales
+      </button>
+      <button id="btn-mode-image" type="button" class="flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-400 hover:text-white">
+        <i class="fa-solid fa-image mr-1.5"></i> Subir Imagen / Logo
+      </button>
+    </div>
+
+    <!-- Mode 1: Vector 40 Icons Picker Grid -->
+    <div id="section-icon-mode" class="space-y-3">
+      <input type="hidden" id="qr-icon-name" value="fa-qrcode">
+      <div class="flex items-center justify-between">
+        <label class="block text-xs font-medium text-slate-300">
+          Selecciona un ícono (40 Opciones disponibles)
+        </label>
+        <span id="active-icon-label" class="text-[11px] text-cyan-400 font-semibold px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
+          Seleccionado: QR
+        </span>
+      </div>
+
+      <!-- 40 Visual Icon Cards Grid -->
+      <div class="grid grid-cols-5 sm:grid-cols-10 gap-2 max-h-[170px] overflow-y-auto pr-1 custom-scrollbar" id="icon-picker-grid">
+        <!-- Dynamically populated 40 icon buttons -->
+      </div>
+    </div>
+
+    <!-- Mode 2: Custom Image Logo Upload Dropzone -->
+    <div id="section-image-mode" class="hidden space-y-3">
+      <label class="block text-xs font-medium text-slate-300">
+        Subir Logotipo o Imagen Personalizada (PNG, JPG, SVG, WEBP)
+      </label>
+      
+      <div class="flex flex-col items-center justify-center border-2 border-dashed border-slate-700 hover:border-cyan-500/60 bg-slate-950/60 rounded-xl p-4 transition cursor-pointer relative" id="logo-dropzone">
+        <input type="file" id="qr-logo-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+        
+        <div id="logo-upload-prompt" class="flex flex-col items-center gap-1.5 text-center">
+          <i class="fa-solid fa-cloud-arrow-up text-2xl text-cyan-400"></i>
+          <span class="text-xs font-semibold text-slate-200">Haz clic o arrastra una imagen aquí</span>
+          <span class="text-[10px] text-slate-400">Archivos recomendados: PNG transparente o SVG</span>
+        </div>
+
+        <div id="logo-preview-container" class="hidden flex items-center gap-3">
+          <img id="qr-logo-thumb" src="" alt="Logo Thumb" class="w-12 h-12 object-contain bg-white/10 rounded-lg p-1 border border-slate-700">
+          <div class="text-left">
+            <span id="logo-filename" class="text-xs font-bold text-slate-200 block truncate max-w-[180px]">logo.png</span>
+            <button id="btn-clear-logo" type="button" class="text-[11px] text-rose-400 hover:text-rose-300 transition">
+              <i class="fa-solid fa-trash mr-1"></i> Eliminar Logotipo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Icon Controls: Location, Size Slider & Color Pickers -->
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 border-t border-slate-800/80 pt-3">
+      <!-- Location Selector -->
+      <div class="sm:col-span-6">
+        <label class="block text-xs font-medium text-slate-300 mb-1">
+          Ubicación del Ícono / Logotipo
+        </label>
+        <select id="qr-icon-position" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:ring-2 focus:ring-cyan-500 focus:outline-none cursor-pointer">
+          <option value="center">🎯 Centro del QR (Logo Emblem Badge)</option>
+          <option value="above">⬆️ Arriba del Título (Arriba del QR)</option>
+          <option value="below">⬇️ Debajo del Título (Debajo del QR)</option>
+          <option value="left">⬅️ Izquierda del Título</option>
+          <option value="right">➡️ Derecha del Título</option>
+        </select>
+      </div>
+
+      <!-- Size Slider -->
+      <div class="sm:col-span-6">
+        <div class="flex items-center justify-between mb-1">
+          <label class="block text-xs font-medium text-slate-300">
+            Tamaño del Ícono / Logo
+          </label>
+          <span id="qr-icon-size-val" class="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">34px</span>
+        </div>
+        <input type="range" id="qr-icon-size" min="16" max="80" value="34" step="2"
+          class="w-full accent-cyan-500 bg-slate-950 h-2 rounded-lg cursor-pointer">
+      </div>
+
+      <!-- Icon Color Picker -->
+      <div id="icon-color-container" class="sm:col-span-4">
+        <div class="flex flex-col gap-1">
+          <label class="block text-xs font-medium text-slate-300">
+            Color del Ícono
+          </label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="qr-icon-color" value="#2563eb" class="w-8 h-8 rounded-lg bg-transparent cursor-pointer border border-slate-700">
+            <span id="qr-icon-color-hex" class="text-xs font-mono text-slate-300">#2563eb</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon Background Box Color Picker -->
+      <div id="icon-bg-container" class="sm:col-span-4">
+        <div class="flex flex-col gap-1">
+          <label class="block text-xs font-medium text-slate-300">
+            Fondo Recuadro
+          </label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="qr-icon-bg-color" value="#ffffff" class="w-8 h-8 rounded-lg bg-transparent cursor-pointer border border-slate-700">
+            <span id="qr-icon-bg-hex" class="text-xs font-mono text-slate-300">#ffffff</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon Border Color Picker -->
+      <div id="icon-border-container" class="sm:col-span-4">
+        <div class="flex flex-col gap-1">
+          <label class="block text-xs font-medium text-slate-300">
+            Borde Recuadro
+          </label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="qr-icon-border-color" value="#2563eb" class="w-8 h-8 rounded-lg bg-transparent cursor-pointer border border-slate-700">
+            <span id="qr-icon-border-hex" class="text-xs font-mono text-slate-300">#2563eb</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

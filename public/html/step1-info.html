@@ -1,0 +1,133 @@
+<!-- Step 1: Data & Font Selection Card (25 Fuentes Disponibles) -->
+<div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
+  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div class="flex items-center gap-3">
+      <span class="w-7 h-7 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 font-bold text-sm flex items-center justify-center">1</span>
+      <h2 class="text-base font-semibold text-slate-100">Información y Tipografía del QR</h2>
+    </div>
+    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+      25 Tipografías
+    </span>
+  </div>
+
+  <!-- URL Input -->
+  <div class="space-y-2">
+    <label for="qr-url" class="block text-sm font-medium text-slate-300">
+      <i class="fa-solid fa-link text-indigo-400 mr-1.5"></i> Dirección URL o Enlace web <span class="text-rose-400">*</span>
+    </label>
+    <div class="relative">
+      <input type="url" id="qr-url" placeholder="Escribe o pega tu enlace" value="Escribe o pega tu enlace"
+        class="w-full bg-slate-950/70 border border-slate-700/80 rounded-xl px-4 py-3 pl-11 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+      <div class="absolute left-3.5 top-3.5 text-slate-500">
+        <i class="fa-solid fa-globe"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Title Input, Font Family Picker & Font Size Slider -->
+  <div class="space-y-2">
+    <div class="flex items-center justify-between">
+      <label for="qr-title" class="block text-sm font-medium text-slate-300">
+        <i class="fa-solid fa-heading text-indigo-400 mr-1.5"></i> Título o Nombre del QR
+      </label>
+      <div class="flex items-center gap-1.5 text-xs text-slate-400">
+        <span>Tamaño:</span>
+        <span id="qr-title-size-val" class="font-mono font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">24px</span>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+      <div class="relative sm:col-span-5">
+        <input type="text" id="qr-title" placeholder="Escribe o pega el texto del titulo" value="Escribe o pega el texto del titulo"
+          class="w-full bg-slate-950/70 border border-slate-700/80 rounded-xl px-4 py-3 pl-11 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+        <div class="absolute left-3.5 top-3.5 text-slate-500">
+          <i class="fa-solid fa-font"></i>
+        </div>
+      </div>
+
+      <!-- 25 Font Family Dropdown for Title -->
+      <div class="sm:col-span-4">
+        <select id="qr-title-font" class="w-full h-full bg-slate-950/90 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none cursor-pointer">
+          <option value="Plus Jakarta Sans" style="font-family: 'Plus Jakarta Sans', sans-serif;">1. Plus Jakarta Sans</option>
+          <option value="Outfit" style="font-family: 'Outfit', sans-serif;">2. Outfit (Geométrica)</option>
+          <option value="Playfair Display" style="font-family: 'Playfair Display', serif;">3. Playfair Display (Serif)</option>
+          <option value="Space Grotesk" style="font-family: 'Space Grotesk', sans-serif;">4. Space Grotesk (Tech)</option>
+          <option value="Montserrat" style="font-family: 'Montserrat', sans-serif;">5. Montserrat (Corporativa)</option>
+          <option value="Pacifico" style="font-family: 'Pacifico', cursive;">6. Pacifico (Manuscrita)</option>
+          <option value="Oswald" style="font-family: 'Oswald', sans-serif;">7. Oswald (Condensada)</option>
+          <option value="Bebas Neue" style="font-family: 'Bebas Neue', sans-serif;">8. Bebas Neue (Impacto)</option>
+          <option value="Cinzel" style="font-family: 'Cinzel', serif;">9. Cinzel (Institucional)</option>
+          <option value="Poppins" style="font-family: 'Poppins', sans-serif;">10. Poppins (Redondeada)</option>
+          <option value="Lobster" style="font-family: 'Lobster', cursive;">11. Lobster (Creativa)</option>
+          <option value="Dancing Script" style="font-family: 'Dancing Script', cursive;">12. Dancing Script (Cursiva)</option>
+          <option value="Roboto" style="font-family: 'Roboto', sans-serif;">13. Roboto (Estándar)</option>
+          <option value="Lora" style="font-family: 'Lora', serif;">14. Lora (Serif Clásica)</option>
+          <option value="Anton" style="font-family: 'Anton', sans-serif;">15. Anton (Negrita)</option>
+          <option value="Great Vibes" style="font-family: 'Great Vibes', cursive;">16. Great Vibes (Caligrafía)</option>
+          <option value="Fira Code" style="font-family: 'Fira Code', monospace;">17. Fira Code (Monospaced)</option>
+          <option value="Caveat" style="font-family: 'Caveat', cursive;">18. Caveat (Casual)</option>
+          <option value="Righteous" style="font-family: 'Righteous', sans-serif;">19. Righteous (Retro 80s)</option>
+          <option value="Abril Fatface" style="font-family: 'Abril Fatface', serif;">20. Abril Fatface (Moda)</option>
+          <option value="Comfortaa" style="font-family: 'Comfortaa', cursive;">21. Comfortaa (Soft)</option>
+          <option value="Permanent Marker" style="font-family: 'Permanent Marker', cursive;">22. Permanent Marker</option>
+          <option value="Monoton" style="font-family: 'Monoton', cursive;">23. Monoton (Disco)</option>
+          <option value="Press Start 2P" style="font-family: 'Press Start 2P', monospace;">24. Press Start 2P (8-Bit)</option>
+          <option value="Satisfy" style="font-family: 'Satisfy', cursive;">25. Satisfy (Cursiva Suave)</option>
+        </select>
+      </div>
+
+      <!-- Title Font Size Range Slider -->
+      <div class="sm:col-span-3 flex flex-col justify-center bg-slate-950/60 border border-slate-700/80 rounded-xl px-3 py-2">
+        <input type="range" id="qr-title-size" min="12" max="48" value="24" step="1"
+          class="w-full accent-indigo-500 bg-slate-900 h-2 rounded-lg cursor-pointer" title="Tamaño de fuente del título">
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner Text Input & 25 Font Family Picker -->
+  <div class="space-y-2">
+    <label for="qr-banner-text" class="block text-sm font-medium text-slate-300">
+      <i class="fa-solid fa-tag text-indigo-400 mr-1.5"></i> Texto de Acción / Etiqueta ("SCAN ME")
+    </label>
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+      <div class="relative sm:col-span-7">
+        <input type="text" id="qr-banner-text" placeholder="Escanéame" value="Escanéame"
+          class="w-full bg-slate-950/70 border border-slate-700/80 rounded-xl px-4 py-3 pl-11 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
+        <div class="absolute left-3.5 top-3.5 text-slate-500">
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+      </div>
+
+      <!-- 25 Font Family Dropdown for Banner Text -->
+      <div class="sm:col-span-5">
+        <select id="qr-banner-font" class="w-full h-full bg-slate-950/90 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none cursor-pointer">
+          <option value="Plus Jakarta Sans" style="font-family: 'Plus Jakarta Sans', sans-serif;">1. Plus Jakarta Sans</option>
+          <option value="Outfit" style="font-family: 'Outfit', sans-serif;">2. Outfit (Geométrica)</option>
+          <option value="Playfair Display" style="font-family: 'Playfair Display', serif;">3. Playfair Display (Serif)</option>
+          <option value="Space Grotesk" style="font-family: 'Space Grotesk', sans-serif;">4. Space Grotesk (Tech)</option>
+          <option value="Montserrat" style="font-family: 'Montserrat', sans-serif;">5. Montserrat (Corporativa)</option>
+          <option value="Pacifico" style="font-family: 'Pacifico', cursive;">6. Pacifico (Manuscrita)</option>
+          <option value="Oswald" style="font-family: 'Oswald', sans-serif;">7. Oswald (Condensada)</option>
+          <option value="Bebas Neue" style="font-family: 'Bebas Neue', sans-serif;">8. Bebas Neue (Impacto)</option>
+          <option value="Cinzel" style="font-family: 'Cinzel', serif;">9. Cinzel (Institucional)</option>
+          <option value="Poppins" style="font-family: 'Poppins', sans-serif;">10. Poppins (Redondeada)</option>
+          <option value="Lobster" style="font-family: 'Lobster', cursive;">11. Lobster (Creativa)</option>
+          <option value="Dancing Script" style="font-family: 'Dancing Script', cursive;">12. Dancing Script (Cursiva)</option>
+          <option value="Roboto" style="font-family: 'Roboto', sans-serif;">13. Roboto (Estándar)</option>
+          <option value="Lora" style="font-family: 'Lora', serif;">14. Lora (Serif Clásica)</option>
+          <option value="Anton" style="font-family: 'Anton', sans-serif;">15. Anton (Negrita)</option>
+          <option value="Great Vibes" style="font-family: 'Great Vibes', cursive;">16. Great Vibes (Caligrafía)</option>
+          <option value="Fira Code" style="font-family: 'Fira Code', monospace;">17. Fira Code (Monospaced)</option>
+          <option value="Caveat" style="font-family: 'Caveat', cursive;">18. Caveat (Casual)</option>
+          <option value="Righteous" style="font-family: 'Righteous', sans-serif;">19. Righteous (Retro 80s)</option>
+          <option value="Abril Fatface" style="font-family: 'Abril Fatface', serif;">20. Abril Fatface (Moda)</option>
+          <option value="Comfortaa" style="font-family: 'Comfortaa', cursive;">21. Comfortaa (Soft)</option>
+          <option value="Permanent Marker" style="font-family: 'Permanent Marker', cursive;">22. Permanent Marker</option>
+          <option value="Monoton" style="font-family: 'Monoton', cursive;">23. Monoton (Disco)</option>
+          <option value="Press Start 2P" style="font-family: 'Press Start 2P', monospace;">24. Press Start 2P (8-Bit)</option>
+          <option value="Satisfy" style="font-family: 'Satisfy', cursive;">25. Satisfy (Cursiva Suave)</option>
+        </select>
+      </div>
+    </div>
+    <p class="text-xs text-slate-400">Las 25 fuentes se actualizan en vivo al cambiar el desplegable.</p>
+  </div>
+</div>
