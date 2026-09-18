@@ -5,9 +5,10 @@ export class ComponentLoader {
   static async loadComponents() {
     const components = [
       { id: 'header-container', file: './html/header.html' },
+      { id: 'step3-container', file: './html/step3-design.html' },
       { id: 'step1-container', file: './html/step1-info.html' },
       { id: 'step2-container', file: './html/step2-icon.html' },
-      { id: 'step3-container', file: './html/step3-design.html' },
+      { id: 'step4-container', file: './html/step4-patterns.html' },
       { id: 'color-customizer-container', file: './html/color-customizer.html' },
       { id: 'action-buttons-container', file: './html/action-buttons.html' },
       { id: 'preview-download-container', file: './html/preview-download.html' },

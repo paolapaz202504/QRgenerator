@@ -121,7 +121,7 @@ export class QRPreview extends UIComponent {
       fontTitle: this.titleFontInput ? this.titleFontInput.value : 'Plus Jakarta Sans',
       fontBanner: this.bannerFontInput ? this.bannerFontInput.value : 'Plus Jakarta Sans',
       fontSizeTitle: state.fontSizeTitle || 24,
-      showIcon: state.iconShow,
+      showIcon: state.iconShow !== false,
       showShield: true,
       iconMode: state.iconMode,
       iconName: state.selectedIcon,
@@ -130,7 +130,7 @@ export class QRPreview extends UIComponent {
       iconBgColor: state.iconBgColor,
       iconBorderColor: state.iconBorderColor,
       iconSize: parseInt(state.iconSize, 10) || 34,
-      customLogoDataUrl: state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null),
+      customLogoDataUrl: (state.iconShow !== false) ? (state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null)) : null,
       userEmail: state.user ? state.user.email : null
     };
   }

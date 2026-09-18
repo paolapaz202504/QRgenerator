@@ -219,6 +219,9 @@ export class IconPicker extends UIComponent {
     this.iconSizeVal = document.getElementById('qr-icon-size-val');
     this.iconPositionSelect = document.getElementById('qr-icon-position');
 
+    this.iconShowInput = document.getElementById('qr-icon-show');
+    this.iconControlsWrapper = document.getElementById('icon-controls-wrapper');
+
     appState.subscribe((state, eventKey) => {
       if (['CHANGE_ICON', 'CHANGE_ICON_SOURCE', 'CHANGE_ICON_MODE', 'CHANGE_DESIGN', 'INIT_DATA'].includes(eventKey)) {
         this.render();
@@ -250,6 +253,20 @@ export class IconPicker extends UIComponent {
   }
 
   bindEvents() {
+    if (this.iconShowInput) {
+      this.iconShowInput.addEventListener('change', () => {
+        const isChecked = this.iconShowInput.checked;
+        if (this.iconControlsWrapper) {
+          if (isChecked) {
+            this.iconControlsWrapper.classList.remove('hidden');
+          } else {
+            this.iconControlsWrapper.classList.add('hidden');
+          }
+        }
+        appState.setState({ iconShow: isChecked }, 'CHANGE_ICON');
+      });
+    }
+
     if (this.btnModeIcon) {
       this.btnModeIcon.addEventListener('click', () => {
         appState.setState({ iconMode: 'icon' }, 'CHANGE_ICON_MODE');
@@ -457,8 +474,19 @@ export class IconPicker extends UIComponent {
   }
 
   render() {
-    const { iconMode, iconSource = 'brands', selectedIcon, iconColor, iconBgColor, iconBorderColor, iconSize } = appState.getState();
+    const { iconMode, iconSource = 'brands', selectedIcon, iconColor, iconBgColor, iconBorderColor, iconSize, iconShow = true } = appState.getState();
     const sourceData = ICON_SOURCES[iconSource] || ICON_SOURCES.brands;
+
+    if (this.iconShowInput) {
+      this.iconShowInput.checked = iconShow;
+      if (this.iconControlsWrapper) {
+        if (iconShow) {
+          this.iconControlsWrapper.classList.remove('hidden');
+        } else {
+          this.iconControlsWrapper.classList.add('hidden');
+        }
+      }
+    }
 
     if (this.iconSizeInput && iconSize) {
       this.iconSizeInput.value = iconSize;

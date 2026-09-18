@@ -188,7 +188,8 @@ export class DesignPicker extends UIComponent {
             fontTitle: design.fontTitle || 'Plus Jakarta Sans',
             fontBanner: design.fontBanner || 'Plus Jakarta Sans',
             fontSizeTitle: fontSizeTitle,
-            iconMode: 'icon'
+            iconMode: 'icon',
+            iconShow: true
           }, 'CHANGE_DESIGN');
         });
         this.designGrid.appendChild(card);
