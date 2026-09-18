@@ -1,6 +1,6 @@
 import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
-import { renderIconToDataUrl } from '../utils/iconRender.js';
+import { renderIconToDataUrl, getIconClass } from '../utils/iconRender.js';
 
 export const ICON_SOURCES = {
   brands: {
@@ -210,10 +210,10 @@ export class IconPicker extends UIComponent {
 
     this.iconColorInput = document.getElementById('qr-icon-color');
     this.iconColorHex = document.getElementById('qr-icon-color-hex');
-    this.iconBgColorInput = document.getElementById('qr-icon-bgcolor');
-    this.iconBgColorHex = document.getElementById('qr-icon-bgcolor-hex');
-    this.iconBorderColorInput = document.getElementById('qr-icon-bordercolor');
-    this.iconBorderColorHex = document.getElementById('qr-icon-bordercolor-hex');
+    this.iconBgColorInput = document.getElementById('qr-icon-bg-color') || document.getElementById('qr-icon-bgcolor');
+    this.iconBgColorHex = document.getElementById('qr-icon-bg-hex') || document.getElementById('qr-icon-bgcolor-hex');
+    this.iconBorderColorInput = document.getElementById('qr-icon-border-color') || document.getElementById('qr-icon-bordercolor');
+    this.iconBorderColorHex = document.getElementById('qr-icon-border-hex') || document.getElementById('qr-icon-bordercolor-hex');
 
     this.iconSizeInput = document.getElementById('qr-icon-size');
     this.iconSizeVal = document.getElementById('qr-icon-size-val');
@@ -236,28 +236,17 @@ export class IconPicker extends UIComponent {
   }
 
   getIconClass(iconName) {
-    if (!iconName || typeof iconName !== 'string') return 'fa-solid fa-qrcode';
-    if (iconName.startsWith('ti ') || iconName.startsWith('ti-')) {
-      let cls = iconName.startsWith('ti ') ? iconName : `ti ${iconName}`;
-      if (iconName.includes('-filled') && !cls.includes('ti-filled')) {
-        cls += ' ti-filled';
-      }
-      return cls;
-    }
-    if (iconName.startsWith('bi ') || iconName.startsWith('bi-')) {
-      return iconName.startsWith('bi ') ? iconName : `bi ${iconName}`;
-    }
-    if (iconName.startsWith('fa-') || iconName.startsWith('fa ')) {
-      return iconName;
-    }
-    return `fa-solid ${iconName}`;
+    return getIconClass(iconName);
   }
 
-  async selectIcon(iconName) {
-    const { iconColor = '#2563eb' } = appState.getState();
-    const iconClass = this.getIconClass(iconName);
+  async selectIcon(iconName, customIconColor = null) {
+    const targetIcon = iconName || appState.getState().selectedIcon || 'fa-qrcode';
+    const inputColor = this.iconColorInput ? this.iconColorInput.value : null;
+    const stateColor = appState.getState().iconColor;
+    const iconColor = customIconColor || inputColor || stateColor || '#2563eb';
+    const iconClass = getIconClass(targetIcon);
     const dataUrl = await renderIconToDataUrl(iconClass, iconColor);
-    appState.setState({ selectedIcon: iconName, generatedIconDataUrl: dataUrl }, 'CHANGE_ICON');
+    appState.setState({ selectedIcon: targetIcon, iconColor, generatedIconDataUrl: dataUrl }, 'CHANGE_ICON');
   }
 
   bindEvents() {
@@ -351,34 +340,44 @@ export class IconPicker extends UIComponent {
     }
 
     if (this.iconSizeInput) {
-      this.iconSizeInput.addEventListener('input', () => {
+      const handleSize = () => {
         const val = parseInt(this.iconSizeInput.value, 10);
         if (this.iconSizeVal) this.iconSizeVal.textContent = `${val}px`;
         appState.setState({ iconSize: val }, 'CHANGE_ICON');
-      });
+      };
+      this.iconSizeInput.addEventListener('input', handleSize);
+      this.iconSizeInput.addEventListener('change', handleSize);
     }
 
     if (this.iconColorInput) {
-      this.iconColorInput.addEventListener('input', () => {
+      const handleColor = async () => {
         const color = this.iconColorInput.value;
         if (this.iconColorHex) this.iconColorHex.textContent = color;
         const { selectedIcon } = appState.getState();
-        this.selectIcon(selectedIcon);
-      });
+        await this.selectIcon(selectedIcon, color);
+      };
+      this.iconColorInput.addEventListener('input', handleColor);
+      this.iconColorInput.addEventListener('change', handleColor);
     }
 
     if (this.iconBgColorInput) {
-      this.iconBgColorInput.addEventListener('input', () => {
-        if (this.iconBgColorHex) this.iconBgColorHex.textContent = this.iconBgColorInput.value;
-        appState.setState({ iconBgColor: this.iconBgColorInput.value }, 'CHANGE_ICON');
-      });
+      const handleBg = () => {
+        const color = this.iconBgColorInput.value;
+        if (this.iconBgColorHex) this.iconBgColorHex.textContent = color;
+        appState.setState({ iconBgColor: color }, 'CHANGE_ICON');
+      };
+      this.iconBgColorInput.addEventListener('input', handleBg);
+      this.iconBgColorInput.addEventListener('change', handleBg);
     }
 
     if (this.iconBorderColorInput) {
-      this.iconBorderColorInput.addEventListener('input', () => {
-        if (this.iconBorderColorHex) this.iconBorderColorHex.textContent = this.iconBorderColorInput.value;
-        appState.setState({ iconBorderColor: this.iconBorderColorInput.value }, 'CHANGE_ICON');
-      });
+      const handleBorder = () => {
+        const color = this.iconBorderColorInput.value;
+        if (this.iconBorderColorHex) this.iconBorderColorHex.textContent = color;
+        appState.setState({ iconBorderColor: color }, 'CHANGE_ICON');
+      };
+      this.iconBorderColorInput.addEventListener('input', handleBorder);
+      this.iconBorderColorInput.addEventListener('change', handleBorder);
     }
   }
 
@@ -458,9 +457,13 @@ export class IconPicker extends UIComponent {
   }
 
   render() {
-    const { iconMode, iconSource = 'brands', selectedIcon, iconColor, iconBgColor, iconBorderColor } = appState.getState();
+    const { iconMode, iconSource = 'brands', selectedIcon, iconColor, iconBgColor, iconBorderColor, iconSize } = appState.getState();
     const sourceData = ICON_SOURCES[iconSource] || ICON_SOURCES.brands;
 
+    if (this.iconSizeInput && iconSize) {
+      this.iconSizeInput.value = iconSize;
+      if (this.iconSizeVal) this.iconSizeVal.textContent = `${iconSize}px`;
+    }
     if (this.iconColorInput && iconColor) {
       this.iconColorInput.value = iconColor;
       if (this.iconColorHex) this.iconColorHex.textContent = iconColor;

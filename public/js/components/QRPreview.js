@@ -129,7 +129,7 @@ export class QRPreview extends UIComponent {
       iconColor: state.iconColor,
       iconBgColor: state.iconBgColor,
       iconBorderColor: state.iconBorderColor,
-      iconSize: state.iconSize,
+      iconSize: parseInt(state.iconSize, 10) || 34,
       customLogoDataUrl: state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null),
       userEmail: state.user ? state.user.email : null
     };

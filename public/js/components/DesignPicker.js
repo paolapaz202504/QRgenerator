@@ -1,6 +1,6 @@
 import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
-import { renderIconToDataUrl } from '../utils/iconRender.js';
+import { renderIconToDataUrl, getIconClass } from '../utils/iconRender.js';
 
 const CATEGORY_ICONS = {
   'Institucional': 'fa-solid fa-building',
@@ -19,27 +19,6 @@ const CATEGORY_ICONS = {
   'Redes Sociales': 'fa-brands fa-whatsapp',
   'Lujo': 'fa-solid fa-crown'
 };
-
-function getIconClassForCard(iconName) {
-  if (!iconName || typeof iconName !== 'string') return 'fa-solid fa-qrcode';
-  if (iconName.startsWith('ti ') || iconName.startsWith('ti-')) {
-    let cls = iconName.startsWith('ti ') ? iconName : `ti ${iconName}`;
-    if (iconName.includes('-filled') && !cls.includes('ti-filled')) {
-      cls += ' ti-filled';
-    }
-    return cls;
-  }
-  if (iconName.startsWith('bi ') || iconName.startsWith('bi-')) {
-    return iconName.startsWith('bi ') ? iconName : `bi ${iconName}`;
-  }
-  if (iconName.startsWith('fa-solid ') || iconName.startsWith('fa-brands ') || iconName.startsWith('fa-regular ')) {
-    return iconName;
-  }
-  if (iconName.startsWith('fa-')) {
-    return `fa-solid ${iconName}`;
-  }
-  return `fa-solid ${iconName}`;
-}
 
 export class DesignPicker extends UIComponent {
   constructor() {
@@ -110,7 +89,7 @@ export class DesignPicker extends UIComponent {
             : 'border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900/60'
         }`;
 
-        const iconClass = getIconClassForCard(design.iconName);
+        const iconClass = getIconClass(design.iconName);
 
         card.innerHTML = `
           <div class="h-24 rounded-xl flex flex-col items-center justify-center p-2 mb-2 relative overflow-hidden border border-white/10" style="background-color: ${design.bgColor}">
@@ -126,10 +105,13 @@ export class DesignPicker extends UIComponent {
         `;
 
         card.addEventListener('click', async () => {
+          // 1. Text Inputs & Fonts DOM syncing
           const titleInput = document.getElementById('qr-title');
           const bannerTextInput = document.getElementById('qr-banner-text');
           const titleFontInput = document.getElementById('qr-title-font');
           const bannerFontInput = document.getElementById('qr-banner-font');
+          const titleSizeInput = document.getElementById('qr-title-size');
+          const titleSizeVal = document.getElementById('qr-title-size-val');
 
           if (titleInput && design.name) {
             titleInput.value = design.name;
@@ -147,26 +129,65 @@ export class DesignPicker extends UIComponent {
             bannerFontInput.style.fontFamily = `'${design.fontBanner}', sans-serif`;
             if (bannerTextInput) bannerTextInput.style.fontFamily = `'${design.fontBanner}', sans-serif`;
           }
+          const fontSizeTitle = design.fontSizeTitle || 24;
+          if (titleSizeInput) titleSizeInput.value = fontSizeTitle;
+          if (titleSizeVal) titleSizeVal.textContent = `${fontSizeTitle}px`;
 
+          // 2. Icon Controls (Colors, Hex Badges, Size, Active Label)
+          const iconColorInput = document.getElementById('qr-icon-color');
+          const iconColorHex = document.getElementById('qr-icon-color-hex');
+          const iconBgColorInput = document.getElementById('qr-icon-bg-color') || document.getElementById('qr-icon-bgcolor');
+          const iconBgColorHex = document.getElementById('qr-icon-bg-hex') || document.getElementById('qr-icon-bgcolor-hex');
+          const iconBorderColorInput = document.getElementById('qr-icon-border-color') || document.getElementById('qr-icon-bordercolor');
+          const iconBorderColorHex = document.getElementById('qr-icon-border-hex') || document.getElementById('qr-icon-bordercolor-hex');
+          const iconSizeInput = document.getElementById('qr-icon-size');
+          const iconSizeVal = document.getElementById('qr-icon-size-val');
+          const activeIconLabel = document.getElementById('active-icon-label');
+
+          const iconColor = design.iconColor || design.qrColor || '#2563eb';
+          const iconBgColor = design.iconBgColor || '#ffffff';
+          const iconBorderColor = design.iconBorderColor || design.frameColor || '#2563eb';
+          const iconSize = design.iconSize || 34;
+
+          if (iconColorInput) iconColorInput.value = iconColor;
+          if (iconColorHex) iconColorHex.textContent = iconColor;
+
+          if (iconBgColorInput) iconBgColorInput.value = iconBgColor;
+          if (iconBgColorHex) iconBgColorHex.textContent = iconBgColor;
+
+          if (iconBorderColorInput) iconBorderColorInput.value = iconBorderColor;
+          if (iconBorderColorHex) iconBorderColorHex.textContent = iconBorderColor;
+
+          if (iconSizeInput) iconSizeInput.value = iconSize;
+          if (iconSizeVal) iconSizeVal.textContent = `${iconSize}px`;
+
+          if (activeIconLabel && design.iconName) {
+            const cleanName = design.iconName.replace(/^fa-brands\s+|^fa-solid\s+|^fa-|^bi\s+|^bi-|^ti\s+ti-|^ti\s+|^ti-/, '').replace(/-/g, ' ').toUpperCase();
+            activeIconLabel.textContent = `Seleccionado: ${cleanName}`;
+          }
+
+          // 3. Rasterize Vector Icon
           let dataUrl = null;
           if (design.iconName) {
-            const cardIconCls = getIconClassForCard(design.iconName);
-            const iconColor = design.iconColor || design.qrColor || '#2563eb';
+            const cardIconCls = getIconClass(design.iconName);
             dataUrl = await renderIconToDataUrl(cardIconCls, iconColor);
           }
 
+          // 4. Update Central Reactive State
           appState.setState({
             currentDesign: { ...design },
             title: design.name || 'Mi Código QR',
             currentPattern: design.dotStyle || 'square',
             selectedIcon: design.iconName || 'fa-qrcode',
             generatedIconDataUrl: dataUrl,
-            iconColor: design.iconColor || design.qrColor,
-            iconBgColor: design.iconBgColor || '#ffffff',
-            iconBorderColor: design.iconBorderColor || design.frameColor,
+            iconColor: iconColor,
+            iconBgColor: iconBgColor,
+            iconBorderColor: iconBorderColor,
+            iconSize: iconSize,
             bannerText: design.bannerText || 'SCAN ME',
             fontTitle: design.fontTitle || 'Plus Jakarta Sans',
             fontBanner: design.fontBanner || 'Plus Jakarta Sans',
+            fontSizeTitle: fontSizeTitle,
             iconMode: 'icon'
           }, 'CHANGE_DESIGN');
         });
