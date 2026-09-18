@@ -116,6 +116,19 @@ async function ensureBucketExists() {
   }
 }
 
+// List files matching prefix directly in GCS
+async function listFilesInCloud(folderPrefix) {
+  if (!bucket) return [];
+  try {
+    const fullPrefix = `${ENV_FOLDER}/${folderPrefix}`;
+    const [files] = await bucket.getFiles({ prefix: fullPrefix });
+    return files.map(f => f.name.replace(`${ENV_FOLDER}/`, ''));
+  } catch (err) {
+    console.error(`[GCS List Error] ${folderPrefix}:`, err.message);
+    return [];
+  }
+}
+
 ensureBucketExists();
 
 module.exports = {
@@ -123,5 +136,6 @@ module.exports = {
   getEnv: () => ENV_FOLDER,
   readJsonFromCloud,
   saveJsonToCloud,
-  saveBufferToCloud
+  saveBufferToCloud,
+  listFilesInCloud
 };

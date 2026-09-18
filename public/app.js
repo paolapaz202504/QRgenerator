@@ -506,8 +506,56 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  // Preview Modal Close Listeners
+  const previewModal = document.getElementById('qr-preview-modal');
+  const btnClosePreview = document.getElementById('btn-close-preview-modal');
+  const btnCancelPreview = document.getElementById('btn-cancel-preview-modal');
+
+  [btnClosePreview, btnCancelPreview].forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        if (previewModal) previewModal.classList.add('hidden');
+      });
+    }
+  });
+
+  if (previewModal) {
+    previewModal.addEventListener('click', (e) => {
+      if (e.target === previewModal) previewModal.classList.add('hidden');
+    });
+  }
+
   loadAndRenderHistoryTable();
 });
+
+// Open QR Expanded Preview Modal
+function openQrPreviewModal(item) {
+  const modal = document.getElementById('qr-preview-modal');
+  const titleEl = document.getElementById('preview-modal-title');
+  const dateEl = document.getElementById('preview-modal-date');
+  const imgEl = document.getElementById('preview-modal-img');
+  const linkEl = document.getElementById('preview-modal-link');
+  const linkTextEl = document.getElementById('preview-modal-link-text');
+  const downloadBtn = document.getElementById('preview-modal-download-btn');
+
+  if (!modal) return;
+
+  const qrImageSrc = item.imageDataUrl || item.imagePath || ('https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(item.url));
+  const formattedDate = formatDateWithTimezone(item.createdAt);
+  const cleanTitle = (item.title || 'codigo_qr').replace(/[^a-zA-Z0-9_-]/g, '_');
+
+  if (titleEl) titleEl.textContent = item.title || 'Código QR';
+  if (dateEl) dateEl.textContent = formattedDate;
+  if (imgEl) imgEl.src = qrImageSrc;
+  if (linkEl) linkEl.href = item.url || '#';
+  if (linkTextEl) linkTextEl.textContent = item.url || '';
+  if (downloadBtn) {
+    downloadBtn.href = qrImageSrc;
+    downloadBtn.download = `QR_${cleanTitle}.png`;
+  }
+
+  modal.classList.remove('hidden');
+}
 
 // Render Icon Picker Grid (40 Icons with Active Highlighting)
 function renderIconPickerGrid() {
@@ -699,7 +747,7 @@ function applyHistoryFiltersAndRender() {
     tr.innerHTML = `
       <!-- Columna 1: Miniatura -->
       <td class="py-3 px-4">
-        <div class="w-14 h-14 bg-white rounded-xl p-1 flex items-center justify-center border border-slate-700/60 shadow-sm hover:scale-105 transition transform">
+        <div class="btn-preview-qr cursor-pointer w-14 h-14 bg-white rounded-xl p-1 flex items-center justify-center border border-slate-700/60 shadow-sm hover:scale-105 transition transform" title="Haz clic para ver la vista ampliada">
           <img src="${qrImageSrc}" alt="${escapeXml(item.title || 'QR')}" class="w-full h-full object-contain">
         </div>
       </td>
@@ -728,14 +776,27 @@ function applyHistoryFiltersAndRender() {
         </span>
       </td>
 
-      <!-- Columna 5: Acción Descargar -->
+      <!-- Columna 5: Acciones (Ver Ampliada + Descargar) -->
       <td class="py-3 px-4 text-center">
-        <a href="${qrImageSrc}" download="QR_${cleanTitle}.png" 
-          class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-3 py-1.5 rounded-xl text-xs inline-flex items-center gap-1.5 shadow transition transform active:scale-95">
-          <i class="fa-solid fa-download"></i> Descargar
-        </a>
+        <div class="flex items-center justify-center gap-2">
+          <button type="button" class="btn-preview-qr bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-2.5 py-1.5 rounded-xl text-xs inline-flex items-center gap-1 shadow transition transform active:scale-95" title="Ver imagen ampliada">
+            <i class="fa-solid fa-eye text-indigo-400"></i> Ver
+          </button>
+          <a href="${qrImageSrc}" download="QR_${cleanTitle}.png" 
+            class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-2.5 py-1.5 rounded-xl text-xs inline-flex items-center gap-1 shadow transition transform active:scale-95" title="Descargar imagen PNG">
+            <i class="fa-solid fa-download"></i> Descargar
+          </a>
+        </div>
       </td>
     `;
+
+    // Attach click listeners to open expanded preview modal
+    tr.querySelectorAll('.btn-preview-qr').forEach(btn => {
+      btn.addEventListener('click', () => {
+        openQrPreviewModal(item);
+      });
+    });
+
     tbody.appendChild(tr);
   });
 
