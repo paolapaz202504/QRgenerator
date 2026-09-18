@@ -24,7 +24,7 @@ export class QRPreview extends UIComponent {
     this.currentBlobUrl = null;
 
     appState.subscribe((state, eventKey) => {
-      if (['INIT_DATA', 'CHANGE_DESIGN', 'CHANGE_PATTERN', 'CHANGE_ICON', 'CHANGE_ICON_MODE', 'CHANGE_INPUTS'].includes(eventKey)) {
+      if (['INIT_DATA', 'CHANGE_DESIGN', 'CHANGE_PATTERN', 'CHANGE_ICON', 'CHANGE_ICON_SOURCE', 'CHANGE_ICON_MODE', 'CHANGE_INPUTS'].includes(eventKey)) {
         this.scheduleGenerate();
       }
     });
@@ -130,7 +130,7 @@ export class QRPreview extends UIComponent {
       iconBgColor: state.iconBgColor,
       iconBorderColor: state.iconBorderColor,
       iconSize: state.iconSize,
-      customLogoDataUrl: state.customLogoDataUrl,
+      customLogoDataUrl: state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null),
       userEmail: state.user ? state.user.email : null
     };
   }

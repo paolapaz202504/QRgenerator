@@ -1,5 +1,45 @@
 import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
+import { renderIconToDataUrl } from '../utils/iconRender.js';
+
+const CATEGORY_ICONS = {
+  'Institucional': 'fa-solid fa-building',
+  'Compras': 'fa-solid fa-cart-shopping',
+  'Entretenimiento': 'fa-solid fa-gamepad',
+  'Belleza': 'fa-solid fa-gem',
+  'Deportes': 'fa-solid fa-trophy',
+  'Comunidad': 'fa-solid fa-users',
+  'Gastronomía': 'fa-solid fa-utensils',
+  'Tecnología': 'fa-solid fa-microchip',
+  'Salud': 'fa-solid fa-heart-pulse',
+  'Viajes': 'fa-solid fa-plane',
+  'Inmobiliaria': 'fa-solid fa-house',
+  'Educación': 'fa-solid fa-graduation-cap',
+  'Eventos': 'fa-solid fa-calendar-check',
+  'Redes Sociales': 'fa-brands fa-whatsapp',
+  'Lujo': 'fa-solid fa-crown'
+};
+
+function getIconClassForCard(iconName) {
+  if (!iconName || typeof iconName !== 'string') return 'fa-solid fa-qrcode';
+  if (iconName.startsWith('ti ') || iconName.startsWith('ti-')) {
+    let cls = iconName.startsWith('ti ') ? iconName : `ti ${iconName}`;
+    if (iconName.includes('-filled') && !cls.includes('ti-filled')) {
+      cls += ' ti-filled';
+    }
+    return cls;
+  }
+  if (iconName.startsWith('bi ') || iconName.startsWith('bi-')) {
+    return iconName.startsWith('bi ') ? iconName : `bi ${iconName}`;
+  }
+  if (iconName.startsWith('fa-solid ') || iconName.startsWith('fa-brands ') || iconName.startsWith('fa-regular ')) {
+    return iconName;
+  }
+  if (iconName.startsWith('fa-')) {
+    return `fa-solid ${iconName}`;
+  }
+  return `fa-solid ${iconName}`;
+}
 
 export class DesignPicker extends UIComponent {
   constructor() {
@@ -26,24 +66,25 @@ export class DesignPicker extends UIComponent {
       this.container.innerHTML = '';
       const allBtn = document.createElement('button');
       allBtn.type = 'button';
-      allBtn.className = `px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+      allBtn.className = `px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${
         activeCategory === 'all'
           ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md font-bold'
           : 'bg-slate-950/80 border border-slate-700/80 text-slate-300 hover:text-white hover:border-slate-500'
       }`;
-      allBtn.textContent = '🌟 Todos (150)';
+      allBtn.innerHTML = `<i class="fa-solid fa-star text-amber-400"></i> Todos (${designs.length})`;
       allBtn.addEventListener('click', () => appState.setState({ activeCategory: 'all' }, 'CHANGE_CATEGORY'));
       this.container.appendChild(allBtn);
 
       categories.forEach(cat => {
+        const iconClass = CATEGORY_ICONS[cat] || 'fa-solid fa-folder';
         const catBtn = document.createElement('button');
         catBtn.type = 'button';
-        catBtn.className = `px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+        catBtn.className = `px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${
           activeCategory === cat
             ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md font-bold'
             : 'bg-slate-950/80 border border-slate-700/80 text-slate-300 hover:text-white hover:border-slate-500'
         }`;
-        catBtn.textContent = cat;
+        catBtn.innerHTML = `<i class="${iconClass} text-cyan-400"></i> ${cat}`;
         catBtn.addEventListener('click', () => appState.setState({ activeCategory: cat }, 'CHANGE_CATEGORY'));
         this.container.appendChild(catBtn);
       });
@@ -69,26 +110,64 @@ export class DesignPicker extends UIComponent {
             : 'border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900/60'
         }`;
 
+        const iconClass = getIconClassForCard(design.iconName);
+
         card.innerHTML = `
           <div class="h-24 rounded-xl flex flex-col items-center justify-center p-2 mb-2 relative overflow-hidden border border-white/10" style="background-color: ${design.bgColor}">
             <div class="text-[10px] font-bold px-2 py-0.5 rounded-full mb-1 text-center truncate max-w-[90%]" style="background-color: ${design.badgeBg}; color: ${design.badgeText}">
               ${design.bannerText || 'SCAN ME'}
             </div>
             <div class="w-10 h-10 rounded flex items-center justify-center border" style="border-color: ${design.qrColor}; color: ${design.qrColor}">
-              <i class="fa-solid ${design.iconName || 'fa-qrcode'} text-lg"></i>
+              <i class="${iconClass} text-lg"></i>
             </div>
           </div>
           <span class="text-xs font-bold text-slate-200 block truncate group-hover:text-indigo-400 transition text-center">${design.name}</span>
           <span class="text-[10px] text-slate-400 block text-center truncate">${design.category}</span>
         `;
 
-        card.addEventListener('click', () => {
+        card.addEventListener('click', async () => {
+          const titleInput = document.getElementById('qr-title');
+          const bannerTextInput = document.getElementById('qr-banner-text');
+          const titleFontInput = document.getElementById('qr-title-font');
+          const bannerFontInput = document.getElementById('qr-banner-font');
+
+          if (titleInput && design.name) {
+            titleInput.value = design.name;
+          }
+          if (bannerTextInput && design.bannerText) {
+            bannerTextInput.value = design.bannerText;
+          }
+          if (titleFontInput && design.fontTitle) {
+            titleFontInput.value = design.fontTitle;
+            titleFontInput.style.fontFamily = `'${design.fontTitle}', sans-serif`;
+            if (titleInput) titleInput.style.fontFamily = `'${design.fontTitle}', sans-serif`;
+          }
+          if (bannerFontInput && design.fontBanner) {
+            bannerFontInput.value = design.fontBanner;
+            bannerFontInput.style.fontFamily = `'${design.fontBanner}', sans-serif`;
+            if (bannerTextInput) bannerTextInput.style.fontFamily = `'${design.fontBanner}', sans-serif`;
+          }
+
+          let dataUrl = null;
+          if (design.iconName) {
+            const cardIconCls = getIconClassForCard(design.iconName);
+            const iconColor = design.iconColor || design.qrColor || '#2563eb';
+            dataUrl = await renderIconToDataUrl(cardIconCls, iconColor);
+          }
+
           appState.setState({
             currentDesign: { ...design },
+            title: design.name || 'Mi Código QR',
+            currentPattern: design.dotStyle || 'square',
             selectedIcon: design.iconName || 'fa-qrcode',
+            generatedIconDataUrl: dataUrl,
             iconColor: design.iconColor || design.qrColor,
             iconBgColor: design.iconBgColor || '#ffffff',
-            iconBorderColor: design.iconBorderColor || design.frameColor
+            iconBorderColor: design.iconBorderColor || design.frameColor,
+            bannerText: design.bannerText || 'SCAN ME',
+            fontTitle: design.fontTitle || 'Plus Jakarta Sans',
+            fontBanner: design.fontBanner || 'Plus Jakarta Sans',
+            iconMode: 'icon'
           }, 'CHANGE_DESIGN');
         });
         this.designGrid.appendChild(card);

@@ -1,0 +1,5 @@
+# robots.txt for QR Studio Pro
+User-agent: *
+Allow: /
+
+Sitemap: http://localhost:3030/sitemap.xml

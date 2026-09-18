@@ -7,7 +7,7 @@
       </span>
       <div>
         <h2 class="text-base font-semibold text-slate-100">Personalización del Ícono o Logotipo Imagen</h2>
-        <p class="text-xs text-slate-400">Selecciona entre 40 íconos vectoriales o sube tu propia imagen</p>
+        <p class="text-xs text-slate-400">Colección masiva: Redes Sociales, Naturaleza, Tabler & FontAwesome</p>
       </div>
     </div>
     <!-- Show/Hide Toggle -->
@@ -22,29 +22,59 @@
     <!-- Mode Switcher: Vector Icon vs Custom Image Upload -->
     <div class="flex items-center gap-3 bg-slate-950/80 border border-slate-800 p-1.5 rounded-xl">
       <button id="btn-mode-icon" type="button" class="flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow">
-        <i class="fa-solid fa-icons mr-1.5"></i> 40 Íconos Vectoriales
+        <i class="fa-solid fa-icons mr-1.5"></i> Íconos Vectoriales (4 Fuentes)
       </button>
       <button id="btn-mode-image" type="button" class="flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-400 hover:text-white">
         <i class="fa-solid fa-image mr-1.5"></i> Subir Imagen / Logo
       </button>
     </div>
 
-    <!-- Mode 1: Vector 40 Icons Picker Grid -->
+    <!-- Mode 1: Vector Icons Picker with 4 Specialized Sources & Full Gallery Button -->
     <div id="section-icon-mode" class="space-y-3">
-      <input type="hidden" id="qr-icon-name" value="fa-qrcode">
-      <div class="flex items-center justify-between">
+      <input type="hidden" id="qr-icon-name" value="fa-brands fa-whatsapp">
+      
+      <!-- 4 Icon Font Sources Selector Tabs -->
+      <div class="space-y-2">
         <label class="block text-xs font-medium text-slate-300">
-          Selecciona un ícono (40 Opciones disponibles)
+          Selecciona la Categoría / Fuente de Íconos:
         </label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-1 bg-slate-950/90 border border-slate-800 rounded-xl" id="icon-source-tabs">
+          <button type="button" data-source="brands" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow">
+            <i class="fa-brands fa-whatsapp text-emerald-400"></i> Redes & Marcas
+          </button>
+          <button type="button" data-source="animals" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-leaf text-emerald-400"></i> Naturaleza
+          </button>
+          <button type="button" data-source="tabler" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="ti ti-brand-tabler text-cyan-400"></i> Tabler (5,000+)
+          </button>
+          <button type="button" data-source="fontawesome" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white hover:bg-slate-800">
+            <i class="fa-brands fa-font-awesome text-purple-400"></i> FontAwesome
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-1">
+        <span class="text-xs font-medium text-slate-300">
+          40 Íconos populares de <span id="active-source-name" class="font-bold text-cyan-400">Redes Sociales & Marcas</span>:
+        </span>
         <span id="active-icon-label" class="text-[11px] text-cyan-400 font-semibold px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
-          Seleccionado: QR
+          Seleccionado: WHATSAPP
         </span>
       </div>
 
-      <!-- 40 Visual Icon Cards Grid -->
+      <!-- 40 Visual Icon Cards Grid for Active Source -->
       <div class="grid grid-cols-5 sm:grid-cols-10 gap-2 max-h-[170px] overflow-y-auto pr-1 custom-scrollbar" id="icon-picker-grid">
         <!-- Dynamically populated 40 icon buttons -->
       </div>
+
+      <!-- Button to Open Full Icon Gallery Modal -->
+      <button id="btn-open-icon-gallery" type="button" 
+        class="w-full bg-slate-800 hover:bg-slate-700 hover:border-cyan-500/50 text-cyan-300 font-semibold py-2.5 px-4 rounded-xl text-xs border border-slate-700 shadow-sm flex items-center justify-center gap-2 transition transform active:scale-95">
+        <i class="fa-solid fa-shapes text-cyan-400"></i>
+        <span>Ver Galería Completa de <span id="gallery-btn-source-name">Redes Sociales & Marcas</span> (120+ Íconos)</span>
+        <i class="fa-solid fa-arrow-right text-[10px] opacity-70 ml-1"></i>
+      </button>
     </div>
 
     <!-- Mode 2: Custom Image Logo Upload Dropzone -->
