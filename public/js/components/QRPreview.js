@@ -1,6 +1,7 @@
 import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
 import { ApiService } from '../services/ApiService.js';
+import { ModalService } from '../services/ModalService.js';
 
 export class QRPreview extends UIComponent {
   constructor() {
@@ -170,7 +171,11 @@ export class QRPreview extends UIComponent {
       console.error('[QRPreview] Error generating preview:', err);
       if (this.canvasLoader) this.canvasLoader.classList.add('hidden');
       if (err.data && err.data.limitReached) {
-        alert(`⚠️ ${err.data.message || 'Has alcanzado el límite de 200 créditos del Plan Gratuito.'}`);
+        await ModalService.alert({
+          title: 'Límite de Créditos Alcanzado',
+          message: err.data.message || 'Has alcanzado el límite de 200 créditos del Plan Gratuito.',
+          type: 'warning'
+        });
       }
     }
   }
@@ -211,7 +216,11 @@ export class QRPreview extends UIComponent {
 
         appState.notify('HISTORY_UPDATED');
       } else if (trackRes.message) {
-        alert(trackRes.message);
+        await ModalService.alert({
+          title: 'Límite de Descargas',
+          message: trackRes.message,
+          type: 'warning'
+        });
       }
     } catch (err) {
       console.error('[QRPreview] Error downloading QR:', err);

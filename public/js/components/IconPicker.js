@@ -1,6 +1,7 @@
 import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
 import { renderIconToDataUrl, getIconClass } from '../utils/iconRender.js';
+import { ModalService } from '../services/ModalService.js';
 
 export const ICON_SOURCES = {
   brands: {
@@ -285,7 +286,11 @@ export class IconPicker extends UIComponent {
         if (!file) return;
 
         if (file.size > 5 * 1024 * 1024) {
-          alert('La imagen debe ser menor a 5MB');
+          ModalService.alert({
+            title: 'Imagen demasiado grande',
+            message: 'La imagen seleccionada supera el límite máximo permitido de 5MB.',
+            type: 'warning'
+          });
           return;
         }
 

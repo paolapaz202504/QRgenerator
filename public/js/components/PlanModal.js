@@ -1,6 +1,7 @@
 import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
 import { ApiService } from '../services/ApiService.js';
+import { ModalService } from '../services/ModalService.js';
 
 export class PlanModal extends UIComponent {
   constructor() {
@@ -28,6 +29,9 @@ export class PlanModal extends UIComponent {
     this.durationInput = document.getElementById('plan-duration-months');
     this.btnMonthMinus = document.getElementById('btn-month-minus');
     this.btnMonthPlus = document.getElementById('btn-month-plus');
+
+    this.expiryProContainer = document.getElementById('expiry-pro-container');
+    this.expiryCorpContainer = document.getElementById('expiry-corp-container');
 
     appState.subscribe((state, eventKey) => {
       if (['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'PLAN_UPDATED', 'INIT_DATA'].includes(eventKey)) {
@@ -152,13 +156,16 @@ export class PlanModal extends UIComponent {
     const priceCorpPeriod = document.getElementById('price-corp-period');
     const expiryCorpDate = document.getElementById('expiry-corp-date');
 
+    const user = appState.getState().user;
+    const userPlan = (user && user.plan) ? user.plan.toLowerCase() : 'free';
+
     if (priceProDisplay) priceProDisplay.textContent = `$${proTotalPrice}`;
     if (priceProPeriod) priceProPeriod.textContent = `/ ${months} mes${months > 1 ? 'es' : ''}`;
-    if (expiryProDate) expiryProDate.textContent = formattedExpiry;
+    if (expiryProDate && userPlan !== 'pro') expiryProDate.textContent = formattedExpiry;
 
     if (priceCorpDisplay) priceCorpDisplay.textContent = `$${corpTotalPrice}`;
     if (priceCorpPeriod) priceCorpPeriod.textContent = `/ ${months} mes${months > 1 ? 'es' : ''}`;
-    if (expiryCorpDate) expiryCorpDate.textContent = formattedExpiry;
+    if (expiryCorpDate && userPlan !== 'corporate') expiryCorpDate.textContent = formattedExpiry;
   }
 
   updateActivePlanUI(user) {
@@ -173,7 +180,7 @@ export class PlanModal extends UIComponent {
     if (this.badgeFree) {
       if (userPlan === 'free') {
         // Regla 4: Muestra en la parte superior "plan activo" junto a un ícono
-        this.badgeFree.innerHTML = `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Plan activo</span>`;
+        this.badgeFree.innerHTML = `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5 normal-case tracking-normal whitespace-nowrap"><i class="fa-solid fa-circle-check text-emerald-400"></i> Plan activo</span>`;
       } else {
         this.badgeFree.innerHTML = ``;
       }
@@ -195,11 +202,16 @@ export class PlanModal extends UIComponent {
     // CARD 2: PLAN PROFESIONAL
     // -------------------------------------------------------------
     if (this.badgePro) {
+      this.badgePro.innerHTML = ``;
+    }
+
+    if (this.expiryProContainer) {
       if (userPlan === 'pro') {
-        // Regla 5: Muestra en un tag "Plan activo hasta el dd/mm/yyyy" con un ícono
-        this.badgePro.innerHTML = `<span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-calendar-check text-indigo-400"></i> Plan activo hasta el ${expFormatted}</span>`;
+        this.expiryProContainer.classList.remove('hidden');
+        const expiryProDate = document.getElementById('expiry-pro-date');
+        if (expiryProDate) expiryProDate.textContent = expFormatted;
       } else {
-        this.badgePro.innerHTML = ``;
+        this.expiryProContainer.classList.add('hidden');
       }
     }
 
@@ -225,11 +237,16 @@ export class PlanModal extends UIComponent {
     // CARD 3: PLAN CORPORATIVO (ENTERPRISE)
     // -------------------------------------------------------------
     if (this.badgeCorporate) {
+      this.badgeCorporate.innerHTML = ``;
+    }
+
+    if (this.expiryCorpContainer) {
       if (userPlan === 'corporate') {
-        // Regla 5: Muestra en un tag "Plan activo hasta el dd/mm/yyyy" con un ícono
-        this.badgeCorporate.innerHTML = `<span class="bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-calendar-check text-purple-400"></i> Plan activo hasta el ${expFormatted}</span>`;
+        this.expiryCorpContainer.classList.remove('hidden');
+        const expiryCorpDate = document.getElementById('expiry-corp-date');
+        if (expiryCorpDate) expiryCorpDate.textContent = expFormatted;
       } else {
-        this.badgeCorporate.innerHTML = `<span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Empresas & Agencias</span>`;
+        this.expiryCorpContainer.classList.add('hidden');
       }
     }
 
@@ -282,11 +299,19 @@ export class PlanModal extends UIComponent {
           this.notificationBanner.classList.remove('hidden');
         }
       } else {
-        alert(res.error || 'No se pudo procesar la actualización de plan.');
+        await ModalService.alert({
+          title: 'Error de Suscripción',
+          message: res.error || 'No se pudo procesar la actualización de plan.',
+          type: 'error'
+        });
       }
     } catch (err) {
       console.error('[PlanModal] Error purchasing plan:', err);
-      alert('Error de conexión al procesar la compra del plan.');
+      await ModalService.alert({
+        title: 'Error de Conexión',
+        message: 'Error de conexión al procesar la compra del plan.',
+        type: 'error'
+      });
     }
   }
 
@@ -294,7 +319,14 @@ export class PlanModal extends UIComponent {
     const state = appState.getState();
     if (!state.user || !state.user.email) return;
 
-    const confirmed = confirm('¿Estás seguro de que deseas cancelar tu suscripción actual? Tu cuenta volverá automáticamente al Plan Gratuito.');
+    const confirmed = await ModalService.confirm({
+      title: 'Cancelar Suscripción',
+      message: '¿Estás seguro de que deseas cancelar tu suscripción actual? Se asignará automáticamente el Plan Gratuito.',
+      icon: 'fa-ban',
+      confirmText: 'Sí, Cancelar Plan',
+      cancelText: 'No, Mantener Plan',
+      type: 'danger'
+    });
     if (!confirmed) return;
 
     try {
@@ -311,11 +343,19 @@ export class PlanModal extends UIComponent {
           this.notificationBanner.classList.remove('hidden');
         }
       } else {
-        alert(res.error || 'No se pudo cancelar el plan.');
+        await ModalService.alert({
+          title: 'Error al Cancelar',
+          message: res.error || 'No se pudo cancelar el plan.',
+          type: 'error'
+        });
       }
     } catch (err) {
       console.error('[PlanModal] Error canceling plan:', err);
-      alert('Error al procesar la cancelación del plan.');
+      await ModalService.alert({
+        title: 'Error de Conexión',
+        message: 'Error al procesar la cancelación del plan.',
+        type: 'error'
+      });
     }
   }
 
