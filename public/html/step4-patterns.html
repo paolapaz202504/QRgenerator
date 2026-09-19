@@ -1,19 +1,24 @@
-<!-- Section 4: Pattern Selector (10 QR Module Patterns) -->
+<!-- Section 4: Pattern Selector (Collapsible) -->
 <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+  <button id="toggle-step4" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
     <div class="flex items-center gap-3">
       <span class="w-7 h-7 rounded-lg bg-pink-600/20 border border-pink-500/30 text-pink-400 font-bold text-sm flex items-center justify-center">4</span>
       <div>
         <h2 class="text-base font-semibold text-slate-100">Patrón de Puntos del QR</h2>
-        <p class="text-xs text-slate-400">10 Estilos únicos para los módulos del código QR</p>
+        <p class="text-xs text-slate-400">15 Estilos únicos para los módulos del código QR</p>
       </div>
     </div>
-    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20">
-      10 Patrones
-    </span>
-  </div>
+    <div class="flex items-center gap-3">
+      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20">
+        15 Patrones
+      </span>
+      <i id="icon-toggle-step4" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200 rotate-180"></i>
+    </div>
+  </button>
 
-  <div id="pattern-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-    <!-- Dynamically populated -->
+  <div id="panel-step4" class="pt-3 border-t border-slate-800">
+    <div id="pattern-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+      <!-- Dynamically populated -->
+    </div>
   </div>
 </div>

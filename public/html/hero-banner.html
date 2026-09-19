@@ -1,0 +1,104 @@
+<!-- Hero Banner Informativo Superior -->
+<section id="section-hero-banner" class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden transition-all duration-300">
+  <!-- Glow Highlights background -->
+  <div class="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Botón Ocultar/Plegar Banner -->
+  <button id="btn-toggle-hero-banner" type="button" 
+    class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 rounded-xl px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition shadow-sm z-10"
+    title="Plegar / Mostrar Información">
+    <span id="hero-banner-toggle-text">Ocultar guía</span>
+    <i id="hero-banner-toggle-icon" class="fa-solid fa-chevron-up text-[10px]"></i>
+  </button>
+
+  <!-- Banner Content Container -->
+  <div id="hero-banner-content" class="space-y-6 relative z-10">
+    <!-- Header Badge & Title -->
+    <div class="space-y-3 max-w-3xl">
+      <div class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold px-3.5 py-1.5 rounded-full shadow-sm">
+        <i class="fa-solid fa-sparkles text-amber-300"></i>
+        <span>Plataforma Oficial • Generador QR Studio Pro</span>
+      </div>
+
+      <h2 class="text-2xl sm:text-3xl font-extrabold font-['Outfit'] text-white tracking-tight leading-tight">
+        Genera & Personaliza Códigos QR de Alta Definición en 5 Sencillos Pasos
+      </h2>
+
+      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+        <strong>QR Studio Pro</strong> te permite diseñar códigos QR profesionales en 5 pasos sencillos. Personaliza colores de módulos y marcos, agrega tu propio logotipo HD o explora más de 5,000 íconos vectoriales. Exporta instantáneamente en formato PNG HD y SVG vectorial sin marcas de agua.
+      </p>
+    </div>
+
+    <!-- 5 Steps Grid Info -->
+    <div class="space-y-3 pt-1">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-400 font-mono flex items-center gap-2">
+        <i class="fa-solid fa-list-ol text-indigo-400"></i>
+        Pasos Disponibles para Crear tu Código QR:
+      </h3>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <!-- Paso 1 -->
+        <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3.5 flex flex-col justify-between space-y-2 hover:border-purple-500/40 transition shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="w-6 h-6 rounded-lg bg-purple-600/20 border border-purple-500/30 text-purple-400 font-bold text-xs flex items-center justify-center">1</span>
+            <i class="fa-solid fa-layer-group text-purple-400 text-sm"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold text-slate-100">1. Diseño por Categoría</h4>
+            <p class="text-[11px] text-slate-400 leading-normal mt-1">Elige entre 15 categorías temáticas y 150 plantillas de diseño.</p>
+          </div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3.5 flex flex-col justify-between space-y-2 hover:border-indigo-500/40 transition shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="w-6 h-6 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 font-bold text-xs flex items-center justify-center">2</span>
+            <i class="fa-solid fa-link text-indigo-400 text-sm"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold text-slate-100">2. Información & Fuentes</h4>
+            <p class="text-[11px] text-slate-400 leading-normal mt-1">Pega tu URL, define el título, etiqueta de acción y 25 tipografías.</p>
+          </div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3.5 flex flex-col justify-between space-y-2 hover:border-cyan-500/40 transition shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="w-6 h-6 rounded-lg bg-cyan-600/20 border border-cyan-500/30 text-cyan-400 font-bold text-xs flex items-center justify-center">3</span>
+            <i class="fa-solid fa-icons text-cyan-400 text-sm"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold text-slate-100">3. Ícono o Logo Central</h4>
+            <p class="text-[11px] text-slate-400 leading-normal mt-1">Sube la imagen de tu propia marca o explora +5,000 íconos vectoriales.</p>
+          </div>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3.5 flex flex-col justify-between space-y-2 hover:border-pink-500/40 transition shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="w-6 h-6 rounded-lg bg-pink-600/20 border border-pink-500/30 text-pink-400 font-bold text-xs flex items-center justify-center">4</span>
+            <i class="fa-solid fa-shapes text-pink-400 text-sm"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold text-slate-100">4. Patrón de Puntos</h4>
+            <p class="text-[11px] text-slate-400 leading-normal mt-1">Elige entre 10 estilos de módulos (cuadrados, redondeados, estrellas).</p>
+          </div>
+        </div>
+
+        <!-- Paso 5 -->
+        <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3.5 flex flex-col justify-between space-y-2 hover:border-amber-500/40 transition shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="w-6 h-6 rounded-lg bg-amber-600/20 border border-amber-500/30 text-amber-400 font-bold text-xs flex items-center justify-center">5</span>
+            <i class="fa-solid fa-palette text-amber-400 text-sm"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold text-slate-100">5. Colores Fondo & Marco</h4>
+            <p class="text-[11px] text-slate-400 leading-normal mt-1">Ajuste fino de colores de módulos, fondo, marco y estilos de esquinas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

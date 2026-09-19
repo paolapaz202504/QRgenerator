@@ -5,6 +5,7 @@ export class ComponentLoader {
   static async loadComponents() {
     const components = [
       { id: 'header-container', file: './html/header.html' },
+      { id: 'hero-banner-container', file: './html/hero-banner.html' },
       { id: 'step3-container', file: './html/step3-design.html' },
       { id: 'step1-container', file: './html/step1-info.html' },
       { id: 'step2-container', file: './html/step2-icon.html' },
@@ -13,6 +14,7 @@ export class ComponentLoader {
       { id: 'action-buttons-container', file: './html/action-buttons.html' },
       { id: 'preview-download-container', file: './html/preview-download.html' },
       { id: 'history-container', file: './html/history-section.html' },
+      { id: 'faq-container', file: './html/faq-section.html' },
       { id: 'modals-container', file: './html/modals.html' },
       { id: 'footer-container', file: './html/footer.html' }
     ];

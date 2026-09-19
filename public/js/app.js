@@ -9,6 +9,8 @@ import { UserModal } from './components/UserModal.js';
 import { QRPreview } from './components/QRPreview.js';
 import { PlanModal } from './components/PlanModal.js';
 import { ProfileModal } from './components/ProfileModal.js';
+import { HeroBanner } from './components/HeroBanner.js';
+import { FaqSection } from './components/FaqSection.js';
 
 class Application {
   async init() {
@@ -18,6 +20,7 @@ class Application {
     await ComponentLoader.loadComponents();
 
     // 2. Instantiate and mount UI Component controllers after DOM is populated
+    this.heroBanner = new HeroBanner();
     this.designPicker = new DesignPicker();
     this.iconPicker = new IconPicker();
     this.colorCustomizer = new ColorCustomizer();
@@ -26,6 +29,7 @@ class Application {
     this.qrPreview = new QRPreview();
     this.planModal = new PlanModal();
     this.profileModal = new ProfileModal();
+    this.faqSection = new FaqSection();
 
     // Wait for document fonts if available
     if (document.fonts && document.fonts.ready) {
@@ -33,6 +37,7 @@ class Application {
     }
 
     // Mount UI Components
+    this.heroBanner.mount();
     this.designPicker.mount();
     this.iconPicker.mount();
     this.colorCustomizer.mount();
@@ -41,6 +46,7 @@ class Application {
     this.qrPreview.mount();
     this.planModal.mount();
     this.profileModal.mount();
+    this.faqSection.mount();
 
     // Fetch initial data from backend API
     const res = await ApiService.getDesigns();
@@ -64,6 +70,37 @@ class Application {
         this.historyTable.fetchHistory();
       });
     }
+
+    // Smooth Scroll for FAQ Button
+    const btnOpenFaq = document.getElementById('btn-open-faq');
+    if (btnOpenFaq) {
+      btnOpenFaq.addEventListener('click', () => {
+        const section = document.getElementById('section-faq');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    // Step 1 to 4 Collapsible Panel Toggles
+    const stepToggles = [
+      { btnId: 'toggle-step3', panelId: 'panel-step3', iconId: 'icon-toggle-step3' },
+      { btnId: 'toggle-step1', panelId: 'panel-step1', iconId: 'icon-toggle-step1' },
+      { btnId: 'toggle-step2', panelId: 'panel-step2', iconId: 'icon-toggle-step2' },
+      { btnId: 'toggle-step4', panelId: 'panel-step4', iconId: 'icon-toggle-step4' }
+    ];
+
+    stepToggles.forEach(({ btnId, panelId, iconId }) => {
+      const btn = document.getElementById(btnId);
+      const panel = document.getElementById(panelId);
+      const icon = document.getElementById(iconId);
+      if (btn && panel) {
+        btn.addEventListener('click', () => {
+          panel.classList.toggle('hidden');
+          if (icon) icon.classList.toggle('rotate-180');
+        });
+      }
+    });
 
     // Sync persisted user stats from server on init
     const state = appState.getState();

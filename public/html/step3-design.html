@@ -1,6 +1,6 @@
-<!-- Section 1: 15 Categories & 150 Styled Designs -->
-<div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
-  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+<!-- Section 1: 15 Categories & 150 Styled Designs (Collapsible) -->
+<div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+  <button id="toggle-step3" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
     <div class="flex items-center gap-3">
       <span class="w-7 h-7 rounded-lg bg-purple-600/20 border border-purple-500/30 text-purple-400 font-bold text-sm flex items-center justify-center">1</span>
       <div>
@@ -8,18 +8,23 @@
         <p class="text-xs text-slate-400">15 Categorías en filas visibles sin desbordamiento horizontal</p>
       </div>
     </div>
-    <span id="design-count-badge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
-      150 Diseños
-    </span>
-  </div>
+    <div class="flex items-center gap-3">
+      <span id="design-count-badge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+        150 Diseños
+      </span>
+      <i id="icon-toggle-step3" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200 rotate-180"></i>
+    </div>
+  </button>
 
-  <!-- 15 Category Filter Tabs forming multiline wrapped rows -->
-  <div class="flex flex-wrap gap-2 items-center pt-1" id="category-tabs">
-    <!-- Dynamically populated into wrapped multiline rows -->
-  </div>
+  <div id="panel-step3" class="space-y-4 pt-3 border-t border-slate-800">
+    <!-- 15 Category Filter Tabs forming multiline wrapped rows -->
+    <div class="flex flex-wrap gap-2 items-center pt-1" id="category-tabs">
+      <!-- Dynamically populated into wrapped multiline rows -->
+    </div>
 
-  <!-- Design Grid -->
-  <div id="design-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar">
-    <!-- Dynamically populated -->
+    <!-- Design Grid -->
+    <div id="design-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar">
+      <!-- Dynamically populated -->
+    </div>
   </div>
 </div>

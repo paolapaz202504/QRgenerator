@@ -24,7 +24,12 @@ class QRGeneratorService {
       { id: 'sparkle', name: 'Destellos', icon: 'fa-wand-magic-sparkles' },
       { id: 'heart', name: 'Corazones', icon: 'fa-heart' },
       { id: 'hexagon', name: 'Hexágonos / Panal', icon: 'fa-shapes' },
-      { id: 'ring', name: 'Anillos Concentricos', icon: 'fa-bullseye' }
+      { id: 'ring', name: 'Anillos Concéntricos', icon: 'fa-bullseye' },
+      { id: 'diamond_rounded', name: 'Rombo Suave', icon: 'fa-diamond' },
+      { id: 'cross', name: 'Cruz / Plus', icon: 'fa-plus' },
+      { id: 'clover', name: 'Trébol / Cuatrifolio', icon: 'fa-clover' },
+      { id: 'sunburst', name: 'Sol / Destello', icon: 'fa-sun' },
+      { id: 'leaf_dot', name: 'Hoja / Gota', icon: 'fa-leaf' }
     ];
 
     this.designs = this.generate150Designs();
@@ -340,6 +345,41 @@ class QRGeneratorService {
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
         ctx.arc(cx, cy, r * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      case 'diamond_rounded':
+        const p = size * 0.15;
+        ctx.moveTo(cx, y + p);
+        ctx.quadraticCurveTo(x + size - p, y + p, x + size - p, cy);
+        ctx.quadraticCurveTo(x + size - p, y + size - p, cx, y + size - p);
+        ctx.quadraticCurveTo(x + p, y + size - p, x + p, cy);
+        ctx.quadraticCurveTo(x + p, y + p, cx, y + p);
+        ctx.closePath();
+        ctx.fill();
+        break;
+      case 'cross':
+        const w = size * 0.36;
+        const o = (size - w) / 2;
+        this.roundRect(ctx, x + o, y + 1, w, size - 2, size * 0.1);
+        ctx.fill();
+        ctx.beginPath();
+        this.roundRect(ctx, x + 1, y + o, size - 2, w, size * 0.1);
+        ctx.fill();
+        break;
+      case 'clover':
+        const cr = r * 0.48;
+        ctx.arc(cx - cr * 0.5, cy - cr * 0.5, cr, 0, Math.PI * 2);
+        ctx.arc(cx + cr * 0.5, cy - cr * 0.5, cr, 0, Math.PI * 2);
+        ctx.arc(cx - cr * 0.5, cy + cr * 0.5, cr, 0, Math.PI * 2);
+        ctx.arc(cx + cr * 0.5, cy + cr * 0.5, cr, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      case 'sunburst':
+        this.drawStarPath(ctx, cx, cy, 8, r * 0.9, r * 0.5);
+        ctx.fill();
+        break;
+      case 'leaf_dot':
+        this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, { tl: size * 0.45, tr: 0, br: size * 0.45, bl: 0 });
         ctx.fill();
         break;
       case 'square':
