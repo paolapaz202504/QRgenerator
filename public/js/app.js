@@ -7,6 +7,8 @@ import { ColorCustomizer } from './components/ColorCustomizer.js';
 import { HistoryTable } from './components/HistoryTable.js';
 import { UserModal } from './components/UserModal.js';
 import { QRPreview } from './components/QRPreview.js';
+import { PlanModal } from './components/PlanModal.js';
+import { ProfileModal } from './components/ProfileModal.js';
 
 class Application {
   async init() {
@@ -22,6 +24,8 @@ class Application {
     this.historyTable = new HistoryTable();
     this.userModal = new UserModal();
     this.qrPreview = new QRPreview();
+    this.planModal = new PlanModal();
+    this.profileModal = new ProfileModal();
 
     // Wait for document fonts if available
     if (document.fonts && document.fonts.ready) {
@@ -35,6 +39,8 @@ class Application {
     this.historyTable.mount();
     this.userModal.mount();
     this.qrPreview.mount();
+    this.planModal.mount();
+    this.profileModal.mount();
 
     // Fetch initial data from backend API
     const res = await ApiService.getDesigns();

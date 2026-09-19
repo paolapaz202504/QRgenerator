@@ -17,7 +17,7 @@ export class UserModal extends UIComponent {
     this.googleClientId = '144230109272-pbt85eqhr5ecnb8i2ffvv0j1kjqr2o2g.apps.googleusercontent.com';
 
     appState.subscribe((state, eventKey) => {
-      if (['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'DOWNLOAD_TRACKED', 'CREDIT_USED', 'INIT_DATA'].includes(eventKey)) {
+      if (['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'DOWNLOAD_TRACKED', 'CREDIT_USED', 'PLAN_UPDATED', 'INIT_DATA'].includes(eventKey)) {
         this.updateWidget(state.user);
       }
     });
@@ -139,9 +139,9 @@ export class UserModal extends UIComponent {
       if (this.userAvatar) this.userAvatar.src = user.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(user.email)}`;
       
       const genUsed = user.generationsCount || user.creditsUsed || 0;
-      const genMax = user.maxCredits || 200;
+      const genMax = (user.maxCredits >= 999999 || user.plan === 'pro' || user.plan === 'corporate') ? '∞' : (user.maxCredits || 200);
       const dlUsed = user.downloadsCount || 0;
-      const dlMax = user.maxDownloads || 20;
+      const dlMax = (user.maxDownloads >= 999999 || user.plan === 'corporate') ? '∞' : (user.maxDownloads || 20);
 
       if (this.userCreditCounter) {
         this.userCreditCounter.textContent = `${genUsed}/${genMax} Créditos`;

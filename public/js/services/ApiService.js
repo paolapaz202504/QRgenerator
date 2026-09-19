@@ -78,4 +78,22 @@ export class ApiService {
     });
     return await res.json();
   }
+
+  static async upgradePlan(userEmail, plan, months = 1) {
+    const res = await fetch('/api/user/upgrade-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userEmail, plan, months })
+    });
+    return await res.json();
+  }
+
+  static async cancelPlan(userEmail) {
+    const res = await fetch('/api/user/cancel-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userEmail })
+    });
+    return await res.json();
+  }
 }

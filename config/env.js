@@ -19,9 +19,15 @@ class Config {
       },
       pro: {
         id: 'pro',
-        name: 'Plan Pro',
-        maxDownloads: parseInt(process.env.PLAN_PRO_MAX_DOWNLOADS || '1000', 10),
-        maxCredits: parseInt(process.env.PLAN_PRO_MAX_CREDITS || '10000', 10)
+        name: 'Plan Profesional',
+        maxDownloads: parseInt(process.env.PLAN_PRO_MAX_DOWNLOADS || '500', 10),
+        maxCredits: parseInt(process.env.PLAN_PRO_MAX_CREDITS || '999999', 10)
+      },
+      corporate: {
+        id: 'corporate',
+        name: 'Plan Corporativo',
+        maxDownloads: parseInt(process.env.PLAN_CORP_MAX_DOWNLOADS || '999999', 10),
+        maxCredits: parseInt(process.env.PLAN_CORP_MAX_CREDITS || '999999', 10)
       }
     };
 
