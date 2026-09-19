@@ -20,6 +20,9 @@ export class QRPreview extends UIComponent {
     this.bannerFontInput = document.getElementById('qr-banner-font');
     this.titleSizeInput = document.getElementById('qr-title-size');
     this.titleSizeVal = document.getElementById('qr-title-size-val');
+    this.titlePosInput = document.getElementById('qr-title-position');
+    this.titleOffsetInput = document.getElementById('qr-title-offset');
+    this.titleOffsetVal = document.getElementById('qr-title-offset-val');
 
     this.debounceTimer = null;
     this.currentBlobUrl = null;
@@ -53,6 +56,20 @@ export class QRPreview extends UIComponent {
         const val = parseInt(this.titleSizeInput.value, 10);
         if (this.titleSizeVal) this.titleSizeVal.textContent = `${val}px`;
         appState.setState({ fontSizeTitle: val }, 'CHANGE_INPUTS');
+      });
+    }
+
+    if (this.titlePosInput) {
+      this.titlePosInput.addEventListener('change', () => {
+        appState.setState({ titlePosition: this.titlePosInput.value }, 'CHANGE_INPUTS');
+      });
+    }
+
+    if (this.titleOffsetInput) {
+      this.titleOffsetInput.addEventListener('input', () => {
+        const val = parseInt(this.titleOffsetInput.value, 10);
+        if (this.titleOffsetVal) this.titleOffsetVal.textContent = `${val > 0 ? '+' : ''}${val}px`;
+        appState.setState({ titleOffsetY: val }, 'CHANGE_INPUTS');
       });
     }
 
@@ -112,10 +129,19 @@ export class QRPreview extends UIComponent {
         frameColor: design.frameColor,
         textColor: design.textColor,
         badgeBg: design.badgeBg,
-        badgeText: design.badgeText
+        badgeText: design.badgeText,
+        eyeColor: state.customEyeColor || null,
+        gradientType: state.gradientType || 'single',
+        qrColor2: state.qrColor2 || null
       },
       customDotStyle: state.currentPattern,
       customEyeStyle: design.eyeStyle || 'square',
+      customEyeColor: state.customEyeColor || null,
+      gradientType: state.gradientType || 'single',
+      qrColor2: state.qrColor2 || null,
+      frameShape: state.frameShape || 'rectangular',
+      titlePosition: state.titlePosition || (this.titlePosInput ? this.titlePosInput.value : 'bottom'),
+      titleOffsetY: state.titleOffsetY !== undefined ? state.titleOffsetY : (this.titleOffsetInput ? parseInt(this.titleOffsetInput.value, 10) : 0),
       targetWidth,
       fontTitle: this.titleFontInput ? this.titleFontInput.value : 'Plus Jakarta Sans',
       fontBanner: this.bannerFontInput ? this.bannerFontInput.value : 'Plus Jakarta Sans',

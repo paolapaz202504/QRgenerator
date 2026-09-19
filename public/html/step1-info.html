@@ -86,6 +86,29 @@
           class="w-full accent-indigo-500 bg-slate-900 h-2 rounded-lg cursor-pointer" title="Tamaño de fuente del título">
       </div>
     </div>
+
+    <!-- Title Position & Y Offset Slider -->
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-2">
+      <div class="sm:col-span-6">
+        <label for="qr-title-position" class="block text-xs font-medium text-slate-400 mb-1">
+          <i class="fa-solid fa-up-down-left-right text-indigo-400 mr-1"></i> Ubicación del Título
+        </label>
+        <select id="qr-title-position" class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-200 cursor-pointer">
+          <option value="bottom">Abajo del Código QR</option>
+          <option value="top">Arriba del Código QR</option>
+          <option value="hidden">Ocultar Título</option>
+        </select>
+      </div>
+
+      <div class="sm:col-span-6 flex flex-col justify-center bg-slate-950/60 border border-slate-700/80 rounded-xl px-3 py-2">
+        <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+          <span>Ajuste Vertical del Título:</span>
+          <span id="qr-title-offset-val" class="font-mono font-bold text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">0px</span>
+        </div>
+        <input type="range" id="qr-title-offset" min="-180" max="180" value="0" step="1"
+          class="w-full accent-indigo-500 bg-slate-900 h-2 rounded-lg cursor-pointer" title="Desplazar título verticalmente para evitar solapamientos con el marco">
+      </div>
+    </div>
   </div>
 
   <!-- Banner Text Input & 25 Font Family Picker -->

@@ -8,13 +8,48 @@
     <i id="customizer-icon" class="fa-solid fa-chevron-down transition-transform duration-200 rotate-180"></i>
   </button>
   
-  <div id="customizer-panel" class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-800">
+  <div id="customizer-panel" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pt-3 border-t border-slate-800">
     <div>
       <label class="block text-xs font-medium text-slate-400 mb-1">Color de Puntos (QR)</label>
       <div class="flex items-center gap-2">
         <input type="color" id="custom-qr-color" value="#111827" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
         <span id="custom-qr-color-hex" class="text-xs font-mono text-slate-300">#111827</span>
       </div>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-slate-400 mb-1">Tipo de Color QR</label>
+      <select id="custom-gradient-type" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+        <option value="single">Sólido</option>
+        <option value="linear">Degradado Lineal</option>
+        <option value="radial">Degradado Radial</option>
+      </select>
+    </div>
+    <div id="container-qr-color2" class="hidden">
+      <label class="block text-xs font-medium text-slate-400 mb-1">Color 2 (Degradado)</label>
+      <div class="flex items-center gap-2">
+        <input type="color" id="custom-qr-color2" value="#a855f7" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
+        <span id="custom-qr-color2-hex" class="text-xs font-mono text-slate-300">#a855f7</span>
+      </div>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-slate-400 mb-1">Color de Ojos (Finders)</label>
+      <div class="flex items-center gap-2">
+        <input type="color" id="custom-eye-color" value="#111827" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
+        <span id="custom-eye-color-hex" class="text-xs font-mono text-slate-300">#111827</span>
+      </div>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-slate-400 mb-1">Estilo de Ojos (Finders)</label>
+      <select id="custom-eye-style" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+        <option value="square">Cuadradas</option>
+        <option value="rounded">Redondeadas</option>
+        <option value="circle">Círculos Concéntricos</option>
+        <option value="diamond">Rombos / Diamantes</option>
+        <option value="hexagon">Hexágonos</option>
+        <option value="leaf">Hoja / Gota</option>
+        <option value="star">Estrella 8 Puntas</option>
+        <option value="shield">Escudo Protegido</option>
+      </select>
     </div>
     <div>
       <label class="block text-xs font-medium text-slate-400 mb-1">Color de Fondo</label>
@@ -31,11 +66,18 @@
       </div>
     </div>
     <div>
-      <label class="block text-xs font-medium text-slate-400 mb-1">Estilo de Esquinas (Finders)</label>
-      <select id="custom-eye-style" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200">
-        <option value="square">Cuadradas</option>
-        <option value="rounded">Redondeadas</option>
-        <option value="circle">Círculos</option>
+      <label class="block text-xs font-medium text-slate-400 mb-1">Forma del Marco General</label>
+      <select id="custom-frame-shape" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+        <option value="rectangular">1. Rectangular Clásico</option>
+        <option value="square">2. Cuadrado Moderno</option>
+        <option value="rounded">3. Cápsula / Redondeado</option>
+        <option value="circle">4. Circular / Redondo</option>
+        <option value="shield">5. Escudo Insignia</option>
+        <option value="ticket">6. Ticket / Cupón</option>
+        <option value="hexagonal">7. Hexágono Neón Futuro</option>
+        <option value="diamond_card">8. Biseles Diagonales Elegante</option>
+        <option value="badge_star">9. Insignia Octágono Estrella</option>
+        <option value="wavy">10. Esquinas Invertidas Flotantes</option>
       </select>
     </div>
   </div>

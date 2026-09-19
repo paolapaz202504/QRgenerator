@@ -18,18 +18,23 @@ class QRGeneratorService {
       { id: 'square', name: 'Cuadrado Clásico', icon: 'fa-square' },
       { id: 'rounded', name: 'Módulo Redondeado', icon: 'fa-square-minus' },
       { id: 'dots', name: 'Círculos / Puntos', icon: 'fa-circle' },
+      { id: 'connected', name: 'Líquido / Conectado', icon: 'fa-water' },
       { id: 'smooth', name: 'Módulo Fluido', icon: 'fa-cubes' },
       { id: 'diamond', name: 'Diamante / Rombo', icon: 'fa-gem' },
+      { id: 'diamond_rounded', name: 'Rombo Suave', icon: 'fa-diamond' },
       { id: 'star', name: 'Estrellas', icon: 'fa-star' },
       { id: 'sparkle', name: 'Destellos', icon: 'fa-wand-magic-sparkles' },
       { id: 'heart', name: 'Corazones', icon: 'fa-heart' },
       { id: 'hexagon', name: 'Hexágonos / Panal', icon: 'fa-shapes' },
       { id: 'ring', name: 'Anillos Concéntricos', icon: 'fa-bullseye' },
-      { id: 'diamond_rounded', name: 'Rombo Suave', icon: 'fa-diamond' },
       { id: 'cross', name: 'Cruz / Plus', icon: 'fa-plus' },
       { id: 'clover', name: 'Trébol / Cuatrifolio', icon: 'fa-clover' },
       { id: 'sunburst', name: 'Sol / Destello', icon: 'fa-sun' },
-      { id: 'leaf_dot', name: 'Hoja / Gota', icon: 'fa-leaf' }
+      { id: 'leaf_dot', name: 'Hoja / Gota', icon: 'fa-leaf' },
+      { id: 'polar', name: 'Anillos Polares', icon: 'fa-arrows-to-circle' },
+      { id: 'halftone', name: 'Puntillismo', icon: 'fa-ellipsis' },
+      { id: 'shield_dot', name: 'Escudo Módulo', icon: 'fa-shield-halved' },
+      { id: 'flower', name: 'Flor Silvestre', icon: 'fa-seedling' }
     ];
 
     this.designs = this.generate150Designs();
@@ -381,6 +386,38 @@ class QRGeneratorService {
       case 'leaf_dot':
         this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, { tl: size * 0.45, tr: 0, br: size * 0.45, bl: 0 });
         ctx.fill();
+        break;
+      case 'halftone':
+        const hStep = size / 3;
+        for (let dx = 0; dx < 3; dx++) {
+          for (let dy = 0; dy < 3; dy++) {
+            if ((dx + dy) % 2 === 0) {
+              ctx.beginPath();
+              ctx.arc(x + hStep * (dx + 0.5), y + hStep * (dy + 0.5), hStep * 0.42, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+        break;
+      case 'shield_dot':
+        ctx.moveTo(cx, y + 1);
+        ctx.lineTo(x + size - 1, y + size * 0.3);
+        ctx.lineTo(x + size - 1, y + size * 0.7);
+        ctx.quadraticCurveTo(cx, y + size - 1, cx, y + size - 1);
+        ctx.quadraticCurveTo(x + 1, y + size * 0.7, x + 1, y + size * 0.3);
+        ctx.closePath();
+        ctx.fill();
+        break;
+      case 'flower':
+        const petalR = r * 0.45;
+        for (let a = 0; a < 4; a++) {
+          const ang = (Math.PI / 2) * a;
+          const px = cx + petalR * Math.cos(ang);
+          const py = cy + petalR * Math.sin(ang);
+          ctx.beginPath();
+          ctx.arc(px, py, petalR * 0.85, 0, Math.PI * 2);
+          ctx.fill();
+        }
         break;
       case 'square':
       default:
@@ -1158,15 +1195,61 @@ class QRGeneratorService {
 
   drawEye(ctx, x, y, size, style, color) {
     ctx.fillStyle = color;
-    if (style === 'circle') {
-      ctx.beginPath();
-      ctx.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
-      ctx.fill();
-    } else if (style === 'rounded') {
-      this.roundRect(ctx, x, y, size, size, size * 0.3);
-      ctx.fill();
-    } else {
-      ctx.fillRect(x, y, size, size);
+    ctx.strokeStyle = color;
+    const cx = x + size / 2;
+    const cy = y + size / 2;
+    const r = size / 2;
+
+    ctx.beginPath();
+    switch (style) {
+      case 'circle':
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      case 'rounded':
+        this.roundRect(ctx, x, y, size, size, size * 0.3);
+        ctx.fill();
+        break;
+      case 'diamond':
+        ctx.moveTo(cx, y);
+        ctx.lineTo(x + size, cy);
+        ctx.lineTo(cx, y + size);
+        ctx.lineTo(x, cy);
+        ctx.closePath();
+        ctx.fill();
+        break;
+      case 'hexagon':
+        for (let i = 0; i < 6; i++) {
+          const angle = (Math.PI / 3) * i - Math.PI / 6;
+          const hx = cx + r * Math.cos(angle);
+          const hy = cy + r * Math.sin(angle);
+          if (i === 0) ctx.moveTo(hx, hy);
+          else ctx.lineTo(hx, hy);
+        }
+        ctx.closePath();
+        ctx.fill();
+        break;
+      case 'leaf':
+        this.roundRect(ctx, x, y, size, size, { tl: size * 0.45, tr: 0, br: size * 0.45, bl: 0 });
+        ctx.fill();
+        break;
+      case 'star':
+        this.drawStarPath(ctx, cx, cy, 8, r, r * 0.55);
+        ctx.fill();
+        break;
+      case 'shield':
+        ctx.moveTo(cx, y);
+        ctx.lineTo(x + size, y + size * 0.3);
+        ctx.lineTo(x + size, y + size * 0.7);
+        ctx.quadraticCurveTo(cx, y + size, cx, y + size);
+        ctx.quadraticCurveTo(x, y + size * 0.7, x, y + size * 0.3);
+        ctx.closePath();
+        ctx.fill();
+        break;
+      case 'square':
+      default:
+        ctx.fillRect(x, y, size, size);
+        break;
     }
   }
 
@@ -1260,10 +1343,121 @@ class QRGeneratorService {
     const cardW = w - cardMargin * 2;
     const cardH = h - cardMargin * 2;
 
+    const outerShape = iconOpts.frameShape || 'rectangular';
     ctx.lineWidth = 4 * scale;
     ctx.strokeStyle = colors.frameColor;
-    this.roundRect(ctx, cardX, cardY, cardW, cardH, 24 * scale);
-    ctx.stroke();
+    ctx.beginPath();
+
+    switch (outerShape) {
+      case 'square':
+        this.roundRect(ctx, cardX, cardY, cardW, cardH, 12 * scale);
+        ctx.stroke();
+        break;
+      case 'rounded':
+        this.roundRect(ctx, cardX, cardY, cardW, cardH, 48 * scale);
+        ctx.stroke();
+        break;
+      case 'circle':
+        const circCenterY = cardY + cardH * 0.46;
+        const circR = 286 * scale;
+        ctx.arc(w / 2, circCenterY, circR, 0, Math.PI * 2);
+        ctx.stroke();
+        break;
+      case 'shield':
+        ctx.moveTo(cardX + 24 * scale, cardY);
+        ctx.lineTo(cardX + cardW - 24 * scale, cardY);
+        ctx.quadraticCurveTo(cardX + cardW, cardY, cardX + cardW, cardY + 24 * scale);
+        ctx.lineTo(cardX + cardW, cardY + cardH * 0.72);
+        ctx.quadraticCurveTo(w / 2, cardY + cardH + 10 * scale, cardX, cardY + cardH * 0.72);
+        ctx.lineTo(cardX, cardY + 24 * scale);
+        ctx.quadraticCurveTo(cardX, cardY, cardX + 24 * scale, cardY);
+        ctx.closePath();
+        ctx.stroke();
+        break;
+      case 'ticket':
+        ctx.moveTo(cardX + 20 * scale, cardY);
+        ctx.lineTo(cardX + cardW - 20 * scale, cardY);
+        ctx.quadraticCurveTo(cardX + cardW, cardY, cardX + cardW, cardY + 20 * scale);
+        ctx.lineTo(cardX + cardW, cardY + cardH * 0.46);
+        ctx.arc(cardX + cardW, cardY + cardH * 0.5, 16 * scale, Math.PI * 1.5, Math.PI * 0.5, true);
+        ctx.lineTo(cardX + cardW, cardY + cardH - 20 * scale);
+        ctx.quadraticCurveTo(cardX + cardW, cardY + cardH, cardX + cardW - 20 * scale, cardY + cardH);
+        ctx.lineTo(cardX + 20 * scale, cardY + cardH);
+        ctx.quadraticCurveTo(cardX, cardY + cardH, cardX, cardY + cardH - 20 * scale);
+        ctx.lineTo(cardX, cardY + cardH * 0.54);
+        ctx.arc(cardX, cardY + cardH * 0.5, 16 * scale, Math.PI * 0.5, Math.PI * 1.5, true);
+        ctx.lineTo(cardX, cardY + 20 * scale);
+        ctx.quadraticCurveTo(cardX, cardY, cardX + 20 * scale, cardY);
+        ctx.closePath();
+        ctx.stroke();
+        break;
+      case 'hexagonal':
+        const hxPad = 12 * scale;
+        ctx.moveTo(cardX + cardW / 2, cardY);
+        ctx.lineTo(cardX + cardW - hxPad, cardY + cardH * 0.16);
+        ctx.lineTo(cardX + cardW - hxPad, cardY + cardH * 0.84);
+        ctx.lineTo(cardX + cardW / 2, cardY + cardH);
+        ctx.lineTo(cardX + hxPad, cardY + cardH * 0.84);
+        ctx.lineTo(cardX + hxPad, cardY + cardH * 0.16);
+        ctx.closePath();
+        ctx.stroke();
+        break;
+      case 'diamond_card':
+        const dCut = 32 * scale;
+        ctx.moveTo(cardX + dCut, cardY);
+        ctx.lineTo(cardX + cardW - dCut, cardY);
+        ctx.lineTo(cardX + cardW, cardY + dCut);
+        ctx.lineTo(cardX + cardW, cardY + cardH - dCut);
+        ctx.lineTo(cardX + cardW - dCut, cardY + cardH);
+        ctx.lineTo(cardX + dCut, cardY + cardH);
+        ctx.lineTo(cardX, cardY + cardH - dCut);
+        ctx.lineTo(cardX, cardY + dCut);
+        ctx.closePath();
+        ctx.stroke();
+        break;
+      case 'badge_star':
+        const bCut = 36 * scale;
+        ctx.moveTo(cardX + bCut, cardY);
+        ctx.lineTo(cardX + cardW - bCut, cardY);
+        ctx.lineTo(cardX + cardW, cardY + bCut);
+        ctx.lineTo(cardX + cardW, cardY + cardH - bCut);
+        ctx.lineTo(cardX + bCut, cardY + cardH);
+        ctx.lineTo(cardX + bCut, cardY + cardH);
+        ctx.lineTo(cardX, cardY + cardH - bCut);
+        ctx.lineTo(cardX, cardY + bCut);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.lineWidth = 2 * scale;
+        this.roundRect(ctx, cardX + 8 * scale, cardY + 8 * scale, cardW - 16 * scale, cardH - 16 * scale, 18 * scale);
+        ctx.stroke();
+        ctx.lineWidth = 4 * scale;
+        break;
+      case 'wavy':
+        const cRadius = 20 * scale;
+        ctx.moveTo(cardX + cRadius, cardY);
+        ctx.lineTo(cardX + cardW - cRadius, cardY);
+        ctx.arc(cardX + cardW, cardY, cRadius, Math.PI, Math.PI * 0.5, true);
+        ctx.lineTo(cardX + cardW, cardY + cardH - cRadius);
+        ctx.arc(cardX + cardW, cardY + cardH, cRadius, Math.PI * 1.5, Math.PI, true);
+        ctx.lineTo(cardX + cRadius, cardY + cardH);
+        ctx.arc(cardX, cardY + cardH, cRadius, 0, Math.PI * 1.5, true);
+        ctx.lineTo(cardX, cardY + cRadius);
+        ctx.arc(cardX, cardY, cRadius, Math.PI * 0.5, 0, true);
+        ctx.closePath();
+        ctx.stroke();
+        break;
+      case 'rectangular':
+      default:
+        this.roundRect(ctx, cardX, cardY, cardW, cardH, 24 * scale);
+        ctx.stroke();
+        break;
+    }
+
+    const titlePos = iconOpts.titlePosition || 'bottom';
+    if (titlePos === 'hidden') {
+      ctx.restore();
+      return;
+    }
 
     const displayBannerText = bannerText || 'SCAN ME';
     const isHeaderStyle = (style === 'top-banner' || style === 'shield-badge' || style === 'card-header');
@@ -1313,7 +1507,9 @@ class QRGeneratorService {
     const lines = this.wrapText(ctx, titleText, maxTitleW);
 
     const lineHeight = fontPx * 1.25;
-    const baseTitleY = 575 * scale;
+    const titleUserOffset = (iconOpts.titleOffsetY || 0) * scale;
+    const defaultY = (titlePos === 'top') ? 120 : 575;
+    const baseTitleY = (defaultY * scale) + titleUserOffset;
     const startY = baseTitleY - ((lines.length - 1) * lineHeight) / 2;
 
     const iconSizeCalc = (iconOpts.iconSize || 34) * scale;
@@ -1370,7 +1566,13 @@ class QRGeneratorService {
       const subW = Math.max(180 * scale, Math.min(420 * scale, textWidth + 40 * scale));
       const subH = 40 * scale;
       const subX = (w - subW) / 2;
-      const subY = 635 * scale;
+      let subY = 635 * scale;
+      if (titlePos === 'bottom') {
+        const titleBottomY = startY + (lines.length * lineHeight) + (10 * scale);
+        if (titleBottomY > 600 * scale) {
+          subY = Math.min(695 * scale, titleBottomY + (10 * scale));
+        }
+      }
 
       ctx.fillStyle = colors.badgeBg;
       this.roundRect(ctx, subX, subY, subW, subH, 20 * scale);
@@ -1450,7 +1652,10 @@ class QRGeneratorService {
     const design = this.designs.find(d => d.id === designId) || this.designs[0];
 
     const bgColor = customColors.bgColor || design.bgColor;
-    const qrColor = customColors.qrColor || design.qrColor;
+    let activeQrColor = customColors.qrColor || design.qrColor;
+    const activeEyeColor = customColors.eyeColor || params.customEyeColor || activeQrColor;
+    const activeGradientType = customColors.gradientType || params.gradientType || 'single';
+    const activeQrColor2 = customColors.qrColor2 || params.qrColor2 || null;
     const frameColor = customColors.frameColor || design.frameColor;
     const textColor = customColors.textColor || design.textColor;
     const badgeBg = customColors.badgeBg || design.badgeBg;
@@ -1479,6 +1684,8 @@ class QRGeneratorService {
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    const frameShape = params.frameShape || customColors.frameShape || 'rectangular';
+
     this.drawFrame(ctx, design.frameStyle, canvasWidth, canvasHeight, title, activeBannerText, {
       frameColor,
       textColor,
@@ -1494,7 +1701,10 @@ class QRGeneratorService {
       iconColor,
       iconSize,
       customLogoDataUrl,
-      loadedIconImg
+      loadedIconImg,
+      frameShape,
+      titlePosition: params.titlePosition || 'bottom',
+      titleOffsetY: parseInt(params.titleOffsetY, 10) || 0
     });
 
     const qrAreaSize = 340 * scale;
@@ -1507,20 +1717,93 @@ class QRGeneratorService {
 
     const cellSize = qrAreaSize / size;
 
-    for (let r = 0; r < size; r++) {
-      for (let c = 0; c < size; c++) {
-        if (modules.get(r, c)) {
-          const isTopLeftEye = (r < 7 && c < 7);
-          const isTopRightEye = (r < 7 && c >= size - 7);
-          const isBottomLeftEye = (r >= size - 7 && c < 7);
+    if (activeGradientType !== 'single' && activeQrColor2) {
+      let grad;
+      if (activeGradientType === 'linear') {
+        grad = ctx.createLinearGradient(qrX, qrY, qrX + qrAreaSize, qrY + qrAreaSize);
+      } else {
+        grad = ctx.createRadialGradient(
+          qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, 0,
+          qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, qrAreaSize / 1.3
+        );
+      }
+      grad.addColorStop(0, activeQrColor);
+      grad.addColorStop(1, activeQrColor2);
+      activeQrColor = grad;
+    }
 
-          if (isTopLeftEye || isTopRightEye || isBottomLeftEye) {
-            continue;
+    if (dotStyle === 'connected') {
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (modules.get(r, c)) {
+            const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+            if (isEye) continue;
+
+            const cellX = qrX + c * cellSize;
+            const cellY = qrY + r * cellSize;
+
+            const top = (r > 0 && modules.get(r - 1, c) && !(r - 1 < 7 && c < 7) && !(r - 1 < 7 && c >= size - 7) && !(r - 1 >= size - 7 && c < 7));
+            const bottom = (r < size - 1 && modules.get(r + 1, c) && !(r + 1 < 7 && c < 7) && !(r + 1 < 7 && c >= size - 7) && !(r + 1 >= size - 7 && c < 7));
+            const left = (c > 0 && modules.get(r, c - 1) && !(r < 7 && c - 1 < 7) && !(r < 7 && c - 1 >= size - 7) && !(r >= size - 7 && c - 1 < 7));
+            const right = (c < size - 1 && modules.get(r, c + 1) && !(r < 7 && c + 1 < 7) && !(r < 7 && c + 1 >= size - 7) && !(r >= size - 7 && c + 1 < 7));
+
+            const radiusVal = cellSize * 0.45;
+            const radii = {
+              tl: (top || left) ? 0 : radiusVal,
+              tr: (top || right) ? 0 : radiusVal,
+              br: (bottom || right) ? 0 : radiusVal,
+              bl: (bottom || left) ? 0 : radiusVal
+            };
+
+            ctx.fillStyle = activeQrColor;
+            this.roundRect(ctx, cellX + 0.3, cellY + 0.3, cellSize - 0.6, cellSize - 0.6, radii);
+            ctx.fill();
           }
+        }
+      }
+    } else if (dotStyle === 'polar') {
+      const centerIndex = (size - 1) / 2;
+      const maxRadius = qrAreaSize / 2;
+      ctx.fillStyle = activeQrColor;
+      ctx.strokeStyle = activeQrColor;
 
-          const cellX = qrX + c * cellSize;
-          const cellY = qrY + r * cellSize;
-          this.drawDotPattern(ctx, cellX, cellY, cellSize, dotStyle, qrColor);
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (modules.get(r, c)) {
+            const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+            if (isEye) continue;
+
+            const dr = r - centerIndex;
+            const dc = c - centerIndex;
+            const normDist = Math.hypot(dr, dc) / centerIndex;
+            const ringR = normDist * maxRadius;
+            const angle = Math.atan2(dr, dc);
+            const arcLength = (cellSize / qrAreaSize) * Math.PI * 1.6;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, ringR, angle - arcLength, angle + arcLength);
+            ctx.lineWidth = Math.max(2, cellSize * 0.85);
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      }
+    } else {
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (modules.get(r, c)) {
+            const isTopLeftEye = (r < 7 && c < 7);
+            const isTopRightEye = (r < 7 && c >= size - 7);
+            const isBottomLeftEye = (r >= size - 7 && c < 7);
+
+            if (isTopLeftEye || isTopRightEye || isBottomLeftEye) continue;
+
+            const cellX = qrX + c * cellSize;
+            const cellY = qrY + r * cellSize;
+            this.drawDotPattern(ctx, cellX, cellY, cellSize, dotStyle, activeQrColor);
+          }
         }
       }
     }
@@ -1537,7 +1820,7 @@ class QRGeneratorService {
     ];
 
     eyes.forEach(eye => {
-      this.drawEye(ctx, eye.x, eye.y, outerRadius, eyeStyle, qrColor);
+      this.drawEye(ctx, eye.x, eye.y, outerRadius, eyeStyle, activeEyeColor);
       ctx.fillStyle = '#ffffff';
       if (eyeStyle === 'circle') {
         ctx.beginPath();
@@ -1546,10 +1829,13 @@ class QRGeneratorService {
       } else if (eyeStyle === 'rounded') {
         this.roundRect(ctx, eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize, (outerRadius - 2 * cellSize) * 0.25);
         ctx.fill();
+      } else if (eyeStyle === 'leaf') {
+        this.roundRect(ctx, eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize, { tl: (outerRadius - 2 * cellSize) * 0.35, tr: 0, br: (outerRadius - 2 * cellSize) * 0.35, bl: 0 });
+        ctx.fill();
       } else {
         ctx.fillRect(eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize);
       }
-      this.drawEye(ctx, eye.x + innerOffset, eye.y + innerOffset, innerSize, eyeStyle, qrColor);
+      this.drawEye(ctx, eye.x + innerOffset, eye.y + innerOffset, innerSize, eyeStyle, activeEyeColor);
     });
 
     if (showIcon && iconPosition === 'center') {

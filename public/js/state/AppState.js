@@ -28,6 +28,12 @@ export class AppState {
       fontTitle: 'Plus Jakarta Sans',
       fontBanner: 'Plus Jakarta Sans',
       fontSizeTitle: 24,
+      customEyeColor: null,
+      gradientType: 'single',
+      qrColor2: '#a855f7',
+      frameShape: 'rectangular',
+      titlePosition: 'bottom',
+      titleOffsetY: 0,
       history: []
     };
 
