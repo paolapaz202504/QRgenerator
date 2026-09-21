@@ -5,6 +5,7 @@ web_modules/
 
 # custom folders
 docs/
+scratch/
 
 # Logs and debugging
 logs

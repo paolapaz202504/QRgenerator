@@ -28,7 +28,12 @@ export class QRPreview extends UIComponent {
     this.currentBlobUrl = null;
 
     appState.subscribe((state, eventKey) => {
-      if (['INIT_DATA', 'CHANGE_DESIGN'].includes(eventKey)) {
+      const autoRenderEvents = [
+        'INIT_DATA',
+        'CHANGE_DESIGN',
+        'CHANGE_PATTERN'
+      ];
+      if (!eventKey || autoRenderEvents.includes(eventKey)) {
         this.scheduleGenerate();
       }
     });
@@ -137,6 +142,11 @@ export class QRPreview extends UIComponent {
       customDotStyle: state.currentPattern,
       customEyeStyle: design.eyeStyle || 'square',
       customEyeColor: state.customEyeColor || null,
+      eyeGradientType: state.eyeGradientType || 'single',
+      eyeColor2: state.eyeColor2 || null,
+      qrBoxRadius: state.qrBoxRadius !== undefined ? state.qrBoxRadius : 18,
+      qrSilhouetteMode: state.qrSilhouetteMode || 'none',
+      qrDensity: state.qrDensity !== undefined ? state.qrDensity : 50,
       gradientType: state.gradientType || 'single',
       qrColor2: state.qrColor2 || null,
       frameShape: state.frameShape || 'rectangular',

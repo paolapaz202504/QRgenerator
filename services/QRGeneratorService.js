@@ -11,7 +11,8 @@ class QRGeneratorService {
     this.categories = [
       'Institucional', 'Compras', 'Entretenimiento', 'Belleza', 'Deportes',
       'Comunidad', 'Gastronomía', 'Tecnología', 'Salud', 'Viajes',
-      'Inmobiliaria', 'Educación', 'Eventos', 'Redes Sociales', 'Lujo'
+      'Inmobiliaria', 'Educación', 'Eventos', 'Redes Sociales', 'Lujo',
+      'Música y Arte', 'Mascotas', 'Automotriz', 'Finanzas', 'Naturaleza'
     ];
 
     this.patterns = [
@@ -34,10 +35,12 @@ class QRGeneratorService {
       { id: 'polar', name: 'Anillos Polares', icon: 'fa-arrows-to-circle' },
       { id: 'halftone', name: 'Puntillismo', icon: 'fa-ellipsis' },
       { id: 'shield_dot', name: 'Escudo Módulo', icon: 'fa-shield-halved' },
-      { id: 'flower', name: 'Flor Silvestre', icon: 'fa-seedling' }
+      { id: 'flower', name: 'Flor Silvestre', icon: 'fa-seedling' },
+      { id: 'diagonal_lines', name: 'Malla Diagonal', icon: 'fa-lines-leaning' },
+      { id: 'radial_drop', name: 'Gota Radial / Viento', icon: 'fa-droplet' }
     ];
 
-    this.designs = this.generate150Designs();
+    this.designs = this.generate600Designs();
   }
 
   getCategories() {
@@ -52,219 +55,235 @@ class QRGeneratorService {
     return this.patterns;
   }
 
-  generate150Designs() {
+  generate600Designs() {
     const designs = [];
-    const categoryPresets = {
-      'Institucional': [
-        { name: 'Corporativo Cobalto', bg: '#ffffff', qr: '#1e3a8a', frame: '#1e3a8a', icon: 'fa-building', fontT: 'Montserrat', fontB: 'Montserrat', banner: 'PORTAL OFICIAL', dot: 'square', eye: 'square' },
-        { name: 'Ejecutivo Slate', bg: '#f8fafc', qr: '#0f172a', frame: '#334155', icon: 'fa-briefcase', fontT: 'Cinzel', fontB: 'Outfit', banner: 'INFORME 2026', dot: 'rounded', eye: 'rounded' },
-        { name: 'Gobierno & Transparencia', bg: '#f0f9ff', qr: '#0369a1', frame: '#0284c7', icon: 'fa-shield-halved', fontT: 'Lora', fontB: 'Plus Jakarta Sans', banner: 'TRANSPARENCIA', dot: 'smooth', eye: 'square' },
-        { name: 'Banca Emerald', bg: '#ecfdf5', qr: '#065f46', frame: '#059669', icon: 'fa-lock', fontT: 'Plus Jakarta Sans', fontB: 'Poppins', banner: 'ACCESO SEGURO', dot: 'diamond', eye: 'circle' },
-        { name: 'Sede Central Onyx', bg: '#0f172a', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-globe', fontT: 'Outfit', fontB: 'Space Grotesk', banner: 'RED GLOBAL', dot: 'dots', eye: 'circle' },
-        { name: 'Garantía & Sello', bg: '#fffbebf', qr: '#78350f', frame: '#d97706', icon: 'fa-key', fontT: 'Playfair Display', fontB: 'Lora', banner: 'CERTIFICADO', dot: 'hexagon', eye: 'rounded' },
-        { name: 'Atención al Ciudadano', bg: '#fdf4ff', qr: '#701a75', frame: '#c026d3', icon: 'fa-circle-info', fontT: 'Poppins', fontB: 'Comfortaa', banner: 'INFO CIUDADANA', dot: 'ring', eye: 'rounded' },
-        { name: 'Directorio Empresarial', bg: '#ffffff', qr: '#111827', frame: '#4b5563', icon: 'fa-user', fontT: 'Roboto', fontB: 'Montserrat', banner: 'DIRECTORIO', dot: 'square', eye: 'square' },
-        { name: 'Sello Digital', bg: '#ecfeff', qr: '#155e75', frame: '#0891b2', icon: 'fa-qrcode', fontT: 'Cinzel', fontB: 'Outfit', banner: 'VERSIÓN DIGITAL', dot: 'sparkle', eye: 'circle' },
-        { name: 'Sede Regional', bg: '#f7fee7', qr: '#365314', frame: '#65a30d', icon: 'fa-location-dot', fontT: 'Montserrat', fontB: 'Plus Jakarta Sans', banner: 'UBICACIÓN SEDE', dot: 'star', eye: 'rounded' }
-      ],
-      'Compras': [
-        { name: 'Mega Descuento 50%', bg: '#ffffff', qr: '#dc2626', frame: '#dc2626', icon: 'fa-tag', fontT: 'Bebas Neue', fontB: 'Bebas Neue', banner: 'OFERTA 50% OFF', dot: 'dots', eye: 'rounded' },
-        { name: 'Boutique Online', bg: '#fff7ed', qr: '#ea580c', frame: '#f97316', icon: 'fa-cart-shopping', fontT: 'Montserrat', fontB: 'Poppins', banner: 'COMPRAR AHORA', dot: 'rounded', eye: 'rounded' },
-        { name: 'Tienda Regalos', bg: '#fdf2f8', qr: '#db2777', frame: '#ec4899', icon: 'fa-gift', fontT: 'Pacifico', fontB: 'Poppins', banner: 'REGALO ESPECIAL', dot: 'heart', eye: 'circle' },
-        { name: 'Super Flash Sale', bg: '#18181b', qr: '#facc15', frame: '#facc15', icon: 'fa-bolt', fontT: 'Anton', fontB: 'Righteous', banner: 'FLASH SALE 24H', dot: 'sparkle', eye: 'square' },
-        { name: 'Supermercado Fresh', bg: '#f0fdf4', qr: '#166534', frame: '#22c55e', icon: 'fa-store', fontT: 'Outfit', fontB: 'Comfortaa', banner: 'VER CATÁLOGO', dot: 'smooth', eye: 'circle' },
-        { name: 'Joyería Gold', bg: '#0f172a', qr: '#fbbf24', frame: '#fbbf24', icon: 'fa-gem', fontT: 'Cinzel', fontB: 'Playfair Display', banner: 'COLECCIÓN LUXE', dot: 'diamond', eye: 'square' },
-        { name: 'Cupón VIP', bg: '#faf5ff', qr: '#7e22ce', frame: '#a855f7', icon: 'fa-ticket', fontT: 'Righteous', fontB: 'Poppins', banner: 'CUPÓN DESCUENTO', dot: 'hexagon', eye: 'rounded' },
-        { name: 'Cyber Sale Neon', bg: '#09090b', qr: '#06b6d4', frame: '#06b6d4', icon: 'fa-qrcode', fontT: 'Space Grotesk', fontB: 'Fira Code', banner: 'CYBER MONDAY', dot: 'dots', eye: 'circle' },
-        { name: 'Calzado & Moda', bg: '#fff1f2', qr: '#e11d48', frame: '#f43f5e', icon: 'fa-thumbs-up', fontT: 'Abril Fatface', fontB: 'Outfit', banner: 'NUEVA COLECCIÓN', dot: 'star', eye: 'rounded' },
-        { name: 'Puntos & Rewards', bg: '#eff6ff', qr: '#1d4ed8', frame: '#3b82f6', icon: 'fa-star', fontT: 'Poppins', fontB: 'Roboto', banner: 'CANJEAR PUNTOS', dot: 'ring', eye: 'circle' }
-      ],
-      'Entretenimiento': [
-        { name: 'Cine & Premier 4K', bg: '#09090b', qr: '#e11d48', frame: '#f43f5e', icon: 'fa-film', fontT: 'Bebas Neue', fontB: 'Bebas Neue', banner: 'VER TRÁILER 4K', dot: 'dots', eye: 'square' },
-        { name: 'Gaming Arcade Pro', bg: '#09090b', qr: '#10b981', frame: '#10b981', icon: 'fa-gamepad', fontT: 'Press Start 2P', fontB: 'Press Start 2P', banner: 'JUGAR AHORA', dot: 'square', eye: 'square' },
-        { name: 'Entradas Concierto', bg: '#2e1065', qr: '#c026d3', frame: '#e879f9', icon: 'fa-ticket', fontT: 'Righteous', fontB: 'Bebas Neue', banner: 'TICKET ENTRADA', dot: 'hexagon', eye: 'rounded' },
-        { name: 'Música & Spotify', bg: '#052e16', qr: '#22c55e', frame: '#22c55e', icon: 'fa-music', fontT: 'Outfit', fontB: 'Space Grotesk', banner: 'ESCUCHAR ÁLBUM', dot: 'smooth', eye: 'circle' },
-        { name: 'Streaming Live', bg: '#1e1b4b', qr: '#6366f1', frame: '#818cf8', icon: 'fa-fire', fontT: 'Anton', fontB: 'Righteous', banner: 'EN VIVO AHORA', dot: 'sparkle', eye: 'circle' },
-        { name: 'Fotografía Studio', bg: '#18181b', qr: '#f43f5e', frame: '#ffffff', icon: 'fa-camera', fontT: 'Playfair Display', fontB: 'Outfit', banner: 'VER GALERÍA', dot: 'rounded', eye: 'rounded' },
-        { name: 'Show de Comedia', bg: '#fffbebf', qr: '#d97706', frame: '#f59e0b', icon: 'fa-comments', fontT: 'Lobster', fontB: 'Caveat', banner: 'RISA & SHOW', dot: 'dots', eye: 'circle' },
-        { name: 'Festival Summer', bg: '#0c4a6e', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-sun', fontT: 'Pacifico', fontB: 'Montserrat', banner: 'SUMMER FEST', dot: 'star', eye: 'rounded' },
-        { name: 'Night Club Disco', bg: '#4c0519', qr: '#fb7185', frame: '#fda4af', icon: 'fa-bolt', fontT: 'Monoton', fontB: 'Bebas Neue', banner: 'NIGHT PARTY VIP', dot: 'ring', eye: 'circle' },
-        { name: 'Fan Club & Estrenos', bg: '#1c1917', qr: '#f97316', frame: '#fb923c', icon: 'fa-star', fontT: 'Poppins', fontB: 'Outfit', banner: 'UNIRSE AL CLUB', dot: 'diamond', eye: 'square' }
-      ],
-      'Belleza': [
-        { name: 'Glamour Rose Gold', bg: '#fff1f2', qr: '#be123c', frame: '#fb7185', icon: 'fa-gem', fontT: 'Great Vibes', fontB: 'Satisfy', banner: 'RESERVAR CITA', dot: 'heart', eye: 'circle' },
-        { name: 'Spa & Relax Zen', bg: '#f0fdf4', qr: '#15803d', frame: '#4ade80', icon: 'fa-sun', fontT: 'Lora', fontB: 'Comfortaa', banner: 'SPA & RELAX', dot: 'smooth', eye: 'rounded' },
-        { name: 'Makeup Studio VIP', bg: '#fdf4ff', qr: '#a21caf', frame: '#e879f9', icon: 'fa-sparkle', fontT: 'Dancing Script', fontB: 'Poppins', banner: 'MAKEUP ARTIST', dot: 'sparkle', eye: 'circle' },
-        { name: 'Lashes & Nails', bg: '#fff7ed', qr: '#c2410c', frame: '#fb923c', icon: 'fa-heart', fontT: 'Satisfy', fontB: 'Outfit', banner: 'LASHES & NAILS', dot: 'dots', eye: 'rounded' },
-        { name: 'Cuidado Facial', bg: '#f0f9ff', qr: '#0369a1', frame: '#38bdf8', icon: 'fa-moon', fontT: 'Comfortaa', fontB: 'Plus Jakarta Sans', banner: 'SKINCARE PRO', dot: 'rounded', eye: 'circle' },
-        { name: 'Salón de Peinados', bg: '#faf5ff', qr: '#6b21a8', frame: '#c026d3', icon: 'fa-user', fontT: 'Playfair Display', fontB: 'Lora', banner: 'HAIR STYLIST', dot: 'ring', eye: 'rounded' },
-        { name: 'Cosmética Natural', bg: '#f7fee7', qr: '#4d7c0f', frame: '#a3e635', icon: 'fa-gift', fontT: 'Caveat', fontB: 'Poppins', banner: '100% NATURAL', dot: 'hexagon', eye: 'rounded' },
-        { name: 'Centro Estético', bg: '#ffffff', qr: '#0f172a', frame: '#ec4899', icon: 'fa-star', fontT: 'Montserrat', fontB: 'Outfit', banner: 'TRATAMIENTOS', dot: 'diamond', eye: 'square' },
-        { name: 'Promo Belleza 30%', bg: '#fff1f2', qr: '#9f1239', frame: '#f43f5e', icon: 'fa-ticket', fontT: 'Pacifico', fontB: 'Bebas Neue', banner: 'DESCUENTO 30%', dot: 'dots', eye: 'circle' },
-        { name: 'Perfumería Deluxe', bg: '#0f172a', qr: '#fef08a', frame: '#fde047', icon: 'fa-store', fontT: 'Cinzel', fontB: 'Playfair Display', banner: 'PERFUMERÍA LUXE', dot: 'star', eye: 'square' }
-      ],
-      'Deportes': [
-        { name: 'Crossfit & Power', bg: '#09090b', qr: '#eab308', frame: '#eab308', icon: 'fa-bolt', fontT: 'Oswald', fontB: 'Bebas Neue', banner: 'POWER FITNESS', dot: 'square', eye: 'square' },
-        { name: 'Gym Training Nitro', bg: '#052e16', qr: '#4ade80', frame: '#4ade80', icon: 'fa-trophy', fontT: 'Anton', fontB: 'Righteous', banner: 'UNIRSE AL GYM', dot: 'hexagon', eye: 'circle' },
-        { name: 'Running & Maratón', bg: '#0c4a6e', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-fire', fontT: 'Bebas Neue', fontB: 'Outfit', banner: 'DESAFÍO 10K', dot: 'dots', eye: 'circle' },
-        { name: 'Club de Fútbol', bg: '#1e3a8a', qr: '#ffffff', frame: '#facc15', icon: 'fa-flag', fontT: 'Montserrat', fontB: 'Oswald', banner: 'HAZTE SOCIO', dot: 'rounded', eye: 'square' },
-        { name: 'Coach Personal', bg: '#18181b', qr: '#f97316', frame: '#f97316', icon: 'fa-user', fontT: 'Space Grotesk', fontB: 'Poppins', banner: 'COACH PERSONAL', dot: 'smooth', eye: 'rounded' },
-        { name: 'Clase Gratis Pass', bg: '#fef2f2', qr: '#dc2626', frame: '#ef4444', icon: 'fa-ticket', fontT: 'Righteous', fontB: 'Bebas Neue', banner: 'CLASE GRATIS', dot: 'star', eye: 'circle' },
-        { name: 'Nutrición Deportiva', bg: '#f0fdf4', qr: '#166534', frame: '#22c55e', icon: 'fa-heart', fontT: 'Poppins', fontB: 'Comfortaa', banner: 'PLAN NUTRICIÓN', dot: 'smooth', eye: 'rounded' },
-        { name: 'Cancha de Pádel', bg: '#0f172a', qr: '#06b6d4', frame: '#06b6d4', icon: 'fa-location-dot', fontT: 'Outfit', fontB: 'Space Grotesk', banner: 'RESERVAR CANCHA', dot: 'diamond', eye: 'circle' },
-        { name: 'Horario de Clases', bg: '#ffffff', qr: '#1e293b', frame: '#64748b', icon: 'fa-circle-info', fontT: 'Roboto', fontB: 'Plus Jakarta Sans', banner: 'VER HORARIOS', dot: 'square', eye: 'square' },
-        { name: 'Shield Campeón', bg: '#451a03', qr: '#f59e0b', frame: '#f59e0b', icon: 'fa-shield', fontT: 'Oswald', fontB: 'Cinzel', banner: 'CAMPEONES 2026', dot: 'sparkle', eye: 'square' }
-      ],
-      'Comunidad': [
-        { name: 'Voluntariado Social', bg: '#f0fdf4', qr: '#15803d', frame: '#22c55e', icon: 'fa-hands-holding-child', fontT: 'Montserrat', fontB: 'Poppins', banner: 'SUMATE HOY', dot: 'smooth', eye: 'rounded' },
-        { name: 'Centro Vecinal', bg: '#fff7ed', qr: '#c2410c', frame: '#ea580c', icon: 'fa-people-roof', fontT: 'Outfit', fontB: 'Comfortaa', banner: 'TU BARRIO', dot: 'rounded', eye: 'rounded' },
-        { name: 'Foro & Debate', bg: '#eff6ff', qr: '#1d4ed8', frame: '#3b82f6', icon: 'fa-comments', fontT: 'Poppins', fontB: 'Space Grotesk', banner: 'PARTICIPA', dot: 'dots', eye: 'circle' },
-        { name: 'Club de Lectura', bg: '#fdf4ff', qr: '#86198f', frame: '#a21caf', icon: 'fa-book-open-reader', fontT: 'Lora', fontB: 'Cinzel', banner: 'CLUB LECTOR', dot: 'hexagon', eye: 'square' },
-        { name: 'Donaciones & Ayuda', bg: '#fef2f2', qr: '#b91c1c', frame: '#ef4444', icon: 'fa-hand-holding-heart', fontT: 'Righteous', fontB: 'Outfit', banner: 'DONAR AHORA', dot: 'heart', eye: 'circle' },
-        { name: 'Adopción de Mascotas', bg: '#f7fee7', qr: '#3f6212', frame: '#65a30d', icon: 'fa-paw', fontT: 'Comfortaa', fontB: 'Pacifico', banner: 'ADOPTA UN AMIGO', dot: 'star', eye: 'rounded' },
-        { name: 'Comunidad Eco Green', bg: '#ecfdf5', qr: '#047857', frame: '#10b981', icon: 'fa-seedling', fontT: 'Plus Jakarta Sans', fontB: 'Poppins', banner: 'ECO COMUNIDAD', dot: 'smooth', eye: 'circle' },
-        { name: 'Red Solidaria', bg: '#0f172a', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-network-wired', fontT: 'Outfit', fontB: 'Space Grotesk', banner: 'UNIDOS HOY', dot: 'diamond', eye: 'square' },
-        { name: 'Asociación Civil', bg: '#ffffff', qr: '#334155', frame: '#475569', icon: 'fa-users', fontT: 'Montserrat', fontB: 'Plus Jakarta Sans', banner: 'ASOCIACIÓN', dot: 'square', eye: 'square' },
-        { name: 'Encuentro Vecinal', bg: '#fffbebf', qr: '#b45309', frame: '#f59e0b', icon: 'fa-handshake', fontT: 'Playfair Display', fontB: 'Lora', banner: 'UNETE AL FORO', dot: 'ring', eye: 'rounded' }
-      ],
-      'Gastronomía': [
-        { name: 'Menú Digital QR', bg: '#0f172a', qr: '#f59e0b', frame: '#fbbf24', icon: 'fa-utensils', fontT: 'Cinzel', fontB: 'Montserrat', banner: 'VER MENÚ', dot: 'rounded', eye: 'circle' },
-        { name: 'Café Specialty', bg: '#fff7ed', qr: '#78350f', frame: '#92400e', icon: 'fa-mug-hot', fontT: 'Caveat', fontB: 'Outfit', banner: 'CARTA DE CAFÉS', dot: 'smooth', eye: 'rounded' },
-        { name: 'Pizzería Artesanal', bg: '#fef2f2', qr: '#991b1b', frame: '#dc2626', icon: 'fa-pizza-slice', fontT: 'Bebas Neue', fontB: 'Righteous', banner: 'PEDIR PIZZA', dot: 'dots', eye: 'square' },
-        { name: 'Burger & Craft Beer', bg: '#18181b', qr: '#eab308', frame: '#eab308', icon: 'fa-burger', fontT: 'Oswald', fontB: 'Bebas Neue', banner: 'BURGER MENU', dot: 'hexagon', eye: 'square' },
-        { name: 'Sushi Bar Premium', bg: '#09090b', qr: '#ef4444', frame: '#f87171', icon: 'fa-fish', fontT: 'Space Grotesk', fontB: 'Outfit', banner: 'SUSHI & OMAKASE', dot: 'diamond', eye: 'circle' },
-        { name: 'Cata de Vinos', bg: '#2e1065', qr: '#f43f5e', frame: '#fb7185', icon: 'fa-wine-glass-empty', fontT: 'Playfair Display', fontB: 'Lora', banner: 'CARTA DE VINOS', dot: 'ring', eye: 'rounded' },
-        { name: 'Pastelería & Bakery', bg: '#fdf4ff', qr: '#c026d3', frame: '#e879f9', icon: 'fa-cake-candles', fontT: 'Pacifico', fontB: 'Comfortaa', banner: 'DULCES & PASTEL', dot: 'heart', eye: 'circle' },
-        { name: 'Cocktail & Lounge Bar', bg: '#0c4a6e', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-martini-glass-citrus', fontT: 'Righteous', fontB: 'Outfit', banner: 'CÓCTELES VIP', dot: 'sparkle', eye: 'square' },
-        { name: 'Restaurante Gourmet', bg: '#ffffff', qr: '#111827', frame: '#d97706', icon: 'fa-plate-wheat', fontT: 'Abril Fatface', fontB: 'Montserrat', banner: 'RESERVAR MESA', dot: 'square', eye: 'square' },
-        { name: 'Food Truck Express', bg: '#ecfeff', qr: '#0e7490', frame: '#06b6d4', icon: 'fa-truck-fast', fontT: 'Anton', fontB: 'Poppins', banner: 'ORDEN RÁPIDA', dot: 'star', eye: 'rounded' }
-      ],
-      'Tecnología': [
-        { name: 'Soporte Técnico 24/7', bg: '#09090b', qr: '#06b6d4', frame: '#06b6d4', icon: 'fa-headset', fontT: 'Space Grotesk', fontB: 'Fira Code', banner: 'SOPORTE 24/7', dot: 'dots', eye: 'square' },
-        { name: 'App iOS & Android', bg: '#0f172a', qr: '#3b82f6', frame: '#60a5fa', icon: 'fa-mobile-screen-button', fontT: 'Outfit', fontB: 'Plus Jakarta Sans', banner: 'DESCARGAR APP', dot: 'rounded', eye: 'circle' },
-        { name: 'Software SaaS Cloud', bg: '#172554', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-cloud', fontT: 'Space Grotesk', fontB: 'Poppins', banner: 'PRUEBA GRATIS', dot: 'hexagon', eye: 'circle' },
-        { name: 'WiFi Ultra Rápido', bg: '#022c22', qr: '#10b981', frame: '#34d399', icon: 'fa-wifi', fontT: 'Fira Code', fontB: 'Space Grotesk', banner: 'CONECTAR WIFI', dot: 'sparkle', eye: 'square' },
-        { name: 'Ciberseguridad Shield', bg: '#0f172a', qr: '#eab308', frame: '#fde047', icon: 'fa-shield-halved', fontT: 'Montserrat', fontB: 'Outfit', banner: 'ACCESO SEGURO', dot: 'diamond', eye: 'square' },
-        { name: 'DevOps & Code Repo', bg: '#18181b', qr: '#a855f7', frame: '#c026d3', icon: 'fa-code', fontT: 'Fira Code', fontB: 'Fira Code', banner: 'VER REPOSITORIO', dot: 'square', eye: 'square' },
-        { name: 'IA & Automation Pro', bg: '#2e1065', qr: '#ec4899', frame: '#f43f5e', icon: 'fa-microchip', fontT: 'Righteous', fontB: 'Space Grotesk', banner: 'DESCUBRE LA IA', dot: 'star', eye: 'circle' },
-        { name: 'Tienda Tech & Gadgets', bg: '#ffffff', qr: '#0284c7', frame: '#0369a1', icon: 'fa-laptop', fontT: 'Outfit', fontB: 'Montserrat', banner: 'VER GADGETS', dot: 'smooth', eye: 'rounded' },
-        { name: 'Blockchain Crypto', bg: '#09090b', qr: '#f97316', frame: '#fb923c', icon: 'fa-cubes', fontT: 'Space Grotesk', fontB: 'Righteous', banner: 'CRYPTO WALLET', dot: 'hexagon', eye: 'square' },
-        { name: 'Startup Tech Demo', bg: '#eff6ff', qr: '#2563eb', frame: '#3b82f6', icon: 'fa-rocket', fontT: 'Plus Jakarta Sans', fontB: 'Poppins', banner: 'VER DEMO', dot: 'ring', eye: 'circle' }
-      ],
-      'Salud': [
-        { name: 'Cita Médica Online', bg: '#f0f9ff', qr: '#0284c7', frame: '#0369a1', icon: 'fa-user-doctor', fontT: 'Montserrat', fontB: 'Plus Jakarta Sans', banner: 'AGENDAR CITA', dot: 'rounded', eye: 'rounded' },
-        { name: 'Farmacia & Recetas', bg: '#f0fdf4', qr: '#166534', frame: '#22c55e', icon: 'fa-pills', fontT: 'Poppins', fontB: 'Comfortaa', banner: 'PEDIR RECETA', dot: 'smooth', eye: 'circle' },
-        { name: 'Clínica Dental', bg: '#ffffff', qr: '#0891b2', frame: '#06b6d4', icon: 'fa-tooth', fontT: 'Outfit', fontB: 'Poppins', banner: 'CONSULTA DENTAL', dot: 'sparkle', eye: 'circle' },
-        { name: 'Urgencias 24h', bg: '#fef2f2', qr: '#dc2626', frame: '#ef4444', icon: 'fa-truck-medical', fontT: 'Righteous', fontB: 'Bebas Neue', banner: 'URGENCIAS 24H', dot: 'square', eye: 'square' },
-        { name: 'Laboratorio Clínico', bg: '#ecfeff', qr: '#0f766e', frame: '#14b8a6', icon: 'fa-microscope', fontT: 'Space Grotesk', fontB: 'Outfit', banner: 'RESULTADOS', dot: 'hexagon', eye: 'rounded' },
-        { name: 'Pediatría Care', bg: '#fdf4ff', qr: '#701a75', frame: '#c026d3', icon: 'fa-heart-pulse', fontT: 'Comfortaa', fontB: 'Poppins', banner: 'SALUD INFANTIL', dot: 'heart', eye: 'circle' },
-        { name: 'Óptica & Visión', bg: '#f8fafc', qr: '#334155', frame: '#475569', icon: 'fa-glasses', fontT: 'Lora', fontB: 'Montserrat', banner: 'EXAMEN VISUAL', dot: 'dots', eye: 'rounded' },
-        { name: 'Rehabilitación & Physio', bg: '#f7fee7', qr: '#4d7c0f', frame: '#84cc16', icon: 'fa-person-walking', fontT: 'Plus Jakarta Sans', fontB: 'Outfit', banner: 'FISIOTERAPIA', dot: 'diamond', eye: 'circle' },
-        { name: 'Psicología & Wellness', bg: '#faf5ff', qr: '#6b21a8', frame: '#9333ea', icon: 'fa-brain', fontT: 'Playfair Display', fontB: 'Lora', banner: 'SESIÓN ONLINE', dot: 'ring', eye: 'rounded' },
-        { name: 'Centro Cardiológico', bg: '#fff1f2', qr: '#be123c', frame: '#f43f5e', icon: 'fa-heart', fontT: 'Outfit', fontB: 'Poppins', banner: 'CARDIOLOGÍA', dot: 'star', eye: 'circle' }
-      ],
-      'Viajes': [
-        { name: 'Pase de Abordaje VIP', bg: '#0f172a', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-plane-departure', fontT: 'Outfit', fontB: 'Space Grotesk', banner: 'BOARDING PASS', dot: 'dots', eye: 'square' },
-        { name: 'Hotel & Resort Deluxe', bg: '#fffbebf', qr: '#b45309', frame: '#d97706', icon: 'fa-hotel', fontT: 'Cinzel', fontB: 'Playfair Display', banner: 'RESERVA HOTEL', dot: 'diamond', eye: 'rounded' },
-        { name: 'Agencia de Tours', bg: '#ecfeff', qr: '#0891b2', frame: '#06b6d4', icon: 'fa-compass', fontT: 'Pacifico', fontB: 'Montserrat', banner: 'VER TOURS', dot: 'star', eye: 'circle' },
-        { name: 'Playa & Tropico Beach', bg: '#f0f9ff', qr: '#0284c7', frame: '#38bdf8', icon: 'fa-sun', fontT: 'Righteous', fontB: 'Comfortaa', banner: 'PACK PLAYA', dot: 'smooth', eye: 'circle' },
-        { name: 'Senderismo & Trekking', bg: '#f7fee7', qr: '#365314', frame: '#65a30d', icon: 'fa-mountain', fontT: 'Oswald', fontB: 'Plus Jakarta Sans', banner: 'RUTA SENDERISMO', dot: 'hexagon', eye: 'square' },
-        { name: 'Cruceros & Yachtt', bg: '#0c4a6e', qr: '#00d8f6', frame: '#38bdf8', icon: 'fa-ship', fontT: 'Montserrat', fontB: 'Outfit', banner: 'CRUCERO VIP', dot: 'ring', eye: 'circle' },
-        { name: 'Guía Turística QR', bg: '#ffffff', qr: '#1e293b', frame: '#ea580c', icon: 'fa-map-location-dot', fontT: 'Poppins', fontB: 'Roboto', banner: 'GUÍA CIUDAD', dot: 'rounded', eye: 'rounded' },
-        { name: 'Alquiler de Autos', bg: '#18181b', qr: '#f97316', frame: '#fb923c', icon: 'fa-car', fontT: 'Bebas Neue', fontB: 'Outfit', banner: 'RENT A CAR', dot: 'square', eye: 'square' },
-        { name: 'Experiencia Safari', bg: '#fff7ed', qr: '#c2410c', frame: '#f97316', icon: 'fa-binoculars', fontT: 'Playfair Display', fontB: 'Lora', banner: 'SAFARI TOUR', dot: 'sparkle', eye: 'rounded' },
-        { name: 'Check-in Expres', bg: '#fdf4ff', qr: '#a21caf', frame: '#c026d3', icon: 'fa-ticket', fontT: 'Space Grotesk', fontB: 'Poppins', banner: 'CHECK-IN RÁPIDO', dot: 'heart', eye: 'circle' }
-      ],
-      'Inmobiliaria': [
-        { name: 'Propiedad en Venta', bg: '#ffffff', qr: '#0f172a', frame: '#2563eb', icon: 'fa-house', fontT: 'Montserrat', fontB: 'Outfit', banner: 'VER PROPIEDAD', dot: 'square', eye: 'square' },
-        { name: 'Penthouse de Lujo', bg: '#0f172a', qr: '#fbbf24', frame: '#fbbf24', icon: 'fa-building', fontT: 'Cinzel', fontB: 'Playfair Display', banner: 'PENTHOUSE VIP', dot: 'diamond', eye: 'square' },
-        { name: 'Alquiler de Departamento', bg: '#f0f9ff', qr: '#0284c7', frame: '#0369a1', icon: 'fa-key', fontT: 'Poppins', fontB: 'Plus Jakarta Sans', banner: 'VER ALQUILER', dot: 'rounded', eye: 'rounded' },
-        { name: 'Agente Inmobiliario', bg: '#f8fafc', qr: '#1e293b', frame: '#475569', icon: 'fa-user-tie', fontT: 'Outfit', fontB: 'Montserrat', banner: 'MI CONTACTO', dot: 'smooth', eye: 'rounded' },
-        { name: 'Tour Virtual 360°', bg: '#09090b', qr: '#06b6d4', frame: '#06b6d4', icon: 'fa-vr-cardboard', fontT: 'Space Grotesk', fontB: 'Fira Code', banner: 'TOUR 360°', dot: 'dots', eye: 'circle' },
-        { name: 'Terrenos & Lotes', bg: '#f7fee7', qr: '#365314', frame: '#65a30d', icon: 'fa-vector-square', fontT: 'Oswald', fontB: 'Plus Jakarta Sans', banner: 'VER LOTES', dot: 'hexagon', eye: 'square' },
-        { name: 'Oficinas Corporativas', bg: '#1e1b4b', qr: '#818cf8', frame: '#a5b4fc', icon: 'fa-briefcase', fontT: 'Lora', fontB: 'Outfit', banner: 'OFICINAS PRO', dot: 'ring', eye: 'rounded' },
-        { name: 'Firma de Contrato', bg: '#fffbebf', qr: '#78350f', frame: '#d97706', icon: 'fa-file-signature', fontT: 'Cinzel', fontB: 'Lora', banner: 'AGENDAR FIRMA', dot: 'sparkle', eye: 'rounded' },
-        { name: 'Casa de Campo', bg: '#f0fdf4', qr: '#166534', frame: '#22c55e', icon: 'fa-tree', fontT: 'Pacifico', fontB: 'Comfortaa', banner: 'CASA DE CAMPO', dot: 'star', eye: 'circle' },
-        { name: 'Condominio Beach', bg: '#ecfeff', qr: '#0891b2', frame: '#06b6d4', icon: 'fa-water', fontT: 'Righteous', fontB: 'Poppins', banner: 'DEPO PLAYA', dot: 'heart', eye: 'circle' }
-      ],
-      'Educación': [
-        { name: 'Campus Virtual', bg: '#0f172a', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-graduation-cap', fontT: 'Outfit', fontB: 'Plus Jakarta Sans', banner: 'AULA VIRTUAL', dot: 'dots', eye: 'circle' },
-        { name: 'Universidad Oficial', bg: '#ffffff', qr: '#1e3a8a', frame: '#1d4ed8', icon: 'fa-school', fontT: 'Cinzel', fontB: 'Montserrat', banner: 'ADMISIÓN 2026', dot: 'square', eye: 'square' },
-        { name: 'Curso Online Certificado', bg: '#faf5ff', qr: '#7e22ce', frame: '#a855f7', icon: 'fa-certificate', fontT: 'Righteous', fontB: 'Poppins', banner: 'INSCRIBIRSE', dot: 'hexagon', eye: 'rounded' },
-        { name: 'Biblioteca Digital', bg: '#fff7ed', qr: '#c2410c', frame: '#f97316', icon: 'fa-book', fontT: 'Lora', fontB: 'Outfit', banner: 'VER LIBROS', dot: 'rounded', eye: 'rounded' },
-        { name: 'Academia de Idiomas', bg: '#f0f9ff', qr: '#0369a1', frame: '#0284c7', icon: 'fa-language', fontT: 'Poppins', fontB: 'Comfortaa', banner: 'APRENDER HOY', dot: 'smooth', eye: 'circle' },
-        { name: 'Masterclass Live', bg: '#18181b', qr: '#f43f5e', frame: '#fb7185', icon: 'fa-video', fontT: 'Space Grotesk', fontB: 'Outfit', banner: 'VER MASTERCLASS', dot: 'sparkle', eye: 'circle' },
-        { name: 'Tutoría Personalizada', bg: '#f0fdf4', qr: '#15803d', frame: '#4ade80', icon: 'fa-user-graduate', fontT: 'Comfortaa', fontB: 'Plus Jakarta Sans', banner: 'PEDIR TUTOR', dot: 'diamond', eye: 'rounded' },
-        { name: 'Examen & Evaluación', bg: '#fef2f2', qr: '#b91c1c', frame: '#ef4444', icon: 'fa-pen-to-square', fontT: 'Roboto', fontB: 'Poppins', banner: 'INICIAR TEST', dot: 'star', eye: 'square' },
-        { name: 'Escuela de Música', bg: '#2e1065', qr: '#c026d3', frame: '#e879f9', icon: 'fa-music', fontT: 'Pacifico', fontB: 'Lora', banner: 'CLASES DE MÚSICA', dot: 'ring', eye: 'circle' },
-        { name: 'Bootcamp Code', bg: '#09090b', qr: '#10b981', frame: '#34d399', icon: 'fa-laptop-code', fontT: 'Fira Code', fontB: 'Fira Code', banner: 'FULLSTACK 2026', dot: 'square', eye: 'square' }
-      ],
-      'Eventos': [
-        { name: 'Pase VIP Conferencia', bg: '#09090b', qr: '#a855f7', frame: '#c026d3', icon: 'fa-ticket', fontT: 'Space Grotesk', fontB: 'Outfit', banner: 'ENTRADA VIP', dot: 'hexagon', eye: 'square' },
-        { name: 'Boda & Casamiento', bg: '#fff1f2', qr: '#be123c', frame: '#fb7185', icon: 'fa-heart', fontT: 'Great Vibes', fontB: 'Satisfy', banner: 'NUESTRA BODA', dot: 'heart', eye: 'circle' },
-        { name: 'Cumpleaños Party', bg: '#fdf4ff', qr: '#c026d3', frame: '#e879f9', icon: 'fa-cake-candles', fontT: 'Pacifico', fontB: 'Poppins', banner: 'INVITACIÓN CUMPLE', dot: 'sparkle', eye: 'circle' },
-        { name: 'Expo Empresarial', bg: '#ffffff', qr: '#0f172a', frame: '#2563eb', icon: 'fa-calendar-days', fontT: 'Montserrat', fontB: 'Outfit', banner: 'REGISTRO EXPO', dot: 'square', eye: 'square' },
-        { name: 'Festival de Música', bg: '#18181b', qr: '#f59e0b', frame: '#fbbf24', icon: 'fa-microphone', fontT: 'Righteous', fontB: 'Bebas Neue', banner: 'LINEUP & TICKETS', dot: 'dots', eye: 'circle' },
-        { name: 'Networking Night', bg: '#0f172a', qr: '#38bdf8', frame: '#38bdf8', icon: 'fa-users-between-lines', fontT: 'Outfit', fontB: 'Space Grotesk', banner: 'NETWORKING VIP', dot: 'rounded', eye: 'rounded' },
-        { name: 'Seminario Web', bg: '#eff6ff', qr: '#1d4ed8', frame: '#3b82f6', icon: 'fa-display', fontT: 'Poppins', fontB: 'Plus Jakarta Sans', banner: 'UNIRSE AL WEBINAR', dot: 'smooth', eye: 'circle' },
-        { name: 'Gala de Premiación', bg: '#0f172a', qr: '#eab308', frame: '#fde047', icon: 'fa-trophy', fontT: 'Cinzel', fontB: 'Playfair Display', banner: 'PREMIACIÓN 2026', dot: 'diamond', eye: 'square' },
-        { name: 'Torneo eSports', bg: '#022c22', qr: '#10b981', frame: '#34d399', icon: 'fa-gamepad', fontT: 'Press Start 2P', fontB: 'Space Grotesk', banner: 'TORNEO ESPORTS', dot: 'star', eye: 'square' },
-        { name: 'Feria Gastronómica', bg: '#fff7ed', qr: '#c2410c', frame: '#f97316', icon: 'fa-utensils', fontT: 'Bebas Neue', fontB: 'Comfortaa', banner: 'ENTRADAS FERIA', dot: 'ring', eye: 'rounded' }
-      ],
-      'Redes Sociales': [
-        { name: 'WhatsApp Direct Chat', bg: '#f0fdf4', qr: '#16a34a', frame: '#22c55e', icon: 'fa-brands fa-whatsapp', fontT: 'Outfit', fontB: 'Poppins', banner: 'CHAT WHATSAPP', dot: 'smooth', eye: 'circle' },
-        { name: 'Instagram Perfil Official', bg: '#fdf4ff', qr: '#e1306c', frame: '#f77737', icon: 'fa-brands fa-instagram', fontT: 'Poppins', fontB: 'Space Grotesk', banner: 'SEGUIR EN IG', dot: 'dots', eye: 'rounded' },
-        { name: 'TikTok Trend Channel', bg: '#09090b', qr: '#00f2fe', frame: '#ff0050', icon: 'fa-brands fa-tiktok', fontT: 'Space Grotesk', fontB: 'Righteous', banner: 'TIKTOK CHANNEL', dot: 'sparkle', eye: 'square' },
-        { name: 'Canal de YouTube', bg: '#fef2f2', qr: '#dc2626', frame: '#ef4444', icon: 'fa-brands fa-youtube', fontT: 'Bebas Neue', fontB: 'Outfit', banner: 'SUSCRIBIRSE', dot: 'square', eye: 'square' },
-        { name: 'Facebook Fanpage', bg: '#eff6ff', qr: '#1877f2', frame: '#3b82f6', icon: 'fa-brands fa-facebook', fontT: 'Montserrat', fontB: 'Poppins', banner: 'SEGUIR EN FB', dot: 'rounded', eye: 'circle' },
-        { name: 'LinkedIn Profesional', bg: '#f8fafc', qr: '#0a66c2', frame: '#0284c7', icon: 'fa-brands fa-linkedin', fontT: 'Outfit', fontB: 'Plus Jakarta Sans', banner: 'CONECTAR LINKEDIN', dot: 'diamond', eye: 'square' },
-        { name: 'X Twitter Feed', bg: '#000000', qr: '#ffffff', frame: '#ffffff', icon: 'fa-brands fa-x-twitter', fontT: 'Space Grotesk', fontB: 'Fira Code', banner: 'SIGUENOS EN X', dot: 'dots', eye: 'square' },
-        { name: 'Canal Telegram', bg: '#f0f9ff', qr: '#229ed9', frame: '#38bdf8', icon: 'fa-brands fa-telegram', fontT: 'Poppins', fontB: 'Comfortaa', banner: 'CANAL TELEGRAM', dot: 'hexagon', eye: 'circle' },
-        { name: 'Servidor Discord', bg: '#1e1b4b', qr: '#5865f2', frame: '#818cf8', icon: 'fa-brands fa-discord', fontT: 'Righteous', fontB: 'Outfit', banner: 'UNIRSE A DISCORD', dot: 'star', eye: 'rounded' },
-        { name: 'Spotify Playlist', bg: '#052e16', qr: '#1db954', frame: '#22c55e', icon: 'fa-brands fa-spotify', fontT: 'Outfit', fontB: 'Space Grotesk', banner: 'PLAYLIST SPOTIFY', dot: 'ring', eye: 'circle' }
-      ],
-      'Lujo': [
-        { name: 'Onyx Gold Exclusive', bg: '#09090b', qr: '#d97706', frame: '#fbbf24', icon: 'fa-crown', fontT: 'Cinzel', fontB: 'Playfair Display', banner: 'EXCLUSIVO VIP', dot: 'diamond', eye: 'square' },
-        { name: 'Platinum Reserve', bg: '#0f172a', qr: '#e2e8f0', frame: '#94a3b8', icon: 'fa-gem', fontT: 'Cinzel', fontB: 'Lora', banner: 'RESERVA PLATINUM', dot: 'dots', eye: 'circle' },
-        { name: 'Rose Gold Elegance', bg: '#fff1f2', qr: '#be123c', frame: '#fda4af', icon: 'fa-sparkles', fontT: 'Great Vibes', fontB: 'Playfair Display', banner: 'EDICIÓN LIMITADA', dot: 'sparkle', eye: 'circle' },
-        { name: 'Black Card VIP', bg: '#000000', qr: '#f59e0b', frame: '#eab308', icon: 'fa-credit-card', fontT: 'Space Grotesk', fontB: 'Outfit', banner: 'MEMBRESÍA BLACK', dot: 'square', eye: 'square' },
-        { name: 'Alta Costura Paris', bg: '#ffffff', qr: '#111827', frame: '#d97706', icon: 'fa-shirt', fontT: 'Abril Fatface', fontB: 'Cinzel', banner: 'ALTA COSTURA', dot: 'hexagon', eye: 'rounded' },
-        { name: 'Relojería Suiza', bg: '#0f172a', qr: '#38bdf8', frame: '#0284c7', icon: 'fa-clock', fontT: 'Cinzel', fontB: 'Montserrat', banner: 'COLECCIÓN SUIZA', dot: 'ring', eye: 'circle' },
-        { name: 'Autos Superdeportivos', bg: '#450a0a', qr: '#ef4444', frame: '#f87171', icon: 'fa-car-side', fontT: 'Bebas Neue', fontB: 'Righteous', banner: 'SUPERCAR VIP', dot: 'star', eye: 'square' },
-        { name: 'Yate & Marina Royale', bg: '#0c4a6e', qr: '#38bdf8', frame: '#7dd3fc', icon: 'fa-anchor', fontT: 'Playfair Display', fontB: 'Outfit', banner: 'YACHT CLUB', dot: 'rounded', eye: 'circle' },
-        { name: 'Champagne Private Cellar', bg: '#1c1917', qr: '#eab308', frame: '#fde047', icon: 'fa-wine-bottle', fontT: 'Cinzel', fontB: 'Lora', banner: 'PRIVATE CELLAR', dot: 'smooth', eye: 'rounded' },
-        { name: 'Mansión Privada Real', bg: '#18181b', qr: '#fbbf24', frame: '#ffffff', icon: 'fa-castle', fontT: 'Cinzel', fontB: 'Playfair Display', banner: 'MANSIÓN PRIVADA', dot: 'diamond', eye: 'square' }
-      ]
+
+    const frameShapes = ['rectangular', 'square', 'rounded', 'circle', 'shield', 'ticket', 'hexagonal', 'diamond_card', 'badge_star', 'wavy'];
+    const eyeStyles = ['square', 'rounded', 'circle', 'leaf'];
+    const dotStyles = [
+      'square', 'rounded', 'dots', 'connected', 'smooth', 'diamond', 'diamond_rounded',
+      'leaf_dot', 'polar', 'shield_dot', 'diagonal_lines'
+    ];
+    const silhouetteModes = ['none', 'none', 'icon_only', 'icon_center', 'icon_pure'];
+
+    const categoryThemes = {
+      'Institucional': {
+        icons: ['fa-building', 'fa-briefcase', 'fa-shield-halved', 'fa-lock', 'fa-globe', 'fa-key', 'fa-circle-info', 'fa-user', 'fa-qrcode', 'fa-location-dot', 'fa-certificate', 'fa-scale-balanced'],
+        bgColors: ['#ffffff', '#f8fafc', '#f0f9ff', '#ecfdf5', '#0f172a', '#fffbeb', '#fdf4ff', '#ecfeff', '#f7fee7'],
+        qrColors: ['#1e3a8a', '#0f172a', '#0369a1', '#065f46', '#38bdf8', '#78350f', '#701a75', '#111827', '#155e75', '#365314'],
+        fontsT: ['Montserrat', 'Cinzel', 'Lora', 'Plus Jakarta Sans', 'Outfit', 'Playfair Display', 'Roboto'],
+        fontsB: ['Montserrat', 'Outfit', 'Plus Jakarta Sans', 'Poppins', 'Space Grotesk', 'Lora'],
+        banners: ['PORTAL OFICIAL', 'INFORME 2026', 'TRANSPARENCIA', 'ACCESO SEGURO', 'RED GLOBAL', 'CERTIFICADO', 'INFO CIUDADANA', 'DIRECTORIO', 'VERSIÓN DIGITAL', 'UBICACIÓN SEDE']
+      },
+      'Compras': {
+        icons: ['fa-tag', 'fa-cart-shopping', 'fa-gift', 'fa-bolt', 'fa-store', 'fa-gem', 'fa-ticket', 'fa-qrcode', 'fa-thumbs-up', 'fa-star', 'fa-bag-shopping', 'fa-percent'],
+        bgColors: ['#ffffff', '#fff7ed', '#fdf2f8', '#18181b', '#f0fdf4', '#0f172a', '#faf5ff', '#09090b', '#fff1f2', '#eff6ff'],
+        qrColors: ['#dc2626', '#ea580c', '#db2777', '#facc15', '#166534', '#fbbf24', '#7e22ce', '#06b6d4', '#e11d48', '#1d4ed8'],
+        fontsT: ['Bebas Neue', 'Montserrat', 'Pacifico', 'Anton', 'Outfit', 'Cinzel', 'Righteous', 'Space Grotesk', 'Abril Fatface', 'Poppins'],
+        fontsB: ['Bebas Neue', 'Poppins', 'Poppins', 'Righteous', 'Comfortaa', 'Playfair Display', 'Poppins', 'Fira Code', 'Outfit', 'Roboto'],
+        banners: ['OFERTA 50% OFF', 'COMPRAR AHORA', 'REGALO ESPECIAL', 'FLASH SALE 24H', 'VER CATÁLOGO', 'COLECCIÓN LUXE', 'CUPÓN DESCUENTO', 'CYBER MONDAY', 'NUEVA COLECCIÓN', 'CANJEAR PUNTOS']
+      },
+      'Entretenimiento': {
+        icons: ['fa-film', 'fa-gamepad', 'fa-ticket', 'fa-music', 'fa-fire', 'fa-camera', 'fa-comments', 'fa-sun', 'fa-bolt', 'fa-star', 'fa-masks-theater', 'fa-vr-cardboard'],
+        bgColors: ['#09090b', '#09090b', '#2e1065', '#052e16', '#1e1b4b', '#18181b', '#fffbeb', '#0c4a6e', '#4c0519', '#1c1917'],
+        qrColors: ['#e11d48', '#10b981', '#c026d3', '#22c55e', '#6366f1', '#f43f5e', '#d97706', '#38bdf8', '#fb7185', '#f97316'],
+        fontsT: ['Bebas Neue', 'Press Start 2P', 'Righteous', 'Outfit', 'Anton', 'Playfair Display', 'Lobster', 'Pacifico', 'Monoton', 'Poppins'],
+        fontsB: ['Bebas Neue', 'Press Start 2P', 'Bebas Neue', 'Space Grotesk', 'Righteous', 'Outfit', 'Caveat', 'Montserrat', 'Bebas Neue', 'Outfit'],
+        banners: ['VER TRÁILER 4K', 'JUGAR AHORA', 'TICKET ENTRADA', 'ESCUCHAR ÁLBUM', 'EN VIVO AHORA', 'VER GALERÍA', 'RISA & SHOW', 'SUMMER FEST', 'NIGHT PARTY VIP', 'UNIRSE AL CLUB']
+      },
+      'Belleza': {
+        icons: ['fa-gem', 'fa-sun', 'fa-sparkle', 'fa-heart', 'fa-moon', 'fa-user', 'fa-gift', 'fa-star', 'fa-ticket', 'fa-store', 'fa-wand-magic-sparkles', 'fa-pump-soap'],
+        bgColors: ['#fff1f2', '#f0fdf4', '#fdf4ff', '#fff7ed', '#f0f9ff', '#faf5ff', '#f7fee7', '#ffffff', '#fff1f2', '#0f172a'],
+        qrColors: ['#be123c', '#15803d', '#a21caf', '#c2410c', '#0369a1', '#6b21a8', '#4d7c0f', '#0f172a', '#9f1239', '#fef08a'],
+        fontsT: ['Great Vibes', 'Lora', 'Dancing Script', 'Satisfy', 'Comfortaa', 'Playfair Display', 'Caveat', 'Montserrat', 'Pacifico', 'Cinzel'],
+        fontsB: ['Satisfy', 'Comfortaa', 'Poppins', 'Outfit', 'Plus Jakarta Sans', 'Lora', 'Poppins', 'Outfit', 'Bebas Neue', 'Playfair Display'],
+        banners: ['RESERVAR CITA', 'SPA & RELAX', 'MAKEUP ARTIST', 'LASHES & NAILS', 'SKINCARE PRO', 'HAIR STYLIST', '100% NATURAL', 'TRATAMIENTOS', 'DESCUENTO 30%', 'PERFUMERÍA LUXE']
+      },
+      'Deportes': {
+        icons: ['fa-bolt', 'fa-trophy', 'fa-fire', 'fa-flag', 'fa-user', 'fa-ticket', 'fa-heart', 'fa-location-dot', 'fa-circle-info', 'fa-shield', 'fa-dumbbell', 'fa-person-running'],
+        bgColors: ['#09090b', '#052e16', '#0c4a6e', '#1e3a8a', '#18181b', '#fef2f2', '#f0fdf4', '#0f172a', '#ffffff', '#451a03'],
+        qrColors: ['#eab308', '#4ade80', '#38bdf8', '#ffffff', '#f97316', '#dc2626', '#166534', '#06b6d4', '#1e293b', '#f59e0b'],
+        fontsT: ['Oswald', 'Anton', 'Bebas Neue', 'Montserrat', 'Space Grotesk', 'Righteous', 'Poppins', 'Outfit', 'Roboto', 'Oswald'],
+        fontsB: ['Bebas Neue', 'Righteous', 'Outfit', 'Oswald', 'Poppins', 'Bebas Neue', 'Comfortaa', 'Space Grotesk', 'Plus Jakarta Sans', 'Cinzel'],
+        banners: ['POWER FITNESS', 'UNIRSE AL GYM', 'DESAFÍO 10K', 'HAZTE SOCIO', 'COACH PERSONAL', 'CLASE GRATIS', 'PLAN NUTRICIÓN', 'RESERVAR CANCHA', 'VER HORARIOS', 'CAMPEONES 2026']
+      },
+      'Comunidad': {
+        icons: ['fa-hands-holding-child', 'fa-people-roof', 'fa-comments', 'fa-book-open-reader', 'fa-hand-holding-heart', 'fa-paw', 'fa-seedling', 'fa-network-wired', 'fa-users', 'fa-handshake', 'fa-heart-circle-check', 'fa-house-heart'],
+        bgColors: ['#f0fdf4', '#fff7ed', '#eff6ff', '#fdf4ff', '#fef2f2', '#f7fee7', '#ecfdf5', '#0f172a', '#ffffff', '#fffbeb'],
+        qrColors: ['#15803d', '#c2410c', '#1d4ed8', '#86198f', '#b91c1c', '#3f6212', '#047857', '#38bdf8', '#334155', '#b45309'],
+        fontsT: ['Montserrat', 'Outfit', 'Poppins', 'Lora', 'Righteous', 'Comfortaa', 'Plus Jakarta Sans', 'Outfit', 'Montserrat', 'Playfair Display'],
+        fontsB: ['Poppins', 'Comfortaa', 'Space Grotesk', 'Cinzel', 'Outfit', 'Pacifico', 'Poppins', 'Space Grotesk', 'Plus Jakarta Sans', 'Lora'],
+        banners: ['SUMATE HOY', 'TU BARRIO', 'PARTICIPA', 'CLUB LECTOR', 'DONAR AHORA', 'ADOPTA UN AMIGO', 'ECO COMUNIDAD', 'UNIDOS HOY', 'ASOCIACIÓN', 'UNETE AL FORO']
+      },
+      'Gastronomía': {
+        icons: ['fa-utensils', 'fa-mug-hot', 'fa-pizza-slice', 'fa-burger', 'fa-fish', 'fa-wine-glass-empty', 'fa-cake-candles', 'fa-martini-glass-citrus', 'fa-plate-wheat', 'fa-truck-fast', 'fa-fire-burner', 'fa-ice-cream'],
+        bgColors: ['#0f172a', '#fff7ed', '#fef2f2', '#18181b', '#09090b', '#2e1065', '#fdf4ff', '#0c4a6e', '#ffffff', '#ecfeff'],
+        qrColors: ['#f59e0b', '#78350f', '#991b1b', '#eab308', '#ef4444', '#f43f5e', '#c026d3', '#38bdf8', '#111827', '#0e7490'],
+        fontsT: ['Cinzel', 'Caveat', 'Bebas Neue', 'Oswald', 'Space Grotesk', 'Playfair Display', 'Pacifico', 'Righteous', 'Abril Fatface', 'Anton'],
+        fontsB: ['Montserrat', 'Outfit', 'Righteous', 'Bebas Neue', 'Outfit', 'Lora', 'Comfortaa', 'Outfit', 'Montserrat', 'Poppins'],
+        banners: ['VER MENÚ', 'CARTA DE CAFÉS', 'PEDIR PIZZA', 'BURGER MENU', 'SUSHI & OMAKASE', 'CARTA DE VINOS', 'DULCES & PASTEL', 'CÓCTELES VIP', 'RESERVAR MESA', 'ORDEN RÁPIDA']
+      },
+      'Tecnología': {
+        icons: ['fa-headset', 'fa-mobile-screen-button', 'fa-cloud', 'fa-wifi', 'fa-shield-halved', 'fa-code', 'fa-microchip', 'fa-laptop', 'fa-cubes', 'fa-rocket', 'fa-robot', 'fa-server'],
+        bgColors: ['#09090b', '#0f172a', '#172554', '#022c22', '#0f172a', '#18181b', '#2e1065', '#ffffff', '#09090b', '#eff6ff'],
+        qrColors: ['#06b6d4', '#3b82f6', '#38bdf8', '#10b981', '#eab308', '#a855f7', '#ec4899', '#0284c7', '#f97316', '#2563eb'],
+        fontsT: ['Space Grotesk', 'Outfit', 'Space Grotesk', 'Fira Code', 'Montserrat', 'Fira Code', 'Righteous', 'Outfit', 'Space Grotesk', 'Plus Jakarta Sans'],
+        fontsB: ['Fira Code', 'Plus Jakarta Sans', 'Poppins', 'Space Grotesk', 'Outfit', 'Fira Code', 'Space Grotesk', 'Montserrat', 'Righteous', 'Poppins'],
+        banners: ['SOPORTE 24/7', 'DESCARGAR APP', 'PRUEBA GRATIS', 'CONECTAR WIFI', 'ACCESO SEGURO', 'VER REPOSITORIO', 'DESCUBRE LA IA', 'VER GADGETS', 'CRYPTO WALLET', 'VER DEMO']
+      },
+      'Salud': {
+        icons: ['fa-user-doctor', 'fa-pills', 'fa-tooth', 'fa-truck-medical', 'fa-microscope', 'fa-heart-pulse', 'fa-glasses', 'fa-person-walking', 'fa-brain', 'fa-heart', 'fa-stethoscope', 'fa-hospital'],
+        bgColors: ['#f0f9ff', '#f0fdf4', '#ffffff', '#fef2f2', '#ecfeff', '#fdf4ff', '#f8fafc', '#f7fee7', '#faf5ff', '#fff1f2'],
+        qrColors: ['#0284c7', '#166534', '#0891b2', '#dc2626', '#0f766e', '#701a75', '#334155', '#4d7c0f', '#6b21a8', '#be123c'],
+        fontsT: ['Montserrat', 'Poppins', 'Outfit', 'Righteous', 'Space Grotesk', 'Comfortaa', 'Lora', 'Plus Jakarta Sans', 'Playfair Display', 'Outfit'],
+        fontsB: ['Plus Jakarta Sans', 'Comfortaa', 'Poppins', 'Bebas Neue', 'Outfit', 'Poppins', 'Montserrat', 'Outfit', 'Lora', 'Poppins'],
+        banners: ['AGENDAR CITA', 'PEDIR RECETA', 'CONSULTA DENTAL', 'URGENCIAS 24H', 'RESULTADOS', 'SALUD INFANTIL', 'EXAMEN VISUAL', 'FISIOTERAPIA', 'SESIÓN ONLINE', 'CARDIOLOGÍA']
+      },
+      'Viajes': {
+        icons: ['fa-plane-departure', 'fa-hotel', 'fa-compass', 'fa-sun', 'fa-mountain', 'fa-ship', 'fa-map-location-dot', 'fa-car', 'fa-binoculars', 'fa-ticket', 'fa-globe-americas', 'fa-suitcase-rolling'],
+        bgColors: ['#0f172a', '#fffbeb', '#ecfeff', '#f0f9ff', '#f7fee7', '#0c4a6e', '#ffffff', '#18181b', '#fff7ed', '#fdf4ff'],
+        qrColors: ['#38bdf8', '#b45309', '#0891b2', '#0284c7', '#365314', '#00d8f6', '#1e293b', '#f97316', '#c2410c', '#a21caf'],
+        fontsT: ['Outfit', 'Cinzel', 'Pacifico', 'Righteous', 'Oswald', 'Montserrat', 'Poppins', 'Bebas Neue', 'Playfair Display', 'Space Grotesk'],
+        fontsB: ['Space Grotesk', 'Playfair Display', 'Montserrat', 'Comfortaa', 'Plus Jakarta Sans', 'Outfit', 'Roboto', 'Outfit', 'Lora', 'Poppins'],
+        banners: ['BOARDING PASS', 'RESERVA HOTEL', 'VER TOURS', 'PACK PLAYA', 'RUTA SENDERISMO', 'CRUCERO VIP', 'GUÍA CIUDAD', 'RENT A CAR', 'SAFARI TOUR', 'CHECK-IN RÁPIDO']
+      },
+      'Inmobiliaria': {
+        icons: ['fa-house', 'fa-building', 'fa-key', 'fa-user-tie', 'fa-vr-cardboard', 'fa-vector-square', 'fa-briefcase', 'fa-file-signature', 'fa-tree', 'fa-water', 'fa-city', 'fa-house-circle-check'],
+        bgColors: ['#ffffff', '#0f172a', '#f0f9ff', '#f8fafc', '#09090b', '#f7fee7', '#1e1b4b', '#fffbeb', '#f0fdf4', '#ecfeff'],
+        qrColors: ['#0f172a', '#fbbf24', '#0284c7', '#1e293b', '#06b6d4', '#365314', '#818cf8', '#78350f', '#166534', '#0891b2'],
+        fontsT: ['Montserrat', 'Cinzel', 'Poppins', 'Outfit', 'Space Grotesk', 'Oswald', 'Lora', 'Cinzel', 'Pacifico', 'Righteous'],
+        fontsB: ['Outfit', 'Playfair Display', 'Plus Jakarta Sans', 'Montserrat', 'Fira Code', 'Plus Jakarta Sans', 'Outfit', 'Lora', 'Comfortaa', 'Poppins'],
+        banners: ['VER PROPIEDAD', 'PENTHOUSE VIP', 'VER ALQUILER', 'MI CONTACTO', 'TOUR 360°', 'VER LOTES', 'OFICINAS PRO', 'AGENDAR FIRMA', 'CASA DE CAMPO', 'DEPO PLAYA']
+      },
+      'Educación': {
+        icons: ['fa-graduation-cap', 'fa-school', 'fa-certificate', 'fa-book', 'fa-language', 'fa-video', 'fa-user-graduate', 'fa-pen-to-square', 'fa-music', 'fa-laptop-code', 'fa-chalkboard-user', 'fa-brain'],
+        bgColors: ['#0f172a', '#ffffff', '#faf5ff', '#fff7ed', '#f0f9ff', '#18181b', '#f0fdf4', '#fef2f2', '#2e1065', '#09090b'],
+        qrColors: ['#38bdf8', '#1e3a8a', '#7e22ce', '#c2410c', '#0369a1', '#f43f5e', '#15803d', '#b91c1c', '#c026d3', '#10b981'],
+        fontsT: ['Outfit', 'Cinzel', 'Righteous', 'Lora', 'Poppins', 'Space Grotesk', 'Comfortaa', 'Roboto', 'Pacifico', 'Fira Code'],
+        fontsB: ['Plus Jakarta Sans', 'Montserrat', 'Poppins', 'Outfit', 'Comfortaa', 'Outfit', 'Plus Jakarta Sans', 'Poppins', 'Lora', 'Fira Code'],
+        banners: ['AULA VIRTUAL', 'ADMISIÓN 2026', 'INSCRIBIRSE', 'VER LIBROS', 'APRENDER HOY', 'VER MASTERCLASS', 'PEDIR TUTOR', 'INICIAR TEST', 'CLASES DE MÚSICA', 'FULLSTACK 2026']
+      },
+      'Eventos': {
+        icons: ['fa-ticket', 'fa-heart', 'fa-cake-candles', 'fa-calendar-days', 'fa-microphone', 'fa-users-between-lines', 'fa-display', 'fa-trophy', 'fa-gamepad', 'fa-utensils', 'fa-champagne-glasses', 'fa-ring'],
+        bgColors: ['#09090b', '#fff1f2', '#fdf4ff', '#ffffff', '#18181b', '#0f172a', '#eff6ff', '#0f172a', '#022c22', '#fff7ed'],
+        qrColors: ['#a855f7', '#be123c', '#c026d3', '#0f172a', '#f59e0b', '#38bdf8', '#1d4ed8', '#eab308', '#10b981', '#c2410c'],
+        fontsT: ['Space Grotesk', 'Great Vibes', 'Pacifico', 'Montserrat', 'Righteous', 'Outfit', 'Poppins', 'Cinzel', 'Press Start 2P', 'Bebas Neue'],
+        fontsB: ['Outfit', 'Satisfy', 'Poppins', 'Outfit', 'Bebas Neue', 'Space Grotesk', 'Plus Jakarta Sans', 'Playfair Display', 'Space Grotesk', 'Comfortaa'],
+        banners: ['ENTRADA VIP', 'NUESTRA BODA', 'INVITACIÓN CUMPLE', 'REGISTRO EXPO', 'LINEUP & TICKETS', 'NETWORKING VIP', 'UNIRSE AL WEBINAR', 'PREMIACIÓN 2026', 'TORNEO ESPORTS', 'ENTRADAS FERIA']
+      },
+      'Redes Sociales': {
+        icons: ['fa-brands fa-whatsapp', 'fa-brands fa-instagram', 'fa-brands fa-tiktok', 'fa-brands fa-youtube', 'fa-brands fa-facebook', 'fa-brands fa-linkedin', 'fa-brands fa-twitter', 'fa-brands fa-telegram', 'fa-brands fa-discord', 'fa-brands fa-pinterest', 'fa-brands fa-spotify', 'fa-share-nodes'],
+        bgColors: ['#f0fdf4', '#fdf4ff', '#09090b', '#fef2f2', '#eff6ff', '#f8fafc', '#f0f9ff', '#e0f2fe', '#5865f2', '#fff1f2'],
+        qrColors: ['#16a34a', '#e1306c', '#00f2fe', '#dc2626', '#1877f2', '#0a66c2', '#1da1f2', '#24a1de', '#ffffff', '#e60023'],
+        fontsT: ['Outfit', 'Poppins', 'Space Grotesk', 'Bebas Neue', 'Montserrat', 'Outfit', 'Space Grotesk', 'Poppins', 'Righteous', 'Pacifico'],
+        fontsB: ['Poppins', 'Space Grotesk', 'Righteous', 'Outfit', 'Plus Jakarta Sans', 'Roboto', 'Outfit', 'Space Grotesk', 'Fira Code', 'Comfortaa'],
+        banners: ['CHAT WHATSAPP', 'SEGUIR EN IG', 'TIKTOK CHANNEL', 'SUSCRIBIRSE', 'PÁGINA FACEBOOK', 'PERFIL LINKEDIN', 'SEGUIR EN X', 'GRUPO TELEGRAM', 'UNIRSE AL DISCORD', 'VER PINBOARD']
+      },
+      'Lujo': {
+        icons: ['fa-crown', 'fa-gem', 'fa-sparkles', 'fa-credit-card', 'fa-shirt', 'fa-clock', 'fa-car-side', 'fa-anchor', 'fa-wine-bottle', 'fa-castle', 'fa-ring', 'fa-award'],
+        bgColors: ['#0f172a', '#0f172a', '#fff1f2', '#000000', '#ffffff', '#0f172a', '#450a0a', '#0c4a6e', '#1c1917', '#18181b'],
+        qrColors: ['#fbbf24', '#e2e8f0', '#be123c', '#f59e0b', '#111827', '#38bdf8', '#ef4444', '#38bdf8', '#eab308', '#fbbf24'],
+        fontsT: ['Cinzel', 'Cinzel', 'Great Vibes', 'Space Grotesk', 'Abril Fatface', 'Cinzel', 'Bebas Neue', 'Playfair Display', 'Cinzel', 'Cinzel'],
+        fontsB: ['Playfair Display', 'Lora', 'Playfair Display', 'Outfit', 'Cinzel', 'Montserrat', 'Righteous', 'Outfit', 'Lora', 'Playfair Display'],
+        banners: ['COLECCIÓN LUXE', 'RESERVA PLATINUM', 'EDICIÓN LIMITADA', 'MEMBRESÍA BLACK', 'ALTA COSTURA', 'COLECCIÓN SUIZA', 'SUPERCAR VIP', 'YACHT CLUB', 'PRIVATE CELLAR', 'MANSIÓN PRIVADA']
+      },
+      'Música y Arte': {
+        icons: ['fa-music', 'fa-palette', 'fa-guitar', 'fa-drum', 'fa-headphones', 'fa-microphone', 'fa-icons', 'fa-brush', 'fa-image', 'fa-shapes', 'fa-record-vinyl', 'fa-radio'],
+        bgColors: ['#1e1b4b', '#faf5ff', '#09090b', '#fff7ed', '#0c4a6e', '#fdf4ff', '#18181b', '#0f172a', '#fef2f2', '#f0fdf4'],
+        qrColors: ['#a855f7', '#c026d3', '#38bdf8', '#f97316', '#00d8f6', '#e879f9', '#f43f5e', '#fbbf24', '#dc2626', '#10b981'],
+        fontsT: ['Monoton', 'Pacifico', 'Righteous', 'Lobster', 'Space Grotesk', 'Great Vibes', 'Bebas Neue', 'Cinzel', 'Anton', 'Comfortaa'],
+        fontsB: ['Righteous', 'Poppins', 'Space Grotesk', 'Caveat', 'Outfit', 'Satisfy', 'Bebas Neue', 'Playfair Display', 'Outfit', 'Comfortaa'],
+        banners: ['REPRODUCTOR MP3', 'GALERÍA DE ARTE', 'ESCUCHAR ÁLBUM', 'TALLER PINTURA', 'BEATS & MIXES', 'EXPOSICIÓN VIP', 'ALBUM DROP', 'CONCIERTO LIVE', 'SONIDO 3D', 'CREATIVIDAD ECO']
+      },
+      'Mascotas': {
+        icons: ['fa-paw', 'fa-dog', 'fa-cat', 'fa-bone', 'fa-shield-dog', 'fa-heart', 'fa-house-chimney-medical', 'fa-store', 'fa-star', 'fa-award', 'fa-scissors', 'fa-bowl-food'],
+        bgColors: ['#fff7ed', '#f7fee7', '#fdf4ff', '#f0fdf4', '#f0f9ff', '#fff1f2', '#ecfeff', '#faf5ff', '#ffffff', '#18181b'],
+        qrColors: ['#ea580c', '#65a30d', '#c026d3', '#166534', '#0284c7', '#be123c', '#0f766e', '#7e22ce', '#0f172a', '#f59e0b'],
+        fontsT: ['Comfortaa', 'Pacifico', 'Caveat', 'Plus Jakarta Sans', 'Poppins', 'Satisfy', 'Space Grotesk', 'Righteous', 'Montserrat', 'Outfit'],
+        fontsB: ['Outfit', 'Comfortaa', 'Poppins', 'Poppins', 'Plus Jakarta Sans', 'Outfit', 'Space Grotesk', 'Poppins', 'Montserrat', 'Bebas Neue'],
+        banners: ['PET SHOP DISCOUNTS', 'CLÍNICA VETERINARIA', 'CAT LOUNGE VIP', 'ALIMENTO PREMIUM', 'ADOPCIÓN RESPONSABLE', 'ESTÉTICA CANINA', 'PASEO DE PERROS', 'GUARDERÍA MASCOTA', 'CLUB PET LOVERS', 'CAMPEÓN CANINO']
+      },
+      'Automotriz': {
+        icons: ['fa-car', 'fa-car-side', 'fa-wrench', 'fa-oil-can', 'fa-gauge-high', 'fa-gas-pump', 'fa-key', 'fa-shield-halved', 'fa-truck-pickup', 'fa-motorcycle', 'fa-screwdriver-wrench', 'fa-battery-full'],
+        bgColors: ['#09090b', '#18181b', '#0f172a', '#450a0a', '#172554', '#ffffff', '#fff7ed', '#f8fafc', '#022c22', '#1c1917'],
+        qrColors: ['#ef4444', '#f59e0b', '#38bdf8', '#dc2626', '#3b82f6', '#0f172a', '#ea580c', '#475569', '#10b981', '#fb923c'],
+        fontsT: ['Oswald', 'Bebas Neue', 'Space Grotesk', 'Anton', 'Montserrat', 'Outfit', 'Righteous', 'Roboto', 'Fira Code', 'Cinzel'],
+        fontsB: ['Bebas Neue', 'Righteous', 'Fira Code', 'Oswald', 'Poppins', 'Outfit', 'Space Grotesk', 'Plus Jakarta Sans', 'Space Grotesk', 'Playfair Display'],
+        banners: ['AUTOS 0KM VENTA', 'TALLER MECÁNICO', 'LAVADO DE AUTOS', 'COMPUTEST TUNING', 'REPUESTOS ORIGINALES', 'ALQUILER DE AUTOS', 'GARANTÍA OFICIAL', 'CAMBIO DE ACEITE', 'EXPRESS SERVICE', 'MOTOS & ACCESORIOS']
+      },
+      'Finanzas': {
+        icons: ['fa-coins', 'fa-piggy-bank', 'fa-vault', 'fa-chart-line', 'fa-credit-card', 'fa-wallet', 'fa-scale-balanced', 'fa-shield-halved', 'fa-arrow-trend-up', 'fa-building-columns', 'fa-calculator', 'fa-receipt'],
+        bgColors: ['#052e16', '#0f172a', '#ffffff', '#172554', '#fffbeb', '#09090b', '#f0fdf4', '#f8fafc', '#ecfeff', '#faf5ff'],
+        qrColors: ['#22c55e', '#fbbf24', '#0f172a', '#38bdf8', '#b45309', '#10b981', '#15803d', '#334155', '#0891b2', '#7e22ce'],
+        fontsT: ['Cinzel', 'Space Grotesk', 'Montserrat', 'Outfit', 'Lora', 'Fira Code', 'Plus Jakarta Sans', 'Roboto', 'Playfair Display', 'Poppins'],
+        fontsB: ['Playfair Display', 'Fira Code', 'Outfit', 'Space Grotesk', 'Cinzel', 'Space Grotesk', 'Poppins', 'Montserrat', 'Lora', 'Plus Jakarta Sans'],
+        banners: ['BANCA DIGITAL', 'INVERSIONES PRO', 'CRYPTO WALLET', 'ASESORÍA FINANCIERA', 'CONTABILIDAD Y TAX', 'CRÉDITO APROBADO', 'FONDO DE INVERSIÓN', 'SEGUROS Y MUTUAL', 'BOLSA Y TRADING', 'ESTADO DE CUENTA']
+      },
+      'Naturaleza': {
+        icons: ['fa-tree', 'fa-seedling', 'fa-leaf', 'fa-sun', 'fa-mountain-sun', 'fa-water', 'fa-clover', 'fa-droplet', 'fa-recycle', 'fa-plant-wilt', 'fa-bug', 'fa-cloud-sun'],
+        bgColors: ['#f0fdf4', '#f7fee7', '#ecfdf5', '#fff7ed', '#022c22', '#ffffff', '#f0f9ff', '#fffbeb', '#faf5ff', '#18181b'],
+        qrColors: ['#166534', '#65a30d', '#047857', '#ea580c', '#34d399', '#15803d', '#0284c7', '#d97706', '#86198f', '#4ade80'],
+        fontsT: ['Comfortaa', 'Pacifico', 'Plus Jakarta Sans', 'Caveat', 'Space Grotesk', 'Montserrat', 'Poppins', 'Lora', 'Righteous', 'Outfit'],
+        fontsB: ['Poppins', 'Comfortaa', 'Poppins', 'Outfit', 'Space Grotesk', 'Outfit', 'Plus Jakarta Sans', 'Lora', 'Poppins', 'Space Grotesk'],
+        banners: ['PARQUE ECOLÓGICO', 'JARDINERÍA BOTÁNICA', 'GRANJA ORGÁNICA', 'ENERGÍA SOLAR', 'PRODUCTO ECO', 'ECO RECYCLING', 'CUIDADO AMBIENTAL', 'TURISMO VERDE', 'TIENDA SUSTENTABLE', 'FLORA & FAUNA']
+      }
     };
 
-    const frameStyles = ['top-banner', 'card-header', 'shield-badge', 'simple-border', 'pill-frame', 'gradient-border', 'neon-glow', 'ticket-dashed', 'vintage-border', 'dark-minimal'];
+    const categoriesList = Object.keys(categoryThemes);
 
-    this.categories.forEach(cat => {
-      const list = categoryPresets[cat] || categoryPresets['Institucional'];
-      list.forEach((preset, idx) => {
-        const i = idx + 1;
+    categoriesList.forEach((cat) => {
+      const theme = categoryThemes[cat];
+      for (let i = 0; i < 30; i++) {
+        const iconName = theme.icons[i % theme.icons.length];
+        const bgColor = theme.bgColors[i % theme.bgColors.length];
+        const qrColor = theme.qrColors[i % theme.qrColors.length];
+        const frameColor = theme.qrColors[(i + 2) % theme.qrColors.length];
+        const textColor = (bgColor === '#09090b' || bgColor === '#0f172a' || bgColor === '#18181b' || bgColor === '#022c22' || bgColor === '#1e1b4b' || bgColor === '#2e1065') ? '#f8fafc' : qrColor;
+        const fontTitle = theme.fontsT[i % theme.fontsT.length];
+        const fontBanner = theme.fontsB[i % theme.fontsB.length];
+        const bannerText = `${theme.banners[i % theme.banners.length]}${i >= 10 ? ` #${Math.floor(i / 10) + 1}` : ''}`;
+        const dotStyle = dotStyles[i % dotStyles.length];
+        const eyeStyle = eyeStyles[i % eyeStyles.length];
+        const frameShape = frameShapes[i % frameShapes.length];
+        const silhouetteMode = silhouetteModes[i % silhouetteModes.length];
+        const gradientType = (i % 3 === 1) ? 'linear' : ((i % 3 === 2) ? 'radial' : 'single');
+        const eyeGradientType = (i % 4 === 1) ? 'linear' : ((i % 4 === 3) ? 'radial' : 'single');
+        const qrColor2 = theme.qrColors[(i + 4) % theme.qrColors.length];
+        const eyeColor2 = theme.qrColors[(i + 5) % theme.qrColors.length];
+        const qrDensity = (i % 5 === 0) ? 80 : ((i % 5 === 1) ? 90 : 100);
+        const qrBoxRadius = (i % 4 === 0) ? 0 : ((i % 4 === 1) ? 12 : ((i % 4 === 2) ? 18 : 28));
+
         designs.push({
-          id: `design-${cat.toLowerCase().replace(/[^a-z0-9]/g, '')}-${i}`,
-          name: preset.name,
+          id: `design-${cat.toLowerCase().replace(/[^a-z0-9]/g, '')}-${i + 1}`,
+          name: `${theme.banners[i % theme.banners.length]} ${i + 1}`,
           category: cat,
-          bgColor: preset.bg,
-          qrColor: preset.qr,
-          frameColor: preset.frame,
-          textColor: preset.qr === '#ffffff' ? '#ffffff' : (preset.bg === '#09090b' || preset.bg === '#0f172a' || preset.bg === '#18181b' ? '#f8fafc' : preset.qr),
-          badgeBg: preset.frame,
-          badgeText: preset.bg === '#ffffff' || preset.bg === '#f8fafc' || preset.bg === '#f0f9ff' ? '#ffffff' : '#0f172a',
-          iconColor: preset.qr === '#ffffff' ? preset.frame : preset.qr,
-          iconBgColor: preset.bg === '#ffffff' ? '#ffffff' : (preset.bg.startsWith('#0') || preset.bg.startsWith('#1') || preset.bg.startsWith('#2') ? '#1e293b' : '#ffffff'),
-          iconBorderColor: preset.frame,
-          dotStyle: preset.dot,
-          eyeStyle: preset.eye,
-          frameStyle: frameStyles[(i - 1) % frameStyles.length],
-          iconName: preset.icon,
-          fontTitle: preset.fontT,
-          fontBanner: preset.fontB,
-          bannerText: preset.banner
+          bgColor,
+          qrColor,
+          frameColor,
+          textColor,
+          badgeBg: frameColor,
+          badgeText: (bgColor === '#ffffff' || bgColor.startsWith('#f0') || bgColor.startsWith('#f7') || bgColor.startsWith('#fa') || bgColor.startsWith('#ec')) ? '#ffffff' : '#0f172a',
+          iconColor: qrColor,
+          iconBgColor: '#ffffff',
+          iconBorderColor: frameColor,
+          dotStyle,
+          eyeStyle,
+          frameStyle: 'card-header',
+          frameShape,
+          iconName,
+          fontTitle,
+          fontBanner,
+          bannerText,
+          qrSilhouetteMode: silhouetteMode,
+          gradientType,
+          qrColor2,
+          eyeGradientType,
+          eyeColor2,
+          qrDensity,
+          qrBoxRadius,
+          eyeColor: qrColor
         });
-      });
+      }
     });
 
     return designs;
@@ -292,6 +311,28 @@ class QRGeneratorService {
     ctx.closePath();
   }
 
+  isDarkColor(hex) {
+    if (!hex || typeof hex !== 'string') return false;
+    let c = hex.replace('#', '');
+    if (c.length === 3) c = c.split('').map(x => x + x).join('');
+    const num = parseInt(c, 16);
+    if (isNaN(num)) return false;
+    const r = (num >> 16) & 0xff;
+    const g = (num >> 8) & 0xff;
+    const b = num & 0xff;
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance < 140;
+  }
+
+  hexToRgb(hex) {
+    if (!hex || typeof hex !== 'string') return { r: 100, g: 116, b: 139 };
+    let c = hex.replace('#', '');
+    if (c.length === 3) c = c.split('').map(x => x + x).join('');
+    const num = parseInt(c, 16);
+    if (isNaN(num)) return { r: 100, g: 116, b: 139 };
+    return { r: (num >> 16) & 0xff, g: (num >> 8) & 0xff, b: num & 0xff };
+  }
+
   drawDotPattern(ctx, x, y, size, style, color) {
     ctx.fillStyle = color;
     ctx.strokeStyle = color;
@@ -302,11 +343,12 @@ class QRGeneratorService {
     ctx.beginPath();
     switch (style) {
       case 'rounded':
-        this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, size * 0.3);
+        const rPad = Math.max(0.8, size * 0.08);
+        this.roundRect(ctx, x + rPad, y + rPad, size - rPad * 2, size - rPad * 2, size * 0.35);
         ctx.fill();
         break;
       case 'dots':
-        ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r * 0.98, 0, Math.PI * 2);
         ctx.fill();
         break;
       case 'smooth':
@@ -351,6 +393,7 @@ class QRGeneratorService {
         ctx.beginPath();
         ctx.arc(cx, cy, r * 0.4, 0, Math.PI * 2);
         ctx.fill();
+        ctx.fillStyle = color;
         break;
       case 'diamond_rounded':
         const p = size * 0.15;
@@ -400,12 +443,7 @@ class QRGeneratorService {
         }
         break;
       case 'shield_dot':
-        ctx.moveTo(cx, y + 1);
-        ctx.lineTo(x + size - 1, y + size * 0.3);
-        ctx.lineTo(x + size - 1, y + size * 0.7);
-        ctx.quadraticCurveTo(cx, y + size - 1, cx, y + size - 1);
-        ctx.quadraticCurveTo(x + 1, y + size * 0.7, x + 1, y + size * 0.3);
-        ctx.closePath();
+        this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, { tl: 1, tr: 1, br: size * 0.45, bl: size * 0.45 });
         ctx.fill();
         break;
       case 'flower':
@@ -418,6 +456,19 @@ class QRGeneratorService {
           ctx.arc(px, py, petalR * 0.85, 0, Math.PI * 2);
           ctx.fill();
         }
+        break;
+      case 'diagonal_lines':
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(Math.PI / 4);
+        this.roundRect(ctx, -r * 0.75, -r * 0.35, r * 1.5, r * 0.7, r * 0.3);
+        ctx.fill();
+        ctx.restore();
+        break;
+      case 'radial_drop':
+        const dropR = size * 0.45;
+        this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, { tl: dropR, tr: 0, br: dropR, bl: dropR });
+        ctx.fill();
         break;
       case 'square':
       default:
@@ -449,24 +500,232 @@ class QRGeneratorService {
   }
 
   drawHeartPath(ctx, x, y, size) {
-    const topCurveHeight = size * 0.3;
+    const topCurveHeight = size * 0.22;
     ctx.moveTo(x + size / 2, y + topCurveHeight);
-    ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + topCurveHeight);
-    ctx.bezierCurveTo(x, y + (size + topCurveHeight) / 2, x + size / 2, y + size, x + size / 2, y + size);
-    ctx.bezierCurveTo(x + size / 2, y + size, x + size, y + (size + topCurveHeight) / 2, x + size, y + topCurveHeight);
-    ctx.bezierCurveTo(x + size, y, x + size / 2, y, x + size / 2, y + topCurveHeight);
+    ctx.bezierCurveTo(x + size / 2, y - size * 0.04, x - size * 0.05, y - size * 0.04, x - size * 0.05, y + topCurveHeight);
+    ctx.bezierCurveTo(x - size * 0.05, y + size * 0.75, x + size * 0.15, y + size * 1.05, x + size / 2, y + size * 1.02);
+    ctx.bezierCurveTo(x + size * 0.85, y + size * 1.05, x + size * 1.05, y + size * 0.75, x + size * 1.05, y + topCurveHeight);
+    ctx.bezierCurveTo(x + size * 1.05, y - size * 0.04, x + size / 2, y - size * 0.04, x + size / 2, y + topCurveHeight);
     ctx.closePath();
   }
 
-  drawVectorIcon(ctx, iconName, cx, cy, size, color) {
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.scale(1.2, 1.0);
-    ctx.translate(-cx, -cy);
+  createSilhouetteAlphaMask(silhouetteMode, loadedIconImg, iconName) {
+    const maskW = 140;
+    const maskH = 140;
+    const maskCanvas = createCanvas(maskW, maskH);
+    const mctx = maskCanvas.getContext('2d');
+    mctx.clearRect(0, 0, maskW, maskH);
+    mctx.fillStyle = '#000000';
+    mctx.strokeStyle = '#000000';
 
+    const rawName = (iconName || '').toLowerCase();
+    const isHeartIcon = rawName.includes('heart');
+    const isCatIcon = rawName.includes('cat');
+    const isAppleIcon = rawName.includes('apple');
+    const isStarIcon = rawName.includes('star');
+    const isYoutubeIcon = rawName.includes('youtube') || rawName.includes('play');
+
+    if (isYoutubeIcon || (silhouetteMode.startsWith('icon') && isYoutubeIcon)) {
+      mctx.beginPath();
+      this.roundRect(mctx, 18, 22, 104, 96, 20);
+      mctx.fill();
+
+      mctx.globalCompositeOperation = 'destination-out';
+      mctx.beginPath();
+      mctx.moveTo(61, 56);
+      mctx.lineTo(84, 70);
+      mctx.lineTo(61, 84);
+      mctx.closePath();
+      mctx.fill();
+      mctx.globalCompositeOperation = 'source-over';
+    } else if (silhouetteMode === 'heart' || (silhouetteMode.startsWith('icon') && isHeartIcon)) {
+      mctx.beginPath();
+      this.drawHeartPath(mctx, 18, 18, 104);
+      mctx.fill();
+    } else if (silhouetteMode === 'apple' || (silhouetteMode.startsWith('icon') && isAppleIcon)) {
+      mctx.beginPath();
+      mctx.arc(70, 72, 42, 0, Math.PI * 2);
+      mctx.fill();
+      mctx.beginPath();
+      mctx.ellipse(70, 26, 14, 6, -Math.PI / 4, 0, Math.PI * 2);
+      mctx.fill();
+    } else if (silhouetteMode === 'cat' || (silhouetteMode.startsWith('icon') && isCatIcon)) {
+      mctx.beginPath();
+      mctx.arc(70, 74, 40, 0, Math.PI * 2);
+      mctx.fill();
+      mctx.beginPath();
+      mctx.moveTo(45, 48); mctx.lineTo(26, 24); mctx.lineTo(60, 40);
+      mctx.moveTo(95, 48); mctx.lineTo(114, 24); mctx.lineTo(80, 40);
+      mctx.fill();
+    } else if (silhouetteMode === 'star' || (silhouetteMode.startsWith('icon') && isStarIcon)) {
+      this.drawStarPath(mctx, 70, 70, 8, 54, 42);
+      mctx.fill();
+    } else if (silhouetteMode === 'circle') {
+      mctx.beginPath();
+      mctx.arc(70, 70, 44, 0, Math.PI * 2);
+      mctx.fill();
+    } else if (silhouetteMode === 'shield') {
+      mctx.beginPath();
+      mctx.moveTo(70, 22);
+      mctx.lineTo(114, 38);
+      mctx.lineTo(114, 80);
+      mctx.quadraticCurveTo(70, 116, 70, 116);
+      mctx.quadraticCurveTo(26, 80, 26, 38);
+      mctx.closePath();
+      mctx.fill();
+    } else if (silhouetteMode.startsWith('icon')) {
+      const iconBox = 110;
+      const iconOff = Math.round((maskW - iconBox) / 2);
+      if (loadedIconImg) {
+        mctx.drawImage(loadedIconImg, iconOff, iconOff, iconBox, iconBox);
+        const iconData = mctx.getImageData(0, 0, maskW, maskH);
+        const data = iconData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const a = data[i + 3];
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const isWhiteBg = (r > 235 && g > 235 && b > 235);
+          if (a < 30 || isWhiteBg) {
+            data[i + 3] = 0;
+          } else {
+            data[i] = 0;
+            data[i + 1] = 0;
+            data[i + 2] = 0;
+            data[i + 3] = 255;
+          }
+        }
+        mctx.putImageData(iconData, 0, 0);
+      } else if (iconName) {
+        this.drawVectorIcon(mctx, iconName, 70, 70, iconBox, '#000000', true);
+      } else {
+        mctx.beginPath();
+        this.roundRect(mctx, iconOff, iconOff, iconBox, iconBox, 14);
+        mctx.fill();
+      }
+    }
+
+    const imgData = mctx.getImageData(0, 0, maskW, maskH);
+    return { data: imgData.data, width: maskW, height: maskH };
+  }
+
+  /**
+   * Build a native canvas clip path that matches the silhouette shape.
+   * This is used in Phase B of the new architecture: ctx.clip() restricts drawing
+   * to only the silhouette region, then ctx.drawImage(offCanvas) composites the
+   * full-density QR data through that clip.
+   *
+   * For arbitrary icon shapes (loaded images / vector icons), we fall back to
+   * pixel-walking the alpha mask to build a rough convex-hull set of rects,
+   * or we use a simpler bbox + round-rect approach with the mask as a stencil
+   * via globalCompositeOperation.
+   */
+  buildSilhouetteClipPath(ctx, silhouetteMode, loadedIconImg, iconName, qrX, qrY, qrAreaSize, alphaMask, size, cellSize) {
+    const rawName = (iconName || '').toLowerCase();
+    const isHeartIcon    = rawName.includes('heart');
+    const isCatIcon      = rawName.includes('cat');
+    const isAppleIcon    = rawName.includes('apple');
+    const isStarIcon     = rawName.includes('star');
+    const isYoutubeIcon  = rawName.includes('youtube') || rawName.includes('play');
+
+    // User requirement: Reduce silhouette size by 30% (occupies 70% of qrAreaSize, centered)
+    // Leaves clean margins around the 3 finder patterns in corners
+    const silScale = 0.70;
+    const sw = qrAreaSize * silScale;
+    const sh = qrAreaSize * silScale;
+    const sx = qrX + (qrAreaSize - sw) / 2;
+    const sy = qrY + (qrAreaSize - sh) / 2;
+    const cx = sx + sw / 2;
+    const cy = sy + sh / 2;
+
+    const isBrandIcon = isYoutubeIcon || rawName.includes('whatsapp') || rawName.includes('instagram') || rawName.includes('tiktok') || rawName.includes('facebook') || rawName.includes('twitter') || rawName.includes('linkedin');
+
+    if (isBrandIcon || (silhouetteMode.startsWith('icon') && isBrandIcon)) {
+      // Rounded rectangle badge for brands
+      const rx = sw * 0.20;
+      this.roundRect(ctx, sx, sy, sw, sh, rx);
+
+    } else if (silhouetteMode === 'heart' || (silhouetteMode.startsWith('icon') && isHeartIcon)) {
+      // Natural, symmetric Heart silhouette (30% reduced, centered)
+      const hs = sw;
+      const topCurve = hs * 0.28;
+      ctx.moveTo(cx, sy + topCurve);
+      ctx.bezierCurveTo(cx, sy - hs * 0.05, sx - hs * 0.05, sy - hs * 0.05, sx - hs * 0.05, sy + topCurve);
+      ctx.bezierCurveTo(sx - hs * 0.05, sy + hs * 0.75, cx - hs * 0.15, sy + hs * 1.05, cx, sy + hs * 1.02);
+      ctx.bezierCurveTo(cx + hs * 0.15, sy + hs * 1.05, sx + hs * 1.05, sy + hs * 0.75, sx + hs * 1.05, sy + topCurve);
+      ctx.bezierCurveTo(sx + hs * 1.05, sy - hs * 0.05, cx, sy - hs * 0.05, cx, sy + topCurve);
+      ctx.closePath();
+
+    } else if (silhouetteMode === 'circle') {
+      ctx.arc(cx, cy, sw * 0.50, 0, Math.PI * 2);
+      ctx.closePath();
+
+    } else if (silhouetteMode === 'star' || (silhouetteMode.startsWith('icon') && isStarIcon)) {
+      this.drawStarPath(ctx, cx, cy, 8, sw * 0.54, sw * 0.44);
+      ctx.closePath();
+
+    } else if (silhouetteMode === 'shield' || (silhouetteMode.startsWith('icon') && rawName.includes('shield'))) {
+      const r = sw * 0.15;
+      ctx.moveTo(sx + r, sy);
+      ctx.lineTo(sx + sw - r, sy);
+      ctx.quadraticCurveTo(sx + sw, sy, sx + sw, sy + r);
+      ctx.lineTo(sx + sw, sy + sh * 0.70);
+      ctx.quadraticCurveTo(sx + sw, sy + sh, cx, sy + sh * 1.04);
+      ctx.quadraticCurveTo(sx, sy + sh, sx, sy + sh * 0.70);
+      ctx.lineTo(sx, sy + r);
+      ctx.quadraticCurveTo(sx, sy, sx + r, sy);
+      ctx.closePath();
+
+    } else if (silhouetteMode === 'apple' || (silhouetteMode.startsWith('icon') && isAppleIcon)) {
+      ctx.arc(cx, cy + sh * 0.05, sw * 0.46, 0, Math.PI * 2);
+      ctx.closePath();
+
+    } else if (silhouetteMode === 'cat' || (silhouetteMode.startsWith('icon') && isCatIcon)) {
+      ctx.arc(cx, cy + sh * 0.05, sw * 0.46, 0, Math.PI * 2);
+      ctx.closePath();
+
+    } else if (silhouetteMode.startsWith('icon')) {
+      // Branded rounded badge (matching qr_backgrounds.jpg)
+      const rx = sw * 0.20;
+      this.roundRect(ctx, sx, sy, sw, sh, rx);
+    } else {
+      ctx.rect(qrX, qrY, qrAreaSize, qrAreaSize);
+    }
+  }
+
+
+  isCellInsideSilhouette(r, c, size, cellX, cellY, cellSize, qrX, qrY, qrAreaSize, silhouetteMode, alphaMask) {
+    if (!silhouetteMode || silhouetteMode === 'none') return true;
+
+    // Finder Pattern Eyes + Quiet Zone + Format Info (9x9 corner regions) MUST ALWAYS be preserved
+    const isTopLeftEye = (r <= 8 && c <= 8);
+    const isTopRightEye = (r <= 8 && c >= size - 9);
+    const isBottomLeftEye = (r >= size - 9 && c <= 8);
+    if (isTopLeftEye || isTopRightEye || isBottomLeftEye) return true;
+
+    if (!alphaMask) return true;
+
+    const u = (c + 0.5) / size;
+    const v = (r + 0.5) / size;
+
+    const mx = Math.max(0, Math.min(alphaMask.width - 1, Math.floor(u * alphaMask.width)));
+    const my = Math.max(0, Math.min(alphaMask.height - 1, Math.floor(v * alphaMask.height)));
+    const idx = (my * alphaMask.width + mx) * 4 + 3;
+
+    return alphaMask.data[idx] > 20;
+  }
+
+  drawVectorIcon(ctx, iconName, cx, cy, size, color, isSilhouetteMask = false) {
+    ctx.save();
+
+    if (isSilhouetteMask) {
+      color = '#000000';
+    }
+
+    const innerWhite = isSilhouetteMask ? color : '#ffffff';
     ctx.fillStyle = color;
     ctx.strokeStyle = color;
-    ctx.lineWidth = Math.max(2, size / 10);
+    ctx.lineWidth = isSilhouetteMask ? Math.max(14, Math.round(size / 9)) : Math.max(2, size / 10);
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
@@ -545,7 +804,7 @@ class QRGeneratorService {
         ctx.closePath();
         ctx.fill();
         // Eye detail
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.arc(cx + size * 0.18, cy - size * 0.14, size * 0.04, 0, Math.PI * 2);
         ctx.fill();
@@ -561,7 +820,7 @@ class QRGeneratorService {
         ctx.quadraticCurveTo(cx, cy + size * 0.35, cx + size * 0.35, cy);
         ctx.closePath();
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.arc(cx + size * 0.2, cy - size * 0.06, size * 0.04, 0, Math.PI * 2);
         ctx.fill();
@@ -611,27 +870,32 @@ class QRGeneratorService {
       case 'brand-whatsapp':
         ctx.arc(cx, cy, size * 0.42, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        this.roundRect(ctx, cx - size * 0.22, cy - size * 0.22, size * 0.44, size * 0.44, size * 0.1);
-        ctx.fill();
-        ctx.fillStyle = color;
-        ctx.font = `bold ${Math.round(size * 0.4)}px sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('WA', cx, cy);
+        if (!isSilhouetteMask) {
+          ctx.fillStyle = innerWhite;
+          ctx.beginPath();
+          this.roundRect(ctx, cx - size * 0.22, cy - size * 0.22, size * 0.44, size * 0.44, size * 0.1);
+          ctx.fill();
+          ctx.fillStyle = color;
+          ctx.font = `bold ${Math.round(size * 0.4)}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('WA', cx, cy);
+        }
         break;
 
       case 'instagram':
       case 'brand-instagram':
         this.roundRect(ctx, cx - size * 0.4, cy - size * 0.4, size * 0.8, size * 0.8, size * 0.2);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(cx, cy, size * 0.2, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(cx + size * 0.22, cy - size * 0.22, size * 0.05, 0, Math.PI * 2);
         ctx.fill();
+        if (!isSilhouetteMask) {
+          ctx.strokeStyle = innerWhite;
+          ctx.beginPath();
+          ctx.arc(cx, cy, size * 0.2, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx + size * 0.22, cy - size * 0.22, size * 0.05, 0, Math.PI * 2);
+          ctx.fill();
+        }
         break;
 
       case 'tiktok':
@@ -650,18 +914,20 @@ class QRGeneratorService {
       case 'brand-facebook':
         ctx.arc(cx, cy, size * 0.42, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.font = `bold ${Math.round(size * 0.6)}px sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('f', cx + size * 0.05, cy);
+        if (!isSilhouetteMask) {
+          ctx.fillStyle = innerWhite;
+          ctx.font = `bold ${Math.round(size * 0.6)}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('f', cx + size * 0.05, cy);
+        }
         break;
 
       case 'youtube':
       case 'brand-youtube':
         this.roundRect(ctx, cx - size * 0.42, cy - size * 0.28, size * 0.84, size * 0.56, size * 0.12);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.moveTo(cx - size * 0.1, cy - size * 0.15);
         ctx.lineTo(cx + size * 0.18, cy);
@@ -735,12 +1001,15 @@ class QRGeneratorService {
         break;
       case 'envelope':
         this.roundRect(ctx, cx - size * 0.4, cy - size * 0.28, size * 0.8, size * 0.56, size * 0.08);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(cx - size * 0.4, cy - size * 0.28);
-        ctx.lineTo(cx, cy + size * 0.02);
-        ctx.lineTo(cx + size * 0.4, cy - size * 0.28);
-        ctx.stroke();
+        ctx.fill();
+        if (!isSilhouetteMask) {
+          ctx.strokeStyle = innerWhite;
+          ctx.beginPath();
+          ctx.moveTo(cx - size * 0.4, cy - size * 0.28);
+          ctx.lineTo(cx, cy + size * 0.02);
+          ctx.lineTo(cx + size * 0.4, cy - size * 0.28);
+          ctx.stroke();
+        }
         break;
       case 'user':
         ctx.arc(cx, cy - size * 0.18, size * 0.22, 0, Math.PI * 2);
@@ -751,63 +1020,85 @@ class QRGeneratorService {
         break;
       case 'globe':
         ctx.arc(cx, cy, size * 0.42, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(cx - size * 0.42, cy);
-        ctx.lineTo(cx + size * 0.42, cy);
-        ctx.moveTo(cx, cy - size * 0.42);
-        ctx.lineTo(cx, cy + size * 0.42);
-        ctx.stroke();
+        ctx.fill();
+        if (!isSilhouetteMask) {
+          ctx.strokeStyle = innerWhite;
+          ctx.beginPath();
+          ctx.moveTo(cx - size * 0.42, cy);
+          ctx.lineTo(cx + size * 0.42, cy);
+          ctx.moveTo(cx, cy - size * 0.42);
+          ctx.lineTo(cx, cy + size * 0.42);
+          ctx.stroke();
+        }
         break;
       case 'store':
-        ctx.moveTo(cx - size * 0.45, cy - size * 0.15);
-        ctx.lineTo(cx, cy - size * 0.4);
-        ctx.lineTo(cx + size * 0.45, cy - size * 0.15);
-        ctx.stroke();
-        this.roundRect(ctx, cx - size * 0.38, cy - size * 0.15, size * 0.76, size * 0.55, 4);
-        ctx.stroke();
+        if (isSilhouetteMask) {
+          this.roundRect(ctx, cx - size * 0.42, cy - size * 0.42, size * 0.84, size * 0.84, 8);
+          ctx.fill();
+        } else {
+          ctx.moveTo(cx - size * 0.45, cy - size * 0.15);
+          ctx.lineTo(cx, cy - size * 0.4);
+          ctx.lineTo(cx + size * 0.45, cy - size * 0.15);
+          ctx.stroke();
+          this.roundRect(ctx, cx - size * 0.38, cy - size * 0.15, size * 0.76, size * 0.55, 4);
+          ctx.stroke();
+        }
         break;
       case 'wifi':
-        ctx.arc(cx, cy + size * 0.3, size * 0.1, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(cx, cy + size * 0.3, size * 0.3, Math.PI * 1.25, Math.PI * 1.75);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(cx, cy + size * 0.3, size * 0.5, Math.PI * 1.25, Math.PI * 1.75);
-        ctx.stroke();
+        if (isSilhouetteMask) {
+          ctx.arc(cx, cy, size * 0.44, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.arc(cx, cy + size * 0.3, size * 0.1, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(cx, cy + size * 0.3, size * 0.3, Math.PI * 1.25, Math.PI * 1.75);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx, cy + size * 0.3, size * 0.5, Math.PI * 1.25, Math.PI * 1.75);
+          ctx.stroke();
+        }
         break;
       case 'utensils':
-        ctx.moveTo(cx - size * 0.2, cy - size * 0.4);
-        ctx.lineTo(cx - size * 0.2, cy + size * 0.4);
-        ctx.moveTo(cx - size * 0.3, cy - size * 0.4);
-        ctx.lineTo(cx - size * 0.3, cy - size * 0.1);
-        ctx.moveTo(cx - size * 0.1, cy - size * 0.4);
-        ctx.lineTo(cx - size * 0.1, cy - size * 0.1);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(cx + size * 0.2, cy + size * 0.4);
-        ctx.lineTo(cx + size * 0.2, cy - size * 0.4);
-        ctx.quadraticCurveTo(cx + size * 0.4, cy - size * 0.2, cx + size * 0.2, cy - size * 0.05);
-        ctx.fill();
+        if (isSilhouetteMask) {
+          this.roundRect(ctx, cx - size * 0.42, cy - size * 0.42, size * 0.84, size * 0.84, 8);
+          ctx.fill();
+        } else {
+          ctx.moveTo(cx - size * 0.2, cy - size * 0.4);
+          ctx.lineTo(cx - size * 0.2, cy + size * 0.4);
+          ctx.moveTo(cx - size * 0.3, cy - size * 0.4);
+          ctx.lineTo(cx - size * 0.3, cy - size * 0.1);
+          ctx.moveTo(cx - size * 0.1, cy - size * 0.4);
+          ctx.lineTo(cx - size * 0.1, cy - size * 0.1);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(cx + size * 0.2, cy + size * 0.4);
+          ctx.lineTo(cx + size * 0.2, cy - size * 0.4);
+          ctx.quadraticCurveTo(cx + size * 0.4, cy - size * 0.2, cx + size * 0.2, cy - size * 0.05);
+          ctx.fill();
+        }
         break;
       case 'car':
         this.roundRect(ctx, cx - size * 0.4, cy - size * 0.1, size * 0.8, size * 0.3, 4);
         ctx.fill();
         this.roundRect(ctx, cx - size * 0.25, cy - size * 0.3, size * 0.5, size * 0.22, 3);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.arc(cx - size * 0.22, cy + size * 0.2, size * 0.1, 0, Math.PI * 2);
         ctx.arc(cx + size * 0.22, cy + size * 0.2, size * 0.1, 0, Math.PI * 2);
         ctx.fill();
         break;
       case 'briefcase':
-        this.roundRect(ctx, cx - size * 0.4, cy - size * 0.15, size * 0.8, size * 0.55, 4);
+        this.roundRect(ctx, cx - size * 0.42, cy - size * 0.28, size * 0.84, size * 0.64, 6);
         ctx.fill();
         ctx.beginPath();
-        ctx.arc(cx, cy - size * 0.15, size * 0.18, Math.PI, 0);
-        ctx.stroke();
+        ctx.arc(cx, cy - size * 0.28, size * 0.18, Math.PI, 0);
+        if (isSilhouetteMask) {
+          ctx.fill();
+        } else {
+          ctx.stroke();
+        }
         break;
       case 'graduation-cap':
       case 'cap':
@@ -822,23 +1113,25 @@ class QRGeneratorService {
         break;
       case 'cart-shopping':
       case 'cart':
-        ctx.moveTo(cx - size * 0.4, cy - size * 0.3);
-        ctx.lineTo(cx - size * 0.25, cy - size * 0.3);
-        ctx.lineTo(cx - size * 0.1, cy + size * 0.15);
-        ctx.lineTo(cx + size * 0.35, cy + size * 0.15);
-        ctx.lineTo(cx + size * 0.4, cy - size * 0.2);
-        ctx.lineTo(cx - size * 0.2, cy - size * 0.2);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(cx - size * 0.05, cy + size * 0.32, size * 0.08, 0, Math.PI * 2);
-        ctx.arc(cx + size * 0.28, cy + size * 0.32, size * 0.08, 0, Math.PI * 2);
-        ctx.fill();
+        if (isSilhouetteMask) {
+          this.roundRect(ctx, cx - size * 0.42, cy - size * 0.42, size * 0.84, size * 0.84, 8);
+          ctx.fill();
+        } else {
+          ctx.moveTo(cx - size * 0.4, cy - size * 0.3);
+          ctx.lineTo(cx - size * 0.25, cy - size * 0.3);
+          ctx.lineTo(cx - size * 0.1, cy + size * 0.15);
+          ctx.lineTo(cx + size * 0.35, cy + size * 0.15);
+          ctx.lineTo(cx + size * 0.4, cy - size * 0.2);
+          ctx.lineTo(cx - size * 0.2, cy - size * 0.2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx - size * 0.05, cy + size * 0.32, size * 0.08, 0, Math.PI * 2);
+          ctx.arc(cx + size * 0.28, cy + size * 0.32, size * 0.08, 0, Math.PI * 2);
+          ctx.fill();
+        }
         break;
       case 'phone':
-        this.roundRect(ctx, cx - size * 0.25, cy - size * 0.42, size * 0.5, size * 0.84, size * 0.08);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(cx, cy + size * 0.3, size * 0.05, 0, Math.PI * 2);
+        this.roundRect(ctx, cx - size * 0.28, cy - size * 0.42, size * 0.56, size * 0.84, size * 0.08);
         ctx.fill();
         break;
       case 'gift':
@@ -853,7 +1146,7 @@ class QRGeneratorService {
         ctx.fill();
         this.roundRect(ctx, cx - size * 0.18, cy - size * 0.32, size * 0.36, size * 0.18, 3);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.arc(cx, cy + size * 0.12, size * 0.16, 0, Math.PI * 2);
         ctx.fill();
@@ -861,7 +1154,7 @@ class QRGeneratorService {
       case 'gamepad':
         this.roundRect(ctx, cx - size * 0.42, cy - size * 0.22, size * 0.84, size * 0.44, size * 0.18);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.fillRect(cx - size * 0.28, cy - size * 0.06, size * 0.14, size * 0.12);
         ctx.fillRect(cx - size * 0.23, cy - size * 0.12, size * 0.06, size * 0.24);
         ctx.beginPath();
@@ -872,7 +1165,7 @@ class QRGeneratorService {
       case 'hospital':
         this.roundRect(ctx, cx - size * 0.35, cy - size * 0.4, size * 0.7, size * 0.8, 4);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.fillRect(cx - size * 0.18, cy - size * 0.08, size * 0.36, size * 0.1);
         ctx.fillRect(cx - size * 0.05, cy - size * 0.21, size * 0.1, size * 0.36);
         break;
@@ -919,12 +1212,11 @@ class QRGeneratorService {
         break;
       case 'shield-halved':
       case 'shield':
-        ctx.moveTo(cx, cy - size * 0.45);
-        ctx.lineTo(cx + size * 0.4, cy - size * 0.3);
-        ctx.lineTo(cx + size * 0.4, cy + size * 0.1);
-        ctx.bezierCurveTo(cx + size * 0.4, cy + size * 0.4, cx, cy + size * 0.5, cx, cy + size * 0.5);
-        ctx.bezierCurveTo(cx, cy + size * 0.5, cx - size * 0.4, cy + size * 0.4, cx - size * 0.4, cy + size * 0.1);
-        ctx.lineTo(cx - size * 0.4, cy - size * 0.3);
+        ctx.moveTo(cx - size * 0.42, cy - size * 0.42);
+        ctx.lineTo(cx + size * 0.42, cy - size * 0.42);
+        ctx.lineTo(cx + size * 0.42, cy + size * 0.05);
+        ctx.quadraticCurveTo(cx + size * 0.42, cy + size * 0.44, cx, cy + size * 0.45);
+        ctx.quadraticCurveTo(cx - size * 0.42, cy + size * 0.44, cx - size * 0.42, cy + size * 0.05);
         ctx.closePath();
         ctx.fill();
         break;
@@ -942,7 +1234,7 @@ class QRGeneratorService {
       case 'film':
         this.roundRect(ctx, cx - size * 0.4, cy - size * 0.3, size * 0.8, size * 0.6, 4);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.fillRect(cx - size * 0.35, cy - size * 0.22, size * 0.1, size * 0.1);
         ctx.fillRect(cx - size * 0.35, cy + size * 0.12, size * 0.1, size * 0.1);
         ctx.fillRect(cx + size * 0.25, cy - size * 0.22, size * 0.1, size * 0.1);
@@ -955,7 +1247,7 @@ class QRGeneratorService {
         ctx.lineTo(cx, cy + size * 0.45);
         ctx.closePath();
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.arc(cx, cy - size * 0.12, size * 0.1, 0, Math.PI * 2);
         ctx.fill();
@@ -963,7 +1255,7 @@ class QRGeneratorService {
       case 'building':
         this.roundRect(ctx, cx - size * 0.32, cy - size * 0.42, size * 0.64, size * 0.84, 2);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         for (let r = -3; r <= 1; r++) {
           ctx.fillRect(cx - size * 0.2, cy + r * size * 0.12, size * 0.1, size * 0.08);
           ctx.fillRect(cx + size * 0.1, cy + r * size * 0.12, size * 0.1, size * 0.08);
@@ -980,7 +1272,7 @@ class QRGeneratorService {
       case 'ticket':
         this.roundRect(ctx, cx - size * 0.42, cy - size * 0.25, size * 0.84, size * 0.5, 4);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.arc(cx - size * 0.42, cy, size * 0.1, 0, Math.PI * 2);
         ctx.arc(cx + size * 0.42, cy, size * 0.1, 0, Math.PI * 2);
@@ -1025,11 +1317,14 @@ class QRGeneratorService {
       case 'circle-info':
       case 'info':
         ctx.arc(cx, cy, size * 0.42, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(cx, cy - size * 0.18, size * 0.06, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillRect(cx - size * 0.05, cy - size * 0.05, size * 0.1, size * 0.28);
+        if (!isSilhouetteMask) {
+          ctx.fillStyle = innerWhite;
+          ctx.beginPath();
+          ctx.arc(cx, cy - size * 0.18, size * 0.06, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillRect(cx - size * 0.05, cy - size * 0.05, size * 0.1, size * 0.28);
+        }
         break;
       case 'laptop':
         this.roundRect(ctx, cx - size * 0.32, cy - size * 0.32, size * 0.64, size * 0.44, 4);
@@ -1064,7 +1359,7 @@ class QRGeneratorService {
         ctx.lineTo(cx + size * 0.05, cy + size * 0.35);
         ctx.closePath();
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.arc(cx + size * 0.15, cy - size * 0.2, size * 0.06, 0, Math.PI * 2);
         ctx.fill();
@@ -1126,7 +1421,7 @@ class QRGeneratorService {
         ctx.quadraticCurveTo(cx, cy - size * 0.38, cx + size * 0.45, cy);
         ctx.quadraticCurveTo(cx, cy + size * 0.38, cx - size * 0.45, cy);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.beginPath();
         ctx.arc(cx, cy, size * 0.15, 0, Math.PI * 2);
         ctx.fill();
@@ -1156,7 +1451,7 @@ class QRGeneratorService {
         ctx.lineTo(cx - size * 0.42, cy - size * 0.05);
         ctx.closePath();
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.fillRect(cx - size * 0.1, cy + size * 0.1, size * 0.2, size * 0.3);
         break;
       case 'check':
@@ -1182,7 +1477,7 @@ class QRGeneratorService {
         // Universal emblem fallback for any other custom icon symbol
         this.roundRect(ctx, cx - size * 0.38, cy - size * 0.38, size * 0.76, size * 0.76, size * 0.2);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = innerWhite;
         ctx.font = `bold ${Math.round(size * 0.45)}px sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -1344,113 +1639,115 @@ class QRGeneratorService {
     const cardH = h - cardMargin * 2;
 
     const outerShape = iconOpts.frameShape || 'rectangular';
-    ctx.lineWidth = 4 * scale;
-    ctx.strokeStyle = colors.frameColor;
-    ctx.beginPath();
+    if (!iconOpts.skipBorder) {
+      ctx.lineWidth = 4 * scale;
+      ctx.strokeStyle = colors.frameColor;
+      ctx.beginPath();
 
-    switch (outerShape) {
-      case 'square':
-        this.roundRect(ctx, cardX, cardY, cardW, cardH, 12 * scale);
-        ctx.stroke();
-        break;
-      case 'rounded':
-        this.roundRect(ctx, cardX, cardY, cardW, cardH, 48 * scale);
-        ctx.stroke();
-        break;
-      case 'circle':
-        const circCenterY = cardY + cardH * 0.46;
-        const circR = 286 * scale;
-        ctx.arc(w / 2, circCenterY, circR, 0, Math.PI * 2);
-        ctx.stroke();
-        break;
-      case 'shield':
-        ctx.moveTo(cardX + 24 * scale, cardY);
-        ctx.lineTo(cardX + cardW - 24 * scale, cardY);
-        ctx.quadraticCurveTo(cardX + cardW, cardY, cardX + cardW, cardY + 24 * scale);
-        ctx.lineTo(cardX + cardW, cardY + cardH * 0.72);
-        ctx.quadraticCurveTo(w / 2, cardY + cardH + 10 * scale, cardX, cardY + cardH * 0.72);
-        ctx.lineTo(cardX, cardY + 24 * scale);
-        ctx.quadraticCurveTo(cardX, cardY, cardX + 24 * scale, cardY);
-        ctx.closePath();
-        ctx.stroke();
-        break;
-      case 'ticket':
-        ctx.moveTo(cardX + 20 * scale, cardY);
-        ctx.lineTo(cardX + cardW - 20 * scale, cardY);
-        ctx.quadraticCurveTo(cardX + cardW, cardY, cardX + cardW, cardY + 20 * scale);
-        ctx.lineTo(cardX + cardW, cardY + cardH * 0.46);
-        ctx.arc(cardX + cardW, cardY + cardH * 0.5, 16 * scale, Math.PI * 1.5, Math.PI * 0.5, true);
-        ctx.lineTo(cardX + cardW, cardY + cardH - 20 * scale);
-        ctx.quadraticCurveTo(cardX + cardW, cardY + cardH, cardX + cardW - 20 * scale, cardY + cardH);
-        ctx.lineTo(cardX + 20 * scale, cardY + cardH);
-        ctx.quadraticCurveTo(cardX, cardY + cardH, cardX, cardY + cardH - 20 * scale);
-        ctx.lineTo(cardX, cardY + cardH * 0.54);
-        ctx.arc(cardX, cardY + cardH * 0.5, 16 * scale, Math.PI * 0.5, Math.PI * 1.5, true);
-        ctx.lineTo(cardX, cardY + 20 * scale);
-        ctx.quadraticCurveTo(cardX, cardY, cardX + 20 * scale, cardY);
-        ctx.closePath();
-        ctx.stroke();
-        break;
-      case 'hexagonal':
-        const hxPad = 12 * scale;
-        ctx.moveTo(cardX + cardW / 2, cardY);
-        ctx.lineTo(cardX + cardW - hxPad, cardY + cardH * 0.16);
-        ctx.lineTo(cardX + cardW - hxPad, cardY + cardH * 0.84);
-        ctx.lineTo(cardX + cardW / 2, cardY + cardH);
-        ctx.lineTo(cardX + hxPad, cardY + cardH * 0.84);
-        ctx.lineTo(cardX + hxPad, cardY + cardH * 0.16);
-        ctx.closePath();
-        ctx.stroke();
-        break;
-      case 'diamond_card':
-        const dCut = 32 * scale;
-        ctx.moveTo(cardX + dCut, cardY);
-        ctx.lineTo(cardX + cardW - dCut, cardY);
-        ctx.lineTo(cardX + cardW, cardY + dCut);
-        ctx.lineTo(cardX + cardW, cardY + cardH - dCut);
-        ctx.lineTo(cardX + cardW - dCut, cardY + cardH);
-        ctx.lineTo(cardX + dCut, cardY + cardH);
-        ctx.lineTo(cardX, cardY + cardH - dCut);
-        ctx.lineTo(cardX, cardY + dCut);
-        ctx.closePath();
-        ctx.stroke();
-        break;
-      case 'badge_star':
-        const bCut = 36 * scale;
-        ctx.moveTo(cardX + bCut, cardY);
-        ctx.lineTo(cardX + cardW - bCut, cardY);
-        ctx.lineTo(cardX + cardW, cardY + bCut);
-        ctx.lineTo(cardX + cardW, cardY + cardH - bCut);
-        ctx.lineTo(cardX + bCut, cardY + cardH);
-        ctx.lineTo(cardX + bCut, cardY + cardH);
-        ctx.lineTo(cardX, cardY + cardH - bCut);
-        ctx.lineTo(cardX, cardY + bCut);
-        ctx.closePath();
-        ctx.stroke();
-        ctx.lineWidth = 2 * scale;
-        this.roundRect(ctx, cardX + 8 * scale, cardY + 8 * scale, cardW - 16 * scale, cardH - 16 * scale, 18 * scale);
-        ctx.stroke();
-        ctx.lineWidth = 4 * scale;
-        break;
-      case 'wavy':
-        const cRadius = 20 * scale;
-        ctx.moveTo(cardX + cRadius, cardY);
-        ctx.lineTo(cardX + cardW - cRadius, cardY);
-        ctx.arc(cardX + cardW, cardY, cRadius, Math.PI, Math.PI * 0.5, true);
-        ctx.lineTo(cardX + cardW, cardY + cardH - cRadius);
-        ctx.arc(cardX + cardW, cardY + cardH, cRadius, Math.PI * 1.5, Math.PI, true);
-        ctx.lineTo(cardX + cRadius, cardY + cardH);
-        ctx.arc(cardX, cardY + cardH, cRadius, 0, Math.PI * 1.5, true);
-        ctx.lineTo(cardX, cardY + cRadius);
-        ctx.arc(cardX, cardY, cRadius, Math.PI * 0.5, 0, true);
-        ctx.closePath();
-        ctx.stroke();
-        break;
-      case 'rectangular':
-      default:
-        this.roundRect(ctx, cardX, cardY, cardW, cardH, 24 * scale);
-        ctx.stroke();
-        break;
+      switch (outerShape) {
+        case 'square':
+          this.roundRect(ctx, cardX, cardY, cardW, cardH, 12 * scale);
+          ctx.stroke();
+          break;
+        case 'rounded':
+          this.roundRect(ctx, cardX, cardY, cardW, cardH, 48 * scale);
+          ctx.stroke();
+          break;
+        case 'circle':
+          const circCenterY = cardY + cardH * 0.46;
+          const circR = 286 * scale;
+          ctx.arc(w / 2, circCenterY, circR, 0, Math.PI * 2);
+          ctx.stroke();
+          break;
+        case 'shield':
+          ctx.moveTo(cardX + 24 * scale, cardY);
+          ctx.lineTo(cardX + cardW - 24 * scale, cardY);
+          ctx.quadraticCurveTo(cardX + cardW, cardY, cardX + cardW, cardY + 24 * scale);
+          ctx.lineTo(cardX + cardW, cardY + cardH * 0.72);
+          ctx.quadraticCurveTo(w / 2, cardY + cardH + 10 * scale, cardX, cardY + cardH * 0.72);
+          ctx.lineTo(cardX, cardY + 24 * scale);
+          ctx.quadraticCurveTo(cardX, cardY, cardX + 24 * scale, cardY);
+          ctx.closePath();
+          ctx.stroke();
+          break;
+        case 'ticket':
+          ctx.moveTo(cardX + 20 * scale, cardY);
+          ctx.lineTo(cardX + cardW - 20 * scale, cardY);
+          ctx.quadraticCurveTo(cardX + cardW, cardY, cardX + cardW, cardY + 20 * scale);
+          ctx.lineTo(cardX + cardW, cardY + cardH * 0.46);
+          ctx.arc(cardX + cardW, cardY + cardH * 0.5, 16 * scale, Math.PI * 1.5, Math.PI * 0.5, true);
+          ctx.lineTo(cardX + cardW, cardY + cardH - 20 * scale);
+          ctx.quadraticCurveTo(cardX + cardW, cardY + cardH, cardX + cardW - 20 * scale, cardY + cardH);
+          ctx.lineTo(cardX + 20 * scale, cardY + cardH);
+          ctx.quadraticCurveTo(cardX, cardY + cardH, cardX, cardY + cardH - 20 * scale);
+          ctx.lineTo(cardX, cardY + cardH * 0.54);
+          ctx.arc(cardX, cardY + cardH * 0.5, 16 * scale, Math.PI * 0.5, Math.PI * 1.5, true);
+          ctx.lineTo(cardX, cardY + 20 * scale);
+          ctx.quadraticCurveTo(cardX, cardY, cardX + 20 * scale, cardY);
+          ctx.closePath();
+          ctx.stroke();
+          break;
+        case 'hexagonal':
+          const hxPad = 12 * scale;
+          ctx.moveTo(cardX + cardW / 2, cardY);
+          ctx.lineTo(cardX + cardW - hxPad, cardY + cardH * 0.16);
+          ctx.lineTo(cardX + cardW - hxPad, cardY + cardH * 0.84);
+          ctx.lineTo(cardX + cardW / 2, cardY + cardH);
+          ctx.lineTo(cardX + hxPad, cardY + cardH * 0.84);
+          ctx.lineTo(cardX + hxPad, cardY + cardH * 0.16);
+          ctx.closePath();
+          ctx.stroke();
+          break;
+        case 'diamond_card':
+          const dCut = 32 * scale;
+          ctx.moveTo(cardX + dCut, cardY);
+          ctx.lineTo(cardX + cardW - dCut, cardY);
+          ctx.lineTo(cardX + cardW, cardY + dCut);
+          ctx.lineTo(cardX + cardW, cardY + cardH - dCut);
+          ctx.lineTo(cardX + cardW - dCut, cardY + cardH);
+          ctx.lineTo(cardX + dCut, cardY + cardH);
+          ctx.lineTo(cardX, cardY + cardH - dCut);
+          ctx.lineTo(cardX, cardY + dCut);
+          ctx.closePath();
+          ctx.stroke();
+          break;
+        case 'badge_star':
+          const bCut = 36 * scale;
+          ctx.moveTo(cardX + bCut, cardY);
+          ctx.lineTo(cardX + cardW - bCut, cardY);
+          ctx.lineTo(cardX + cardW, cardY + bCut);
+          ctx.lineTo(cardX + cardW, cardY + cardH - bCut);
+          ctx.lineTo(cardX + bCut, cardY + cardH);
+          ctx.lineTo(cardX + bCut, cardY + cardH);
+          ctx.lineTo(cardX, cardY + cardH - bCut);
+          ctx.lineTo(cardX, cardY + bCut);
+          ctx.closePath();
+          ctx.stroke();
+          ctx.lineWidth = 2 * scale;
+          this.roundRect(ctx, cardX + 8 * scale, cardY + 8 * scale, cardW - 16 * scale, cardH - 16 * scale, 18 * scale);
+          ctx.stroke();
+          ctx.lineWidth = 4 * scale;
+          break;
+        case 'wavy':
+          const cRadius = 20 * scale;
+          ctx.moveTo(cardX + cRadius, cardY);
+          ctx.lineTo(cardX + cardW - cRadius, cardY);
+          ctx.arc(cardX + cardW, cardY, cRadius, Math.PI, Math.PI * 0.5, true);
+          ctx.lineTo(cardX + cardW, cardY + cardH - cRadius);
+          ctx.arc(cardX + cardW, cardY + cardH, cRadius, Math.PI * 1.5, Math.PI, true);
+          ctx.lineTo(cardX + cRadius, cardY + cardH);
+          ctx.arc(cardX, cardY + cardH, cRadius, 0, Math.PI * 1.5, true);
+          ctx.lineTo(cardX, cardY + cRadius);
+          ctx.arc(cardX, cardY, cRadius, Math.PI * 0.5, 0, true);
+          ctx.closePath();
+          ctx.stroke();
+          break;
+        case 'rectangular':
+        default:
+          this.roundRect(ctx, cardX, cardY, cardW, cardH, 24 * scale);
+          ctx.stroke();
+          break;
+      }
     }
 
     const titlePos = iconOpts.titlePosition || 'bottom';
@@ -1460,12 +1757,12 @@ class QRGeneratorService {
     }
 
     const displayBannerText = bannerText || 'SCAN ME';
-    const isHeaderStyle = (style === 'top-banner' || style === 'shield-badge' || style === 'card-header');
+    const isHeaderStyle = (style === 'top-banner' || style === 'shield-badge' || style === 'card-header') || (bannerText !== undefined && bannerText !== null && bannerText !== '');
     const titleFontStack = this.getFontStack(fontTitle);
     const bannerFontStack = this.getFontStack(fontBanner);
 
     if (isHeaderStyle) {
-      if (style === 'card-header') {
+      if (style === 'card-header' && !iconOpts.skipBorder) {
         ctx.fillStyle = colors.frameColor;
         this.roundRect(ctx, cardX, cardY, cardW, 85 * scale, { tl: 24 * scale, tr: 24 * scale, br: 0, bl: 0 });
         ctx.fill();
@@ -1482,11 +1779,11 @@ class QRGeneratorService {
         const badgeX = (w - badgeW) / 2;
         const badgeY = cardY - (badgeH / 2);
 
-        ctx.fillStyle = colors.badgeBg;
+        ctx.fillStyle = colors.badgeBg || colors.frameColor || '#2563eb';
         this.roundRect(ctx, badgeX, badgeY, badgeW, badgeH, badgeH / 2);
         ctx.fill();
 
-        ctx.fillStyle = colors.badgeText;
+        ctx.fillStyle = colors.badgeText || '#ffffff';
         ctx.font = `bold ${Math.round(16 * scale)}px ${bannerFontStack}`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -1508,7 +1805,7 @@ class QRGeneratorService {
 
     const lineHeight = fontPx * 1.25;
     const titleUserOffset = (iconOpts.titleOffsetY || 0) * scale;
-    const defaultY = (titlePos === 'top') ? 120 : 575;
+    const defaultY = (titlePos === 'top') ? 120 : (iconOpts.skipBorder ? 665 : 625);
     const baseTitleY = (defaultY * scale) + titleUserOffset;
     const startY = baseTitleY - ((lines.length - 1) * lineHeight) / 2;
 
@@ -1650,16 +1947,23 @@ class QRGeneratorService {
     }
 
     const design = this.designs.find(d => d.id === designId) || this.designs[0];
+    const bgColor = params.bgColor || customColors.bgColor || design.bgColor;
+    const qrSilhouetteMode = params.qrSilhouetteMode || customColors.qrSilhouetteMode || 'none';
+    const skipWhiteCard = (qrSilhouetteMode === 'icon_pure');
 
-    const bgColor = customColors.bgColor || design.bgColor;
-    let activeQrColor = customColors.qrColor || design.qrColor;
-    const activeEyeColor = customColors.eyeColor || params.customEyeColor || activeQrColor;
-    const activeGradientType = customColors.gradientType || params.gradientType || 'single';
-    const activeQrColor2 = customColors.qrColor2 || params.qrColor2 || null;
-    const frameColor = customColors.frameColor || design.frameColor;
-    const textColor = customColors.textColor || design.textColor;
-    const badgeBg = customColors.badgeBg || design.badgeBg;
-    const badgeText = customColors.badgeText || design.badgeText;
+    let primaryQrColor = params.qrColor || customColors.qrColor || design.qrColor;
+    if (!skipWhiteCard && !this.isDarkColor(primaryQrColor)) {
+      primaryQrColor = this.isDarkColor(bgColor) ? bgColor : '#0f172a';
+    }
+    let activeQrColor = primaryQrColor;
+
+    const activeEyeColor = params.eyeColor || customColors.eyeColor || params.customEyeColor || primaryQrColor;
+    const activeGradientType = params.gradientType || customColors.gradientType || 'single';
+    const activeQrColor2 = params.qrColor2 || customColors.qrColor2 || null;
+    const frameColor = params.frameColor || customColors.frameColor || design.frameColor;
+    const textColor = params.textColor || customColors.textColor || design.textColor;
+    const badgeBg = params.badgeBg || customColors.badgeBg || design.badgeBg;
+    const badgeText = params.badgeText || customColors.badgeText || design.badgeText;
 
     const activeBannerText = (bannerText !== undefined && bannerText !== null && bannerText !== '') 
       ? String(bannerText) 
@@ -1668,7 +1972,14 @@ class QRGeneratorService {
     const dotStyle = customDotStyle || design.dotStyle || 'square';
     const eyeStyle = customEyeStyle || design.eyeStyle || 'square';
 
-    const qrData = QRCode.create(url, { errorCorrectionLevel: 'H' });
+    const qrOpts = { errorCorrectionLevel: 'H' };
+    const densityVal = (params.qrDensity !== undefined && params.qrDensity !== null) ? parseInt(params.qrDensity, 10) : 50;
+    // Map density (1% - 100%) to version (Version 3: 29x29 to Version 7: 45x45)
+    // Default at 50% density is Version 5 (37x37 modules)
+    const targetVersion = Math.max(3, Math.min(7, Math.round(2 + (densityVal / 100) * 5)));
+    qrOpts.version = targetVersion;
+
+    const qrData = QRCode.create(url, qrOpts);
     const modules = qrData.modules;
     const size = modules.size;
 
@@ -1683,6 +1994,9 @@ class QRGeneratorService {
 
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    const isDarkBg = this.isDarkColor(bgColor);
+    const microRatio = isDarkBg ? 0.78 : 0.76;
 
     const frameShape = params.frameShape || customColors.frameShape || 'rectangular';
 
@@ -1703,108 +2017,81 @@ class QRGeneratorService {
       customLogoDataUrl,
       loadedIconImg,
       frameShape,
+      skipBorder: (qrSilhouetteMode !== 'none'),
       titlePosition: params.titlePosition || 'bottom',
       titleOffsetY: parseInt(params.titleOffsetY, 10) || 0
     });
 
-    const qrAreaSize = 340 * scale;
-    const qrX = (canvasWidth - qrAreaSize) / 2;
-    const qrY = 175 * scale;
+    const rawQrAreaSize = (qrSilhouetteMode !== 'none') ? (440 * scale) : (340 * scale);
+    const cellSize = Math.max(2, Math.floor(rawQrAreaSize / size));
+    const qrAreaSize = cellSize * size;
+    const qrX = Math.round((canvasWidth - qrAreaSize) / 2);
+    const qrY = Math.round(155 * scale);
 
-    ctx.fillStyle = '#ffffff';
-    this.roundRect(ctx, qrX - (16 * scale), qrY - (16 * scale), qrAreaSize + (32 * scale), qrAreaSize + (32 * scale), 18 * scale);
-    ctx.fill();
+    const activeEyeColor1 = customColors.eyeColor || params.customEyeColor || activeQrColor;
+    const eyeGradType = customColors.eyeGradientType || params.eyeGradientType || 'single';
+    const activeEyeColor2 = customColors.eyeColor2 || params.eyeColor2 || null;
 
-    const cellSize = qrAreaSize / size;
-
-    if (activeGradientType !== 'single' && activeQrColor2) {
-      let grad;
-      if (activeGradientType === 'linear') {
-        grad = ctx.createLinearGradient(qrX, qrY, qrX + qrAreaSize, qrY + qrAreaSize);
-      } else {
-        grad = ctx.createRadialGradient(
-          qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, 0,
-          qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, qrAreaSize / 1.3
-        );
+    let finalEyeFill = activeEyeColor1;
+    if (eyeGradType !== 'single' && activeEyeColor2) {
+      const isEye1Dark = this.isDarkColor(activeEyeColor1);
+      const isEye2Dark = this.isDarkColor(activeEyeColor2);
+      if (isDarkBg ? (!isEye1Dark && !isEye2Dark) : (isEye1Dark && isEye2Dark)) {
+        let eGrad;
+        if (eyeGradType === 'linear') {
+          eGrad = ctx.createLinearGradient(qrX, qrY, qrX + qrAreaSize, qrY + qrAreaSize);
+        } else {
+          eGrad = ctx.createRadialGradient(
+            qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, 0,
+            qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, qrAreaSize / 1.3
+          );
+        }
+        eGrad.addColorStop(0, activeEyeColor1);
+        eGrad.addColorStop(1, activeEyeColor2);
+        finalEyeFill = eGrad;
       }
-      grad.addColorStop(0, activeQrColor);
-      grad.addColorStop(1, activeQrColor2);
-      activeQrColor = grad;
     }
 
-    if (dotStyle === 'connected') {
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          if (modules.get(r, c)) {
-            const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
-            if (isEye) continue;
+    if (!skipWhiteCard) {
+      const boxRadiusVal = (params.qrBoxRadius !== undefined ? parseInt(params.qrBoxRadius, 10) : (customColors.qrBoxRadius !== undefined ? parseInt(customColors.qrBoxRadius, 10) : 18)) * scale;
+      const cardPad = Math.max(26 * scale, Math.round(3 * cellSize));
+      ctx.fillStyle = '#ffffff';
+      this.roundRect(ctx, qrX - cardPad, qrY - cardPad, qrAreaSize + cardPad * 2, qrAreaSize + cardPad * 2, boxRadiusVal);
+      ctx.fill();
 
-            const cellX = qrX + c * cellSize;
-            const cellY = qrY + r * cellSize;
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
+      ctx.lineWidth = 1.5 * scale;
+      this.roundRect(ctx, qrX - cardPad, qrY - cardPad, qrAreaSize + cardPad * 2, qrAreaSize + cardPad * 2, boxRadiusVal);
+      ctx.stroke();
+    }
+    let alphaMask = null;
+    if (qrSilhouetteMode !== 'none') {
+      alphaMask = this.createSilhouetteAlphaMask(qrSilhouetteMode, loadedIconImg, iconName);
+    }
 
-            const top = (r > 0 && modules.get(r - 1, c) && !(r - 1 < 7 && c < 7) && !(r - 1 < 7 && c >= size - 7) && !(r - 1 >= size - 7 && c < 7));
-            const bottom = (r < size - 1 && modules.get(r + 1, c) && !(r + 1 < 7 && c < 7) && !(r + 1 < 7 && c >= size - 7) && !(r + 1 >= size - 7 && c < 7));
-            const left = (c > 0 && modules.get(r, c - 1) && !(r < 7 && c - 1 < 7) && !(r < 7 && c - 1 >= size - 7) && !(r >= size - 7 && c - 1 < 7));
-            const right = (c < size - 1 && modules.get(r, c + 1) && !(r < 7 && c + 1 < 7) && !(r < 7 && c + 1 >= size - 7) && !(r >= size - 7 && c + 1 < 7));
+    let activeDotStyle = dotStyle || 'rounded';
+    let effectiveGradientType = activeGradientType;
 
-            const radiusVal = cellSize * 0.45;
-            const radii = {
-              tl: (top || left) ? 0 : radiusVal,
-              tr: (top || right) ? 0 : radiusVal,
-              br: (bottom || right) ? 0 : radiusVal,
-              bl: (bottom || left) ? 0 : radiusVal
-            };
+    if (qrSilhouetteMode !== 'none') {
+      effectiveGradientType = 'single';
+    }
 
-            ctx.fillStyle = activeQrColor;
-            this.roundRect(ctx, cellX + 0.3, cellY + 0.3, cellSize - 0.6, cellSize - 0.6, radii);
-            ctx.fill();
-          }
+    if (effectiveGradientType !== 'single' && activeQrColor2) {
+      const isQr1Dark = this.isDarkColor(activeQrColor);
+      const isQr2Dark = this.isDarkColor(activeQrColor2);
+      if (isDarkBg ? (!isQr1Dark && !isQr2Dark) : (isQr1Dark && isQr2Dark)) {
+        let grad;
+        if (effectiveGradientType === 'linear') {
+          grad = ctx.createLinearGradient(qrX, qrY, qrX + qrAreaSize, qrY + qrAreaSize);
+        } else {
+          grad = ctx.createRadialGradient(
+            qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, 0,
+            qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, qrAreaSize / 1.3
+          );
         }
-      }
-    } else if (dotStyle === 'polar') {
-      const centerIndex = (size - 1) / 2;
-      const maxRadius = qrAreaSize / 2;
-      ctx.fillStyle = activeQrColor;
-      ctx.strokeStyle = activeQrColor;
-
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          if (modules.get(r, c)) {
-            const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
-            if (isEye) continue;
-
-            const dr = r - centerIndex;
-            const dc = c - centerIndex;
-            const normDist = Math.hypot(dr, dc) / centerIndex;
-            const ringR = normDist * maxRadius;
-            const angle = Math.atan2(dr, dc);
-            const arcLength = (cellSize / qrAreaSize) * Math.PI * 1.6;
-
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, ringR, angle - arcLength, angle + arcLength);
-            ctx.lineWidth = Math.max(2, cellSize * 0.85);
-            ctx.lineCap = 'round';
-            ctx.stroke();
-            ctx.restore();
-          }
-        }
-      }
-    } else {
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          if (modules.get(r, c)) {
-            const isTopLeftEye = (r < 7 && c < 7);
-            const isTopRightEye = (r < 7 && c >= size - 7);
-            const isBottomLeftEye = (r >= size - 7 && c < 7);
-
-            if (isTopLeftEye || isTopRightEye || isBottomLeftEye) continue;
-
-            const cellX = qrX + c * cellSize;
-            const cellY = qrY + r * cellSize;
-            this.drawDotPattern(ctx, cellX, cellY, cellSize, dotStyle, activeQrColor);
-          }
-        }
+        grad.addColorStop(0, activeQrColor);
+        grad.addColorStop(1, activeQrColor2);
+        activeQrColor = grad;
       }
     }
 
@@ -1819,26 +2106,179 @@ class QRGeneratorService {
       { x: qrX, y: qrY + (size - 7) * cellSize }
     ];
 
-    eyes.forEach(eye => {
-      this.drawEye(ctx, eye.x, eye.y, outerRadius, eyeStyle, activeEyeColor);
-      ctx.fillStyle = '#ffffff';
-      if (eyeStyle === 'circle') {
-        ctx.beginPath();
-        ctx.arc(eye.x + outerRadius / 2, eye.y + outerRadius / 2, (outerRadius - 2 * cellSize) / 2, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (eyeStyle === 'rounded') {
-        this.roundRect(ctx, eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize, (outerRadius - 2 * cellSize) * 0.25);
-        ctx.fill();
-      } else if (eyeStyle === 'leaf') {
-        this.roundRect(ctx, eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize, { tl: (outerRadius - 2 * cellSize) * 0.35, tr: 0, br: (outerRadius - 2 * cellSize) * 0.35, bl: 0 });
-        ctx.fill();
-      } else {
-        ctx.fillRect(eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize);
-      }
-      this.drawEye(ctx, eye.x + innerOffset, eye.y + innerOffset, innerSize, eyeStyle, activeEyeColor);
-    });
+    const safeEyeStyle = ['square', 'rounded', 'circle', 'leaf'].includes(eyeStyle) ? eyeStyle : 'rounded';
+    const effectiveEyeStyle = (qrSilhouetteMode !== 'none') ? 'rounded' : safeEyeStyle;
 
-    if (showIcon && iconPosition === 'center') {
+    // Helper: draw the 3 finder-pattern eyes on a given context (no clip restrictions)
+    const drawFinderEyes = (targetCtx, eyeFill) => {
+      eyes.forEach(eye => {
+        targetCtx.fillStyle = skipWhiteCard ? bgColor : '#ffffff';
+        targetCtx.fillRect(eye.x - cellSize, eye.y - cellSize, 9 * cellSize, 9 * cellSize);
+        this.drawEye(targetCtx, eye.x, eye.y, outerRadius, effectiveEyeStyle, eyeFill);
+        targetCtx.fillStyle = skipWhiteCard ? bgColor : '#ffffff';
+        if (effectiveEyeStyle === 'circle') {
+          targetCtx.beginPath();
+          targetCtx.arc(eye.x + outerRadius / 2, eye.y + outerRadius / 2, (outerRadius - 2 * cellSize) / 2, 0, Math.PI * 2);
+          targetCtx.fill();
+        } else if (effectiveEyeStyle === 'rounded') {
+          this.roundRect(targetCtx, eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize, (outerRadius - 2 * cellSize) * 0.15);
+          targetCtx.fill();
+        } else if (effectiveEyeStyle === 'leaf') {
+          this.roundRect(targetCtx, eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize, { tl: (outerRadius - 2 * cellSize) * 0.22, tr: 0, br: (outerRadius - 2 * cellSize) * 0.22, bl: 0 });
+          targetCtx.fill();
+        } else {
+          targetCtx.fillRect(eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize);
+        }
+        this.drawEye(targetCtx, eye.x + innerOffset, eye.y + innerOffset, innerSize, effectiveEyeStyle, eyeFill);
+      });
+    };
+
+    if (qrSilhouetteMode === 'none') {
+      // ── Standard QR (no silhouette) ──────────────────────────────────────────
+      drawFinderEyes(ctx, finalEyeFill);
+
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          const isDataModule = modules.get(r, c);
+          const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+          if (isEye) continue;
+
+          const cellX = qrX + c * cellSize;
+          const cellY = qrY + r * cellSize;
+          const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
+          const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
+          const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
+
+          if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
+            if (isDataModule) { ctx.fillStyle = primaryQrColor; ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1); }
+          } else if (isDataModule) {
+            if (activeDotStyle === 'connected') {
+              const getMod = (row, col) => (row >= 0 && row < size && col >= 0 && col < size) ? modules.get(row, col) : false;
+              const top = getMod(r - 1, c); const bottom = getMod(r + 1, c);
+              const left = getMod(r, c - 1); const right = getMod(r, c + 1);
+              const radiusVal = cellSize * 0.45;
+              const radii = { tl: (top || left) ? 0 : radiusVal, tr: (top || right) ? 0 : radiusVal, br: (bottom || right) ? 0 : radiusVal, bl: (bottom || left) ? 0 : radiusVal };
+              ctx.fillStyle = activeQrColor;
+              this.roundRect(ctx, cellX + 0.3, cellY + 0.3, cellSize - 0.6, cellSize - 0.6, radii);
+              ctx.fill();
+            } else {
+              this.drawDotPattern(ctx, cellX, cellY, cellSize, activeDotStyle, activeQrColor);
+            }
+          }
+        }
+      }
+    } else {
+      // ── Silhouette QR — DUAL-CONTRAST ARCHITECTURE ──────────────────────────
+      //
+      // 1. Draw subtle background data dots on the main canvas
+      //    Guarantees 100% camera decodability (ZXing, Google Lens, iOS Camera)
+      //    even when the central silhouette is reduced by at least 30%.
+      const { r: cr_, g: cg_, b: cb_ } = this.hexToRgb(primaryQrColor);
+      const outsideColor = isDarkBg 
+        ? 'rgba(255, 255, 255, 0.50)' 
+        : `rgba(${cr_}, ${cg_}, ${cb_}, 0.50)`;
+
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          const isDataModule = modules.get(r, c);
+          if (!isDataModule) continue;
+
+          const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+          if (isEye) continue;
+
+          const cellX = qrX + c * cellSize;
+          const cellY = qrY + r * cellSize;
+          const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
+          const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
+          const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
+
+          if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
+            ctx.fillStyle = primaryQrColor;
+            ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
+          } else {
+            ctx.fillStyle = outsideColor;
+            ctx.beginPath();
+            ctx.arc(cellX + cellSize / 2, cellY + cellSize / 2, cellSize * 0.48, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      // 2. Offscreen canvas: full-density silhouette interior using the selected dot pattern
+      const offCanvas = createCanvas(canvasWidth, canvasHeight);
+      const offCtx = offCanvas.getContext('2d');
+      offCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          const isDataModule = modules.get(r, c);
+          if (!isDataModule) continue;
+
+          const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+          if (isEye) continue;
+
+          const cellX = qrX + c * cellSize;
+          const cellY = qrY + r * cellSize;
+          const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
+          const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
+          const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
+
+          if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
+            offCtx.fillStyle = primaryQrColor;
+            offCtx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
+          } else if (activeDotStyle === 'connected') {
+            const getMod = (row, col) => (row >= 0 && row < size && col >= 0 && col < size) ? modules.get(row, col) : false;
+            const top = getMod(r - 1, c); const bottom = getMod(r + 1, c);
+            const left = getMod(r, c - 1); const right = getMod(r, c + 1);
+            const radiusVal = cellSize * 0.45;
+            const radii = { tl: (top || left) ? 0 : radiusVal, tr: (top || right) ? 0 : radiusVal, br: (bottom || right) ? 0 : radiusVal, bl: (bottom || left) ? 0 : radiusVal };
+            offCtx.fillStyle = primaryQrColor;
+            this.roundRect(offCtx, cellX + 0.3, cellY + 0.3, cellSize - 0.6, cellSize - 0.6, radii);
+            offCtx.fill();
+          } else {
+            this.drawDotPattern(offCtx, cellX, cellY, cellSize, activeDotStyle, primaryQrColor);
+          }
+        }
+      }
+
+      // 3. Clip to silhouette shape (reduced 30%), clear interior with clean card background, stamp offscreen
+      ctx.save();
+      ctx.beginPath();
+      this.buildSilhouetteClipPath(ctx, qrSilhouetteMode, loadedIconImg, iconName, qrX, qrY, qrAreaSize, alphaMask, size, cellSize);
+      ctx.clip();
+      ctx.fillStyle = skipWhiteCard ? bgColor : '#ffffff';
+      ctx.fillRect(qrX, qrY, qrAreaSize, qrAreaSize);
+      ctx.drawImage(offCanvas, 0, 0);
+      ctx.restore();
+
+      // 4. Finder pattern eyes — drawn on top without clip, always fully visible
+      drawFinderEyes(ctx, finalEyeFill);
+
+      // 5. Ensure format information and timing modules are 100% crisp and intact on top
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+          if (isEye) continue;
+          const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
+          const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
+          const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
+          if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
+            const cellX = qrX + c * cellSize;
+            const cellY = qrY + r * cellSize;
+            if (modules.get(r, c)) {
+              ctx.fillStyle = primaryQrColor;
+              ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
+            } else {
+              ctx.fillStyle = skipWhiteCard ? bgColor : '#ffffff';
+              ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
+            }
+          }
+        }
+      }
+    }
+
+    const shouldDrawCenterBadge = (showIcon !== false) && (qrSilhouetteMode === 'none' || qrSilhouetteMode === 'icon_center');
+    if (shouldDrawCenterBadge && iconPosition === 'center') {
       const centerBoxSize = (iconSize || 34) * 2.2 * scale;
       const centerBoxX = qrX + (qrAreaSize - centerBoxSize) / 2;
       const centerBoxY = qrY + (qrAreaSize - centerBoxSize) / 2;
