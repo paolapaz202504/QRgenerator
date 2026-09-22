@@ -2171,12 +2171,10 @@ class QRGeneratorService {
       // ── Silhouette QR — DUAL-CONTRAST ARCHITECTURE ──────────────────────────
       //
       // 1. Draw subtle background data dots on the main canvas
-      //    Guarantees 100% camera decodability (ZXing, Google Lens, iOS Camera)
-      //    even when the central silhouette is reduced by at least 30%.
-      const { r: cr_, g: cg_, b: cb_ } = this.hexToRgb(primaryQrColor);
+      //    Uses neutral slate gray (NOT blue) so the central silhouette pops with maximum contrast!
       const outsideColor = isDarkBg 
-        ? 'rgba(255, 255, 255, 0.50)' 
-        : `rgba(${cr_}, ${cg_}, ${cb_}, 0.50)`;
+        ? 'rgba(255, 255, 255, 0.45)' 
+        : 'rgba(71, 85, 105, 0.48)';
 
       for (let r = 0; r < size; r++) {
         for (let c = 0; c < size; c++) {
@@ -2188,23 +2186,15 @@ class QRGeneratorService {
 
           const cellX = qrX + c * cellSize;
           const cellY = qrY + r * cellSize;
-          const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
-          const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
-          const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
 
-          if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
-            ctx.fillStyle = primaryQrColor;
-            ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
-          } else {
-            ctx.fillStyle = outsideColor;
-            ctx.beginPath();
-            ctx.arc(cellX + cellSize / 2, cellY + cellSize / 2, cellSize * 0.48, 0, Math.PI * 2);
-            ctx.fill();
-          }
+          ctx.fillStyle = outsideColor;
+          ctx.beginPath();
+          ctx.arc(cellX + cellSize / 2, cellY + cellSize / 2, cellSize * 0.48, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
 
-      // 2. Offscreen canvas: full-density silhouette interior using the selected dot pattern
+      // 2. Offscreen canvas: full-density silhouette interior using the selected dot pattern (no forced lines!)
       const offCanvas = createCanvas(canvasWidth, canvasHeight);
       const offCtx = offCanvas.getContext('2d');
       offCtx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -2219,14 +2209,8 @@ class QRGeneratorService {
 
           const cellX = qrX + c * cellSize;
           const cellY = qrY + r * cellSize;
-          const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
-          const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
-          const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
 
-          if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
-            offCtx.fillStyle = primaryQrColor;
-            offCtx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
-          } else if (activeDotStyle === 'connected') {
+          if (activeDotStyle === 'connected') {
             const getMod = (row, col) => (row >= 0 && row < size && col >= 0 && col < size) ? modules.get(row, col) : false;
             const top = getMod(r - 1, c); const bottom = getMod(r + 1, c);
             const left = getMod(r, c - 1); const right = getMod(r, c + 1);
@@ -2254,22 +2238,19 @@ class QRGeneratorService {
       // 4. Finder pattern eyes — drawn on top without clip, always fully visible
       drawFinderEyes(ctx, finalEyeFill);
 
-      // 5. Ensure format information and timing modules are 100% crisp and intact on top
+      // 5. Format info preservation ONLY in 9x9 corner zones immediately adjacent to finder eyes
+      // We NEVER draw across rows/cols 6 between finders, avoiding any connecting lines!
       for (let r = 0; r < size; r++) {
         for (let c = 0; c < size; c++) {
-          const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
-          if (isEye) continue;
-          const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
-          const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
-          const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
-          if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
-            const cellX = qrX + c * cellSize;
-            const cellY = qrY + r * cellSize;
-            if (modules.get(r, c)) {
+          const isNearTLEye = (r <= 8 && c <= 8);
+          const isNearTREye = (r <= 8 && c >= size - 8);
+          const isNearBLEye = (r >= size - 8 && c <= 8);
+          if (isNearTLEye || isNearTREye || isNearBLEye) {
+            const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
+            if (!isEye && modules.get(r, c)) {
+              const cellX = qrX + c * cellSize;
+              const cellY = qrY + r * cellSize;
               ctx.fillStyle = primaryQrColor;
-              ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
-            } else {
-              ctx.fillStyle = skipWhiteCard ? bgColor : '#ffffff';
               ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
             }
           }
