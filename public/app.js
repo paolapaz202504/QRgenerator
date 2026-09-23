@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   btnReset.addEventListener('click', async () => {
-    urlInput.value = 'Escribe o pega tu enlace';
+    urlInput.value = 'QRbey';
     titleInput.value = 'Escribe o pega el texto del titulo';
     if (bannerTextInput) bannerTextInput.value = 'Escanéame';
     if (titleFontInput) titleFontInput.value = 'Plus Jakarta Sans';
@@ -1143,7 +1143,7 @@ async function generateQR(targetWidth = 600) {
   const loader = document.getElementById('canvas-loader');
   if (loader) loader.classList.remove('hidden');
 
-  const rawUrl = document.getElementById('qr-url').value.trim() || 'Escribe o pega tu enlace';
+  const rawUrl = document.getElementById('qr-url').value.trim() || 'QRbey';
   let formattedUrl = rawUrl;
   if (!/^https?:\/\//i.test(formattedUrl) && !/^mailto:/i.test(formattedUrl) && !/^tel:/i.test(formattedUrl)) {
     formattedUrl = 'https://' + formattedUrl;

@@ -14,7 +14,7 @@ import { FaqSection } from './components/FaqSection.js';
 
 class Application {
   async init() {
-    console.log('🚀 Inicializando QR Studio Pro Frontend Architecture...');
+    console.log('🚀 Inicializando QRbey Frontend Architecture...');
 
     // 1. Load modularized HTML component partials from ./html/
     await ComponentLoader.loadComponents();

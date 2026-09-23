@@ -1,4 +1,4 @@
-# QR Studio Pro — Generador de Códigos QR en Node.js
+# QRbey — Generador de Códigos QR en Node.js
 
 Una aplicación web moderna y profesional desarrollada en **Node.js** y **Express** para la creación y personalización de códigos QR estilo [QRFY](https://qrfy.com/).
 

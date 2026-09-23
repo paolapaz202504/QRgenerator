@@ -30,10 +30,9 @@ export class QRPreview extends UIComponent {
     appState.subscribe((state, eventKey) => {
       const autoRenderEvents = [
         'INIT_DATA',
-        'CHANGE_DESIGN',
-        'CHANGE_PATTERN'
+        'CHANGE_DESIGN'
       ];
-      if (!eventKey || autoRenderEvents.includes(eventKey)) {
+      if (eventKey && autoRenderEvents.includes(eventKey)) {
         this.scheduleGenerate();
       }
     });
@@ -124,7 +123,7 @@ export class QRPreview extends UIComponent {
     const design = state.currentDesign || {};
 
     return {
-      url: this.urlInput ? this.urlInput.value : 'https://qrfy.com',
+      url: this.urlInput ? this.urlInput.value : 'QRbey',
       title: this.titleInput ? this.titleInput.value : 'Mi Código QR',
       bannerText: this.bannerTextInput ? this.bannerTextInput.value : 'ESCANÉAME',
       designId: design.id || 'design-institucional-1',
@@ -177,6 +176,21 @@ export class QRPreview extends UIComponent {
 
     try {
       const payload = this.getPayload(600, isExplicit);
+      
+      const payloadForHash = { ...payload };
+      delete payloadForHash.isExplicitGenerate;
+      const payloadHash = JSON.stringify(payloadForHash);
+      
+      const isUnchanged = (this.lastPayloadHash === payloadHash);
+      const shouldConsumeCredit = isExplicit && !isUnchanged;
+      
+      if (!isUnchanged) {
+        this.lastPayloadHash = payloadHash;
+      }
+
+      // Tell the backend whether to actually consume a credit
+      payload.isExplicitGenerate = shouldConsumeCredit;
+
       const blob = await ApiService.generateQR(payload);
       const url = URL.createObjectURL(blob);
 
@@ -191,8 +205,8 @@ export class QRPreview extends UIComponent {
       };
       img.src = url;
 
-      // Update user generation credits counter in reactive state ONLY if explicit generate button clicked
-      if (isExplicit) {
+      // Update user generation credits counter in reactive state ONLY if explicit generate button clicked AND configuration changed
+      if (shouldConsumeCredit) {
         const state = appState.getState();
         if (state.user) {
           const updatedUser = {
@@ -264,7 +278,7 @@ export class QRPreview extends UIComponent {
   }
 
   resetInputs() {
-    if (this.urlInput) this.urlInput.value = 'Escribe o pega tu enlace';
+    if (this.urlInput) this.urlInput.value = 'QRbey';
     if (this.titleInput) this.titleInput.value = 'Escribe o pega el texto del titulo';
     if (this.bannerTextInput) this.bannerTextInput.value = 'Escanéame';
     if (this.titleFontInput) this.titleFontInput.value = 'Plus Jakarta Sans';

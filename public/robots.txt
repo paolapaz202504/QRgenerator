@@ -1,4 +1,4 @@
-# robots.txt for QR Studio Pro
+# robots.txt for QRbey
 User-agent: *
 Allow: /
 

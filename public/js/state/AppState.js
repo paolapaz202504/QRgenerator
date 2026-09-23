@@ -22,7 +22,7 @@ export class AppState {
       iconColor: '#2563eb',
       iconBgColor: '#ffffff',
       iconBorderColor: '#2563eb',
-      url: 'Escribe o pega tu enlace',
+      url: 'QRbey',
       title: 'Escribe o pega el texto del titulo',
       bannerText: 'Escanéame',
       fontTitle: 'Plus Jakarta Sans',
