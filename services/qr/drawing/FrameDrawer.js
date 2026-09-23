@@ -264,6 +264,13 @@ class FrameDrawer {
 
     if (iconOpts.showIcon && iconOpts.iconPosition && iconOpts.iconPosition !== 'center') {
       const iconColor = iconOpts.iconColor || colors.textColor;
+      const renderTitleIcon = (cx, cy, sz) => {
+        if (iconOpts.loadedIconImg) {
+          ctx.drawImage(iconOpts.loadedIconImg, cx - sz / 2, cy - sz / 2, sz, sz);
+        } else {
+          require('./IconDrawer').prototype.drawVectorIcon(ctx, iconOpts.iconName, cx, cy, sz, iconColor);
+        }
+      };
 
       if (iconOpts.iconPosition === 'left') {
         let maxLineW = 0;
@@ -271,7 +278,7 @@ class FrameDrawer {
           const lw = ctx.measureText(line).width;
           if (lw > maxLineW) maxLineW = lw;
         });
-        require('./IconDrawer').prototype.drawVectorIcon(ctx, iconOpts.iconName, (w - maxLineW) / 2 - (28 * scale), baseTitleY, iconSizeCalc * 0.8, iconColor);
+        renderTitleIcon((w - maxLineW) / 2 - (28 * scale), baseTitleY, iconSizeCalc * 0.8);
         lines.forEach((line, idx) => {
           const lineY = startY + idx * lineHeight;
           ctx.fillText(line, titleX + (14 * scale), lineY);
@@ -282,13 +289,13 @@ class FrameDrawer {
           const lw = ctx.measureText(line).width;
           if (lw > maxLineW) maxLineW = lw;
         });
-        require('./IconDrawer').prototype.drawVectorIcon(ctx, iconOpts.iconName, (w + maxLineW) / 2 + (28 * scale), baseTitleY, iconSizeCalc * 0.8, iconColor);
+        renderTitleIcon((w + maxLineW) / 2 + (28 * scale), baseTitleY, iconSizeCalc * 0.8);
         lines.forEach((line, idx) => {
           const lineY = startY + idx * lineHeight;
           ctx.fillText(line, titleX - (14 * scale), lineY);
         });
       } else if (iconOpts.iconPosition === 'above') {
-        require('./IconDrawer').prototype.drawVectorIcon(ctx, iconOpts.iconName, w / 2, startY - (30 * scale), iconSizeCalc * 0.85, iconColor);
+        renderTitleIcon(w / 2, startY - (30 * scale), iconSizeCalc * 0.85);
         lines.forEach((line, idx) => {
           const lineY = startY + (12 * scale) + idx * lineHeight;
           ctx.fillText(line, titleX, lineY);
@@ -299,7 +306,7 @@ class FrameDrawer {
           ctx.fillText(line, titleX, lineY);
         });
         const lastLineY = startY - (10 * scale) + (lines.length - 1) * lineHeight;
-        require('./IconDrawer').prototype.drawVectorIcon(ctx, iconOpts.iconName, w / 2, lastLineY + (28 * scale), iconSizeCalc * 0.85, iconColor);
+        renderTitleIcon(w / 2, lastLineY + (28 * scale), iconSizeCalc * 0.85);
       }
     } else {
       lines.forEach((line, idx) => {

@@ -38,6 +38,10 @@ export class ColorCustomizer extends UIComponent {
     this.customFrameHex = document.getElementById('custom-frame-color-hex');
     this.customQrBoxRadiusVal = document.getElementById('custom-qr-box-radius-val');
 
+    this.containerSilhouetteColor = document.getElementById('container-silhouette-color');
+    this.customSilhouetteColor = document.getElementById('custom-silhouette-color');
+    this.customSilhouetteColorHex = document.getElementById('custom-silhouette-color-hex');
+
     appState.subscribe((state, eventKey) => {
       if (['CHANGE_DESIGN', 'INIT_DATA'].includes(eventKey)) {
         this.render();
@@ -99,6 +103,16 @@ export class ColorCustomizer extends UIComponent {
       });
     }
 
+    if (this.customSilhouetteColor) {
+      const handleSilhouetteColor = () => {
+        const val = this.customSilhouetteColor.value;
+        if (this.customSilhouetteColorHex) this.customSilhouetteColorHex.textContent = val;
+        appState.setState({ silhouetteColor: val }, 'CHANGE_INPUTS');
+      };
+      this.customSilhouetteColor.addEventListener('input', handleSilhouetteColor);
+      this.customSilhouetteColor.addEventListener('change', handleSilhouetteColor);
+    }
+
     [this.customQrColor, this.customQrColor2, this.customEyeColor, this.customEyeColor2, this.customBgColor, this.customFrameColor, this.customEyeStyle, this.customFrameShape, this.customQrSilhouette].forEach(input => {
       if (!input) return;
       const handler = () => {
@@ -110,6 +124,14 @@ export class ColorCustomizer extends UIComponent {
         if (input === this.customFrameColor && this.customFrameHex) this.customFrameHex.textContent = this.customFrameColor.value;
         if (this.customQrSilhouetteDesc && this.customQrSilhouette) {
           this.customQrSilhouetteDesc.textContent = SILHOUETTE_DESCRIPTIONS[this.customQrSilhouette.value] || '';
+        }
+        if (input === this.customQrSilhouette && this.containerSilhouetteColor) {
+          const isSilhouette = ['icon_only', 'icon_center', 'icon_pure'].includes(this.customQrSilhouette.value);
+          if (isSilhouette) {
+            this.containerSilhouetteColor.classList.remove('hidden');
+          } else {
+            this.containerSilhouetteColor.classList.add('hidden');
+          }
         }
 
         const currentDesign = appState.getState().currentDesign || {};
@@ -209,6 +231,20 @@ export class ColorCustomizer extends UIComponent {
       const r = state.qrBoxRadius !== undefined ? state.qrBoxRadius : 18;
       this.customQrBoxRadius.value = r;
       if (this.customQrBoxRadiusVal) this.customQrBoxRadiusVal.textContent = `${r}px`;
+    }
+    if (this.containerSilhouetteColor) {
+      const mode = state.qrSilhouetteMode || 'none';
+      const isSilhouette = ['icon_only', 'icon_center', 'icon_pure'].includes(mode);
+      if (isSilhouette) {
+        this.containerSilhouetteColor.classList.remove('hidden');
+      } else {
+        this.containerSilhouetteColor.classList.add('hidden');
+      }
+    }
+    if (this.customSilhouetteColor) {
+      const sColor = state.silhouetteColor || '#2563eb';
+      this.customSilhouetteColor.value = sColor;
+      if (this.customSilhouetteColorHex) this.customSilhouetteColorHex.textContent = sColor;
     }
   }
 }

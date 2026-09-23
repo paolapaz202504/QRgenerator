@@ -1175,6 +1175,8 @@ async function generateQR(targetWidth = 600) {
   const iconName = iconNameInput ? iconNameInput.value.trim() : 'fa-qrcode';
   const iconPosition = iconPosInput ? iconPosInput.value : 'center';
   const iconColor = iconColorInput ? iconColorInput.value : '#2563eb';
+  const silhouetteColorInput = document.getElementById('custom-silhouette-color') || document.getElementById('custom-pattern-color');
+  const silhouetteColor = silhouetteColorInput ? silhouetteColorInput.value : '#2563eb';
 
   try {
     const res = await fetch('/api/generate', {
@@ -1191,7 +1193,8 @@ async function generateQR(targetWidth = 600) {
           frameColor: currentDesign ? currentDesign.frameColor : '#2563eb',
           textColor: currentDesign ? currentDesign.textColor : '#111827',
           badgeBg: currentDesign ? currentDesign.badgeBg : '#2563eb',
-          badgeText: currentDesign ? currentDesign.badgeText : '#ffffff'
+          badgeText: currentDesign ? currentDesign.badgeText : '#ffffff',
+          silhouetteColor: silhouetteColor
         },
         customDotStyle: currentPattern,
         customEyeStyle: currentDesign ? currentDesign.eyeStyle : 'square',
@@ -1206,6 +1209,7 @@ async function generateQR(targetWidth = 600) {
         iconBgColor: iconBgColor,
         iconBorderColor: iconBorderColor,
         iconSize: iconSize,
+        silhouetteColor: silhouetteColor,
         customLogoDataUrl: customLogoDataUrl
       })
     });
@@ -1290,6 +1294,7 @@ async function downloadQR(format = 'png', resolution = 800) {
         iconBgColor: iconBgColorInput ? iconBgColorInput.value : '#ffffff',
         iconBorderColor: iconBorderColorInput ? iconBorderColorInput.value : '#2563eb',
         iconSize: iconSizeInput ? parseInt(iconSizeInput.value, 10) : 34,
+        silhouetteColor: silhouetteColor,
         customLogoDataUrl: customLogoDataUrl
       })
     });

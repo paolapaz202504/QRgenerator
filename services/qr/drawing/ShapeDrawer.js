@@ -66,10 +66,11 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'diamond':
-        ctx.moveTo(cx, y + 1);
-        ctx.lineTo(x + size - 1, cy);
-        ctx.lineTo(cx, y + size - 1);
-        ctx.lineTo(x + 1, cy);
+        const d = (size * 1.16) / 2;
+        ctx.moveTo(cx, cy - d);
+        ctx.lineTo(cx + d, cy);
+        ctx.lineTo(cx, cy + d);
+        ctx.lineTo(cx - d, cy);
         ctx.closePath();
         ctx.fill();
         break;

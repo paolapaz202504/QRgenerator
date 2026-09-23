@@ -30,6 +30,8 @@ class CanvasGenerator {
       iconBgColor = '#ffffff',
       iconBorderColor = '#2563eb',
       iconSize = 34,
+      patternColor = '#475569',
+      patternIntensity = 100,
       customLogoDataUrl = null,
       userEmail = null,
       isExplicitGenerate = false
@@ -78,6 +80,16 @@ class CanvasGenerator {
     let activeQrColor = primaryQrColor;
 
     const activeEyeColor = params.eyeColor || customColors.eyeColor || params.customEyeColor || primaryQrColor;
+    const activeIconColor = params.iconColor || customColors.iconColor || iconColor || activeQrColor;
+    const activeIconBgColor = params.iconBgColor || customColors.iconBgColor || iconBgColor || '#ffffff';
+    const activeIconBorderColor = params.iconBorderColor || customColors.iconBorderColor || iconBorderColor || activeQrColor;
+    const activePatternColor = params.patternColor || customColors.patternColor || patternColor || '#475569';
+    const activeSilhouetteColor = params.silhouetteColor || customColors.silhouetteColor || params.patternColor || '#2563eb';
+    const activePatternIntensity = (params.patternIntensity !== undefined && params.patternIntensity !== null)
+      ? parseInt(params.patternIntensity, 10)
+      : ((customColors.patternIntensity !== undefined && customColors.patternIntensity !== null)
+        ? parseInt(customColors.patternIntensity, 10)
+        : 100);
     const activeGradientType = params.gradientType || customColors.gradientType || 'single';
     const activeQrColor2 = params.qrColor2 || customColors.qrColor2 || null;
     const frameColor = params.frameColor || customColors.frameColor || design.frameColor;
@@ -132,7 +144,9 @@ class CanvasGenerator {
       iconMode,
       iconName,
       iconPosition,
-      iconColor,
+      iconColor: activeIconColor,
+      iconBgColor: activeIconBgColor,
+      iconBorderColor: activeIconBorderColor,
       iconSize,
       customLogoDataUrl,
       loadedIconImg,
@@ -258,6 +272,9 @@ class CanvasGenerator {
       const strategy = SilhouetteFactory.getStrategy(qrSilhouetteMode);
       strategy.draw({
         ctx, size, cellSize, qrX, qrY, modules, finalEyeFill, activeDotStyle, activeQrColor, primaryQrColor, isDarkBg, bgColor, canvasWidth, canvasHeight, loadedIconImg, iconName, alphaMask, qrSilhouetteMode, qrAreaSize,
+        patternColor: activePatternColor,
+        silhouetteColor: activeSilhouetteColor,
+        patternIntensity: activePatternIntensity,
         service: require('../../QRGeneratorService'),
         activeEyeStyle: effectiveEyeStyle, activeEyeColor,
         drawFinderEyes: drawFinderEyes
@@ -269,12 +286,12 @@ class CanvasGenerator {
       const centerBoxX = qrX + (qrAreaSize - centerBoxSize) / 2;
       const centerBoxY = qrY + (qrAreaSize - centerBoxSize) / 2;
 
-      ctx.fillStyle = iconBgColor || '#ffffff';
+      ctx.fillStyle = activeIconBgColor;
       require('../drawing/ShapeDrawer').prototype.roundRect(ctx, centerBoxX, centerBoxY, centerBoxSize, centerBoxSize, 12 * scale);
       ctx.fill();
 
       if (showShield) {
-        ctx.strokeStyle = iconBorderColor || qrColor;
+        ctx.strokeStyle = activeIconBorderColor;
         ctx.lineWidth = 3 * scale;
         require('../drawing/ShapeDrawer').prototype.roundRect(ctx, centerBoxX, centerBoxY, centerBoxSize, centerBoxSize, 12 * scale);
         ctx.stroke();
@@ -284,7 +301,7 @@ class CanvasGenerator {
         const imgSize = centerBoxSize * 0.75;
         ctx.drawImage(loadedIconImg, centerBoxX + (centerBoxSize - imgSize) / 2, centerBoxY + (centerBoxSize - imgSize) / 2, imgSize, imgSize);
       } else {
-        require('../drawing/IconDrawer').prototype.drawVectorIcon(ctx, iconName, centerBoxX + centerBoxSize / 2, centerBoxY + centerBoxSize / 2, centerBoxSize * 0.55, iconColor || qrColor);
+        require('../drawing/IconDrawer').prototype.drawVectorIcon(ctx, iconName, centerBoxX + centerBoxSize / 2, centerBoxY + centerBoxSize / 2, centerBoxSize * 0.55, activeIconColor);
       }
     }
 

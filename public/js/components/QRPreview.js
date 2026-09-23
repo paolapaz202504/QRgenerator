@@ -136,7 +136,9 @@ export class QRPreview extends UIComponent {
         badgeText: design.badgeText,
         eyeColor: state.customEyeColor || null,
         gradientType: state.gradientType || 'single',
-        qrColor2: state.qrColor2 || null
+        qrColor2: state.qrColor2 || null,
+        silhouetteColor: state.silhouetteColor || '#2563eb',
+        patternColor: state.silhouetteColor || state.patternColor || '#2563eb'
       },
       customDotStyle: state.currentPattern,
       customEyeStyle: design.eyeStyle || 'square',
@@ -148,6 +150,8 @@ export class QRPreview extends UIComponent {
       qrDensity: state.qrDensity !== undefined ? state.qrDensity : 50,
       gradientType: state.gradientType || 'single',
       qrColor2: state.qrColor2 || null,
+      silhouetteColor: state.silhouetteColor || '#2563eb',
+      patternColor: state.silhouetteColor || state.patternColor || '#2563eb',
       frameShape: state.frameShape || 'rectangular',
       titlePosition: state.titlePosition || (this.titlePosInput ? this.titlePosInput.value : 'bottom'),
       titleOffsetY: state.titleOffsetY !== undefined ? state.titleOffsetY : (this.titleOffsetInput ? parseInt(this.titleOffsetInput.value, 10) : 0),

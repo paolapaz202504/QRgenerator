@@ -9,16 +9,35 @@ class IconBaseSilhouette extends SilhouetteStrategy {
       alphaMask, qrSilhouetteMode, qrAreaSize, service
     } = params;
 
+    // Contrast safeguard: if the selected color is too light on a white card (luminance >= 140),
+    // adjust it so camera optical sensors can detect modules and finder eyes with high contrast
+    let effectiveQrColor = activeQrColor;
+    let effectiveEyeFill = finalEyeFill;
+    if (!isDarkBg && !service.isDarkColor(activeQrColor)) {
+      const rgb = service.hexToRgb(activeQrColor);
+      const darkRgb = `rgb(${Math.round(rgb.r * 0.65)}, ${Math.round(rgb.g * 0.65)}, ${Math.round(rgb.b * 0.65)})`;
+      effectiveQrColor = darkRgb;
+      effectiveEyeFill = darkRgb;
+    }
+
+    // Silhouette color for points inside the silhouette
+    const rawSilhouetteColor = params.silhouetteColor || params.patternColor || '#2563eb';
+    let effectiveSilhouetteColor = rawSilhouetteColor;
+    if (!isDarkBg && !service.isDarkColor(rawSilhouetteColor)) {
+      const rgb = service.hexToRgb(rawSilhouetteColor);
+      effectiveSilhouetteColor = `rgb(${Math.round(rgb.r * 0.65)}, ${Math.round(rgb.g * 0.65)}, ${Math.round(rgb.b * 0.65)})`;
+    }
+
     // 1. Draw the tinted silhouette shape background (color sólido con 40% transparencia)
     // Over the clean white card that CanvasGenerator already drew:
     ctx.save();
     ctx.globalAlpha = 0.40; // 40% opacidad / transparencia suave para contraste
-    ctx.fillStyle = activeQrColor;
+    ctx.fillStyle = effectiveSilhouetteColor;
     service.drawSilhouetteMask(ctx, qrSilhouetteMode, loadedIconImg, iconName, qrX, qrY, qrAreaSize);
     ctx.restore();
 
-    // 2. Complementary dots color: soft neutral grey
-    const outsideColor = 'rgba(148, 163, 184, 0.65)'; // #94a3b8
+    // 2. Base QR matrix points (outside the silhouette) are painted in effectiveQrColor
+    const outsideColor = effectiveQrColor;
 
     // Helper for connected modules
     const getMod = (row, col) => (row >= 0 && row < size && col >= 0 && col < size) ? modules.get(row, col) : false;
@@ -36,14 +55,12 @@ class IconBaseSilhouette extends SilhouetteStrategy {
         const cellX = qrX + c * cellSize;
         const cellY = qrY + r * cellSize;
 
-
-
         // Check if this module is inside the silhouette or outside
         const isInside = service.isCellInsideSilhouette(r, c, size, cellX, cellY, cellSize, qrX, qrY, qrAreaSize, qrSilhouetteMode, alphaMask);
 
-        // Modules inside the silhouette have 0% transparency (solid user color).
-        // Modules outside the silhouette are drawn in grey to complement the QR.
-        const modColor = isInside ? activeQrColor : outsideColor;
+        // Modules inside the silhouette are drawn in effectiveSilhouetteColor ("Color de matriz y puntos qr de la silueta").
+        // Modules outside the silhouette are drawn in effectiveQrColor ("Color de matriz y puntos qr").
+        const modColor = isInside ? effectiveSilhouetteColor : effectiveQrColor;
 
         if (activeDotStyle === 'connected') {
           const top = getMod(r - 1, c);
@@ -67,7 +84,7 @@ class IconBaseSilhouette extends SilhouetteStrategy {
     }
 
     // 4. Draw the finder pattern eyes cleanly
-    params.drawFinderEyes(ctx, finalEyeFill);
+    params.drawFinderEyes(ctx, effectiveEyeFill);
   }
 }
 
