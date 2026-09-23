@@ -191,13 +191,6 @@ class SilhouetteMasker {
 
   isCellInsideSilhouette(r, c, size, cellX, cellY, cellSize, qrX, qrY, qrAreaSize, silhouetteMode, alphaMask) {
     if (!silhouetteMode || silhouetteMode === 'none') return true;
-
-    // Finder Pattern Eyes + Quiet Zone + Format Info (9x9 corner regions) MUST ALWAYS be preserved
-    const isTopLeftEye = (r <= 8 && c <= 8);
-    const isTopRightEye = (r <= 8 && c >= size - 9);
-    const isBottomLeftEye = (r >= size - 9 && c <= 8);
-    if (isTopLeftEye || isTopRightEye || isBottomLeftEye) return true;
-
     if (!alphaMask) return true;
 
     const u = (c + 0.5) / size;

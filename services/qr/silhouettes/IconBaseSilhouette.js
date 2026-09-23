@@ -36,16 +36,7 @@ class IconBaseSilhouette extends SilhouetteStrategy {
         const cellX = qrX + c * cellSize;
         const cellY = qrY + r * cellSize;
 
-        // Format info and timing patterns near eyes MUST be solid QR color for scan reliability
-        const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
-        const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
-        const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
 
-        if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
-          ctx.fillStyle = activeQrColor;
-          ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
-          continue;
-        }
 
         // Check if this module is inside the silhouette or outside
         const isInside = service.isCellInsideSilhouette(r, c, size, cellX, cellY, cellSize, qrX, qrY, qrAreaSize, qrSilhouetteMode, alphaMask);
