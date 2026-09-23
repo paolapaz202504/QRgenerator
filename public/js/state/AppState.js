@@ -38,6 +38,7 @@ export class AppState {
       qrColor2: '#a855f7',
       frameShape: 'rectangular',
       silhouetteColor: '#2563eb',
+      patternColor: '#475569',
       titlePosition: 'bottom',
       titleOffsetY: 0,
       history: []

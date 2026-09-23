@@ -38,9 +38,12 @@ export class ColorCustomizer extends UIComponent {
     this.customFrameHex = document.getElementById('custom-frame-color-hex');
     this.customQrBoxRadiusVal = document.getElementById('custom-qr-box-radius-val');
 
-    this.containerSilhouetteColor = document.getElementById('container-silhouette-color');
+    this.containerSilhouetteGroup = document.getElementById('container-silhouette-group') || document.getElementById('container-silhouette-color');
+    this.containerSilhouetteColor = this.containerSilhouetteGroup;
     this.customSilhouetteColor = document.getElementById('custom-silhouette-color');
     this.customSilhouetteColorHex = document.getElementById('custom-silhouette-color-hex');
+    this.customPatternColor = document.getElementById('custom-pattern-color');
+    this.customPatternColorHex = document.getElementById('custom-pattern-color-hex');
 
     appState.subscribe((state, eventKey) => {
       if (['CHANGE_DESIGN', 'INIT_DATA'].includes(eventKey)) {
@@ -113,6 +116,16 @@ export class ColorCustomizer extends UIComponent {
       this.customSilhouetteColor.addEventListener('change', handleSilhouetteColor);
     }
 
+    if (this.customPatternColor) {
+      const handlePatternColor = () => {
+        const val = this.customPatternColor.value;
+        if (this.customPatternColorHex) this.customPatternColorHex.textContent = val;
+        appState.setState({ patternColor: val }, 'CHANGE_INPUTS');
+      };
+      this.customPatternColor.addEventListener('input', handlePatternColor);
+      this.customPatternColor.addEventListener('change', handlePatternColor);
+    }
+
     [this.customQrColor, this.customQrColor2, this.customEyeColor, this.customEyeColor2, this.customBgColor, this.customFrameColor, this.customEyeStyle, this.customFrameShape, this.customQrSilhouette].forEach(input => {
       if (!input) return;
       const handler = () => {
@@ -125,12 +138,15 @@ export class ColorCustomizer extends UIComponent {
         if (this.customQrSilhouetteDesc && this.customQrSilhouette) {
           this.customQrSilhouetteDesc.textContent = SILHOUETTE_DESCRIPTIONS[this.customQrSilhouette.value] || '';
         }
-        if (input === this.customQrSilhouette && this.containerSilhouetteColor) {
-          const isSilhouette = ['icon_only', 'icon_center', 'icon_pure'].includes(this.customQrSilhouette.value);
-          if (isSilhouette) {
-            this.containerSilhouetteColor.classList.remove('hidden');
-          } else {
-            this.containerSilhouetteColor.classList.add('hidden');
+        if (input === this.customQrSilhouette) {
+          const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
+          if (silContainer) {
+            const isSilhouette = ['icon_only', 'icon_center', 'icon_pure'].includes(this.customQrSilhouette.value);
+            if (isSilhouette) {
+              silContainer.classList.remove('hidden');
+            } else {
+              silContainer.classList.add('hidden');
+            }
           }
         }
 
@@ -232,19 +248,25 @@ export class ColorCustomizer extends UIComponent {
       this.customQrBoxRadius.value = r;
       if (this.customQrBoxRadiusVal) this.customQrBoxRadiusVal.textContent = `${r}px`;
     }
-    if (this.containerSilhouetteColor) {
+    const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
+    if (silContainer) {
       const mode = state.qrSilhouetteMode || 'none';
       const isSilhouette = ['icon_only', 'icon_center', 'icon_pure'].includes(mode);
       if (isSilhouette) {
-        this.containerSilhouetteColor.classList.remove('hidden');
+        silContainer.classList.remove('hidden');
       } else {
-        this.containerSilhouetteColor.classList.add('hidden');
+        silContainer.classList.add('hidden');
       }
     }
     if (this.customSilhouetteColor) {
       const sColor = state.silhouetteColor || '#2563eb';
       this.customSilhouetteColor.value = sColor;
       if (this.customSilhouetteColorHex) this.customSilhouetteColorHex.textContent = sColor;
+    }
+    if (this.customPatternColor) {
+      const pColor = state.patternColor || '#475569';
+      this.customPatternColor.value = pColor;
+      if (this.customPatternColorHex) this.customPatternColorHex.textContent = pColor;
     }
   }
 }

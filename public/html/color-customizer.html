@@ -53,23 +53,45 @@
           </div>
         </div>
 
-        <!-- Color de Matriz y Puntos QR de la Silueta (Opciones 2, 3 y 4 de Silueta Temática) -->
-        <div id="container-silhouette-color" class="col-span-2 sm:col-span-3 pt-2.5 border-t border-slate-800/80 hidden">
-          <label class="block text-xs font-medium text-pink-400 mb-1">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Color de Matriz y Puntos QR de la Silueta
+      </div>
+    </div>
+
+    <!-- Grupo 3: Personalización de Colores de la Silueta (Opciones 2, 3 y 4 de Silueta Temática) -->
+    <div id="container-silhouette-group" class="bg-slate-950/50 border border-pink-500/30 rounded-xl p-3.5 space-y-3 hidden">
+      <h3 class="text-xs font-semibold text-pink-400 flex items-center gap-1.5 uppercase tracking-wider">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> 3. Color de la Silueta y Color del Patrón
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Opción: Color de la Silueta -->
+        <div>
+          <label class="block text-xs font-medium text-pink-400 mb-1 flex items-center gap-1">
+            <i class="fa-solid fa-shapes"></i> Color de la Silueta
           </label>
           <div class="flex items-center gap-2">
             <input type="color" id="custom-silhouette-color" value="#2563eb" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
             <span id="custom-silhouette-color-hex" class="text-xs font-mono text-slate-300">#2563eb</span>
           </div>
+          <span class="text-[11px] text-slate-400 block mt-1">Tinte y fondo suave de la figura temática</span>
+        </div>
+
+        <!-- Opción: Color del Patrón de la Silueta -->
+        <div>
+          <label class="block text-xs font-medium text-indigo-400 mb-1 flex items-center gap-1">
+            <i class="fa-solid fa-grip"></i> Color del Patrón de la Silueta
+          </label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="custom-pattern-color" value="#475569" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
+            <span id="custom-pattern-color-hex" class="text-xs font-mono text-slate-300">#475569</span>
+          </div>
+          <span class="text-[11px] text-slate-400 block mt-1">Color de los puntos QR dentro de la silueta</span>
         </div>
       </div>
     </div>
 
-    <!-- Grupo 3: Estilo y Colores de los Ojos (Finders) -->
+    <!-- Grupo 4: Estilo y Colores de los Ojos (Finders) -->
     <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-2.5">
       <h3 class="text-xs font-semibold text-cyan-400 flex items-center gap-1.5 uppercase tracking-wider">
-        <i class="fa-solid fa-eye"></i> 3. Estilo y Color de Ojos (Finders)
+        <i class="fa-solid fa-eye"></i> 4. Estilo y Color de Ojos (Finders)
       </h3>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div>
@@ -110,10 +132,10 @@
       </div>
     </div>
 
-    <!-- Grupo 4: Fondo, Marco y Forma del Póster -->
+    <!-- Grupo 5: Fondo, Marco y Forma del Póster -->
     <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-2.5">
       <h3 class="text-xs font-semibold text-amber-400 flex items-center gap-1.5 uppercase tracking-wider">
-        <i class="fa-solid fa-border-all"></i> 4. Fondo, Marco y Forma del Póster
+        <i class="fa-solid fa-border-all"></i> 5. Fondo, Marco y Forma del Póster
       </h3>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <div>

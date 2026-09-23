@@ -274,9 +274,11 @@ export class DesignPicker extends UIComponent {
 
     const customQrSilhouette = document.getElementById('custom-qr-silhouette');
     const customQrSilhouetteDesc = document.getElementById('custom-qr-silhouette-desc');
-    const containerSilhouetteColor = document.getElementById('container-silhouette-color');
+    const containerSilhouetteColor = document.getElementById('container-silhouette-group') || document.getElementById('container-silhouette-color');
     const customSilhouetteColor = document.getElementById('custom-silhouette-color');
     const customSilhouetteColorHex = document.getElementById('custom-silhouette-color-hex');
+    const customPatternColor = document.getElementById('custom-pattern-color');
+    const customPatternColorHex = document.getElementById('custom-pattern-color-hex');
 
     const customQrDensity = document.getElementById('custom-qr-density');
     const customQrDensityVal = document.getElementById('custom-qr-density-val');
@@ -289,6 +291,7 @@ export class DesignPicker extends UIComponent {
     const frameShp = design.frameShape || 'rectangular';
     const silMode = design.qrSilhouetteMode || 'none';
     const silColor = design.silhouetteColor || qrCol;
+    const patColor = design.patternColor || silColor;
     const boxRad = design.qrBoxRadius !== undefined ? design.qrBoxRadius : 18;
     const density = design.qrDensity !== undefined ? design.qrDensity : 50;
     const gradType = design.gradientType || 'single';
@@ -325,6 +328,10 @@ export class DesignPicker extends UIComponent {
       customSilhouetteColor.value = silColor;
       if (customSilhouetteColorHex) customSilhouetteColorHex.textContent = silColor;
     }
+    if (customPatternColor) {
+      customPatternColor.value = patColor;
+      if (customPatternColorHex) customPatternColorHex.textContent = patColor;
+    }
 
     const SIL_MAP = {
       none: 'Matriz cuadrada tradicional de código QR dentro del marco del póster.',
@@ -360,7 +367,7 @@ export class DesignPicker extends UIComponent {
 
       qrSilhouetteMode: silMode,
       silhouetteColor: silColor,
-      patternColor: silColor,
+      patternColor: patColor,
 
       customEyeColor: eyeCol,
       eyeStyle: eyeSty,

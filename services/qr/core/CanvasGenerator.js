@@ -83,8 +83,8 @@ class CanvasGenerator {
     const activeIconColor = params.iconColor || customColors.iconColor || iconColor || activeQrColor;
     const activeIconBgColor = params.iconBgColor || customColors.iconBgColor || iconBgColor || '#ffffff';
     const activeIconBorderColor = params.iconBorderColor || customColors.iconBorderColor || iconBorderColor || activeQrColor;
-    const activePatternColor = params.patternColor || customColors.patternColor || patternColor || '#475569';
-    const activeSilhouetteColor = params.silhouetteColor || customColors.silhouetteColor || params.patternColor || '#2563eb';
+    const activePatternColor = params.patternColor || customColors.patternColor || design.patternColor || patternColor || '#475569';
+    const activeSilhouetteColor = params.silhouetteColor || customColors.silhouetteColor || design.silhouetteColor || '#2563eb';
     const activePatternIntensity = (params.patternIntensity !== undefined && params.patternIntensity !== null)
       ? parseInt(params.patternIntensity, 10)
       : ((customColors.patternIntensity !== undefined && customColors.patternIntensity !== null)

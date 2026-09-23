@@ -20,12 +20,20 @@ class IconBaseSilhouette extends SilhouetteStrategy {
       effectiveEyeFill = darkRgb;
     }
 
-    // Silhouette color for points inside the silhouette
-    const rawSilhouetteColor = params.silhouetteColor || params.patternColor || '#2563eb';
+    // 1. Silhouette mask tint color ("Color de la silueta")
+    const rawSilhouetteColor = params.silhouetteColor || '#2563eb';
     let effectiveSilhouetteColor = rawSilhouetteColor;
     if (!isDarkBg && !service.isDarkColor(rawSilhouetteColor)) {
       const rgb = service.hexToRgb(rawSilhouetteColor);
       effectiveSilhouetteColor = `rgb(${Math.round(rgb.r * 0.65)}, ${Math.round(rgb.g * 0.65)}, ${Math.round(rgb.b * 0.65)})`;
+    }
+
+    // 2. Pattern color for QR dots/modules inside the silhouette ("Color del patrón de la silueta")
+    const rawPatternColor = params.patternColor || rawSilhouetteColor;
+    let effectivePatternColor = rawPatternColor;
+    if (!isDarkBg && !service.isDarkColor(rawPatternColor)) {
+      const rgb = service.hexToRgb(rawPatternColor);
+      effectivePatternColor = `rgb(${Math.round(rgb.r * 0.65)}, ${Math.round(rgb.g * 0.65)}, ${Math.round(rgb.b * 0.65)})`;
     }
 
     // 1. Draw the tinted silhouette shape background (color sólido con 40% transparencia)
@@ -58,9 +66,9 @@ class IconBaseSilhouette extends SilhouetteStrategy {
         // Check if this module is inside the silhouette or outside
         const isInside = service.isCellInsideSilhouette(r, c, size, cellX, cellY, cellSize, qrX, qrY, qrAreaSize, qrSilhouetteMode, alphaMask);
 
-        // Modules inside the silhouette are drawn in effectiveSilhouetteColor ("Color de matriz y puntos qr de la silueta").
+        // Modules inside the silhouette are drawn in effectivePatternColor ("Color del patrón de la silueta").
         // Modules outside the silhouette are drawn in effectiveQrColor ("Color de matriz y puntos qr").
-        const modColor = isInside ? effectiveSilhouetteColor : effectiveQrColor;
+        const modColor = isInside ? effectivePatternColor : effectiveQrColor;
 
         if (activeDotStyle === 'connected') {
           const top = getMod(r - 1, c);
