@@ -1,21 +1,21 @@
 <!-- Header Navbar Component -->
 <header class="border-b border-slate-800 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 shadow-lg">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4 flex-nowrap">
+    <div class="flex items-center gap-3 shrink-0 min-w-0">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 shrink-0">
         <i class="fa-solid fa-qrcode text-xl"></i>
       </div>
-      <div>
+      <div class="min-w-0">
         <h1 class="text-lg font-bold font-['Outfit'] tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
           QRbey
         </h1>
-        <p class="text-xs text-slate-400 font-medium">Diseña Códigos QR profesionales con tu logo, colores y estilo único</p>
+        <p class="text-xs text-slate-400 font-medium hidden md:block truncate">Diseña Códigos QR profesionales con tu logo, colores y estilo único</p>
       </div>
     </div>
 
     <!-- OAuth 2.0 User Profile Widget & Login Button -->
-    <div class="flex items-center gap-3">
-      <div id="user-profile-widget" class="hidden flex items-center gap-2.5 bg-slate-800/80 border border-slate-700/80 rounded-full px-3 py-1 text-xs">
+    <div class="flex items-center gap-2 sm:gap-3 flex-nowrap shrink-0">
+      <div id="user-profile-widget" class="hidden flex items-center gap-2.5 bg-slate-800/80 border border-slate-700/80 rounded-full px-3 py-1 text-xs whitespace-nowrap shrink-0">
         <img id="user-avatar" src="" alt="Avatar" class="w-6 h-6 rounded-full bg-slate-700 cursor-pointer hover:opacity-80 transition" title="Ver Mi Perfil">
         <span id="user-name" class="font-semibold text-slate-200 truncate max-w-[120px] cursor-pointer hover:text-cyan-300 transition" title="Ver Mi Perfil"></span>
         <span id="user-credit-counter" class="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold" title="Créditos de Generación Usados / Límite Gratuito">0/200 Créditos</span>
@@ -29,25 +29,25 @@
       </div>
 
       <button id="btn-open-plans" type="button"
-        class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 font-semibold px-3.5 py-2 rounded-xl text-xs shadow-sm transition transform active:scale-95">
+        class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 font-semibold px-3 sm:px-3.5 py-2 rounded-xl text-xs shadow-sm transition transform active:scale-95 whitespace-nowrap shrink-0">
         <i class="fa-solid fa-gem text-amber-400"></i>
         Mi Plan
       </button>
 
       <button id="btn-open-history" type="button"
-        class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3.5 py-2 rounded-xl text-xs shadow-sm transition transform active:scale-95">
+        class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3 sm:px-3.5 py-2 rounded-xl text-xs shadow-sm transition transform active:scale-95 whitespace-nowrap shrink-0">
         <i class="fa-solid fa-list-check text-indigo-400"></i>
         Mis Códigos QR
       </button>
 
       <button id="btn-open-faq" type="button"
-        class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3.5 py-2 rounded-xl text-xs shadow-sm transition transform active:scale-95">
+        class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3 sm:px-3.5 py-2 rounded-xl text-xs shadow-sm transition transform active:scale-95 whitespace-nowrap shrink-0">
         <i class="fa-solid fa-circle-question text-cyan-400"></i>
-        Ayuda / FAQ
+        Ayuda
       </button>
 
       <button id="btn-open-oauth" type="button"
-        class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold px-4 py-2 rounded-xl text-xs shadow-md transition transform active:scale-95">
+        class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold px-3.5 sm:px-4 py-2 rounded-xl text-xs shadow-md transition transform active:scale-95 whitespace-nowrap shrink-0">
         <i class="fa-solid fa-user-plus"></i>
         Registro
       </button>

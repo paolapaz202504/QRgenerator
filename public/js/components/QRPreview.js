@@ -124,7 +124,7 @@ export class QRPreview extends UIComponent {
 
     return {
       url: this.urlInput ? this.urlInput.value : 'QRbey',
-      title: this.titleInput ? this.titleInput.value : 'Mi Código QR',
+      title: this.titleInput ? this.titleInput.value : 'QRbery',
       bannerText: this.bannerTextInput ? this.bannerTextInput.value : 'ESCANÉAME',
       designId: design.id || 'design-institucional-1',
       customColors: {
@@ -279,7 +279,7 @@ export class QRPreview extends UIComponent {
 
   resetInputs() {
     if (this.urlInput) this.urlInput.value = 'QRbey';
-    if (this.titleInput) this.titleInput.value = 'Escribe o pega el texto del titulo';
+    if (this.titleInput) this.titleInput.value = 'QRbery';
     if (this.bannerTextInput) this.bannerTextInput.value = 'Escanéame';
     if (this.titleFontInput) this.titleFontInput.value = 'Plus Jakarta Sans';
     if (this.bannerFontInput) this.bannerFontInput.value = 'Plus Jakarta Sans';

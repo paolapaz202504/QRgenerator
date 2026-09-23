@@ -11,7 +11,7 @@ class CanvasGenerator {
   async generateCanvas(params) {
     const {
       url = 'QRbey',
-      title = 'Mi Código QR',
+      title = 'QRbery',
       bannerText = 'ESCANÉAME',
       designId = 'design-institucional-1',
       customColors = {},

@@ -1,10 +1,7 @@
 class DesignLibrary {
   constructor() {
-    this.categories = [
-      'Institucional', 'Salud', 'Viajes', 'Inmobiliaria', 'Educación', 
-      'Eventos', 'Redes Sociales', 'Lujo', 'Música y Arte', 'Mascotas', 
-      'Automotriz', 'Finanzas', 'Naturaleza'
-    ];
+    this.designs = this.generate600Designs();
+    this.categories = [...new Set(this.designs.map(d => d.category))];
     this.patterns = [
       { id: 'square', name: 'Cuadrado Clásico', icon: 'fa-square' },
       { id: 'rounded', name: 'Módulo Redondeado', icon: 'fa-square-minus' },
@@ -29,7 +26,6 @@ class DesignLibrary {
       { id: 'diagonal_lines', name: 'Malla Diagonal', icon: 'fa-lines-leaning' },
       { id: 'radial_drop', name: 'Gota Radial / Viento', icon: 'fa-droplet' }
     ];
-    this.designs = this.generate600Designs();
   }
 
   getCategories() {

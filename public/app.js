@@ -273,13 +273,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnGenerate.classList.add('scale-95');
     setTimeout(() => btnGenerate.classList.remove('scale-95'), 150);
     await generateQR();
-    const titleVal = titleInput.value.trim() || 'Mi Código QR';
+    const titleVal = titleInput.value.trim() || 'QRbery';
     showToast('¡Código QR Generado!', `QR procesado para: "${titleVal}"`, 'success');
   });
 
   btnReset.addEventListener('click', async () => {
     urlInput.value = 'QRbey';
-    titleInput.value = 'Escribe o pega el texto del titulo';
+    titleInput.value = 'QRbery';
     if (bannerTextInput) bannerTextInput.value = 'Escanéame';
     if (titleFontInput) titleFontInput.value = 'Plus Jakarta Sans';
     if (bannerFontInput) bannerFontInput.value = 'Plus Jakarta Sans';
@@ -950,7 +950,8 @@ function renderCategoryTabs(categories) {
     btn.className = `cat-btn whitespace-nowrap text-xs px-3.5 py-1.5 rounded-lg font-medium transition ${
       activeCategory === cat ? 'active bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
     }`;
-    btn.textContent = `${cat} (10)`;
+    const catCount = designsList.filter(d => d.category === cat).length;
+    btn.textContent = `${cat} (${catCount || 30})`;
     btn.addEventListener('click', () => {
       activeCategory = cat;
       renderCategoryTabs(categories);
@@ -1149,7 +1150,7 @@ async function generateQR(targetWidth = 600) {
     formattedUrl = 'https://' + formattedUrl;
   }
 
-  const title = document.getElementById('qr-title').value.trim() || 'Escribe o pega el texto del titulo';
+  const title = document.getElementById('qr-title').value.trim() || 'QRbery';
   const bannerTextInput = document.getElementById('qr-banner-text');
   const bannerText = bannerTextInput ? bannerTextInput.value.trim() : 'Escanéame';
 
