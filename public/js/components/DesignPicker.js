@@ -34,9 +34,15 @@ export class DesignPicker extends UIComponent {
     this.densitySlider = document.getElementById('custom-qr-density');
     this.densityVal = document.getElementById('custom-qr-density-val');
 
+    this.initialDesignApplied = false;
+
     appState.subscribe((state, eventKey) => {
       if (['INIT_DATA', 'CHANGE_CATEGORY', 'CHANGE_DESIGN', 'CHANGE_PATTERN'].includes(eventKey)) {
         this.render();
+      }
+      if (eventKey === 'INIT_DATA' && state.designs && state.designs.length && !this.initialDesignApplied) {
+        this.initialDesignApplied = true;
+        this.applyDesign(state.designs[0]);
       }
     });
   }
@@ -127,171 +133,7 @@ export class DesignPicker extends UIComponent {
         `;
 
         card.addEventListener('click', async () => {
-          // 1. Text Inputs & Fonts DOM syncing
-          const titleInput = document.getElementById('qr-title');
-          const bannerTextInput = document.getElementById('qr-banner-text');
-          const titleFontInput = document.getElementById('qr-title-font');
-          const bannerFontInput = document.getElementById('qr-banner-font');
-          const titleSizeInput = document.getElementById('qr-title-size');
-          const titleSizeVal = document.getElementById('qr-title-size-val');
-
-          if (titleInput && design.name) titleInput.value = design.name;
-          if (bannerTextInput && design.bannerText) bannerTextInput.value = design.bannerText;
-          if (titleFontInput && design.fontTitle) {
-            titleFontInput.value = design.fontTitle;
-            titleFontInput.style.fontFamily = `'${design.fontTitle}', sans-serif`;
-            if (titleInput) titleInput.style.fontFamily = `'${design.fontTitle}', sans-serif`;
-          }
-          if (bannerFontInput && design.fontBanner) {
-            bannerFontInput.value = design.fontBanner;
-            bannerFontInput.style.fontFamily = `'${design.fontBanner}', sans-serif`;
-            if (bannerTextInput) bannerTextInput.style.fontFamily = `'${design.fontBanner}', sans-serif`;
-          }
-          const fontSizeTitle = design.fontSizeTitle || 24;
-          if (titleSizeInput) titleSizeInput.value = fontSizeTitle;
-          if (titleSizeVal) titleSizeVal.textContent = `${fontSizeTitle}px`;
-
-          // 2. Icon Controls
-          const iconColorInput = document.getElementById('qr-icon-color');
-          const iconColorHex = document.getElementById('qr-icon-color-hex');
-          const iconBgColorInput = document.getElementById('qr-icon-bg-color') || document.getElementById('qr-icon-bgcolor');
-          const iconBgColorHex = document.getElementById('qr-icon-bg-hex') || document.getElementById('qr-icon-bgcolor-hex');
-          const iconBorderColorInput = document.getElementById('qr-icon-border-color') || document.getElementById('qr-icon-bordercolor');
-          const iconBorderColorHex = document.getElementById('qr-icon-border-hex') || document.getElementById('qr-icon-bordercolor-hex');
-          const iconSizeInput = document.getElementById('qr-icon-size');
-          const iconSizeVal = document.getElementById('qr-icon-size-val');
-          const activeIconLabel = document.getElementById('active-icon-label');
-
-          const iconColor = design.iconColor || design.qrColor || '#2563eb';
-          const iconBgColor = design.iconBgColor || '#ffffff';
-          const iconBorderColor = design.iconBorderColor || design.frameColor || '#2563eb';
-          const iconSize = design.iconSize || 34;
-
-          if (iconColorInput) iconColorInput.value = iconColor;
-          if (iconColorHex) iconColorHex.textContent = iconColor;
-          if (iconBgColorInput) iconBgColorInput.value = iconBgColor;
-          if (iconBgColorHex) iconBgColorHex.textContent = iconBgColor;
-          if (iconBorderColorInput) iconBorderColorInput.value = iconBorderColor;
-          if (iconBorderColorHex) iconBorderColorHex.textContent = iconBorderColor;
-          if (iconSizeInput) iconSizeInput.value = iconSize;
-          if (iconSizeVal) iconSizeVal.textContent = `${iconSize}px`;
-
-          if (activeIconLabel && design.iconName) {
-            const cleanName = design.iconName.replace(/^fa-brands\s+|^fa-solid\s+|^fa-|^bi\s+|^bi-|^ti\s+ti-|^ti\s+|^ti-/, '').replace(/-/g, ' ').toUpperCase();
-            activeIconLabel.textContent = `Seleccionado: ${cleanName}`;
-          }
-
-          // 3. Rasterize Vector Icon
-          let dataUrl = null;
-          if (design.iconName) {
-            const cardIconCls = getIconClass(design.iconName);
-            dataUrl = await renderIconToDataUrl(cardIconCls, iconColor);
-          }
-
-          // 4. Option 4 & Option 5 DOM Syncing
-          const customQrColor = document.getElementById('custom-qr-color');
-          const customQrHex = document.getElementById('custom-qr-color-hex');
-          const customGradientType = document.getElementById('custom-gradient-type');
-          const customQrColor2 = document.getElementById('custom-qr-color2');
-          const customQrColor2Hex = document.getElementById('custom-qr-color2-hex');
-          const containerQrColor2 = document.getElementById('container-qr-color2');
-
-          const customEyeColor = document.getElementById('custom-eye-color');
-          const customEyeHex = document.getElementById('custom-eye-color-hex');
-          const customEyeStyle = document.getElementById('custom-eye-style');
-          const customEyeGradientType = document.getElementById('custom-eye-gradient-type');
-          const customEyeColor2 = document.getElementById('custom-eye-color2');
-          const customEyeColor2Hex = document.getElementById('custom-eye-color2-hex');
-          const containerEyeColor2 = document.getElementById('container-eye-color2');
-
-          const customBgColor = document.getElementById('custom-bg-color');
-          const customBgHex = document.getElementById('custom-bg-color-hex');
-          const customFrameColor = document.getElementById('custom-frame-color');
-          const customFrameHex = document.getElementById('custom-frame-color-hex');
-          const customFrameShape = document.getElementById('custom-frame-shape');
-          const customQrBoxRadius = document.getElementById('custom-qr-box-radius');
-          const customQrBoxRadiusVal = document.getElementById('custom-qr-box-radius-val');
-
-          const customQrSilhouette = document.getElementById('custom-qr-silhouette');
-          const customQrSilhouetteDesc = document.getElementById('custom-qr-silhouette-desc');
-
-          const customQrDensity = document.getElementById('custom-qr-density');
-          const customQrDensityVal = document.getElementById('custom-qr-density-val');
-
-          const qrCol = design.qrColor || '#111827';
-          const bgCol = design.bgColor || '#ffffff';
-          const frameCol = design.frameColor || '#2563eb';
-          const eyeCol = design.eyeColor || design.qrColor || '#111827';
-          const eyeSty = design.eyeStyle || 'square';
-          const frameShp = design.frameShape || 'rectangular';
-          const silMode = design.qrSilhouetteMode || 'none';
-          const boxRad = design.qrBoxRadius !== undefined ? design.qrBoxRadius : 18;
-          const density = design.qrDensity !== undefined ? design.qrDensity : 50;
-          const gradType = design.gradientType || 'single';
-          const qrCol2 = design.qrColor2 || '#a855f7';
-          const eyeGradType = design.eyeGradientType || 'single';
-          const eyeCol2 = design.eyeColor2 || '#38bdf8';
-
-          if (customQrColor) { customQrColor.value = qrCol; if (customQrHex) customQrHex.textContent = qrCol; }
-          if (customBgColor) { customBgColor.value = bgCol; if (customBgHex) customBgHex.textContent = bgCol; }
-          if (customFrameColor) { customFrameColor.value = frameCol; if (customFrameHex) customFrameHex.textContent = frameCol; }
-          if (customEyeColor) { customEyeColor.value = eyeCol; if (customEyeHex) customEyeHex.textContent = eyeCol; }
-          if (customEyeStyle) customEyeStyle.value = eyeSty;
-          if (customFrameShape) customFrameShape.value = frameShp;
-          if (customQrSilhouette) customQrSilhouette.value = silMode;
-          if (customQrBoxRadius) { customQrBoxRadius.value = boxRad; if (customQrBoxRadiusVal) customQrBoxRadiusVal.textContent = `${boxRad}px`; }
-          if (customQrDensity) { customQrDensity.value = density; if (customQrDensityVal) customQrDensityVal.textContent = `${density}%`; }
-
-          if (customGradientType) {
-            customGradientType.value = gradType;
-            if (containerQrColor2) containerQrColor2.classList.toggle('hidden', gradType === 'single');
-          }
-          if (customQrColor2 && qrCol2) { customQrColor2.value = qrCol2; if (customQrColor2Hex) customQrColor2Hex.textContent = qrCol2; }
-
-          if (customEyeGradientType) {
-            customEyeGradientType.value = eyeGradType;
-            if (containerEyeColor2) containerEyeColor2.classList.toggle('hidden', eyeGradType === 'single');
-          }
-          if (customEyeColor2 && eyeCol2) { customEyeColor2.value = eyeCol2; if (customEyeColor2Hex) customEyeColor2Hex.textContent = eyeCol2; }
-
-          const SIL_MAP = {
-            none: 'Matriz cuadrada tradicional de código QR dentro del marco del póster.',
-            icon_only: 'El código QR adopta la forma del ícono o imagen seleccionada, ocultando la insignia central.',
-            icon_center: 'Forma temática del ícono o imagen seleccionada incluyendo además la insignia central.',
-            icon_pure: 'Silueta pura flotante de la figura o imagen seleccionada sin fondo blanco ni tarjeta posterior.'
-          };
-          if (customQrSilhouetteDesc) customQrSilhouetteDesc.textContent = SIL_MAP[silMode] || '';
-
-          // 5. Update Central Reactive State
-          appState.setState({
-            currentDesign: { ...design },
-            title: design.name || 'Mi Código QR',
-            currentPattern: design.dotStyle || 'square',
-            selectedIcon: design.iconName || 'fa-qrcode',
-            generatedIconDataUrl: dataUrl,
-            iconColor: iconColor,
-            iconBgColor: iconBgColor,
-            iconBorderColor: iconBorderColor,
-            iconSize: iconSize,
-            bannerText: design.bannerText || 'SCAN ME',
-            fontTitle: design.fontTitle || 'Plus Jakarta Sans',
-            fontBanner: design.fontBanner || 'Plus Jakarta Sans',
-            fontSizeTitle: fontSizeTitle,
-            customEyeColor: eyeCol,
-            eyeStyle: eyeSty,
-            gradientType: gradType,
-            qrColor2: qrCol2,
-            eyeGradientType: eyeGradType,
-            eyeColor2: eyeCol2,
-            frameShape: frameShp,
-            qrSilhouetteMode: silMode,
-            qrBoxRadius: boxRad,
-            qrDensity: density,
-            titlePosition: design.titlePosition || 'bottom',
-            titleOffsetY: design.titleOffsetY !== undefined ? design.titleOffsetY : 0,
-            iconMode: 'icon',
-            iconShow: true
-          }, 'CHANGE_DESIGN');
+          await this.applyDesign(design);
         });
         this.designGrid.appendChild(card);
       });
@@ -321,4 +163,216 @@ export class DesignPicker extends UIComponent {
       });
     }
   }
+
+  async applyDesign(design) {
+    if (!design) return;
+
+    // 1. Text Inputs & Fonts DOM syncing (Step 2)
+    const titleInput = document.getElementById('qr-title');
+    const bannerTextInput = document.getElementById('qr-banner-text');
+    const titleFontInput = document.getElementById('qr-title-font');
+    const bannerFontInput = document.getElementById('qr-banner-font');
+    const titleSizeInput = document.getElementById('qr-title-size');
+    const titleSizeVal = document.getElementById('qr-title-size-val');
+    const titlePosInput = document.getElementById('qr-title-position');
+    const titleOffsetInput = document.getElementById('qr-title-offset');
+    const titleOffsetVal = document.getElementById('qr-title-offset-val');
+
+    if (titleInput && design.name) titleInput.value = design.name;
+    if (bannerTextInput && design.bannerText) bannerTextInput.value = design.bannerText;
+    if (titleFontInput && design.fontTitle) {
+      titleFontInput.value = design.fontTitle;
+      titleFontInput.style.fontFamily = `'${design.fontTitle}', sans-serif`;
+      if (titleInput) titleInput.style.fontFamily = `'${design.fontTitle}', sans-serif`;
+    }
+    if (bannerFontInput && design.fontBanner) {
+      bannerFontInput.value = design.fontBanner;
+      bannerFontInput.style.fontFamily = `'${design.fontBanner}', sans-serif`;
+      if (bannerTextInput) bannerTextInput.style.fontFamily = `'${design.fontBanner}', sans-serif`;
+    }
+    const fontSizeTitle = design.fontSizeTitle || 24;
+    if (titleSizeInput) titleSizeInput.value = fontSizeTitle;
+    if (titleSizeVal) titleSizeVal.textContent = `${fontSizeTitle}px`;
+
+    const titlePosition = design.titlePosition || 'bottom';
+    if (titlePosInput) titlePosInput.value = titlePosition;
+    const titleOffsetY = design.titleOffsetY !== undefined ? design.titleOffsetY : 0;
+    if (titleOffsetInput) titleOffsetInput.value = titleOffsetY;
+    if (titleOffsetVal) titleOffsetVal.textContent = `${titleOffsetY > 0 ? '+' : ''}${titleOffsetY}px`;
+
+    // 2. Icon Controls (Step 3)
+    const iconColorInput = document.getElementById('qr-icon-color');
+    const iconColorHex = document.getElementById('qr-icon-color-hex');
+    const iconBgColorInput = document.getElementById('qr-icon-bg-color') || document.getElementById('qr-icon-bgcolor');
+    const iconBgColorHex = document.getElementById('qr-icon-bg-hex') || document.getElementById('qr-icon-bgcolor-hex');
+    const iconBorderColorInput = document.getElementById('qr-icon-border-color') || document.getElementById('qr-icon-bordercolor');
+    const iconBorderColorHex = document.getElementById('qr-icon-border-hex') || document.getElementById('qr-icon-bordercolor-hex');
+    const iconSizeInput = document.getElementById('qr-icon-size');
+    const iconSizeVal = document.getElementById('qr-icon-size-val');
+    const iconPosInput = document.getElementById('qr-icon-position');
+    const iconShowInput = document.getElementById('qr-icon-show');
+    const iconControlsWrapper = document.getElementById('icon-controls-wrapper');
+    const activeIconLabel = document.getElementById('active-icon-label');
+
+    const iconColor = design.iconColor || design.qrColor || '#2563eb';
+    const iconBgColor = design.iconBgColor || '#ffffff';
+    const iconBorderColor = design.iconBorderColor || design.frameColor || '#2563eb';
+    const iconSize = design.iconSize || 34;
+    const iconPosition = design.iconPosition || 'center';
+    const iconShow = design.iconShow !== undefined ? design.iconShow : (design.showIcon !== false);
+
+    if (iconColorInput) iconColorInput.value = iconColor;
+    if (iconColorHex) iconColorHex.textContent = iconColor;
+    if (iconBgColorInput) iconBgColorInput.value = iconBgColor;
+    if (iconBgColorHex) iconBgColorHex.textContent = iconBgColor;
+    if (iconBorderColorInput) iconBorderColorInput.value = iconBorderColor;
+    if (iconBorderColorHex) iconBorderColorHex.textContent = iconBorderColor;
+    if (iconSizeInput) iconSizeInput.value = iconSize;
+    if (iconSizeVal) iconSizeVal.textContent = `${iconSize}px`;
+    if (iconPosInput) iconPosInput.value = iconPosition;
+    if (iconShowInput) iconShowInput.checked = iconShow;
+    if (iconControlsWrapper) {
+      if (iconShow) iconControlsWrapper.classList.remove('hidden');
+      else iconControlsWrapper.classList.add('hidden');
+    }
+
+    if (activeIconLabel && design.iconName) {
+      const cleanName = design.iconName.replace(/^fa-brands\s+|^fa-solid\s+|^fa-|^bi\s+|^bi-|^ti\s+ti-|^ti\s+|^ti-/, '').replace(/-/g, ' ').toUpperCase();
+      activeIconLabel.textContent = `Seleccionado: ${cleanName}`;
+    }
+
+    // Rasterize Vector Icon
+    let dataUrl = null;
+    if (design.iconName) {
+      const cardIconCls = getIconClass(design.iconName);
+      dataUrl = await renderIconToDataUrl(cardIconCls, iconColor);
+    }
+
+    // 3. Option 4 & Option 5 DOM Syncing
+    const customQrColor = document.getElementById('custom-qr-color');
+    const customQrHex = document.getElementById('custom-qr-color-hex');
+    const customGradientType = document.getElementById('custom-gradient-type');
+    const customQrColor2 = document.getElementById('custom-qr-color2');
+    const customQrColor2Hex = document.getElementById('custom-qr-color2-hex');
+    const containerQrColor2 = document.getElementById('container-qr-color2');
+
+    const customEyeColor = document.getElementById('custom-eye-color');
+    const customEyeHex = document.getElementById('custom-eye-color-hex');
+    const customEyeStyle = document.getElementById('custom-eye-style');
+    const customEyeGradientType = document.getElementById('custom-eye-gradient-type');
+    const customEyeColor2 = document.getElementById('custom-eye-color2');
+    const customEyeColor2Hex = document.getElementById('custom-eye-color2-hex');
+    const containerEyeColor2 = document.getElementById('container-eye-color2');
+
+    const customBgColor = document.getElementById('custom-bg-color');
+    const customBgHex = document.getElementById('custom-bg-color-hex');
+    const customFrameColor = document.getElementById('custom-frame-color');
+    const customFrameHex = document.getElementById('custom-frame-color-hex');
+    const customFrameShape = document.getElementById('custom-frame-shape');
+    const customQrBoxRadius = document.getElementById('custom-qr-box-radius');
+    const customQrBoxRadiusVal = document.getElementById('custom-qr-box-radius-val');
+
+    const customQrSilhouette = document.getElementById('custom-qr-silhouette');
+    const customQrSilhouetteDesc = document.getElementById('custom-qr-silhouette-desc');
+    const containerSilhouetteColor = document.getElementById('container-silhouette-color');
+    const customSilhouetteColor = document.getElementById('custom-silhouette-color');
+    const customSilhouetteColorHex = document.getElementById('custom-silhouette-color-hex');
+
+    const customQrDensity = document.getElementById('custom-qr-density');
+    const customQrDensityVal = document.getElementById('custom-qr-density-val');
+
+    const qrCol = design.qrColor || '#111827';
+    const bgCol = design.bgColor || '#ffffff';
+    const frameCol = design.frameColor || '#2563eb';
+    const eyeCol = design.eyeColor || design.qrColor || '#111827';
+    const eyeSty = design.eyeStyle || 'square';
+    const frameShp = design.frameShape || 'rectangular';
+    const silMode = design.qrSilhouetteMode || 'none';
+    const silColor = design.silhouetteColor || qrCol;
+    const boxRad = design.qrBoxRadius !== undefined ? design.qrBoxRadius : 18;
+    const density = design.qrDensity !== undefined ? design.qrDensity : 50;
+    const gradType = design.gradientType || 'single';
+    const qrCol2 = design.qrColor2 || '#a855f7';
+    const eyeGradType = design.eyeGradientType || 'single';
+    const eyeCol2 = design.eyeColor2 || '#38bdf8';
+
+    if (customQrColor) { customQrColor.value = qrCol; if (customQrHex) customQrHex.textContent = qrCol; }
+    if (customBgColor) { customBgColor.value = bgCol; if (customBgHex) customBgHex.textContent = bgCol; }
+    if (customFrameColor) { customFrameColor.value = frameCol; if (customFrameHex) customFrameHex.textContent = frameCol; }
+    if (customEyeColor) { customEyeColor.value = eyeCol; if (customEyeHex) customEyeHex.textContent = eyeCol; }
+    if (customEyeStyle) customEyeStyle.value = eyeSty;
+    if (customFrameShape) customFrameShape.value = frameShp;
+    if (customQrSilhouette) customQrSilhouette.value = silMode;
+    if (customQrBoxRadius) { customQrBoxRadius.value = boxRad; if (customQrBoxRadiusVal) customQrBoxRadiusVal.textContent = `${boxRad}px`; }
+    if (customQrDensity) { customQrDensity.value = density; if (customQrDensityVal) customQrDensityVal.textContent = `${density}%`; }
+    if (this.densitySlider) { this.densitySlider.value = density; if (this.densityVal) this.densityVal.textContent = `${density}%`; }
+
+    if (customGradientType) {
+      customGradientType.value = gradType;
+      if (containerQrColor2) containerQrColor2.classList.toggle('hidden', gradType === 'single');
+    }
+    if (customQrColor2 && qrCol2) { customQrColor2.value = qrCol2; if (customQrColor2Hex) customQrColor2Hex.textContent = qrCol2; }
+
+    if (customEyeGradientType) {
+      customEyeGradientType.value = eyeGradType;
+      if (containerEyeColor2) containerEyeColor2.classList.toggle('hidden', eyeGradType === 'single');
+    }
+    if (customEyeColor2 && eyeCol2) { customEyeColor2.value = eyeCol2; if (customEyeColor2Hex) customEyeColor2Hex.textContent = eyeCol2; }
+
+    const isSil = ['icon_only', 'icon_center', 'icon_pure'].includes(silMode);
+    if (containerSilhouetteColor) containerSilhouetteColor.classList.toggle('hidden', !isSil);
+    if (customSilhouetteColor) {
+      customSilhouetteColor.value = silColor;
+      if (customSilhouetteColorHex) customSilhouetteColorHex.textContent = silColor;
+    }
+
+    const SIL_MAP = {
+      none: 'Matriz cuadrada tradicional de código QR dentro del marco del póster.',
+      icon_only: 'El código QR adopta la forma del ícono o imagen seleccionada, ocultando la insignia central.',
+      icon_center: 'Forma temática del ícono o imagen seleccionada incluyendo además la insignia central.',
+      icon_pure: 'Silueta pura flotante de la figura o imagen seleccionada sin fondo blanco ni tarjeta posterior.'
+    };
+    if (customQrSilhouetteDesc) customQrSilhouetteDesc.textContent = SIL_MAP[silMode] || '';
+
+    // 4. Update Central Reactive State
+    appState.setState({
+      currentDesign: { ...design },
+      title: design.name || 'Mi Código QR',
+      bannerText: design.bannerText || 'SCAN ME',
+      fontTitle: design.fontTitle || 'Plus Jakarta Sans',
+      fontBanner: design.fontBanner || 'Plus Jakarta Sans',
+      fontSizeTitle: fontSizeTitle,
+      titlePosition: titlePosition,
+      titleOffsetY: titleOffsetY,
+
+      selectedIcon: design.iconName || 'fa-qrcode',
+      iconMode: 'icon',
+      iconShow: iconShow,
+      iconPosition: iconPosition,
+      iconColor: iconColor,
+      iconBgColor: iconBgColor,
+      iconBorderColor: iconBorderColor,
+      iconSize: iconSize,
+      generatedIconDataUrl: dataUrl,
+
+      currentPattern: design.dotStyle || 'square',
+      qrDensity: density,
+
+      qrSilhouetteMode: silMode,
+      silhouetteColor: silColor,
+      patternColor: silColor,
+
+      customEyeColor: eyeCol,
+      eyeStyle: eyeSty,
+      eyeGradientType: eyeGradType,
+      eyeColor2: eyeCol2,
+
+      gradientType: gradType,
+      qrColor2: qrCol2,
+
+      frameShape: frameShp,
+      qrBoxRadius: boxRad
+    }, 'CHANGE_DESIGN');
+  }
 }
+

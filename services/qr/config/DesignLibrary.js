@@ -6,25 +6,8 @@ class DesignLibrary {
       { id: 'square', name: 'Cuadrado Clásico', icon: 'fa-square' },
       { id: 'rounded', name: 'Módulo Redondeado', icon: 'fa-square-minus' },
       { id: 'dots', name: 'Círculos / Puntos', icon: 'fa-circle' },
-      { id: 'connected', name: 'Líquido / Conectado', icon: 'fa-water' },
       { id: 'smooth', name: 'Módulo Fluido', icon: 'fa-cubes' },
-      { id: 'diamond', name: 'Diamante / Rombo', icon: 'fa-gem' },
-      { id: 'diamond_rounded', name: 'Rombo Suave', icon: 'fa-diamond' },
-      { id: 'star', name: 'Estrellas', icon: 'fa-star' },
-      { id: 'sparkle', name: 'Destellos', icon: 'fa-wand-magic-sparkles' },
-      { id: 'heart', name: 'Corazones', icon: 'fa-heart' },
-      { id: 'hexagon', name: 'Hexágonos / Panal', icon: 'fa-shapes' },
-      { id: 'ring', name: 'Anillos Concéntricos', icon: 'fa-bullseye' },
-      { id: 'cross', name: 'Cruz / Plus', icon: 'fa-plus' },
-      { id: 'clover', name: 'Trébol / Cuatrifolio', icon: 'fa-clover' },
-      { id: 'sunburst', name: 'Sol / Destello', icon: 'fa-sun' },
-      { id: 'leaf_dot', name: 'Hoja / Gota', icon: 'fa-leaf' },
-      { id: 'polar', name: 'Anillos Polares', icon: 'fa-arrows-to-circle' },
-      { id: 'halftone', name: 'Puntillismo', icon: 'fa-ellipsis' },
-      { id: 'shield_dot', name: 'Escudo Módulo', icon: 'fa-shield-halved' },
-      { id: 'flower', name: 'Flor Silvestre', icon: 'fa-seedling' },
-      { id: 'diagonal_lines', name: 'Malla Diagonal', icon: 'fa-lines-leaning' },
-      { id: 'radial_drop', name: 'Gota Radial / Viento', icon: 'fa-droplet' }
+      { id: 'diamond_rounded', name: 'Rombo Suave', icon: 'fa-diamond' }
     ];
   }
 
@@ -32,252 +15,2415 @@ class DesignLibrary {
     return this.categories;
   }
 
-
   getDesigns() {
     return this.designs;
   }
-
 
   getPatterns() {
     return this.patterns;
   }
 
-
   generate600Designs() {
     const designs = [];
+    const categoriesData = {
+    "Institucional": {
+        "titles": [
+            "Gobierno Digital",
+            "Portal Transparencia",
+            "Certificado ISO 9001",
+            "Credencial Corporativa",
+            "Firma Electrónica",
+            "Sede Central",
+            "Ventanilla Única",
+            "Mesa de Partes",
+            "Archivo Histórico",
+            "Boletín Oficial",
+            "Auditoría y Rendición",
+            "Estatuto y Marco Legal",
+            "Canal de Denuncias",
+            "Comité Ético",
+            "Resolución Oficial",
+            "Gabinete de Prensa",
+            "Trámites en Línea",
+            "Directorio Oficial",
+            "Seguridad de Datos",
+            "Atención Ciudadana",
+            "Cámara de Comercio",
+            "Consejo Notarial",
+            "Registro Civil",
+            "Plan Estratégico",
+            "Identidad Segura",
+            "Normativa y Leyes",
+            "Oficina Central",
+            "Sello de Confianza",
+            "Declaración Jurada",
+            "Poder Judicial"
+        ],
+        "banners": [
+            "PORTAL OFICIAL",
+            "TRANSPARENCIA",
+            "CERTIFICADO",
+            "ACCESO SEGURO",
+            "FIRMA VÁLIDA",
+            "SEDE CENTRAL",
+            "TRÁMITE DIGITAL",
+            "INFO CIUDADANA",
+            "RESOLUCIÓN 2026",
+            "SELLO OFICIAL"
+        ],
+        "icons": [
+            "fa-building",
+            "fa-shield-halved",
+            "fa-scale-balanced",
+            "fa-landmark",
+            "fa-certificate",
+            "fa-lock",
+            "fa-stamp",
+            "fa-file-signature",
+            "fa-briefcase",
+            "fa-user-tie",
+            "fa-globe",
+            "fa-key",
+            "fa-gavel",
+            "fa-building-columns",
+            "fa-award"
+        ],
+        "bgColors": [
+            "#f8fafc",
+            "#ffffff",
+            "#0f172a",
+            "#f1f5f9",
+            "#1e293b",
+            "#f8fafc",
+            "#090d16",
+            "#f0f9ff",
+            "#1e1b4b",
+            "#ffffff"
+        ],
+        "frameColors": [
+            "#1e3a8a",
+            "#0284c7",
+            "#0f766e",
+            "#2563eb",
+            "#1e40af",
+            "#0f172a",
+            "#0369a1",
+            "#0d9488",
+            "#166534",
+            "#3b82f6"
+        ],
+        "silColors": [
+            "#2563eb",
+            "#0284c7",
+            "#059669",
+            "#0d9488",
+            "#1d4ed8",
+            "#0369a1",
+            "#2563eb",
+            "#0e7490",
+            "#16a34a",
+            "#4338ca"
+        ],
+        "fontsT": [
+            "Montserrat",
+            "Cinzel",
+            "Plus Jakarta Sans",
+            "Lora",
+            "Outfit",
+            "Playfair Display"
+        ],
+        "fontsB": [
+            "Montserrat",
+            "Outfit",
+            "Plus Jakarta Sans",
+            "Space Grotesk",
+            "Lora"
+        ]
+    },
+    "Compras": {
+        "titles": [
+            "Super Oferta 50%",
+            "Catálogo Exclusivo",
+            "Flash Sale 24H",
+            "Canje de Puntos",
+            "Club de Fidelidad",
+            "Boutique de Moda",
+            "Cupón Primera Compra",
+            "Nueva Colección",
+            "Envío Gratis",
+            "Black Friday VIP",
+            "Outlet de Marcas",
+            "Lanzamiento VIP",
+            "Gift Card Digital",
+            "Promoción 2x1",
+            "Venta Privada",
+            "Novedades Semanales",
+            "Carrito Express",
+            "Descuento en Tienda",
+            "Precios de Fábrica",
+            "Mega Liquidación",
+            "Sorteo Mensual",
+            "Tendencias de Moda",
+            "Garantía Total",
+            "Cashback Inmediato",
+            "Comprar en 1 Clic",
+            "Edición Limitada",
+            "Pack Ahorro",
+            "Descuento Joven",
+            "Cyber Week",
+            "Últimas Unidades"
+        ],
+        "banners": [
+            "COMPRAR AHORA",
+            "50% OFF HOY",
+            "FLASH SALE",
+            "VER CATÁLOGO",
+            "CANJEAR CUPÓN",
+            "ENVÍO GRATIS",
+            "OFERTA HOY",
+            "CLUB VIP",
+            "LIQUIDACIÓN",
+            "DESCUENTO"
+        ],
+        "icons": [
+            "fa-bag-shopping",
+            "fa-cart-shopping",
+            "fa-tag",
+            "fa-gift",
+            "fa-store",
+            "fa-percent",
+            "fa-credit-card",
+            "fa-receipt",
+            "fa-basket-shopping",
+            "fa-tags",
+            "fa-box-open",
+            "fa-ticket",
+            "fa-star",
+            "fa-gem",
+            "fa-fire"
+        ],
+        "bgColors": [
+            "#fff7ed",
+            "#ffffff",
+            "#09090b",
+            "#fff1f2",
+            "#18181b",
+            "#faf5ff",
+            "#fffbeb",
+            "#0f172a",
+            "#fdf2f8",
+            "#ffffff"
+        ],
+        "frameColors": [
+            "#dc2626",
+            "#ea580c",
+            "#db2777",
+            "#e11d48",
+            "#c026d3",
+            "#f43f5e",
+            "#f97316",
+            "#be123c",
+            "#a21caf",
+            "#dc2626"
+        ],
+        "silColors": [
+            "#dc2626",
+            "#ea580c",
+            "#db2777",
+            "#e11d48",
+            "#c026d3",
+            "#f43f5e",
+            "#f97316",
+            "#e11d48",
+            "#d946ef",
+            "#dc2626"
+        ],
+        "fontsT": [
+            "Bebas Neue",
+            "Outfit",
+            "Montserrat",
+            "Righteous",
+            "Space Grotesk",
+            "Anton"
+        ],
+        "fontsB": [
+            "Poppins",
+            "Bebas Neue",
+            "Outfit",
+            "Space Grotesk",
+            "Plus Jakarta Sans"
+        ]
+    },
+    "Entretenimiento": {
+        "titles": [
+            "Ver Tráiler 4K",
+            "Jugar Demo Online",
+            "Entrada Cine VIP",
+            "Escuchar Álbum",
+            "En Vivo HD",
+            "Galería de Fotos",
+            "Stand Up Comedy",
+            "Festival de Música",
+            "Noche VIP Access",
+            "Club de Fans",
+            "Parque Temático",
+            "Escape Room",
+            "Pase Backstage",
+            "Realidad Virtual",
+            "Torneo eSports",
+            "Noche de Comedia",
+            "Avant Premiere",
+            "Teatro y Musical",
+            "Show de Magia",
+            "Pase Temporada",
+            "Arcade Retro",
+            "Concierto Acústico",
+            "Meet & Greet",
+            "Batalla Freestyle",
+            "Cosplay Fest",
+            "Terraza Lounge",
+            "Karaoke Night",
+            "After Party DJ",
+            "Experiencia 3D",
+            "Estreno Mundial"
+        ],
+        "banners": [
+            "VER TRÁILER 4K",
+            "JUGAR AHORA",
+            "TICKET VIP",
+            "EN VIVO",
+            "ESCUCHAR ÁLBUM",
+            "SHOW TIME",
+            "BACKSTAGE PASS",
+            "STREAMING HD",
+            "FESTIVAL PASS",
+            "ACCESO DIRECTO"
+        ],
+        "icons": [
+            "fa-film",
+            "fa-gamepad",
+            "fa-ticket",
+            "fa-music",
+            "fa-masks-theater",
+            "fa-video",
+            "fa-vr-cardboard",
+            "fa-tv",
+            "fa-headphones",
+            "fa-microphone",
+            "fa-fire",
+            "fa-camera",
+            "fa-dice",
+            "fa-clapperboard",
+            "fa-compact-disc"
+        ],
+        "bgColors": [
+            "#09090b",
+            "#18181b",
+            "#1e1b4b",
+            "#0f172a",
+            "#2e1065",
+            "#022c22",
+            "#0c4a6e",
+            "#111827",
+            "#251239",
+            "#050505"
+        ],
+        "frameColors": [
+            "#e11d48",
+            "#10b981",
+            "#a855f7",
+            "#0284c7",
+            "#f59e0b",
+            "#ec4899",
+            "#06b6d4",
+            "#8b5cf6",
+            "#f43f5e",
+            "#10b981"
+        ],
+        "silColors": [
+            "#e11d48",
+            "#10b981",
+            "#a855f7",
+            "#0284c7",
+            "#f59e0b",
+            "#ec4899",
+            "#06b6d4",
+            "#8b5cf6",
+            "#f43f5e",
+            "#10b981"
+        ],
+        "fontsT": [
+            "Bebas Neue",
+            "Righteous",
+            "Outfit",
+            "Space Grotesk",
+            "Press Start 2P",
+            "Anton"
+        ],
+        "fontsB": [
+            "Bebas Neue",
+            "Space Grotesk",
+            "Outfit",
+            "Righteous",
+            "Poppins"
+        ]
+    },
+    "Belleza": {
+        "titles": [
+            "Reserva Tu Cita",
+            "Spa y Relax Total",
+            "Maquillaje Pro",
+            "Nails Art Estudio",
+            "Skincare Facial",
+            "Estilista y Peinados",
+            "Tratamiento Natural",
+            "Dermocosmética",
+            "Barbería VIP",
+            "Perfumery Nicho",
+            "Lifting Pestañas",
+            "Masaje Zen",
+            "Cejas Perfectas",
+            "Balayage Blonde",
+            "Aromaterapia",
+            "Depilación Láser",
+            "Botox Capilar",
+            "Limpieza Facial",
+            "Pedicura Spa",
+            "Mirada Radiante",
+            "Pack Novia",
+            "Rejuvenecimiento",
+            "Cosmética Vegana",
+            "Glow Treatment",
+            "Asesoría Imagen",
+            "Detox Corporal",
+            "Labios Glow",
+            "Corte Clásico",
+            "Lash Lifting",
+            "Tarjeta Regalo"
+        ],
+        "banners": [
+            "RESERVAR CITA",
+            "SPA & RELAX",
+            "BEAUTY CARE",
+            "SKINCARE PRO",
+            "HAIR & NAILS",
+            "BARBER VIP",
+            "100% NATURAL",
+            "GLOW TODAY",
+            "TRATAMIENTOS",
+            "CITA ONLINE"
+        ],
+        "icons": [
+            "fa-wand-magic-sparkles",
+            "fa-sparkles",
+            "fa-heart",
+            "fa-gem",
+            "fa-spa",
+            "fa-pump-soap",
+            "fa-scissors",
+            "fa-paintbrush",
+            "fa-hand-sparkles",
+            "fa-star",
+            "fa-sun",
+            "fa-eye",
+            "fa-feather",
+            "fa-leaf",
+            "fa-crown"
+        ],
+        "bgColors": [
+            "#fff1f2",
+            "#fdf4ff",
+            "#ffffff",
+            "#fff7ed",
+            "#f0fdf4",
+            "#faf5ff",
+            "#fff5f5",
+            "#0f172a",
+            "#f8fafc",
+            "#ffffff"
+        ],
+        "frameColors": [
+            "#be123c",
+            "#a21caf",
+            "#db2777",
+            "#c2410c",
+            "#15803d",
+            "#7e22ce",
+            "#e11d48",
+            "#db2777",
+            "#b91c1c",
+            "#a21caf"
+        ],
+        "silColors": [
+            "#be123c",
+            "#a21caf",
+            "#db2777",
+            "#c2410c",
+            "#15803d",
+            "#7e22ce",
+            "#e11d48",
+            "#db2777",
+            "#b91c1c",
+            "#a21caf"
+        ],
+        "fontsT": [
+            "Playfair Display",
+            "Great Vibes",
+            "Comfortaa",
+            "Lora",
+            "Satisfy",
+            "Outfit"
+        ],
+        "fontsB": [
+            "Comfortaa",
+            "Poppins",
+            "Outfit",
+            "Playfair Display",
+            "Plus Jakarta Sans"
+        ]
+    },
+    "Deportes": {
+        "titles": [
+            "Power Gym 24H",
+            "Únete al Gimnasio",
+            "Maratón 10K",
+            "Hazte Socio Pro",
+            "Coach Personal",
+            "Clase de Prueba",
+            "Plan Nutricional",
+            "Reserva de Cancha",
+            "Horarios y Turnos",
+            "Torneo 2026",
+            "CrossFit Box",
+            "Clase de Spinning",
+            "Pilates y Core",
+            "Boxeo Funcional",
+            "Natación Clases",
+            "Fútbol Liga",
+            "Yoga y Flexibilidad",
+            "Suplementos Pro",
+            "Pádel Club",
+            "Desafío 30 Días",
+            "Rutina Hiit",
+            "Torneo Tenis",
+            "Calistenia Park",
+            "Trekking Trail",
+            "Ciclismo Ruta",
+            "Triatlón Training",
+            "Entreno Funcional",
+            "Pase Multisede",
+            "Test Físico",
+            "Atleta Élite"
+        ],
+        "banners": [
+            "ENTRENA HOY",
+            "CLASE GRATIS",
+            "HAZTE SOCIO",
+            "DESAFÍO 10K",
+            "RESERVA CANCHA",
+            "PLAN FITNESS",
+            "CROSSFIT BOX",
+            "POWER GYM",
+            "TORNEO 2026",
+            "ACCESO ATLETA"
+        ],
+        "icons": [
+            "fa-dumbbell",
+            "fa-person-running",
+            "fa-trophy",
+            "fa-medal",
+            "fa-fire",
+            "fa-bolt",
+            "fa-heart-pulse",
+            "fa-futbol",
+            "fa-basketball",
+            "fa-stopwatch",
+            "fa-flag-checkered",
+            "fa-shoe-prints",
+            "fa-bicycle",
+            "fa-person-swimming",
+            "fa-shield"
+        ],
+        "bgColors": [
+            "#09090b",
+            "#18181b",
+            "#052e16",
+            "#0f172a",
+            "#1e1b4b",
+            "#2d0606",
+            "#ffffff",
+            "#f8fafc",
+            "#0c4a6e",
+            "#1c1917"
+        ],
+        "frameColors": [
+            "#eab308",
+            "#f97316",
+            "#22c55e",
+            "#0284c7",
+            "#a855f7",
+            "#ef4444",
+            "#f97316",
+            "#10b981",
+            "#06b6d4",
+            "#eab308"
+        ],
+        "silColors": [
+            "#eab308",
+            "#f97316",
+            "#22c55e",
+            "#0284c7",
+            "#a855f7",
+            "#ef4444",
+            "#f97316",
+            "#10b981",
+            "#06b6d4",
+            "#eab308"
+        ],
+        "fontsT": [
+            "Oswald",
+            "Anton",
+            "Bebas Neue",
+            "Space Grotesk",
+            "Montserrat",
+            "Righteous"
+        ],
+        "fontsB": [
+            "Bebas Neue",
+            "Outfit",
+            "Space Grotesk",
+            "Oswald",
+            "Poppins"
+        ]
+    },
+    "Comunidad": {
+        "titles": [
+            "Súmate al Voluntariado",
+            "Barrio Verde",
+            "Participación Activa",
+            "Club de Lectura",
+            "Donar a la Causa",
+            "Adopta una Mascota",
+            "Comunidad Verde",
+            "Jóvenes en Acción",
+            "Asociación Vecinal",
+            "Foro Solidario",
+            "Comedor Comunitario",
+            "Huerto Urbano",
+            "Apoyo Escolar",
+            "Cuidado del Mayor",
+            "Campaña Solidaria",
+            "Red de Trueque",
+            "Taller de Oficios",
+            "Refugio Animal",
+            "Plataforma Barrial",
+            "Campaña de Invierno",
+            "Voz del Vecino",
+            "Espacio Cultural",
+            "Brigada de Rescate",
+            "Voluntarios Hoy",
+            "Comité Vecinal",
+            "Banco de Alimentos",
+            "Taller Comunitario",
+            "Seguridad Barrial",
+            "Feria de Productores",
+            "Solidaridad"
+        ],
+        "banners": [
+            "SÚMATE HOY",
+            "PARTICIPA",
+            "DONAR AHORA",
+            "ADOPTA",
+            "ECO BARRIO",
+            "VOLUNTARIOS",
+            "UNIDOS HOY",
+            "VECINOS UNIDOS",
+            "SOLIDARIDAD",
+            "TU COMUNIDAD"
+        ],
+        "icons": [
+            "fa-hands-holding-child",
+            "fa-people-roof",
+            "fa-handshake",
+            "fa-heart-circle-check",
+            "fa-house-heart",
+            "fa-users",
+            "fa-hand-holding-heart",
+            "fa-seedling",
+            "fa-comments",
+            "fa-paw",
+            "fa-book-open-reader",
+            "fa-earth-americas",
+            "fa-ribbon",
+            "fa-dove",
+            "fa-bullhorn"
+        ],
+        "bgColors": [
+            "#f0fdf4",
+            "#eff6ff",
+            "#fff7ed",
+            "#ffffff",
+            "#fdf4ff",
+            "#f7fee7",
+            "#ecfdf5",
+            "#0f172a",
+            "#faf5ff",
+            "#ffffff"
+        ],
+        "frameColors": [
+            "#166534",
+            "#1d4ed8",
+            "#c2410c",
+            "#0f172a",
+            "#7e22ce",
+            "#4d7c0f",
+            "#047857",
+            "#0284c7",
+            "#6b21a8",
+            "#0369a1"
+        ],
+        "silColors": [
+            "#15803d",
+            "#2563eb",
+            "#ea580c",
+            "#0284c7",
+            "#9333ea",
+            "#65a30d",
+            "#059669",
+            "#38bdf8",
+            "#7c3aed",
+            "#0284c7"
+        ],
+        "fontsT": [
+            "Montserrat",
+            "Poppins",
+            "Outfit",
+            "Comfortaa",
+            "Plus Jakarta Sans",
+            "Lora"
+        ],
+        "fontsB": [
+            "Poppins",
+            "Comfortaa",
+            "Outfit",
+            "Plus Jakarta Sans",
+            "Montserrat"
+        ]
+    },
+    "Gastronomía": {
+        "titles": [
+            "Carta y Menú Digital",
+            "Menú Degustación",
+            "Pizza Artesanal",
+            "Burgers Gourmet",
+            "Sushi y Omakase",
+            "Cava de Vinos",
+            "Café Especialidad",
+            "Cócteles de Autor",
+            "Reserva Tu Mesa",
+            "Delivery Rápido",
+            "Pastelería Fina",
+            "Mariscos Frescos",
+            "Tacos Tradicionales",
+            "Brunch Dominical",
+            "Parrilla Asador",
+            "Cocina Italiana",
+            "Helado Artesanal",
+            "Comida Vegana",
+            "Tapas y Cerveza",
+            "Buffet Gourmet",
+            "Menú Ejecutivo",
+            "Carta de Postres",
+            "Desayuno Saludable",
+            "Cena Romántica",
+            "Ramen Caliente",
+            "Poke Bowls",
+            "Food Truck Park",
+            "Cata de Cervezas",
+            "Happy Hour 2x1",
+            "Chef Signature"
+        ],
+        "banners": [
+            "VER MENÚ",
+            "CARTA DIGITAL",
+            "RESERVAR MESA",
+            "PEDIR ONLINE",
+            "SPECIALTY COFFEE",
+            "HAPPY HOUR",
+            "DELIVERY RÁPIDO",
+            "CHEF SPECIAL",
+            "SUSHI & WINE",
+            "ORDENA AQUÍ"
+        ],
+        "icons": [
+            "fa-utensils",
+            "fa-mug-hot",
+            "fa-pizza-slice",
+            "fa-burger",
+            "fa-wine-glass",
+            "fa-martini-glass-citrus",
+            "fa-cake-candles",
+            "fa-fish",
+            "fa-fire-burner",
+            "fa-ice-cream",
+            "fa-bowl-food",
+            "fa-champagne-glasses",
+            "fa-cookie",
+            "fa-drumstick-bite",
+            "fa-wheat-awn"
+        ],
+        "bgColors": [
+            "#0f172a",
+            "#fff7ed",
+            "#09090b",
+            "#fef2f2",
+            "#18181b",
+            "#2e1065",
+            "#ffffff",
+            "#fffbeb",
+            "#1c1917",
+            "#fdf4ff"
+        ],
+        "frameColors": [
+            "#d97706",
+            "#ea580c",
+            "#dc2626",
+            "#e11d48",
+            "#f97316",
+            "#c026d3",
+            "#0284c7",
+            "#ca8a04",
+            "#ea580c",
+            "#a21caf"
+        ],
+        "silColors": [
+            "#d97706",
+            "#ea580c",
+            "#dc2626",
+            "#e11d48",
+            "#f97316",
+            "#c026d3",
+            "#0284c7",
+            "#ca8a04",
+            "#ea580c",
+            "#a21caf"
+        ],
+        "fontsT": [
+            "Cinzel",
+            "Playfair Display",
+            "Bebas Neue",
+            "Caveat",
+            "Outfit",
+            "Montserrat"
+        ],
+        "fontsB": [
+            "Montserrat",
+            "Outfit",
+            "Playfair Display",
+            "Poppins",
+            "Bebas Neue"
+        ]
+    },
+    "Tecnología": {
+        "titles": [
+            "Descargar App Móvil",
+            "Conectar WiFi",
+            "Prueba Gratis SaaS",
+            "API Developers",
+            "Acceso Seguro 2FA",
+            "Código Abierto",
+            "IA Pro Suite",
+            "Catálogo Gadgets",
+            "Crypto Wallet",
+            "Agendar Demo",
+            "Nube Corporativa",
+            "Soporte 24/7",
+            "Ciberseguridad",
+            "Bots Automatizados",
+            "Plataforma No-Code",
+            "Dashboard Analítico",
+            "Hosting SSD Rápido",
+            "Soluciones IoT",
+            "Smart Contracts",
+            "Comunidad Discord",
+            "Base de Conocimiento",
+            "Extensión Oficial",
+            "Monitor Servidores",
+            "Dev Toolkit",
+            "Firmware Seguro",
+            "Simulador Cuántico",
+            "Big Data Analytics",
+            "SDK Móvil",
+            "Cloud Escalable",
+            "Release Notes"
+        ],
+        "banners": [
+            "DESCARGAR APP",
+            "CONECTAR WIFI",
+            "PROBAR GRATIS",
+            "VER DEMO",
+            "API DOCS",
+            "SOPORTE 24/7",
+            "ACCESO SEGURO",
+            "CLOUD TECH",
+            "IA READY",
+            "VER GITHUB"
+        ],
+        "icons": [
+            "fa-laptop-code",
+            "fa-microchip",
+            "fa-robot",
+            "fa-cloud",
+            "fa-wifi",
+            "fa-mobile-screen-button",
+            "fa-server",
+            "fa-code",
+            "fa-shield-halved",
+            "fa-rocket",
+            "fa-cubes",
+            "fa-database",
+            "fa-headset",
+            "fa-network-wired",
+            "fa-vr-cardboard"
+        ],
+        "bgColors": [
+            "#09090b",
+            "#0f172a",
+            "#172554",
+            "#022c22",
+            "#18181b",
+            "#05070e",
+            "#1e1b4b",
+            "#ffffff",
+            "#0b0f19",
+            "#eff6ff"
+        ],
+        "frameColors": [
+            "#0284c7",
+            "#2563eb",
+            "#06b6d4",
+            "#059669",
+            "#8b5cf6",
+            "#3b82f6",
+            "#ec4899",
+            "#0284c7",
+            "#00d8f6",
+            "#2563eb"
+        ],
+        "silColors": [
+            "#0284c7",
+            "#2563eb",
+            "#06b6d4",
+            "#059669",
+            "#8b5cf6",
+            "#3b82f6",
+            "#ec4899",
+            "#0284c7",
+            "#00d8f6",
+            "#2563eb"
+        ],
+        "fontsT": [
+            "Space Grotesk",
+            "Fira Code",
+            "Outfit",
+            "Montserrat",
+            "Righteous",
+            "Plus Jakarta Sans"
+        ],
+        "fontsB": [
+            "Fira Code",
+            "Space Grotesk",
+            "Outfit",
+            "Plus Jakarta Sans",
+            "Poppins"
+        ]
+    },
+    "Salud": {
+        "titles": [
+            "Agendar Cita Médica",
+            "Receta Digital",
+            "Clínica Dental",
+            "Urgencias 24H",
+            "Resultados de Lab",
+            "Pediatría y Vacunas",
+            "Examen Visual",
+            "Fisioterapia",
+            "Telemedicina",
+            "Chequeo Preventivo",
+            "Dermatología",
+            "Nutrición Clínica",
+            "Ginecología",
+            "Traumatología",
+            "Salud Mental",
+            "Historia Clínica",
+            "Farmacia y Descuentos",
+            "Médico a Domicilio",
+            "Rayos X e Imagen",
+            "Cirugía Segura",
+            "Otorrino Especialista",
+            "Cuidado del Mayor",
+            "Alergias Clínicas",
+            "Limpieza Dental",
+            "Endocrinología",
+            "Vacunatorio Oficial",
+            "Análisis de Sangre",
+            "Fonoaudiología",
+            "Certificado Médico",
+            "Guía Especialistas"
+        ],
+        "banners": [
+            "AGENDAR CITA",
+            "CONSULTA ONLINE",
+            "URGENCIAS 24H",
+            "RESULTADOS LAB",
+            "RECETA DIGITAL",
+            "CLÍNICA MÉDICA",
+            "SALUD INTEGRAL",
+            "CUIDADO PRO",
+            "HORAS DISPONIBLES",
+            "TELEMEDICINA"
+        ],
+        "icons": [
+            "fa-user-doctor",
+            "fa-heart-pulse",
+            "fa-stethoscope",
+            "fa-hospital",
+            "fa-tooth",
+            "fa-pills",
+            "fa-truck-medical",
+            "fa-microscope",
+            "fa-brain",
+            "fa-hand-holding-medical",
+            "fa-syringe",
+            "fa-glasses",
+            "fa-dna",
+            "fa-shield-heart",
+            "fa-suitcase-medical"
+        ],
+        "bgColors": [
+            "#f0f9ff",
+            "#f0fdf4",
+            "#ffffff",
+            "#fef2f2",
+            "#ecfeff",
+            "#fdf4ff",
+            "#f8fafc",
+            "#ffffff",
+            "#faf5ff",
+            "#fff1f2"
+        ],
+        "frameColors": [
+            "#0284c7",
+            "#16a34a",
+            "#0891b2",
+            "#dc2626",
+            "#0d9488",
+            "#7e22ce",
+            "#0284c7",
+            "#0369a1",
+            "#9333ea",
+            "#be123c"
+        ],
+        "silColors": [
+            "#0284c7",
+            "#16a34a",
+            "#0891b2",
+            "#dc2626",
+            "#0d9488",
+            "#7e22ce",
+            "#0284c7",
+            "#0369a1",
+            "#9333ea",
+            "#be123c"
+        ],
+        "fontsT": [
+            "Montserrat",
+            "Poppins",
+            "Outfit",
+            "Plus Jakarta Sans",
+            "Lora",
+            "Playfair Display"
+        ],
+        "fontsB": [
+            "Plus Jakarta Sans",
+            "Comfortaa",
+            "Poppins",
+            "Outfit",
+            "Montserrat"
+        ]
+    },
+    "Viajes": {
+        "titles": [
+            "Tarjeta de Embarque",
+            "Reserva Hotel 5*",
+            "Tours y Excursiones",
+            "Pack Playa",
+            "Senderismo Montaña",
+            "Crucero de Lujo",
+            "Guía de la Ciudad",
+            "Alquiler de Autos",
+            "Safari Fotográfico",
+            "Check-in Rápido",
+            "Vuelos Ofertas",
+            "Ruta del Vino",
+            "Aventura Extrema",
+            "Alojamiento Boutique",
+            "Pase de Museos",
+            "Ruta de Castillos",
+            "Aurora Boreal",
+            "Glamping de Lujo",
+            "Buceo y Snorkel",
+            "Guía Gastronómica",
+            "Luna de Miel",
+            "Asistencia al Viajero",
+            "Trenes Rápidos",
+            "Ecoturismo Selva",
+            "Mirador Tickets",
+            "Itinerario de Viaje",
+            "Turismo Rural",
+            "Ruta Arqueológica",
+            "Traslado VIP",
+            "Pasaporte Turístico"
+        ],
+        "banners": [
+            "BOARDING PASS",
+            "CHECK-IN HOTEL",
+            "VER TOURS",
+            "RESERVA AHORA",
+            "GUÍA CIUDAD",
+            "PACK PLAYA",
+            "RENT A CAR",
+            "TRAVEL PASS",
+            "CRUCERO VIP",
+            "DESTINOS 2026"
+        ],
+        "icons": [
+            "fa-plane-departure",
+            "fa-hotel",
+            "fa-compass",
+            "fa-suitcase-rolling",
+            "fa-map-location-dot",
+            "fa-ship",
+            "fa-mountain-sun",
+            "fa-car",
+            "fa-sun",
+            "fa-passport",
+            "fa-umbrella-beach",
+            "fa-route",
+            "fa-ticket",
+            "fa-binoculars",
+            "fa-globe-americas"
+        ],
+        "bgColors": [
+            "#0f172a",
+            "#fffbeb",
+            "#ecfeff",
+            "#f0f9ff",
+            "#0c4a6e",
+            "#ffffff",
+            "#18181b",
+            "#fff7ed",
+            "#fdf4ff",
+            "#022c22"
+        ],
+        "frameColors": [
+            "#0284c7",
+            "#d97706",
+            "#0891b2",
+            "#2563eb",
+            "#06b6d4",
+            "#0284c7",
+            "#ea580c",
+            "#ea580c",
+            "#9333ea",
+            "#10b981"
+        ],
+        "silColors": [
+            "#0284c7",
+            "#d97706",
+            "#0891b2",
+            "#2563eb",
+            "#06b6d4",
+            "#0284c7",
+            "#ea580c",
+            "#ea580c",
+            "#9333ea",
+            "#10b981"
+        ],
+        "fontsT": [
+            "Outfit",
+            "Montserrat",
+            "Cinzel",
+            "Pacifico",
+            "Righteous",
+            "Space Grotesk"
+        ],
+        "fontsB": [
+            "Space Grotesk",
+            "Montserrat",
+            "Outfit",
+            "Poppins",
+            "Plus Jakarta Sans"
+        ]
+    },
+    "Inmobiliaria": {
+        "titles": [
+            "Propiedad en Venta",
+            "Penthouse de Lujo",
+            "Departamento Alquiler",
+            "Tarjeta Asesor Pro",
+            "Tour Virtual 360",
+            "Terrenos Campestres",
+            "Oficinas Clase A",
+            "Firma de Contrato",
+            "Casa de Playa",
+            "Desarrollo en Pozo",
+            "Crédito Hipotecario",
+            "Tasación Gratuita",
+            "Barrio Cerrado",
+            "Local Comercial",
+            "Inversión Segura",
+            "Casas Modernas",
+            "Open House",
+            "Dúplex a Estrenar",
+            "Depósito Logístico",
+            "Cabañas de Bosque",
+            "Brochure Proyecto",
+            "Contacto Asesor",
+            "Rentas Airbnb",
+            "Fideicomiso Seguro",
+            "Diseño Sustentable",
+            "Villas con Piscina",
+            "Residencia Estudiantil",
+            "Lotes Financiados",
+            "Inspección Técnica",
+            "Reserva Unidad"
+        ],
+        "banners": [
+            "VER PROPIEDAD",
+            "TOUR 360°",
+            "PENTHOUSE VIP",
+            "AGENDAR VISITA",
+            "CONTACTAR ASESOR",
+            "OPEN HOUSE",
+            "EN ALQUILER",
+            "EN VENTA",
+            "BROCHURE PDF",
+            "CASA SOÑADA"
+        ],
+        "icons": [
+            "fa-house",
+            "fa-building",
+            "fa-key",
+            "fa-city",
+            "fa-house-chimney",
+            "fa-building-user",
+            "fa-vector-square",
+            "fa-file-signature",
+            "fa-house-laptop",
+            "fa-compass-drafting",
+            "fa-tree-city",
+            "fa-handshake",
+            "fa-vr-cardboard",
+            "fa-sign-hanging",
+            "fa-landmark-dome"
+        ],
+        "bgColors": [
+            "#ffffff",
+            "#0f172a",
+            "#f8fafc",
+            "#f0f9ff",
+            "#09090b",
+            "#1e1b4b",
+            "#fffbeb",
+            "#f0fdf4",
+            "#ecfeff",
+            "#18181b"
+        ],
+        "frameColors": [
+            "#2563eb",
+            "#d97706",
+            "#0284c7",
+            "#1d4ed8",
+            "#06b6d4",
+            "#818cf8",
+            "#b45309",
+            "#15803d",
+            "#0891b2",
+            "#d97706"
+        ],
+        "silColors": [
+            "#2563eb",
+            "#fbbf24",
+            "#0284c7",
+            "#1d4ed8",
+            "#06b6d4",
+            "#818cf8",
+            "#b45309",
+            "#15803d",
+            "#0891b2",
+            "#f59e0b"
+        ],
+        "fontsT": [
+            "Montserrat",
+            "Cinzel",
+            "Outfit",
+            "Poppins",
+            "Playfair Display",
+            "Space Grotesk"
+        ],
+        "fontsB": [
+            "Outfit",
+            "Playfair Display",
+            "Plus Jakarta Sans",
+            "Montserrat",
+            "Poppins"
+        ]
+    },
+    "Educación": {
+        "titles": [
+            "Aula Virtual",
+            "Admisión 2026",
+            "Inscripción Abierta",
+            "Biblioteca Digital",
+            "Aprende Idiomas",
+            "Masterclass en Vivo",
+            "Tutor Personal",
+            "Test Vocacional",
+            "Clases de Música",
+            "Bootcamp Coding",
+            "Campus Digital",
+            "Material de Estudio",
+            "Certificado Oficial",
+            "Horario de Clases",
+            "Bolsa de Empleo",
+            "Test de Nivelación",
+            "Taller de Robótica",
+            "Diplomado Ejecutivo",
+            "Clases de Apoyo",
+            "Seminario Científico",
+            "Guía Estudiante",
+            "Club de Debate",
+            "Becas Académicas",
+            "Portal de Padres",
+            "Laboratorio Virtual",
+            "Curso Finanzas",
+            "Asesoría de Tesis",
+            "Plataforma Tareas",
+            "Exámenes Oficiales",
+            "Graduación 2026"
+        ],
+        "banners": [
+            "AULA VIRTUAL",
+            "ADMISIÓN 2026",
+            "INSCRIBIRSE",
+            "VER CLASE",
+            "CERTIFICADO",
+            "APRENDER HOY",
+            "CAMPUS ONLINE",
+            "MATERIAL PDF",
+            "TEST DE NIVEL",
+            "TUTORÍAS VIP"
+        ],
+        "icons": [
+            "fa-graduation-cap",
+            "fa-school",
+            "fa-book-open",
+            "fa-certificate",
+            "fa-chalkboard-user",
+            "fa-laptop-code",
+            "fa-brain",
+            "fa-user-graduate",
+            "fa-book-bookmark",
+            "fa-language",
+            "fa-microscope",
+            "fa-atom",
+            "fa-shapes",
+            "fa-pen-to-square",
+            "fa-award"
+        ],
+        "bgColors": [
+            "#0f172a",
+            "#ffffff",
+            "#faf5ff",
+            "#fff7ed",
+            "#f0f9ff",
+            "#18181b",
+            "#f0fdf4",
+            "#fef2f2",
+            "#2e1065",
+            "#09090b"
+        ],
+        "frameColors": [
+            "#0284c7",
+            "#2563eb",
+            "#9333ea",
+            "#ea580c",
+            "#0284c7",
+            "#e11d48",
+            "#16a34a",
+            "#dc2626",
+            "#a21caf",
+            "#10b981"
+        ],
+        "silColors": [
+            "#0284c7",
+            "#2563eb",
+            "#9333ea",
+            "#ea580c",
+            "#0284c7",
+            "#e11d48",
+            "#16a34a",
+            "#dc2626",
+            "#a21caf",
+            "#10b981"
+        ],
+        "fontsT": [
+            "Outfit",
+            "Montserrat",
+            "Righteous",
+            "Cinzel",
+            "Poppins",
+            "Space Grotesk"
+        ],
+        "fontsB": [
+            "Plus Jakarta Sans",
+            "Montserrat",
+            "Poppins",
+            "Outfit",
+            "Comfortaa"
+        ]
+    },
+    "Eventos": {
+        "titles": [
+            "Entrada VIP",
+            "Nuestra Boda",
+            "Cumpleaños VIP",
+            "Registro Expo",
+            "Lineup Artistas",
+            "Networking Negocios",
+            "Webinar en Vivo",
+            "Gala de Premios",
+            "Torneo eSports",
+            "Feria del Libro",
+            "Baby Shower",
+            "Graduación",
+            "Conferencia Magna",
+            "After Office",
+            "Fashion Show",
+            "Feria Gourmet",
+            "Cena de Gala",
+            "Pase de Prensa",
+            "Fiesta Fin de Año",
+            "Hackathon 48H",
+            "Congreso Médico",
+            "Cumbre Emprender",
+            "Festival Food Trucks",
+            "Lanzamiento Marca",
+            "Stand Up Tickets",
+            "Confirmar RSVP",
+            "Mesa de Regalos",
+            "Croquis del Evento",
+            "Gafete Digital",
+            "Streaming Live"
+        ],
+        "banners": [
+            "TICKET VIP",
+            "NUESTRA BODA",
+            "RSVP CONFIRMAR",
+            "REGISTRO EXPO",
+            "LINEUP 2026",
+            "NETWORKING",
+            "INVITACIÓN VIP",
+            "PASE ACCESO",
+            "WEBINAR LIVE",
+            "ENTRADAS AQUÍ"
+        ],
+        "icons": [
+            "fa-ticket",
+            "fa-calendar-days",
+            "fa-champagne-glasses",
+            "fa-heart",
+            "fa-cake-candles",
+            "fa-microphone",
+            "fa-users-between-lines",
+            "fa-trophy",
+            "fa-ring",
+            "fa-masks-theater",
+            "fa-glass-water",
+            "fa-map-pin",
+            "fa-music",
+            "fa-envelope-open-text",
+            "fa-bell"
+        ],
+        "bgColors": [
+            "#09090b",
+            "#fff1f2",
+            "#fdf4ff",
+            "#ffffff",
+            "#18181b",
+            "#0f172a",
+            "#eff6ff",
+            "#1e1b4b",
+            "#022c22",
+            "#fff7ed"
+        ],
+        "frameColors": [
+            "#a855f7",
+            "#be123c",
+            "#c026d3",
+            "#0284c7",
+            "#d97706",
+            "#0284c7",
+            "#2563eb",
+            "#d97706",
+            "#10b981",
+            "#ea580c"
+        ],
+        "silColors": [
+            "#a855f7",
+            "#be123c",
+            "#c026d3",
+            "#0284c7",
+            "#d97706",
+            "#0284c7",
+            "#2563eb",
+            "#d97706",
+            "#10b981",
+            "#ea580c"
+        ],
+        "fontsT": [
+            "Playfair Display",
+            "Great Vibes",
+            "Pacifico",
+            "Montserrat",
+            "Righteous",
+            "Cinzel"
+        ],
+        "fontsB": [
+            "Outfit",
+            "Satisfy",
+            "Poppins",
+            "Montserrat",
+            "Playfair Display"
+        ]
+    },
+    "Redes Sociales": {
+        "titles": [
+            "WhatsApp Business",
+            "Instagram Oficial",
+            "TikTok Viral",
+            "Canal de YouTube",
+            "Página Facebook",
+            "Perfil LinkedIn",
+            "Síguenos en X",
+            "Canal Telegram",
+            "Servidor Discord",
+            "Tablero Pinterest",
+            "Playlist Spotify",
+            "Twitch Stream",
+            "Podcast Semanal",
+            "Comunidad Creadores",
+            "Threads Debate",
+            "Bio Link Todos",
+            "Canal Novedades",
+            "Snapchat Oficial",
+            "Grupo VIP FB",
+            "Sorteo Redes",
+            "Portfolio Behance",
+            "Clubhouse Audio",
+            "Reseña Google Maps",
+            "Ofertas Telegram",
+            "Filtro Instagram",
+            "Tips en TikTok",
+            "Gaming YouTube",
+            "LinkedIn Talent",
+            "Discord VIP",
+            "Comunidad Fans"
+        ],
+        "banners": [
+            "CHAT WHATSAPP",
+            "SEGUIR EN IG",
+            "TIKTOK VIP",
+            "SUSCRIBIRSE",
+            "LINKEDIN PRO",
+            "UNIRSE AL DISCORD",
+            "GRUPO TELEGRAM",
+            "PLAYLIST SPOTIFY",
+            "SÍGUENOS HOY",
+            "TODO EN UNO"
+        ],
+        "icons": [
+            "fa-brands fa-whatsapp",
+            "fa-brands fa-instagram",
+            "fa-brands fa-tiktok",
+            "fa-brands fa-youtube",
+            "fa-brands fa-facebook",
+            "fa-brands fa-linkedin",
+            "fa-brands fa-twitter",
+            "fa-brands fa-telegram",
+            "fa-brands fa-discord",
+            "fa-brands fa-pinterest",
+            "fa-brands fa-spotify",
+            "fa-brands fa-twitch",
+            "fa-share-nodes",
+            "fa-hashtag",
+            "fa-comments"
+        ],
+        "bgColors": [
+            "#f0fdf4",
+            "#fdf4ff",
+            "#09090b",
+            "#fef2f2",
+            "#eff6ff",
+            "#f8fafc",
+            "#f0f9ff",
+            "#e0f2fe",
+            "#18181b",
+            "#fff1f2"
+        ],
+        "frameColors": [
+            "#16a34a",
+            "#e1306c",
+            "#00f2fe",
+            "#dc2626",
+            "#1877f2",
+            "#0a66c2",
+            "#1da1f2",
+            "#24a1de",
+            "#5865f2",
+            "#e60023"
+        ],
+        "silColors": [
+            "#16a34a",
+            "#e1306c",
+            "#06b6d4",
+            "#dc2626",
+            "#1877f2",
+            "#0a66c2",
+            "#1da1f2",
+            "#24a1de",
+            "#5865f2",
+            "#e60023"
+        ],
+        "fontsT": [
+            "Outfit",
+            "Poppins",
+            "Space Grotesk",
+            "Bebas Neue",
+            "Montserrat",
+            "Righteous"
+        ],
+        "fontsB": [
+            "Poppins",
+            "Space Grotesk",
+            "Outfit",
+            "Plus Jakarta Sans",
+            "Comfortaa"
+        ]
+    },
+    "Lujo": {
+        "titles": [
+            "Alta Joyería Fina",
+            "Platinum Suite",
+            "Relojería Suiza",
+            "Membresía Black Card",
+            "Alta Costura",
+            "Supercar Track",
+            "Yacht Marina",
+            "Cava de Champán",
+            "Mansión Privada",
+            "Concierge 24/7",
+            "Vuelo Jet Privado",
+            "Diamantes Raros",
+            "Perfumes Nicho",
+            "Subasta Maestra",
+            "Habano Sommelier",
+            "Club Privado",
+            "Caviar y Trufas",
+            "Personal Shopper",
+            "Salón Primera Clase",
+            "Boutique Quinta Ave",
+            "Colección Esculturas",
+            "Reloj Tourbillon",
+            "Sala VIP Presidencial",
+            "Inversión en Arte",
+            "Penthouses Mónaco",
+            "Tratamiento Oro 24K",
+            "Suite Presidencial",
+            "Heliesquí Alpes",
+            "Joyas de la Corona",
+            "Black Card Acceso"
+        ],
+        "banners": [
+            "COLECCIÓN LUXE",
+            "MEMBRESÍA BLACK",
+            "RESERVA PLATINUM",
+            "EDICIÓN LIMITADA",
+            "ALTA JOYERÍA",
+            "YACHT & JETS",
+            "PRIVATE CLUB",
+            "EXPERIENCIA VIP",
+            "SOLO MIEMBROS",
+            "CONCIERGE 24/7"
+        ],
+        "icons": [
+            "fa-crown",
+            "fa-gem",
+            "fa-award",
+            "fa-shield-halved",
+            "fa-ring",
+            "fa-clock",
+            "fa-car-side",
+            "fa-anchor",
+            "fa-wine-bottle",
+            "fa-castle",
+            "fa-credit-card",
+            "fa-sparkles",
+            "fa-chess-king",
+            "fa-building-columns",
+            "fa-feather"
+        ],
+        "bgColors": [
+            "#0f172a",
+            "#09090b",
+            "#000000",
+            "#18181b",
+            "#1c1917",
+            "#300404",
+            "#0c4a6e",
+            "#1e1b4b",
+            "#1f0d36",
+            "#ffffff"
+        ],
+        "frameColors": [
+            "#fbbf24",
+            "#d97706",
+            "#f59e0b",
+            "#ca8a04",
+            "#dc2626",
+            "#0284c7",
+            "#c084fc",
+            "#facc15",
+            "#eab308",
+            "#d97706"
+        ],
+        "silColors": [
+            "#fbbf24",
+            "#d97706",
+            "#f59e0b",
+            "#ca8a04",
+            "#dc2626",
+            "#0284c7",
+            "#c084fc",
+            "#facc15",
+            "#eab308",
+            "#d97706"
+        ],
+        "fontsT": [
+            "Cinzel",
+            "Playfair Display",
+            "Lora",
+            "Great Vibes",
+            "Abril Fatface",
+            "Montserrat"
+        ],
+        "fontsB": [
+            "Playfair Display",
+            "Cinzel",
+            "Lora",
+            "Outfit",
+            "Montserrat"
+        ]
+    },
+    "Música y Arte": {
+        "titles": [
+            "Nuevo Álbum",
+            "Galería de Arte",
+            "Audio Hi-Fi",
+            "Taller de Pintura",
+            "Beats y Trap",
+            "Esculturas Modernas",
+            "Concierto Acústico",
+            "Edición Vinilo",
+            "Estudio Grabación",
+            "Museo Tickets",
+            "Top 1 Streaming",
+            "Festival Callejero",
+            "Escuela de Piano",
+            "Banda de Rock",
+            "Librería de Sonidos",
+            "Muestra de Fotos",
+            "DJ Set en Vivo",
+            "Ópera Clásica",
+            "Arte Digital",
+            "Subasta de Cuadros",
+            "Gira Conciertos",
+            "Clases de Canto",
+            "Podcast Cultural",
+            "Fanzine Cómic",
+            "Partituras Pro",
+            "Sesión Live",
+            "Muralistas Arte",
+            "Festival de Jazz",
+            "Sonido 360",
+            "Merch Oficial"
+        ],
+        "banners": [
+            "ESCUCHAR ÁLBUM",
+            "GALERÍA DE ARTE",
+            "TICKET CONCIERTO",
+            "NUEVO SENCILLO",
+            "BEATS VIP",
+            "MUSEO PASS",
+            "STREAMING HD",
+            "DISCO VINILO",
+            "EN VIVO HOY",
+            "ARTE & DISEÑO"
+        ],
+        "icons": [
+            "fa-music",
+            "fa-palette",
+            "fa-guitar",
+            "fa-headphones",
+            "fa-microphone",
+            "fa-compact-disc",
+            "fa-radio",
+            "fa-paintbrush",
+            "fa-drum",
+            "fa-icons",
+            "fa-volume-high",
+            "fa-shapes",
+            "fa-brush",
+            "fa-sliders",
+            "fa-image"
+        ],
+        "bgColors": [
+            "#1e1b4b",
+            "#09090b",
+            "#2e1065",
+            "#0c4a6e",
+            "#18181b",
+            "#faf5ff",
+            "#fff7ed",
+            "#fdf4ff",
+            "#0f172a",
+            "#fef2f2"
+        ],
+        "frameColors": [
+            "#a855f7",
+            "#0284c7",
+            "#c026d3",
+            "#06b6d4",
+            "#ea580c",
+            "#e879f9",
+            "#f43f5e",
+            "#fbbf24",
+            "#10b981",
+            "#ef4444"
+        ],
+        "silColors": [
+            "#a855f7",
+            "#0284c7",
+            "#c026d3",
+            "#06b6d4",
+            "#ea580c",
+            "#e879f9",
+            "#f43f5e",
+            "#fbbf24",
+            "#10b981",
+            "#ef4444"
+        ],
+        "fontsT": [
+            "Monoton",
+            "Righteous",
+            "Lobster",
+            "Pacifico",
+            "Space Grotesk",
+            "Bebas Neue"
+        ],
+        "fontsB": [
+            "Space Grotesk",
+            "Righteous",
+            "Poppins",
+            "Outfit",
+            "Montserrat"
+        ]
+    },
+    "Mascotas": {
+        "titles": [
+            "Veterinaria 24H",
+            "Peluquería Canina",
+            "Alimento Premium",
+            "Adopción Mascotas",
+            "Hotel Canino",
+            "Entrenamiento Pro",
+            "Paseador Canino",
+            "Vacunación al Día",
+            "Pet Shop Accesorios",
+            "Veterinario a Casa",
+            "Espacio Felino",
+            "Nutrición Barf",
+            "Limpieza Dental",
+            "Microchip Registro",
+            "Farmacia Vet",
+            "Rehabilitación Vet",
+            "Snacks Saludables",
+            "Seguro Mascotas",
+            "Foto de Mascotas",
+            "Correas y Paseo",
+            "Spa Felino",
+            "Campamento Canino",
+            "Cirugía Vet",
+            "Club de Paseos",
+            "Ropa de Abrigo",
+            "Camas Ortopédicas",
+            "Higiene del Manto",
+            "Pequeños Animales",
+            "Cachorros Adopción",
+            "Consulta Preventiva"
+        ],
+        "banners": [
+            "VETERINARIA 24H",
+            "SPA CANINO",
+            "PET SHOP",
+            "ADOPTA HOY",
+            "HOTEL MASCOTAS",
+            "ALIMENTO PRO",
+            "URGENCIAS PET",
+            "PASEO CANINO",
+            "CUIDADO PET",
+            "RESERVA CITA"
+        ],
+        "icons": [
+            "fa-paw",
+            "fa-dog",
+            "fa-cat",
+            "fa-bone",
+            "fa-shield-dog",
+            "fa-heart",
+            "fa-house-chimney-medical",
+            "fa-store",
+            "fa-scissors",
+            "fa-bowl-food",
+            "fa-award",
+            "fa-shield-heart",
+            "fa-syringe",
+            "fa-bath",
+            "fa-stethoscope"
+        ],
+        "bgColors": [
+            "#fff7ed",
+            "#f7fee7",
+            "#fdf4ff",
+            "#f0fdf4",
+            "#f0f9ff",
+            "#fff1f2",
+            "#ffffff",
+            "#ecfeff",
+            "#faf5ff",
+            "#18181b"
+        ],
+        "frameColors": [
+            "#ea580c",
+            "#65a30d",
+            "#c026d3",
+            "#166534",
+            "#0284c7",
+            "#be123c",
+            "#0284c7",
+            "#0d9488",
+            "#7e22ce",
+            "#d97706"
+        ],
+        "silColors": [
+            "#ea580c",
+            "#65a30d",
+            "#c026d3",
+            "#166534",
+            "#0284c7",
+            "#be123c",
+            "#0284c7",
+            "#0d9488",
+            "#7e22ce",
+            "#d97706"
+        ],
+        "fontsT": [
+            "Comfortaa",
+            "Pacifico",
+            "Caveat",
+            "Poppins",
+            "Outfit",
+            "Plus Jakarta Sans"
+        ],
+        "fontsB": [
+            "Outfit",
+            "Comfortaa",
+            "Poppins",
+            "Plus Jakarta Sans",
+            "Space Grotesk"
+        ]
+    },
+    "Automotriz": {
+        "titles": [
+            "Autos 0KM Oficial",
+            "Taller Mecánico",
+            "Detailing Espejo",
+            "Diagnóstico Tuning",
+            "Repuestos Originales",
+            "Alquiler de Autos",
+            "Cambio de Aceite",
+            "Servicio Oficial",
+            "Motos Deportivas",
+            "Inspección Técnica",
+            "Alineación Láser",
+            "Chapa y Pintura",
+            "Audio y Seguridad",
+            "Polarizado UV",
+            "Neumáticos de Marca",
+            "Autos Usados VIP",
+            "Frenos Pro",
+            "Auxilio Ruta 24H",
+            "Baterías con Garantía",
+            "Test Drive Hoy",
+            "Pickups 4x4",
+            "Tratamiento Cerámico",
+            "Mecánica Rápida",
+            "Caja Automática",
+            "Aire Acondicionado",
+            "Accesorios Off-Road",
+            "Seguro Automotor",
+            "Tapicería Cuero",
+            "Plan de Ahorro",
+            "Centro Integral"
+        ],
+        "banners": [
+            "AUTOS 0KM",
+            "TALLER OFICIAL",
+            "DETAILING VIP",
+            "CAMBIO ACEITE",
+            "TEST DRIVE",
+            "REPUESTOS",
+            "NEUMÁTICOS",
+            "AUXILIO 24H",
+            "SERVICIO RÁPIDO",
+            "AGENDA TURNO"
+        ],
+        "icons": [
+            "fa-car",
+            "fa-wrench",
+            "fa-oil-can",
+            "fa-gauge-high",
+            "fa-gas-pump",
+            "fa-screwdriver-wrench",
+            "fa-car-side",
+            "fa-motorcycle",
+            "fa-truck-pickup",
+            "fa-battery-full",
+            "fa-shield-halved",
+            "fa-key",
+            "fa-gears",
+            "fa-circle-notch",
+            "fa-truck-monster"
+        ],
+        "bgColors": [
+            "#09090b",
+            "#18181b",
+            "#0f172a",
+            "#2d0606",
+            "#172554",
+            "#ffffff",
+            "#fff7ed",
+            "#022c22",
+            "#1c1917",
+            "#082f49"
+        ],
+        "frameColors": [
+            "#dc2626",
+            "#d97706",
+            "#0284c7",
+            "#dc2626",
+            "#2563eb",
+            "#0284c7",
+            "#ea580c",
+            "#10b981",
+            "#ea580c",
+            "#06b6d4"
+        ],
+        "silColors": [
+            "#dc2626",
+            "#d97706",
+            "#0284c7",
+            "#dc2626",
+            "#2563eb",
+            "#0284c7",
+            "#ea580c",
+            "#10b981",
+            "#ea580c",
+            "#06b6d4"
+        ],
+        "fontsT": [
+            "Oswald",
+            "Bebas Neue",
+            "Space Grotesk",
+            "Anton",
+            "Montserrat",
+            "Righteous"
+        ],
+        "fontsB": [
+            "Bebas Neue",
+            "Righteous",
+            "Space Grotesk",
+            "Oswald",
+            "Outfit"
+        ]
+    },
+    "Finanzas": {
+        "titles": [
+            "Banca Digital",
+            "Asesoría VIP",
+            "Inversión en Bolsa",
+            "Crypto Wallet",
+            "Préstamo Aprobado",
+            "Tarjeta de Crédito",
+            "Fondos de Inversión",
+            "Contabilidad Fiscal",
+            "Seguros de Vida",
+            "Trading en Vivo",
+            "Ahorro con Renta",
+            "Crédito Hipoteca",
+            "Consultoría Pymes",
+            "Terminal Pagos POS",
+            "Cambio de Divisas",
+            "Plan de Retiro",
+            "Auditoría Forense",
+            "Gestión Patrimonial",
+            "Crédito Empresa",
+            "Microfinanzas",
+            "Inversión en Oro",
+            "Tarjeta Cashback",
+            "Interés Compuesto",
+            "Educación Financiera",
+            "Seguridad Antifraude",
+            "Cuenta Multidivisa",
+            "Crowdfunding Pro",
+            "Cobros con QR",
+            "Inversión Real Estate",
+            "Estado de Cuenta"
+        ],
+        "banners": [
+            "BANCA DIGITAL",
+            "INVERSIONES PRO",
+            "CRÉDITO ONLINE",
+            "CRYPTO WALLET",
+            "ASESORÍA VIP",
+            "TRADING LIVE",
+            "TARJETA PRO",
+            "SEGUROS HOY",
+            "AHORRO INTELIGENTE",
+            "ESTADO CUENTA"
+        ],
+        "icons": [
+            "fa-building-columns",
+            "fa-coins",
+            "fa-piggy-bank",
+            "fa-chart-line",
+            "fa-credit-card",
+            "fa-wallet",
+            "fa-vault",
+            "fa-scale-balanced",
+            "fa-arrow-trend-up",
+            "fa-calculator",
+            "fa-receipt",
+            "fa-money-bill-wave",
+            "fa-sack-dollar",
+            "fa-shield-halved",
+            "fa-percent"
+        ],
+        "bgColors": [
+            "#052e16",
+            "#0f172a",
+            "#ffffff",
+            "#172554",
+            "#09090b",
+            "#f0fdf4",
+            "#f8fafc",
+            "#ecfeff",
+            "#faf5ff",
+            "#fffbeb"
+        ],
+        "frameColors": [
+            "#16a34a",
+            "#d97706",
+            "#0284c7",
+            "#2563eb",
+            "#10b981",
+            "#16a34a",
+            "#0284c7",
+            "#0891b2",
+            "#7e22ce",
+            "#d97706"
+        ],
+        "silColors": [
+            "#16a34a",
+            "#d97706",
+            "#0284c7",
+            "#2563eb",
+            "#10b981",
+            "#16a34a",
+            "#0284c7",
+            "#0891b2",
+            "#7e22ce",
+            "#d97706"
+        ],
+        "fontsT": [
+            "Cinzel",
+            "Space Grotesk",
+            "Montserrat",
+            "Outfit",
+            "Playfair Display",
+            "Lora"
+        ],
+        "fontsB": [
+            "Playfair Display",
+            "Space Grotesk",
+            "Outfit",
+            "Fira Code",
+            "Montserrat"
+        ]
+    },
+    "Naturaleza": {
+        "titles": [
+            "Parque Ecológico",
+            "Jardinería Botánica",
+            "Granja Orgánica",
+            "Energía Solar",
+            "Zero Waste Eco",
+            "Centro de Reciclaje",
+            "Cuidado de Bosques",
+            "Ecoturismo Verde",
+            "Tienda Sustentable",
+            "Santuario de Aves",
+            "Vivero de Plantas",
+            "Huertas Urbanas",
+            "Compostaje Orgánico",
+            "Filtros Naturales",
+            "Reforestación Hoy",
+            "Cosmética Vegana",
+            "Miel de Campo Pura",
+            "Moda Algodón Bio",
+            "Movilidad Eléctrica",
+            "Talleres Ambientales",
+            "Playas Limpias",
+            "Comida Consciente",
+            "Bio-Construcción",
+            "Semillas Criollas",
+            "Ecolodge Verde",
+            "Guía Botánica",
+            "Carbono Neutral",
+            "Riego por Goteo",
+            "Santuario Abejas",
+            "Planeta Verde"
+        ],
+        "banners": [
+            "ECO PARQUE",
+            "ENERGÍA SOLAR",
+            "ORGÁNICO 100%",
+            "RECICLA HOY",
+            "CUIDA EL PLANETA",
+            "ECO TURISMO",
+            "TIENDA VERDE",
+            "ZERO WASTE",
+            "PLANTA UN ÁRBOL",
+            "SUSTENTABLE"
+        ],
+        "icons": [
+            "fa-tree",
+            "fa-seedling",
+            "fa-leaf",
+            "fa-mountain-sun",
+            "fa-water",
+            "fa-clover",
+            "fa-droplet",
+            "fa-recycle",
+            "fa-sun",
+            "fa-plant-wilt",
+            "fa-cloud-sun",
+            "fa-spa",
+            "fa-wind",
+            "fa-feather-pointed",
+            "fa-earth-americas"
+        ],
+        "bgColors": [
+            "#f0fdf4",
+            "#f7fee7",
+            "#ecfdf5",
+            "#fff7ed",
+            "#022c22",
+            "#ffffff",
+            "#f0f9ff",
+            "#fffbeb",
+            "#0f172a",
+            "#18181b"
+        ],
+        "frameColors": [
+            "#16a34a",
+            "#65a30d",
+            "#047857",
+            "#ea580c",
+            "#10b981",
+            "#15803d",
+            "#0284c7",
+            "#d97706",
+            "#0284c7",
+            "#22c55e"
+        ],
+        "silColors": [
+            "#16a34a",
+            "#65a30d",
+            "#047857",
+            "#ea580c",
+            "#10b981",
+            "#15803d",
+            "#0284c7",
+            "#d97706",
+            "#0284c7",
+            "#22c55e"
+        ],
+        "fontsT": [
+            "Comfortaa",
+            "Pacifico",
+            "Plus Jakarta Sans",
+            "Space Grotesk",
+            "Montserrat",
+            "Caveat"
+        ],
+        "fontsB": [
+            "Poppins",
+            "Comfortaa",
+            "Outfit",
+            "Plus Jakarta Sans",
+            "Space Grotesk"
+        ]
+    }
+};
+    const premiumDotStyles = ["rounded","dots","smooth","square","diamond_rounded"];
+    const cleanFrameShapes = ["rounded","rectangular","square"];
+    const allEyeStyles = ["rounded","circle","square","leaf"];
+    const deepQrColors = ["#0f172a","#111827","#1e3a8a","#14532d","#7f1d1d","#581c87","#78350f","#134e4a","#831843"];
+    const deepQrColors2 = ["#1e40af","#1e293b","#2563eb","#166534","#991b1b","#701a75","#92400e","#0f766e","#9f1239"];
 
-    const frameShapes = ['rectangular', 'square', 'rounded', 'circle', 'shield', 'ticket', 'hexagonal', 'diamond_card', 'badge_star', 'wavy'];
-    const eyeStyles = ['square', 'rounded', 'circle', 'leaf'];
-    const dotStyles = [
-      'square', 'rounded', 'dots', 'connected', 'smooth', 'diamond', 'diamond_rounded',
-      'leaf_dot', 'polar', 'shield_dot', 'diagonal_lines'
-    ];
-    const silhouetteModes = ['none', 'none', 'icon_only', 'icon_center', 'icon_pure'];
+    const catKeys = Object.keys(categoriesData);
 
-    const categoryThemes = {
-      'Institucional': {
-        icons: ['fa-building', 'fa-briefcase', 'fa-shield-halved', 'fa-lock', 'fa-globe', 'fa-key', 'fa-circle-info', 'fa-user', 'fa-qrcode', 'fa-location-dot', 'fa-certificate', 'fa-scale-balanced'],
-        bgColors: ['#ffffff', '#f8fafc', '#f0f9ff', '#ecfdf5', '#0f172a', '#fffbeb', '#fdf4ff', '#ecfeff', '#f7fee7'],
-        qrColors: ['#1e3a8a', '#0f172a', '#0369a1', '#065f46', '#38bdf8', '#78350f', '#701a75', '#111827', '#155e75', '#365314'],
-        fontsT: ['Montserrat', 'Cinzel', 'Lora', 'Plus Jakarta Sans', 'Outfit', 'Playfair Display', 'Roboto'],
-        fontsB: ['Montserrat', 'Outfit', 'Plus Jakarta Sans', 'Poppins', 'Space Grotesk', 'Lora'],
-        banners: ['PORTAL OFICIAL', 'INFORME 2026', 'TRANSPARENCIA', 'ACCESO SEGURO', 'RED GLOBAL', 'CERTIFICADO', 'INFO CIUDADANA', 'DIRECTORIO', 'VERSIÓN DIGITAL', 'UBICACIÓN SEDE']
-      },
-      'Compras': {
-        icons: ['fa-tag', 'fa-cart-shopping', 'fa-gift', 'fa-bolt', 'fa-store', 'fa-gem', 'fa-ticket', 'fa-qrcode', 'fa-thumbs-up', 'fa-star', 'fa-bag-shopping', 'fa-percent'],
-        bgColors: ['#ffffff', '#fff7ed', '#fdf2f8', '#18181b', '#f0fdf4', '#0f172a', '#faf5ff', '#09090b', '#fff1f2', '#eff6ff'],
-        qrColors: ['#dc2626', '#ea580c', '#db2777', '#facc15', '#166534', '#fbbf24', '#7e22ce', '#06b6d4', '#e11d48', '#1d4ed8'],
-        fontsT: ['Bebas Neue', 'Montserrat', 'Pacifico', 'Anton', 'Outfit', 'Cinzel', 'Righteous', 'Space Grotesk', 'Abril Fatface', 'Poppins'],
-        fontsB: ['Bebas Neue', 'Poppins', 'Poppins', 'Righteous', 'Comfortaa', 'Playfair Display', 'Poppins', 'Fira Code', 'Outfit', 'Roboto'],
-        banners: ['OFERTA 50% OFF', 'COMPRAR AHORA', 'REGALO ESPECIAL', 'FLASH SALE 24H', 'VER CATÁLOGO', 'COLECCIÓN LUXE', 'CUPÓN DESCUENTO', 'CYBER MONDAY', 'NUEVA COLECCIÓN', 'CANJEAR PUNTOS']
-      },
-      'Entretenimiento': {
-        icons: ['fa-film', 'fa-gamepad', 'fa-ticket', 'fa-music', 'fa-fire', 'fa-camera', 'fa-comments', 'fa-sun', 'fa-bolt', 'fa-star', 'fa-masks-theater', 'fa-vr-cardboard'],
-        bgColors: ['#09090b', '#09090b', '#2e1065', '#052e16', '#1e1b4b', '#18181b', '#fffbeb', '#0c4a6e', '#4c0519', '#1c1917'],
-        qrColors: ['#e11d48', '#10b981', '#c026d3', '#22c55e', '#6366f1', '#f43f5e', '#d97706', '#38bdf8', '#fb7185', '#f97316'],
-        fontsT: ['Bebas Neue', 'Press Start 2P', 'Righteous', 'Outfit', 'Anton', 'Playfair Display', 'Lobster', 'Pacifico', 'Monoton', 'Poppins'],
-        fontsB: ['Bebas Neue', 'Press Start 2P', 'Bebas Neue', 'Space Grotesk', 'Righteous', 'Outfit', 'Caveat', 'Montserrat', 'Bebas Neue', 'Outfit'],
-        banners: ['VER TRÁILER 4K', 'JUGAR AHORA', 'TICKET ENTRADA', 'ESCUCHAR ÁLBUM', 'EN VIVO AHORA', 'VER GALERÍA', 'RISA & SHOW', 'SUMMER FEST', 'NIGHT PARTY VIP', 'UNIRSE AL CLUB']
-      },
-      'Belleza': {
-        icons: ['fa-gem', 'fa-sun', 'fa-sparkle', 'fa-heart', 'fa-moon', 'fa-user', 'fa-gift', 'fa-star', 'fa-ticket', 'fa-store', 'fa-wand-magic-sparkles', 'fa-pump-soap'],
-        bgColors: ['#fff1f2', '#f0fdf4', '#fdf4ff', '#fff7ed', '#f0f9ff', '#faf5ff', '#f7fee7', '#ffffff', '#fff1f2', '#0f172a'],
-        qrColors: ['#be123c', '#15803d', '#a21caf', '#c2410c', '#0369a1', '#6b21a8', '#4d7c0f', '#0f172a', '#9f1239', '#fef08a'],
-        fontsT: ['Great Vibes', 'Lora', 'Dancing Script', 'Satisfy', 'Comfortaa', 'Playfair Display', 'Caveat', 'Montserrat', 'Pacifico', 'Cinzel'],
-        fontsB: ['Satisfy', 'Comfortaa', 'Poppins', 'Outfit', 'Plus Jakarta Sans', 'Lora', 'Poppins', 'Outfit', 'Bebas Neue', 'Playfair Display'],
-        banners: ['RESERVAR CITA', 'SPA & RELAX', 'MAKEUP ARTIST', 'LASHES & NAILS', 'SKINCARE PRO', 'HAIR STYLIST', '100% NATURAL', 'TRATAMIENTOS', 'DESCUENTO 30%', 'PERFUMERÍA LUXE']
-      },
-      'Deportes': {
-        icons: ['fa-bolt', 'fa-trophy', 'fa-fire', 'fa-flag', 'fa-user', 'fa-ticket', 'fa-heart', 'fa-location-dot', 'fa-circle-info', 'fa-shield', 'fa-dumbbell', 'fa-person-running'],
-        bgColors: ['#09090b', '#052e16', '#0c4a6e', '#1e3a8a', '#18181b', '#fef2f2', '#f0fdf4', '#0f172a', '#ffffff', '#451a03'],
-        qrColors: ['#eab308', '#4ade80', '#38bdf8', '#ffffff', '#f97316', '#dc2626', '#166534', '#06b6d4', '#1e293b', '#f59e0b'],
-        fontsT: ['Oswald', 'Anton', 'Bebas Neue', 'Montserrat', 'Space Grotesk', 'Righteous', 'Poppins', 'Outfit', 'Roboto', 'Oswald'],
-        fontsB: ['Bebas Neue', 'Righteous', 'Outfit', 'Oswald', 'Poppins', 'Bebas Neue', 'Comfortaa', 'Space Grotesk', 'Plus Jakarta Sans', 'Cinzel'],
-        banners: ['POWER FITNESS', 'UNIRSE AL GYM', 'DESAFÍO 10K', 'HAZTE SOCIO', 'COACH PERSONAL', 'CLASE GRATIS', 'PLAN NUTRICIÓN', 'RESERVAR CANCHA', 'VER HORARIOS', 'CAMPEONES 2026']
-      },
-      'Comunidad': {
-        icons: ['fa-hands-holding-child', 'fa-people-roof', 'fa-comments', 'fa-book-open-reader', 'fa-hand-holding-heart', 'fa-paw', 'fa-seedling', 'fa-network-wired', 'fa-users', 'fa-handshake', 'fa-heart-circle-check', 'fa-house-heart'],
-        bgColors: ['#f0fdf4', '#fff7ed', '#eff6ff', '#fdf4ff', '#fef2f2', '#f7fee7', '#ecfdf5', '#0f172a', '#ffffff', '#fffbeb'],
-        qrColors: ['#15803d', '#c2410c', '#1d4ed8', '#86198f', '#b91c1c', '#3f6212', '#047857', '#38bdf8', '#334155', '#b45309'],
-        fontsT: ['Montserrat', 'Outfit', 'Poppins', 'Lora', 'Righteous', 'Comfortaa', 'Plus Jakarta Sans', 'Outfit', 'Montserrat', 'Playfair Display'],
-        fontsB: ['Poppins', 'Comfortaa', 'Space Grotesk', 'Cinzel', 'Outfit', 'Pacifico', 'Poppins', 'Space Grotesk', 'Plus Jakarta Sans', 'Lora'],
-        banners: ['SUMATE HOY', 'TU BARRIO', 'PARTICIPA', 'CLUB LECTOR', 'DONAR AHORA', 'ADOPTA UN AMIGO', 'ECO COMUNIDAD', 'UNIDOS HOY', 'ASOCIACIÓN', 'UNETE AL FORO']
-      },
-      'Gastronomía': {
-        icons: ['fa-utensils', 'fa-mug-hot', 'fa-pizza-slice', 'fa-burger', 'fa-fish', 'fa-wine-glass-empty', 'fa-cake-candles', 'fa-martini-glass-citrus', 'fa-plate-wheat', 'fa-truck-fast', 'fa-fire-burner', 'fa-ice-cream'],
-        bgColors: ['#0f172a', '#fff7ed', '#fef2f2', '#18181b', '#09090b', '#2e1065', '#fdf4ff', '#0c4a6e', '#ffffff', '#ecfeff'],
-        qrColors: ['#f59e0b', '#78350f', '#991b1b', '#eab308', '#ef4444', '#f43f5e', '#c026d3', '#38bdf8', '#111827', '#0e7490'],
-        fontsT: ['Cinzel', 'Caveat', 'Bebas Neue', 'Oswald', 'Space Grotesk', 'Playfair Display', 'Pacifico', 'Righteous', 'Abril Fatface', 'Anton'],
-        fontsB: ['Montserrat', 'Outfit', 'Righteous', 'Bebas Neue', 'Outfit', 'Lora', 'Comfortaa', 'Outfit', 'Montserrat', 'Poppins'],
-        banners: ['VER MENÚ', 'CARTA DE CAFÉS', 'PEDIR PIZZA', 'BURGER MENU', 'SUSHI & OMAKASE', 'CARTA DE VINOS', 'DULCES & PASTEL', 'CÓCTELES VIP', 'RESERVAR MESA', 'ORDEN RÁPIDA']
-      },
-      'Tecnología': {
-        icons: ['fa-headset', 'fa-mobile-screen-button', 'fa-cloud', 'fa-wifi', 'fa-shield-halved', 'fa-code', 'fa-microchip', 'fa-laptop', 'fa-cubes', 'fa-rocket', 'fa-robot', 'fa-server'],
-        bgColors: ['#09090b', '#0f172a', '#172554', '#022c22', '#0f172a', '#18181b', '#2e1065', '#ffffff', '#09090b', '#eff6ff'],
-        qrColors: ['#06b6d4', '#3b82f6', '#38bdf8', '#10b981', '#eab308', '#a855f7', '#ec4899', '#0284c7', '#f97316', '#2563eb'],
-        fontsT: ['Space Grotesk', 'Outfit', 'Space Grotesk', 'Fira Code', 'Montserrat', 'Fira Code', 'Righteous', 'Outfit', 'Space Grotesk', 'Plus Jakarta Sans'],
-        fontsB: ['Fira Code', 'Plus Jakarta Sans', 'Poppins', 'Space Grotesk', 'Outfit', 'Fira Code', 'Space Grotesk', 'Montserrat', 'Righteous', 'Poppins'],
-        banners: ['SOPORTE 24/7', 'DESCARGAR APP', 'PRUEBA GRATIS', 'CONECTAR WIFI', 'ACCESO SEGURO', 'VER REPOSITORIO', 'DESCUBRE LA IA', 'VER GADGETS', 'CRYPTO WALLET', 'VER DEMO']
-      },
-      'Salud': {
-        icons: ['fa-user-doctor', 'fa-pills', 'fa-tooth', 'fa-truck-medical', 'fa-microscope', 'fa-heart-pulse', 'fa-glasses', 'fa-person-walking', 'fa-brain', 'fa-heart', 'fa-stethoscope', 'fa-hospital'],
-        bgColors: ['#f0f9ff', '#f0fdf4', '#ffffff', '#fef2f2', '#ecfeff', '#fdf4ff', '#f8fafc', '#f7fee7', '#faf5ff', '#fff1f2'],
-        qrColors: ['#0284c7', '#166534', '#0891b2', '#dc2626', '#0f766e', '#701a75', '#334155', '#4d7c0f', '#6b21a8', '#be123c'],
-        fontsT: ['Montserrat', 'Poppins', 'Outfit', 'Righteous', 'Space Grotesk', 'Comfortaa', 'Lora', 'Plus Jakarta Sans', 'Playfair Display', 'Outfit'],
-        fontsB: ['Plus Jakarta Sans', 'Comfortaa', 'Poppins', 'Bebas Neue', 'Outfit', 'Poppins', 'Montserrat', 'Outfit', 'Lora', 'Poppins'],
-        banners: ['AGENDAR CITA', 'PEDIR RECETA', 'CONSULTA DENTAL', 'URGENCIAS 24H', 'RESULTADOS', 'SALUD INFANTIL', 'EXAMEN VISUAL', 'FISIOTERAPIA', 'SESIÓN ONLINE', 'CARDIOLOGÍA']
-      },
-      'Viajes': {
-        icons: ['fa-plane-departure', 'fa-hotel', 'fa-compass', 'fa-sun', 'fa-mountain', 'fa-ship', 'fa-map-location-dot', 'fa-car', 'fa-binoculars', 'fa-ticket', 'fa-globe-americas', 'fa-suitcase-rolling'],
-        bgColors: ['#0f172a', '#fffbeb', '#ecfeff', '#f0f9ff', '#f7fee7', '#0c4a6e', '#ffffff', '#18181b', '#fff7ed', '#fdf4ff'],
-        qrColors: ['#38bdf8', '#b45309', '#0891b2', '#0284c7', '#365314', '#00d8f6', '#1e293b', '#f97316', '#c2410c', '#a21caf'],
-        fontsT: ['Outfit', 'Cinzel', 'Pacifico', 'Righteous', 'Oswald', 'Montserrat', 'Poppins', 'Bebas Neue', 'Playfair Display', 'Space Grotesk'],
-        fontsB: ['Space Grotesk', 'Playfair Display', 'Montserrat', 'Comfortaa', 'Plus Jakarta Sans', 'Outfit', 'Roboto', 'Outfit', 'Lora', 'Poppins'],
-        banners: ['BOARDING PASS', 'RESERVA HOTEL', 'VER TOURS', 'PACK PLAYA', 'RUTA SENDERISMO', 'CRUCERO VIP', 'GUÍA CIUDAD', 'RENT A CAR', 'SAFARI TOUR', 'CHECK-IN RÁPIDO']
-      },
-      'Inmobiliaria': {
-        icons: ['fa-house', 'fa-building', 'fa-key', 'fa-user-tie', 'fa-vr-cardboard', 'fa-vector-square', 'fa-briefcase', 'fa-file-signature', 'fa-tree', 'fa-water', 'fa-city', 'fa-house-circle-check'],
-        bgColors: ['#ffffff', '#0f172a', '#f0f9ff', '#f8fafc', '#09090b', '#f7fee7', '#1e1b4b', '#fffbeb', '#f0fdf4', '#ecfeff'],
-        qrColors: ['#0f172a', '#fbbf24', '#0284c7', '#1e293b', '#06b6d4', '#365314', '#818cf8', '#78350f', '#166534', '#0891b2'],
-        fontsT: ['Montserrat', 'Cinzel', 'Poppins', 'Outfit', 'Space Grotesk', 'Oswald', 'Lora', 'Cinzel', 'Pacifico', 'Righteous'],
-        fontsB: ['Outfit', 'Playfair Display', 'Plus Jakarta Sans', 'Montserrat', 'Fira Code', 'Plus Jakarta Sans', 'Outfit', 'Lora', 'Comfortaa', 'Poppins'],
-        banners: ['VER PROPIEDAD', 'PENTHOUSE VIP', 'VER ALQUILER', 'MI CONTACTO', 'TOUR 360°', 'VER LOTES', 'OFICINAS PRO', 'AGENDAR FIRMA', 'CASA DE CAMPO', 'DEPO PLAYA']
-      },
-      'Educación': {
-        icons: ['fa-graduation-cap', 'fa-school', 'fa-certificate', 'fa-book', 'fa-language', 'fa-video', 'fa-user-graduate', 'fa-pen-to-square', 'fa-music', 'fa-laptop-code', 'fa-chalkboard-user', 'fa-brain'],
-        bgColors: ['#0f172a', '#ffffff', '#faf5ff', '#fff7ed', '#f0f9ff', '#18181b', '#f0fdf4', '#fef2f2', '#2e1065', '#09090b'],
-        qrColors: ['#38bdf8', '#1e3a8a', '#7e22ce', '#c2410c', '#0369a1', '#f43f5e', '#15803d', '#b91c1c', '#c026d3', '#10b981'],
-        fontsT: ['Outfit', 'Cinzel', 'Righteous', 'Lora', 'Poppins', 'Space Grotesk', 'Comfortaa', 'Roboto', 'Pacifico', 'Fira Code'],
-        fontsB: ['Plus Jakarta Sans', 'Montserrat', 'Poppins', 'Outfit', 'Comfortaa', 'Outfit', 'Plus Jakarta Sans', 'Poppins', 'Lora', 'Fira Code'],
-        banners: ['AULA VIRTUAL', 'ADMISIÓN 2026', 'INSCRIBIRSE', 'VER LIBROS', 'APRENDER HOY', 'VER MASTERCLASS', 'PEDIR TUTOR', 'INICIAR TEST', 'CLASES DE MÚSICA', 'FULLSTACK 2026']
-      },
-      'Eventos': {
-        icons: ['fa-ticket', 'fa-heart', 'fa-cake-candles', 'fa-calendar-days', 'fa-microphone', 'fa-users-between-lines', 'fa-display', 'fa-trophy', 'fa-gamepad', 'fa-utensils', 'fa-champagne-glasses', 'fa-ring'],
-        bgColors: ['#09090b', '#fff1f2', '#fdf4ff', '#ffffff', '#18181b', '#0f172a', '#eff6ff', '#0f172a', '#022c22', '#fff7ed'],
-        qrColors: ['#a855f7', '#be123c', '#c026d3', '#0f172a', '#f59e0b', '#38bdf8', '#1d4ed8', '#eab308', '#10b981', '#c2410c'],
-        fontsT: ['Space Grotesk', 'Great Vibes', 'Pacifico', 'Montserrat', 'Righteous', 'Outfit', 'Poppins', 'Cinzel', 'Press Start 2P', 'Bebas Neue'],
-        fontsB: ['Outfit', 'Satisfy', 'Poppins', 'Outfit', 'Bebas Neue', 'Space Grotesk', 'Plus Jakarta Sans', 'Playfair Display', 'Space Grotesk', 'Comfortaa'],
-        banners: ['ENTRADA VIP', 'NUESTRA BODA', 'INVITACIÓN CUMPLE', 'REGISTRO EXPO', 'LINEUP & TICKETS', 'NETWORKING VIP', 'UNIRSE AL WEBINAR', 'PREMIACIÓN 2026', 'TORNEO ESPORTS', 'ENTRADAS FERIA']
-      },
-      'Redes Sociales': {
-        icons: ['fa-brands fa-whatsapp', 'fa-brands fa-instagram', 'fa-brands fa-tiktok', 'fa-brands fa-youtube', 'fa-brands fa-facebook', 'fa-brands fa-linkedin', 'fa-brands fa-twitter', 'fa-brands fa-telegram', 'fa-brands fa-discord', 'fa-brands fa-pinterest', 'fa-brands fa-spotify', 'fa-share-nodes'],
-        bgColors: ['#f0fdf4', '#fdf4ff', '#09090b', '#fef2f2', '#eff6ff', '#f8fafc', '#f0f9ff', '#e0f2fe', '#5865f2', '#fff1f2'],
-        qrColors: ['#16a34a', '#e1306c', '#00f2fe', '#dc2626', '#1877f2', '#0a66c2', '#1da1f2', '#24a1de', '#ffffff', '#e60023'],
-        fontsT: ['Outfit', 'Poppins', 'Space Grotesk', 'Bebas Neue', 'Montserrat', 'Outfit', 'Space Grotesk', 'Poppins', 'Righteous', 'Pacifico'],
-        fontsB: ['Poppins', 'Space Grotesk', 'Righteous', 'Outfit', 'Plus Jakarta Sans', 'Roboto', 'Outfit', 'Space Grotesk', 'Fira Code', 'Comfortaa'],
-        banners: ['CHAT WHATSAPP', 'SEGUIR EN IG', 'TIKTOK CHANNEL', 'SUSCRIBIRSE', 'PÁGINA FACEBOOK', 'PERFIL LINKEDIN', 'SEGUIR EN X', 'GRUPO TELEGRAM', 'UNIRSE AL DISCORD', 'VER PINBOARD']
-      },
-      'Lujo': {
-        icons: ['fa-crown', 'fa-gem', 'fa-sparkles', 'fa-credit-card', 'fa-shirt', 'fa-clock', 'fa-car-side', 'fa-anchor', 'fa-wine-bottle', 'fa-castle', 'fa-ring', 'fa-award'],
-        bgColors: ['#0f172a', '#0f172a', '#fff1f2', '#000000', '#ffffff', '#0f172a', '#450a0a', '#0c4a6e', '#1c1917', '#18181b'],
-        qrColors: ['#fbbf24', '#e2e8f0', '#be123c', '#f59e0b', '#111827', '#38bdf8', '#ef4444', '#38bdf8', '#eab308', '#fbbf24'],
-        fontsT: ['Cinzel', 'Cinzel', 'Great Vibes', 'Space Grotesk', 'Abril Fatface', 'Cinzel', 'Bebas Neue', 'Playfair Display', 'Cinzel', 'Cinzel'],
-        fontsB: ['Playfair Display', 'Lora', 'Playfair Display', 'Outfit', 'Cinzel', 'Montserrat', 'Righteous', 'Outfit', 'Lora', 'Playfair Display'],
-        banners: ['COLECCIÓN LUXE', 'RESERVA PLATINUM', 'EDICIÓN LIMITADA', 'MEMBRESÍA BLACK', 'ALTA COSTURA', 'COLECCIÓN SUIZA', 'SUPERCAR VIP', 'YACHT CLUB', 'PRIVATE CELLAR', 'MANSIÓN PRIVADA']
-      },
-      'Música y Arte': {
-        icons: ['fa-music', 'fa-palette', 'fa-guitar', 'fa-drum', 'fa-headphones', 'fa-microphone', 'fa-icons', 'fa-brush', 'fa-image', 'fa-shapes', 'fa-record-vinyl', 'fa-radio'],
-        bgColors: ['#1e1b4b', '#faf5ff', '#09090b', '#fff7ed', '#0c4a6e', '#fdf4ff', '#18181b', '#0f172a', '#fef2f2', '#f0fdf4'],
-        qrColors: ['#a855f7', '#c026d3', '#38bdf8', '#f97316', '#00d8f6', '#e879f9', '#f43f5e', '#fbbf24', '#dc2626', '#10b981'],
-        fontsT: ['Monoton', 'Pacifico', 'Righteous', 'Lobster', 'Space Grotesk', 'Great Vibes', 'Bebas Neue', 'Cinzel', 'Anton', 'Comfortaa'],
-        fontsB: ['Righteous', 'Poppins', 'Space Grotesk', 'Caveat', 'Outfit', 'Satisfy', 'Bebas Neue', 'Playfair Display', 'Outfit', 'Comfortaa'],
-        banners: ['REPRODUCTOR MP3', 'GALERÍA DE ARTE', 'ESCUCHAR ÁLBUM', 'TALLER PINTURA', 'BEATS & MIXES', 'EXPOSICIÓN VIP', 'ALBUM DROP', 'CONCIERTO LIVE', 'SONIDO 3D', 'CREATIVIDAD ECO']
-      },
-      'Mascotas': {
-        icons: ['fa-paw', 'fa-dog', 'fa-cat', 'fa-bone', 'fa-shield-dog', 'fa-heart', 'fa-house-chimney-medical', 'fa-store', 'fa-star', 'fa-award', 'fa-scissors', 'fa-bowl-food'],
-        bgColors: ['#fff7ed', '#f7fee7', '#fdf4ff', '#f0fdf4', '#f0f9ff', '#fff1f2', '#ecfeff', '#faf5ff', '#ffffff', '#18181b'],
-        qrColors: ['#ea580c', '#65a30d', '#c026d3', '#166534', '#0284c7', '#be123c', '#0f766e', '#7e22ce', '#0f172a', '#f59e0b'],
-        fontsT: ['Comfortaa', 'Pacifico', 'Caveat', 'Plus Jakarta Sans', 'Poppins', 'Satisfy', 'Space Grotesk', 'Righteous', 'Montserrat', 'Outfit'],
-        fontsB: ['Outfit', 'Comfortaa', 'Poppins', 'Poppins', 'Plus Jakarta Sans', 'Outfit', 'Space Grotesk', 'Poppins', 'Montserrat', 'Bebas Neue'],
-        banners: ['PET SHOP DISCOUNTS', 'CLÍNICA VETERINARIA', 'CAT LOUNGE VIP', 'ALIMENTO PREMIUM', 'ADOPCIÓN RESPONSABLE', 'ESTÉTICA CANINA', 'PASEO DE PERROS', 'GUARDERÍA MASCOTA', 'CLUB PET LOVERS', 'CAMPEÓN CANINO']
-      },
-      'Automotriz': {
-        icons: ['fa-car', 'fa-car-side', 'fa-wrench', 'fa-oil-can', 'fa-gauge-high', 'fa-gas-pump', 'fa-key', 'fa-shield-halved', 'fa-truck-pickup', 'fa-motorcycle', 'fa-screwdriver-wrench', 'fa-battery-full'],
-        bgColors: ['#09090b', '#18181b', '#0f172a', '#450a0a', '#172554', '#ffffff', '#fff7ed', '#f8fafc', '#022c22', '#1c1917'],
-        qrColors: ['#ef4444', '#f59e0b', '#38bdf8', '#dc2626', '#3b82f6', '#0f172a', '#ea580c', '#475569', '#10b981', '#fb923c'],
-        fontsT: ['Oswald', 'Bebas Neue', 'Space Grotesk', 'Anton', 'Montserrat', 'Outfit', 'Righteous', 'Roboto', 'Fira Code', 'Cinzel'],
-        fontsB: ['Bebas Neue', 'Righteous', 'Fira Code', 'Oswald', 'Poppins', 'Outfit', 'Space Grotesk', 'Plus Jakarta Sans', 'Space Grotesk', 'Playfair Display'],
-        banners: ['AUTOS 0KM VENTA', 'TALLER MECÁNICO', 'LAVADO DE AUTOS', 'COMPUTEST TUNING', 'REPUESTOS ORIGINALES', 'ALQUILER DE AUTOS', 'GARANTÍA OFICIAL', 'CAMBIO DE ACEITE', 'EXPRESS SERVICE', 'MOTOS & ACCESORIOS']
-      },
-      'Finanzas': {
-        icons: ['fa-coins', 'fa-piggy-bank', 'fa-vault', 'fa-chart-line', 'fa-credit-card', 'fa-wallet', 'fa-scale-balanced', 'fa-shield-halved', 'fa-arrow-trend-up', 'fa-building-columns', 'fa-calculator', 'fa-receipt'],
-        bgColors: ['#052e16', '#0f172a', '#ffffff', '#172554', '#fffbeb', '#09090b', '#f0fdf4', '#f8fafc', '#ecfeff', '#faf5ff'],
-        qrColors: ['#22c55e', '#fbbf24', '#0f172a', '#38bdf8', '#b45309', '#10b981', '#15803d', '#334155', '#0891b2', '#7e22ce'],
-        fontsT: ['Cinzel', 'Space Grotesk', 'Montserrat', 'Outfit', 'Lora', 'Fira Code', 'Plus Jakarta Sans', 'Roboto', 'Playfair Display', 'Poppins'],
-        fontsB: ['Playfair Display', 'Fira Code', 'Outfit', 'Space Grotesk', 'Cinzel', 'Space Grotesk', 'Poppins', 'Montserrat', 'Lora', 'Plus Jakarta Sans'],
-        banners: ['BANCA DIGITAL', 'INVERSIONES PRO', 'CRYPTO WALLET', 'ASESORÍA FINANCIERA', 'CONTABILIDAD Y TAX', 'CRÉDITO APROBADO', 'FONDO DE INVERSIÓN', 'SEGUROS Y MUTUAL', 'BOLSA Y TRADING', 'ESTADO DE CUENTA']
-      },
-      'Naturaleza': {
-        icons: ['fa-tree', 'fa-seedling', 'fa-leaf', 'fa-sun', 'fa-mountain-sun', 'fa-water', 'fa-clover', 'fa-droplet', 'fa-recycle', 'fa-plant-wilt', 'fa-bug', 'fa-cloud-sun'],
-        bgColors: ['#f0fdf4', '#f7fee7', '#ecfdf5', '#fff7ed', '#022c22', '#ffffff', '#f0f9ff', '#fffbeb', '#faf5ff', '#18181b'],
-        qrColors: ['#166534', '#65a30d', '#047857', '#ea580c', '#34d399', '#15803d', '#0284c7', '#d97706', '#86198f', '#4ade80'],
-        fontsT: ['Comfortaa', 'Pacifico', 'Plus Jakarta Sans', 'Caveat', 'Space Grotesk', 'Montserrat', 'Poppins', 'Lora', 'Righteous', 'Outfit'],
-        fontsB: ['Poppins', 'Comfortaa', 'Poppins', 'Outfit', 'Space Grotesk', 'Outfit', 'Plus Jakarta Sans', 'Lora', 'Poppins', 'Space Grotesk'],
-        banners: ['PARQUE ECOLÓGICO', 'JARDINERÍA BOTÁNICA', 'GRANJA ORGÁNICA', 'ENERGÍA SOLAR', 'PRODUCTO ECO', 'ECO RECYCLING', 'CUIDADO AMBIENTAL', 'TURISMO VERDE', 'TIENDA SUSTENTABLE', 'FLORA & FAUNA']
-      }
-    };
+    catKeys.forEach((cat) => {
+      const theme = categoriesData[cat];
+      const slug = cat.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    const categoriesList = Object.keys(categoryThemes);
-
-    categoriesList.forEach((cat) => {
-      const theme = categoryThemes[cat];
       for (let i = 0; i < 30; i++) {
+        const title = theme.titles[i] || `${cat} ${i + 1}`;
+        const bannerText = theme.banners[i % theme.banners.length];
         const iconName = theme.icons[i % theme.icons.length];
         const bgColor = theme.bgColors[i % theme.bgColors.length];
-        const qrColor = theme.qrColors[i % theme.qrColors.length];
-        const frameColor = theme.qrColors[(i + 2) % theme.qrColors.length];
-        const textColor = (bgColor === '#09090b' || bgColor === '#0f172a' || bgColor === '#18181b' || bgColor === '#022c22' || bgColor === '#1e1b4b' || bgColor === '#2e1065') ? '#f8fafc' : qrColor;
+        const frameColor = theme.frameColors[i % theme.frameColors.length];
+        const silColor = theme.silColors[i % theme.silColors.length];
+
+        // Always dark, saturated QR colors on the white card for flawless contrast
+        const qrColor = deepQrColors[(i + catKeys.indexOf(cat)) % deepQrColors.length];
+        const qrColor2 = deepQrColors2[(i + catKeys.indexOf(cat)) % deepQrColors2.length];
+
+        function getLuminance(hex) {
+          const c = hex.replace('#', '');
+          const r = parseInt(c.substring(0, 2), 16) / 255;
+          const g = parseInt(c.substring(2, 4), 16) / 255;
+          const b = parseInt(c.substring(4, 6), 16) / 255;
+          return 0.299 * r + 0.587 * g + 0.114 * b;
+        }
+        const isDarkBg = getLuminance(bgColor) < 0.5;
+        const textColor = isDarkBg ? '#f8fafc' : '#0f172a';
+        const badgeBg = frameColor;
+        const badgeText = getLuminance(badgeBg) < 0.6 ? '#ffffff' : '#0f172a';
+
         const fontTitle = theme.fontsT[i % theme.fontsT.length];
         const fontBanner = theme.fontsB[i % theme.fontsB.length];
-        const bannerText = `${theme.banners[i % theme.banners.length]}${i >= 10 ? ` #${Math.floor(i / 10) + 1}` : ''}`;
-        const dotStyle = dotStyles[i % dotStyles.length];
-        const eyeStyle = eyeStyles[i % eyeStyles.length];
-        const frameShape = frameShapes[i % frameShapes.length];
-        const silhouetteMode = silhouetteModes[i % silhouetteModes.length];
-        const gradientType = (i % 3 === 1) ? 'linear' : ((i % 3 === 2) ? 'radial' : 'single');
-        const eyeGradientType = (i % 4 === 1) ? 'linear' : ((i % 4 === 3) ? 'radial' : 'single');
-        const qrColor2 = theme.qrColors[(i + 4) % theme.qrColors.length];
-        const eyeColor2 = theme.qrColors[(i + 5) % theme.qrColors.length];
-        const qrDensity = (i % 5 === 0) ? 80 : ((i % 5 === 1) ? 90 : 100);
-        const qrBoxRadius = (i % 4 === 0) ? 0 : ((i % 4 === 1) ? 12 : ((i % 4 === 2) ? 18 : 28));
+
+        // 4 designs per category are silhouettes (at indices 4, 11, 18, 25), rest are standard
+        const isSil = (i === 4 || i === 11 || i === 18 || i === 25);
+        let qrSilhouetteMode = 'none';
+        if (isSil) {
+          qrSilhouetteMode = (i === 4 || i === 18) ? 'icon_center' : 'icon_only';
+        }
+
+        // For silhouettes: density 35 so modules are larger and leave breathing room for the silhouette shape
+        // For standard: density 60 or 65
+        const qrDensity = isSil ? 35 : (i % 2 === 0 ? 60 : 65);
+
+        // Dot styles: for silhouettes, only dots or rounded (clean whitespace between dots)
+        // for standard, rotate across top 5 solid premium styles
+        const dotStyle = isSil 
+          ? (i % 2 === 0 ? 'dots' : 'rounded')
+          : premiumDotStyles[(i + catKeys.indexOf(cat)) % premiumDotStyles.length];
+
+        // Clean frame shapes (rounded, rectangular, square) that never overlap or cut into text
+        const frameShape = cleanFrameShapes[(i + catKeys.indexOf(cat)) % cleanFrameShapes.length];
+        const eyeStyle = allEyeStyles[i % allEyeStyles.length];
+
+        const gradientType = (i % 3 === 1 && !isSil) ? 'linear' : 'single';
+        const eyeGradientType = 'single';
+        const eyeColor = isSil ? silColor : frameColor;
+        const eyeColor2 = null;
+
+        const qrBoxRadius = 18;
+        const iconBgColor = '#ffffff';
+        const iconBorderColor = isSil ? silColor : frameColor;
+        const iconSize = 34;
+        const fontSizeTitle = 20;
+        const titlePosition = 'bottom';
+        const titleOffsetY = 0;
 
         designs.push({
-          id: `design-${cat.toLowerCase().replace(/[^a-z0-9]/g, '')}-${i + 1}`,
-          name: `${theme.banners[i % theme.banners.length]} ${i + 1}`,
+          id: `design-${slug}-${i + 1}`,
+          name: title,
           category: cat,
           bgColor,
           qrColor,
+          qrColor2,
+          gradientType,
+          silhouetteColor: silColor,
+          patternColor: silColor,
           frameColor,
+          frameShape,
+          frameStyle: 'badge',
           textColor,
-          badgeBg: frameColor,
-          badgeText: (bgColor === '#ffffff' || bgColor.startsWith('#f0') || bgColor.startsWith('#f7') || bgColor.startsWith('#fa') || bgColor.startsWith('#ec')) ? '#ffffff' : '#0f172a',
-          iconColor: qrColor,
-          iconBgColor: '#ffffff',
-          iconBorderColor: frameColor,
+          badgeBg,
+          badgeText,
           dotStyle,
           eyeStyle,
-          frameStyle: 'card-header',
-          frameShape,
+          eyeColor,
+          eyeColor2,
+          eyeGradientType,
           iconName,
+          iconColor: isSil ? silColor : frameColor,
+          iconBgColor,
+          iconBorderColor,
+          iconSize,
+          iconPosition: 'center',
+          iconShow: true,
+          showIcon: true,
           fontTitle,
           fontBanner,
+          fontSizeTitle,
+          titlePosition,
+          titleOffsetY,
           bannerText,
-          qrSilhouetteMode: silhouetteMode,
-          gradientType,
-          qrColor2,
-          eyeGradientType,
-          eyeColor2,
+          qrSilhouetteMode,
           qrDensity,
-          qrBoxRadius,
-          eyeColor: qrColor
+          qrBoxRadius
         });
       }
     });
 
     return designs;
   }
-
-
-
 }
+
 module.exports = new DesignLibrary();
