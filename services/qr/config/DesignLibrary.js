@@ -5,9 +5,7 @@ class DesignLibrary {
     this.patterns = [
       { id: 'square', name: 'Cuadrado Clásico', icon: 'fa-square' },
       { id: 'rounded', name: 'Módulo Redondeado', icon: 'fa-square-minus' },
-      { id: 'dots', name: 'Círculos / Puntos', icon: 'fa-circle' },
-      { id: 'smooth', name: 'Módulo Fluido', icon: 'fa-cubes' },
-      { id: 'diamond_rounded', name: 'Rombo Suave', icon: 'fa-diamond' }
+      { id: 'smooth', name: 'Módulo Fluido', icon: 'fa-cubes' }
     ];
   }
 
@@ -2307,9 +2305,9 @@ class DesignLibrary {
         ]
     }
 };
-    const premiumDotStyles = ["rounded","dots","smooth","square","diamond_rounded"];
-    const cleanFrameShapes = ["rounded","rectangular","square"];
-    const allEyeStyles = ["rounded","circle","square","leaf"];
+    const premiumDotStyles = ["rounded","smooth","square"];
+    const cleanFrameShapes = ["rounded","rectangular"];
+    const allEyeStyles = ["rounded","square","leaf"];
     const deepQrColors = ["#0f172a","#111827","#1e3a8a","#14532d","#7f1d1d","#581c87","#78350f","#134e4a","#831843"];
     const deepQrColors2 = ["#1e40af","#1e293b","#2563eb","#166534","#991b1b","#701a75","#92400e","#0f766e","#9f1239"];
 
@@ -2353,17 +2351,17 @@ class DesignLibrary {
           qrSilhouetteMode = (i === 4 || i === 18) ? 'icon_center' : 'icon_only';
         }
 
-        // For silhouettes: density 35 so modules are larger and leave breathing room for the silhouette shape
-        // For standard: density 60 or 65
-        const qrDensity = isSil ? 35 : (i % 2 === 0 ? 60 : 65);
+        // For silhouettes: density 18 so modules are soft, spaced and allow the silhouette shape to be 100% visible
+        // For standard: density 55
+        const qrDensity = isSil ? 18 : 55;
 
-        // Dot styles: for silhouettes, only dots or rounded (clean whitespace between dots)
-        // for standard, rotate across top 5 solid premium styles
+        // Dot styles: for silhouettes, only rounded (clean spaced modules)
+        // for standard, rotate across the 3 solid non-dotted styles
         const dotStyle = isSil 
-          ? (i % 2 === 0 ? 'dots' : 'rounded')
+          ? 'rounded'
           : premiumDotStyles[(i + catKeys.indexOf(cat)) % premiumDotStyles.length];
 
-        // Clean frame shapes (rounded, rectangular, square) that never overlap or cut into text
+        // Clean frame shapes (rounded, rectangular) that never overlap or cut into text
         const frameShape = cleanFrameShapes[(i + catKeys.indexOf(cat)) % cleanFrameShapes.length];
         const eyeStyle = allEyeStyles[i % allEyeStyles.length];
 
@@ -2376,9 +2374,12 @@ class DesignLibrary {
         const iconBgColor = '#ffffff';
         const iconBorderColor = isSil ? silColor : frameColor;
         const iconSize = 34;
-        const fontSizeTitle = 20;
+        const fontSizeTitle = 18;
         const titlePosition = 'bottom';
-        const titleOffsetY = 0;
+        // For standard: -22 centers title between white card (521) and bottom border (665) at y=603
+        // For silhouettes: -8 centers title between white card (621) and canvas bottom (700) at y=657
+        const titleOffsetY = isSil ? -8 : -22;
+        const patternColor = isSil ? (i % 2 === 0 ? qrColor : silColor) : qrColor;
 
         designs.push({
           id: `design-${slug}-${i + 1}`,
@@ -2389,7 +2390,7 @@ class DesignLibrary {
           qrColor2,
           gradientType,
           silhouetteColor: silColor,
-          patternColor: silColor,
+          patternColor,
           frameColor,
           frameShape,
           frameStyle: 'badge',
