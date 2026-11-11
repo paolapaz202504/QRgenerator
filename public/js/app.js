@@ -171,7 +171,7 @@ class Application {
       if (res.ok) {
         const data = await res.json();
         const serverVersion = data.version;
-        const currentVersion = '1.4.0';
+        const currentVersion = '1.4.1';
         if (serverVersion && serverVersion !== currentVersion) {
           console.log(`[VersionSync] Nueva versión detectada en servidor (${currentVersion} -> ${serverVersion}). Actualizando...`);
           localStorage.setItem('qrbey_app_version', serverVersion);

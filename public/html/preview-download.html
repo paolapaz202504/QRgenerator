@@ -29,33 +29,45 @@
 
   <!-- Indicador de Legibilidad Óptica & Escaneabilidad en Tiempo Real -->
   <div id="scannability-container" class="space-y-2 text-left transition-all duration-300">
-    <div id="scannability-badge-ok" class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-start gap-2.5 text-xs text-emerald-950 shadow-2xs">
-      <div class="w-6 h-6 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
-        <i class="fa-solid fa-circle-check text-xs"></i>
+    <!-- Estado: 100% Escaneable -->
+    <div id="scannability-badge-ok" class="bg-emerald-50 border border-emerald-200 rounded-xl px-3.5 py-2.5 flex items-center justify-between text-xs text-emerald-950 shadow-2xs">
+      <div class="flex items-center gap-2">
+        <span class="w-5 h-5 rounded-full bg-emerald-200 border border-emerald-300 text-emerald-800 flex items-center justify-center shrink-0 text-[10px]">
+          <i class="fa-solid fa-check"></i>
+        </span>
+        <span class="font-bold text-emerald-950">100% Escaneable y Legible</span>
       </div>
-      <div class="space-y-0.5">
-        <div class="flex items-center gap-2">
-          <span class="font-bold text-emerald-950">100% Escaneable y Legible</span>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-200/80 text-emerald-800 font-bold uppercase tracking-wider">Óptimo</span>
-        </div>
-        <p class="text-[11px] text-emerald-800 leading-relaxed">
-          Verificado ópticamente con sensor decodificador. El contraste entre la matriz y el fondo cumple con los estándares para lectura instantánea en cualquier smartphone o lector POS.
-        </p>
-      </div>
+      <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-200/80 text-emerald-800 font-bold uppercase tracking-wider">Óptimo</span>
     </div>
 
-    <div id="scannability-badge-warn" class="hidden bg-amber-50 border border-amber-300 rounded-xl p-3 flex items-start gap-2.5 text-xs text-amber-950 shadow-2xs">
-      <div class="w-6 h-6 rounded-full bg-amber-100 border border-amber-300 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
-        <i class="fa-solid fa-triangle-exclamation text-xs"></i>
-      </div>
-      <div class="space-y-0.5">
+    <!-- Estado: Baja Calidad / Advertencia (Tag compacto con botón interactivo de más información) -->
+    <div id="scannability-badge-warn" class="hidden">
+      <button id="btn-toggle-scannability-info" type="button" 
+        class="w-full flex items-center justify-between bg-amber-50 hover:bg-amber-100/90 border border-amber-300 text-amber-900 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition active:scale-[0.99] cursor-pointer shadow-2xs">
         <div class="flex items-center gap-2">
-          <span class="font-bold text-amber-950">Baja Legibilidad Óptica — Requiere Mayor Contraste</span>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-200/90 text-amber-900 font-bold uppercase tracking-wider">Precaución</span>
+          <span class="w-5 h-5 rounded-full bg-amber-200 border border-amber-300 text-amber-800 flex items-center justify-center shrink-0 text-[10px]">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </span>
+          <span class="font-bold text-amber-950">Precaución: Baja Legibilidad</span>
         </div>
-        <p class="text-[11px] text-amber-900 leading-relaxed">
-          Debido a la combinación de colores seleccionada (matriz, fondo o silueta con bajo contraste relativo), la cámara de un dispositivo podría no reconocer este código QR. Te recomendamos elegir un color de puntos más oscuro que el fondo o aumentar el contraste para garantizar que sea escaneado sin problemas.
+        <div class="flex items-center gap-1.5 text-[11px] text-amber-800 font-medium">
+          <span id="scannability-toggle-label">Ver detalles</span>
+          <i id="icon-scannability-chevron" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
+        </div>
+      </button>
+
+      <!-- Panel desplegable con información ampliada -->
+      <div id="scannability-warn-details" class="hidden mt-2 p-3 bg-amber-50/90 border border-amber-200 rounded-xl text-xs text-amber-950 space-y-2 text-left transition-all">
+        <p class="font-bold text-amber-950 flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-info text-amber-600"></i>
+          <span>Baja Legibilidad Óptica — Requiere Mayor Contraste</span>
         </p>
+        <p class="text-[11px] text-amber-900 leading-relaxed">
+          Debido a la combinación de colores seleccionada (matriz, fondo o silueta con bajo contraste relativo), la cámara de un dispositivo móvil podría tener dificultades o no reconocer este código QR.
+        </p>
+        <div class="text-[11px] text-amber-900 font-medium bg-amber-100/70 p-2.5 rounded-lg border border-amber-200/80">
+          💡 <strong>Recomendación:</strong> Elige un color de puntos más oscuro que el fondo o aumenta el contraste para garantizar una lectura instantánea en 360°.
+        </div>
       </div>
     </div>
   </div>

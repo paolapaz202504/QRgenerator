@@ -4,6 +4,15 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.4.1] — 2026-11-11
+### 🎨 Tag Compacto Interactivo de Precaución para Baja Calidad
+
+#### Mejorado
+- **Ergonomía Visual en Advertencia de Escaneabilidad (`frontAgent`):**
+  - Ante códigos QR con baja legibilidad o bajo contraste, ahora se muestra únicamente un tag compacto con el icono de *Precaución*. Al hacer clic sobre el tag, se despliega el panel didáctico con los detalles y recomendaciones de contraste.
+
+---
+
 ## [v1.4.0] — 2026-11-11
 ### 🚀 Anti-Caché F5 Instantáneo, 600 Plantillas Homogéneas (33/33/34), Iconografía y Verificador Óptico en Vivo
 

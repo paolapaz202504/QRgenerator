@@ -100,6 +100,22 @@ export class QRPreview extends UIComponent {
       this.btnDownloadSvg.addEventListener('click', () => this.handleDownload('svg', 800));
     }
 
+    const btnToggleScannability = document.getElementById('btn-toggle-scannability-info');
+    if (btnToggleScannability) {
+      btnToggleScannability.addEventListener('click', (e) => {
+        e.preventDefault();
+        const details = document.getElementById('scannability-warn-details');
+        const chevron = document.getElementById('icon-scannability-chevron');
+        const label = document.getElementById('scannability-toggle-label');
+        if (details) {
+          const isHidden = details.classList.contains('hidden');
+          details.classList.toggle('hidden', !isHidden);
+          if (chevron) chevron.classList.toggle('rotate-180', isHidden);
+          if (label) label.textContent = isHidden ? 'Ocultar' : 'Ver detalles';
+        }
+      });
+    }
+
     this.syncFontStyles();
   }
 
@@ -399,6 +415,13 @@ export class QRPreview extends UIComponent {
     } else {
       badgeOk.classList.add('hidden');
       badgeWarn.classList.remove('hidden');
+      // En caso de baja legibilidad, dejar visible solo el tag 'Precaución' con detalles colapsados
+      const details = document.getElementById('scannability-warn-details');
+      const chevron = document.getElementById('icon-scannability-chevron');
+      const label = document.getElementById('scannability-toggle-label');
+      if (details) details.classList.add('hidden');
+      if (chevron) chevron.classList.remove('rotate-180');
+      if (label) label.textContent = 'Ver detalles';
     }
   }
 
