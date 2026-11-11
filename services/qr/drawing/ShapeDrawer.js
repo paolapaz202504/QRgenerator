@@ -217,9 +217,9 @@ class ShapeDrawer {
         break;
       case 'hexagon':
         for (let i = 0; i < 6; i++) {
-          const angle = (Math.PI / 3) * i - Math.PI / 6;
-          const hx = cx + r * Math.cos(angle);
-          const hy = cy + r * Math.sin(angle);
+          const angle = (Math.PI / 3) * i;
+          const hx = cx + r * 1.06 * Math.cos(angle);
+          const hy = cy + r * 1.06 * Math.sin(angle);
           if (i === 0) ctx.moveTo(hx, hy);
           else ctx.lineTo(hx, hy);
         }
@@ -231,7 +231,7 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'star':
-        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 8, r, r * 0.55);
+        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 8, r, r * 0.82);
         ctx.fill();
         break;
       case 'shield':

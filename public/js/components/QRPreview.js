@@ -124,37 +124,66 @@ export class QRPreview extends UIComponent {
     const state = appState.getState();
     const design = state.currentDesign || {};
 
+    const eyeColorVal = (document.getElementById('custom-eye-color')?.value) || state.customEyeColor || design.eyeColor || design.qrColor || '#111827';
+    const eyeStyleVal = (document.getElementById('custom-eye-style')?.value) || state.customEyeStyle || design.eyeStyle || 'square';
+    const eyeGradTypeVal = (document.getElementById('custom-eye-gradient-type')?.value) || state.eyeGradientType || 'single';
+    const eyeColor2Val = (document.getElementById('custom-eye-color2')?.value) || state.eyeColor2 || null;
+
+    const qrColorVal = (document.getElementById('custom-qr-color')?.value) || design.qrColor || '#111827';
+    const qrGradTypeVal = (document.getElementById('custom-gradient-type')?.value) || state.gradientType || 'single';
+    const qrColor2Val = (document.getElementById('custom-qr-color2')?.value) || state.qrColor2 || null;
+
+    const bgColorVal = (document.getElementById('custom-bg-color')?.value) || design.bgColor || '#ffffff';
+    const frameColorVal = (document.getElementById('custom-frame-color')?.value) || design.frameColor || '#2563eb';
+    const frameShapeVal = (document.getElementById('custom-frame-shape')?.value) || state.frameShape || design.frameShape || 'rectangular';
+
+    let silModeVal = (document.getElementById('custom-qr-silhouette')?.value) || state.qrSilhouetteMode || design.qrSilhouetteMode || 'none';
+    if (silModeVal === 'icon_pure') silModeVal = 'icon_only';
+
+    const silColorVal = (document.getElementById('custom-silhouette-color')?.value) || state.silhouetteColor || design.silhouetteColor || '#2563eb';
+    const patColorVal = (document.getElementById('custom-pattern-color')?.value) || state.patternColor || design.patternColor || '#475569';
+
+    const densityVal = (document.getElementById('custom-qr-density') ? parseInt(document.getElementById('custom-qr-density').value, 10) : (state.qrDensity !== undefined ? state.qrDensity : 50));
+    const boxRadiusVal = (document.getElementById('custom-qr-box-radius') ? parseInt(document.getElementById('custom-qr-box-radius').value, 10) : (state.qrBoxRadius !== undefined ? state.qrBoxRadius : 18));
+
     return {
       url: this.urlInput ? this.urlInput.value : 'QRbey',
       title: this.titleInput ? this.titleInput.value : 'QRbery',
       bannerText: this.bannerTextInput ? this.bannerTextInput.value : 'ESCANÉAME',
       designId: design.id || 'design-institucional-1',
+      bgColor: bgColorVal,
+      qrColor: qrColorVal,
+      frameColor: frameColorVal,
+      eyeColor: eyeColorVal,
+      eyeStyle: eyeStyleVal,
       customColors: {
-        bgColor: design.bgColor,
-        qrColor: design.qrColor,
-        frameColor: design.frameColor,
+        bgColor: bgColorVal,
+        qrColor: qrColorVal,
+        frameColor: frameColorVal,
         textColor: design.textColor,
         badgeBg: design.badgeBg,
         badgeText: design.badgeText,
-        eyeColor: state.customEyeColor || null,
-        gradientType: state.gradientType || 'single',
-        qrColor2: state.qrColor2 || null,
-        silhouetteColor: state.silhouetteColor || '#2563eb',
-        patternColor: state.patternColor || '#475569'
+        eyeColor: eyeColorVal,
+        gradientType: qrGradTypeVal,
+        qrColor2: qrColor2Val,
+        eyeGradientType: eyeGradTypeVal,
+        eyeColor2: eyeColor2Val,
+        silhouetteColor: silColorVal,
+        patternColor: patColorVal
       },
       customDotStyle: state.currentPattern || (document.getElementById('pattern-grid')?.querySelector('.active-pattern')?.dataset?.patternId) || 'square',
-      customEyeStyle: (document.getElementById('custom-eye-style')?.value) || state.customEyeStyle || design.eyeStyle || 'square',
-      customEyeColor: state.customEyeColor || null,
-      eyeGradientType: state.eyeGradientType || 'single',
-      eyeColor2: state.eyeColor2 || null,
-      qrBoxRadius: state.qrBoxRadius !== undefined ? state.qrBoxRadius : 18,
-      qrSilhouetteMode: (document.getElementById('custom-qr-silhouette')?.value) || state.qrSilhouetteMode || 'none',
-      qrDensity: (document.getElementById('custom-qr-density') ? parseInt(document.getElementById('custom-qr-density').value, 10) : (state.qrDensity !== undefined ? state.qrDensity : 50)),
-      gradientType: (document.getElementById('custom-gradient-type')?.value) || state.gradientType || 'single',
-      qrColor2: state.qrColor2 || null,
-      silhouetteColor: state.silhouetteColor || '#2563eb',
-      patternColor: state.patternColor || '#475569',
-      frameShape: (document.getElementById('custom-frame-shape')?.value) || state.frameShape || 'rectangular',
+      customEyeStyle: eyeStyleVal,
+      customEyeColor: eyeColorVal,
+      eyeGradientType: eyeGradTypeVal,
+      eyeColor2: eyeColor2Val,
+      qrBoxRadius: boxRadiusVal,
+      qrSilhouetteMode: silModeVal,
+      qrDensity: densityVal,
+      gradientType: qrGradTypeVal,
+      qrColor2: qrColor2Val,
+      silhouetteColor: silColorVal,
+      patternColor: patColorVal,
+      frameShape: frameShapeVal,
       titlePosition: state.titlePosition || (this.titlePosInput ? this.titlePosInput.value : 'bottom'),
       titleOffsetY: state.titleOffsetY !== undefined ? state.titleOffsetY : (this.titleOffsetInput ? parseInt(this.titleOffsetInput.value, 10) : 0),
       targetWidth,

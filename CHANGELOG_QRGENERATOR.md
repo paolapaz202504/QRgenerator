@@ -8,16 +8,23 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 ### 🔬 Plan Riguroso de QA, Regla de Oro de Generación y Depuración de Siluetas
 
 #### Añadido
-- **Suite Combinatoria Exhaustiva de Opciones Visuales (`qaAgent`):** Script automatizado `test/qa_visual_matrix.js` que evalúa 113 combinaciones:
-  - 88 pruebas: 22 patrones de puntos x 4 estilos de ojos (`square`, `rounded`, `circle`, `leaf`).
+- **Suite Combinatoria Exhaustiva de Opciones Visuales (`qaAgent`):** Script automatizado `test/qa_visual_matrix.js` que evalúa 201 combinaciones:
+  - 176 pruebas: 22 patrones de puntos x 8 estilos de ojos (`square`, `rounded`, `circle`, `leaf`, `diamond`, `hexagon`, `star`, `shield`).
   - 9 pruebas: 3 siluetas temáticas (`none`, `icon_only`, `icon_center`) x 3 tipos de degradado (`single`, `linear`, `radial`).
   - 10 pruebas: 10 formas de marco del póster.
   - 5 pruebas: Espectro de densidades (1%, 20%, 50%, 80%, 100%).
   - 1 prueba: Renderizado y decodificación en Alta Definición (HD / 1200px).
-  - Tasa de aprobación certificada: **113 / 113 (100% exitosas)** mediante decodificación óptica con `jsQR`.
+  - Tasa de aprobación certificada: **201 / 201 (100% exitosas)** mediante decodificación óptica con `jsQR`.
 - **Suite de Regresión de Densidades (`qaAgent`):** Script `test/test_densities_all_patterns.js` validando los 22 patrones en 7 niveles de densidad (154 combinaciones con 0 fallos).
 
 #### Corregido
+- **Soporte Fidedigno de los 8 Estilos y Colores de Ojos (`qrAgent` & `frontAgent`):**
+  - Soporte completo de los 8 estilos de ojos (`square`, `rounded`, `circle`, `leaf`, `diamond`, `hexagon`, `star`, `shield`) con trazado geométrico y recortes concéntricos en `CanvasGenerator.js` y `ShapeDrawer.js`.
+  - Extracción confiable de valores directamente del DOM en `getPayload()` para color de ojos (`custom-eye-color`), estilo (`custom-eye-style`), tipo de degradado (`custom-eye-gradient-type`) y segundo color (`custom-eye-color2`).
+  - Eliminación de la sobreescritura accidental de color de ojos en `IconBaseSilhouette.js`.
+- **Aislamiento del Grupo 3 y Control Puro en Opción 2 (`frontAgent` & `qrAgent`):**
+  - El Grupo 3 ("3. Color de la Silueta y Color del Patrón") ahora se habilita **exclusivamente** al seleccionar "3. Silueta + Ícono al Centro" (`icon_center`), que es la única opción que proyecta una silueta tintada de fondo.
+  - Al seleccionar "2. Silueta de Ícono/Imagen" (`icon_only`), el Grupo 3 permanece oculto y los puntos de la matriz QR son gobernados al 100% por el Grupo 2 ("2. COLOR DE MATRIZ Y PUNTOS QR"), permitiendo aplicar cualquier color sólido o degradado sin interferencias.
 - **Cumplimiento Estricto de la Regla de Oro de Generación y Créditos (`frontAgent` & `pmAgent`):**
   - Al hacer clic en cualquier plantilla (`CHANGE_DESIGN` / `INIT_DATA`), se renderiza de inmediato en el canvas sin consumir créditos (`isExplicit = false`).
   - Al modificar cualquier otra opción visual (patrón, densidad, colores, ojos, silueta, marco o textos), **no** se regenera automáticamente el QR para evitar consumo no intencionado.
@@ -29,7 +36,7 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
   - Calibración del radio exterior de ojos en `ShapeDrawer.prototype.drawEye` de `size * 0.30` a `size * 0.14`. A bajas densidades (1% a 15%), el radio previo recortaba las esquinas del borde cuadrado de 1 módulo del patrón de detección (finder eye), arruinando la proporción 1:1:3:1:1. Con `0.14`, todos los niveles de densidad (1% al 100%) escanean instantáneamente.
   - Refuerzo de centro sólido en geometrías de módulos: corrección de huecos centrales en `clover`, `ring`, `sparkle` y `hexagon` en `ShapeDrawer.js`, garantizando que el punto central de muestreo óptico siempre registre un bit oscuro (1) sin errores de ráfaga.
 - **Desbloqueo y Compatibilidad de Siluetas Temáticas (`qrAgent` & `frontAgent`):**
-  - Eliminación de la restricción que forzaba los ojos a `rounded` cuando se activaba una silueta temática en `CanvasGenerator.js`, permitiendo que el usuario seleccione libremente cualquier estilo de ojos (`square`, `circle`, `leaf`, `rounded`).
+  - Eliminación de la restricción que forzaba los ojos a `rounded` cuando se activaba una silueta temática en `CanvasGenerator.js`, permitiendo que el usuario seleccione libremente cualquier estilo de ojos.
   - Eliminación de la restricción que anulaba los degradados lineales o radiales al activar siluetas temáticas, permitiendo degradados completos y scannables dentro de siluetas.
 
 ---

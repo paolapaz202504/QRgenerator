@@ -324,7 +324,8 @@ export class DesignPicker extends UIComponent {
     }
     if (customEyeColor2 && eyeCol2) { customEyeColor2.value = eyeCol2; if (customEyeColor2Hex) customEyeColor2Hex.textContent = eyeCol2; }
 
-    const isSil = ['icon_only', 'icon_center'].includes(silMode);
+    // Grupo 3 exclusivo para "3. Silueta + Ícono al Centro"
+    const isSil = (silMode === 'icon_center');
     if (containerSilhouetteColor) containerSilhouetteColor.classList.toggle('hidden', !isSil);
     if (customSilhouetteColor) {
       customSilhouetteColor.value = silColor;
@@ -337,8 +338,8 @@ export class DesignPicker extends UIComponent {
 
     const SIL_MAP = {
       none: 'Matriz cuadrada tradicional de código QR dentro del marco del póster.',
-      icon_only: 'El código QR adopta la forma del ícono o imagen seleccionada, ocultando la insignia central.',
-      icon_center: 'Forma temática del ícono o imagen seleccionada incluyendo además la insignia central.'
+      icon_only: 'El código QR adopta la silueta del ícono o imagen seleccionada. El color de los puntos se controla directamente desde el Grupo 2.',
+      icon_center: 'Silueta temática de fondo con ícono central. Activa el Grupo 3 para personalizar el color de la silueta de fondo y su patrón.'
     };
     if (customQrSilhouetteDesc) customQrSilhouetteDesc.textContent = SIL_MAP[silMode] || '';
 

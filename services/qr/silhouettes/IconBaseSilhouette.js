@@ -12,12 +12,10 @@ class IconBaseSilhouette extends SilhouetteStrategy {
     // Contrast safeguard: if the selected color is too light on a white card (luminance >= 140),
     // adjust it so camera optical sensors can detect modules and finder eyes with high contrast
     let effectiveQrColor = activeQrColor;
-    let effectiveEyeFill = finalEyeFill;
-    if (!isDarkBg && !service.isDarkColor(activeQrColor)) {
+    if (!isDarkBg && typeof activeQrColor === 'string' && !service.isDarkColor(activeQrColor)) {
       const rgb = service.hexToRgb(activeQrColor);
       const darkRgb = `rgb(${Math.round(rgb.r * 0.65)}, ${Math.round(rgb.g * 0.65)}, ${Math.round(rgb.b * 0.65)})`;
       effectiveQrColor = darkRgb;
-      effectiveEyeFill = darkRgb;
     }
 
     // 1. Silhouette mask tint color ("Color de la silueta")
@@ -91,8 +89,8 @@ class IconBaseSilhouette extends SilhouetteStrategy {
       }
     }
 
-    // 4. Draw the finder pattern eyes cleanly
-    params.drawFinderEyes(ctx, effectiveEyeFill);
+    // 4. Draw the finder pattern eyes cleanly using finalEyeFill
+    params.drawFinderEyes(ctx, finalEyeFill);
   }
 }
 

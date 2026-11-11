@@ -130,8 +130,8 @@ class CanvasGenerator {
       ? String(bannerText) 
       : (design.bannerText || 'SCAN ME');
 
-    const dotStyle = customDotStyle || design.dotStyle || 'square';
-    const eyeStyle = customEyeStyle || design.eyeStyle || 'square';
+    const dotStyle = customDotStyle || params.dotStyle || design.dotStyle || 'square';
+    const eyeStyle = params.customEyeStyle || params.eyeStyle || customColors.eyeStyle || customEyeStyle || design.eyeStyle || 'square';
 
     const qrOpts = { errorCorrectionLevel: 'H' };
     const densityVal = (params.qrDensity !== undefined && params.qrDensity !== null) ? parseInt(params.qrDensity, 10) : 50;
@@ -194,28 +194,24 @@ class CanvasGenerator {
     const qrX = Math.round((canvasWidth - qrAreaSize) / 2);
     const qrY = Math.round(155 * scale);
 
-    const activeEyeColor1 = customColors.eyeColor || params.customEyeColor || activeQrColor;
-    const eyeGradType = customColors.eyeGradientType || params.eyeGradientType || 'single';
-    const activeEyeColor2 = customColors.eyeColor2 || params.eyeColor2 || null;
+    const activeEyeColor1 = params.customEyeColor || params.eyeColor || customColors.eyeColor || activeQrColor;
+    const eyeGradType = params.eyeGradientType || customColors.eyeGradientType || 'single';
+    const activeEyeColor2 = params.eyeColor2 || customColors.eyeColor2 || null;
 
     let finalEyeFill = activeEyeColor1;
     if (eyeGradType !== 'single' && activeEyeColor2) {
-      const isEye1Dark = require('../drawing/ShapeDrawer').prototype.isDarkColor(activeEyeColor1);
-      const isEye2Dark = require('../drawing/ShapeDrawer').prototype.isDarkColor(activeEyeColor2);
-      if (isDarkBg ? (!isEye1Dark && !isEye2Dark) : (isEye1Dark && isEye2Dark)) {
-        let eGrad;
-        if (eyeGradType === 'linear') {
-          eGrad = ctx.createLinearGradient(qrX, qrY, qrX + qrAreaSize, qrY + qrAreaSize);
-        } else {
-          eGrad = ctx.createRadialGradient(
-            qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, 0,
-            qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, qrAreaSize / 1.3
-          );
-        }
-        eGrad.addColorStop(0, activeEyeColor1);
-        eGrad.addColorStop(1, activeEyeColor2);
-        finalEyeFill = eGrad;
+      let eGrad;
+      if (eyeGradType === 'linear') {
+        eGrad = ctx.createLinearGradient(qrX, qrY, qrX + qrAreaSize, qrY + qrAreaSize);
+      } else {
+        eGrad = ctx.createRadialGradient(
+          qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, 0,
+          qrX + qrAreaSize / 2, qrY + qrAreaSize / 2, qrAreaSize / 1.3
+        );
       }
+      eGrad.addColorStop(0, activeEyeColor1);
+      eGrad.addColorStop(1, activeEyeColor2);
+      finalEyeFill = eGrad;
     }
 
     if (!skipWhiteCard) {
@@ -268,7 +264,7 @@ class CanvasGenerator {
       { x: qrX, y: qrY + (size - 7) * cellSize }
     ];
 
-    const safeEyeStyle = ['square', 'rounded', 'circle', 'leaf'].includes(eyeStyle) ? eyeStyle : 'rounded';
+    const safeEyeStyle = ['square', 'rounded', 'circle', 'leaf', 'diamond', 'hexagon', 'star', 'shield'].includes(eyeStyle) ? eyeStyle : 'square';
     const effectiveEyeStyle = safeEyeStyle;
 
     // Helper: draw the 3 finder-pattern eyes on a given context (no clip restrictions)
@@ -276,21 +272,40 @@ class CanvasGenerator {
       eyes.forEach(eye => {
         targetCtx.fillStyle = skipWhiteCard ? bgColor : '#ffffff';
         targetCtx.fillRect(eye.x - cellSize, eye.y - cellSize, 9 * cellSize, 9 * cellSize);
+
+        // 1. Outer Box (7x7 modules)
         require('../drawing/ShapeDrawer').prototype.drawEye(targetCtx, eye.x, eye.y, outerRadius, effectiveEyeStyle, eyeFill);
-        targetCtx.fillStyle = skipWhiteCard ? bgColor : '#ffffff';
+
+        // 2. White Cutout Ring (5x5 modules)
+        const whiteCutout = skipWhiteCard ? bgColor : '#ffffff';
+        const cutoutSize = outerRadius - 2 * cellSize;
         if (effectiveEyeStyle === 'circle') {
+          targetCtx.fillStyle = whiteCutout;
           targetCtx.beginPath();
-          targetCtx.arc(eye.x + outerRadius / 2, eye.y + outerRadius / 2, (outerRadius - 2 * cellSize) / 2, 0, Math.PI * 2);
+          targetCtx.arc(eye.x + outerRadius / 2, eye.y + outerRadius / 2, cutoutSize / 2, 0, Math.PI * 2);
           targetCtx.fill();
         } else if (effectiveEyeStyle === 'rounded') {
-          require('../drawing/ShapeDrawer').prototype.roundRect(targetCtx, eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize, (outerRadius - 2 * cellSize) * 0.15);
+          targetCtx.fillStyle = whiteCutout;
+          require('../drawing/ShapeDrawer').prototype.roundRect(targetCtx, eye.x + cellSize, eye.y + cellSize, cutoutSize, cutoutSize, cutoutSize * 0.15);
           targetCtx.fill();
         } else if (effectiveEyeStyle === 'leaf') {
-          require('../drawing/ShapeDrawer').prototype.roundRect(targetCtx, eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize, { tl: (outerRadius - 2 * cellSize) * 0.22, tr: 0, br: (outerRadius - 2 * cellSize) * 0.22, bl: 0 });
+          targetCtx.fillStyle = whiteCutout;
+          require('../drawing/ShapeDrawer').prototype.roundRect(targetCtx, eye.x + cellSize, eye.y + cellSize, cutoutSize, cutoutSize, { tl: cutoutSize * 0.22, tr: 0, br: cutoutSize * 0.22, bl: 0 });
           targetCtx.fill();
+        } else if (effectiveEyeStyle === 'diamond') {
+          require('../drawing/ShapeDrawer').prototype.drawEye(targetCtx, eye.x + cellSize, eye.y + cellSize, cutoutSize, 'diamond', whiteCutout);
+        } else if (effectiveEyeStyle === 'hexagon') {
+          require('../drawing/ShapeDrawer').prototype.drawEye(targetCtx, eye.x + cellSize, eye.y + cellSize, cutoutSize, 'hexagon', whiteCutout);
+        } else if (effectiveEyeStyle === 'star') {
+          require('../drawing/ShapeDrawer').prototype.drawEye(targetCtx, eye.x + cellSize, eye.y + cellSize, cutoutSize, 'star', whiteCutout);
+        } else if (effectiveEyeStyle === 'shield') {
+          require('../drawing/ShapeDrawer').prototype.drawEye(targetCtx, eye.x + cellSize, eye.y + cellSize, cutoutSize, 'shield', whiteCutout);
         } else {
-          targetCtx.fillRect(eye.x + cellSize, eye.y + cellSize, outerRadius - 2 * cellSize, outerRadius - 2 * cellSize);
+          targetCtx.fillStyle = whiteCutout;
+          targetCtx.fillRect(eye.x + cellSize, eye.y + cellSize, cutoutSize, cutoutSize);
         }
+
+        // 3. Inner Pupil (3x3 modules)
         require('../drawing/ShapeDrawer').prototype.drawEye(targetCtx, eye.x + innerOffset, eye.y + innerOffset, innerSize, effectiveEyeStyle, eyeFill);
       });
     };

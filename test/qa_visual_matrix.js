@@ -31,7 +31,7 @@ async function runCombinatorialSuite() {
   let failures = [];
 
   const patterns = qrGeneratorService.getPatterns().map(p => p.id);
-  const eyeStyles = ['square', 'rounded', 'circle', 'leaf'];
+  const eyeStyles = ['square', 'rounded', 'circle', 'leaf', 'diamond', 'hexagon', 'star', 'shield'];
   const silhouetteModes = ['none', 'icon_only', 'icon_center'];
   const gradientTypes = ['single', 'linear', 'radial'];
   const frameShapes = ['rectangular', 'square', 'rounded', 'circle', 'shield', 'ticket', 'hexagonal', 'diamond_card', 'badge_star', 'wavy'];

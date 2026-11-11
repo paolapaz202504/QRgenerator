@@ -3,8 +3,8 @@ import { appState } from '../state/AppState.js';
 
 const SILHOUETTE_DESCRIPTIONS = {
   none: 'Matriz cuadrada tradicional de código QR dentro del marco del póster.',
-  icon_only: 'El código QR adopta la forma del ícono o imagen seleccionada, ocultando la insignia central.',
-  icon_center: 'Forma temática del ícono o imagen seleccionada incluyendo además la insignia central.'
+  icon_only: 'El código QR adopta la silueta del ícono o imagen seleccionada. El color de los puntos se controla directamente desde el Grupo 2.',
+  icon_center: 'Silueta temática de fondo con ícono central. Activa el Grupo 3 para personalizar el color de la silueta de fondo y su patrón.'
 };
 
 export class ColorCustomizer extends UIComponent {
@@ -140,8 +140,9 @@ export class ColorCustomizer extends UIComponent {
         if (input === this.customQrSilhouette) {
           const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
           if (silContainer) {
-            const isSilhouette = ['icon_only', 'icon_center'].includes(this.customQrSilhouette.value);
-            if (isSilhouette) {
+            // El Grupo 3 solo se habilita para "3. Silueta + Ícono al Centro" (silueta de fondo)
+            const isSilhouetteWithBg = (this.customQrSilhouette.value === 'icon_center');
+            if (isSilhouetteWithBg) {
               silContainer.classList.remove('hidden');
             } else {
               silContainer.classList.add('hidden');
@@ -252,8 +253,9 @@ export class ColorCustomizer extends UIComponent {
     if (silContainer) {
       let mode = state.qrSilhouetteMode || 'none';
       if (mode === 'icon_pure') mode = 'icon_only';
-      const isSilhouette = ['icon_only', 'icon_center'].includes(mode);
-      if (isSilhouette) {
+      // Grupo 3 exclusivo para icon_center
+      const isSilhouetteWithBg = (mode === 'icon_center');
+      if (isSilhouetteWithBg) {
         silContainer.classList.remove('hidden');
       } else {
         silContainer.classList.add('hidden');
