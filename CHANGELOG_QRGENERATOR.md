@@ -4,6 +4,32 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.5] — 2026-11-11
+### 🧩 Arquitectura Modular por Elementos del QR, Toggles Complementarios y Muestras Visuales
+
+#### Añadido
+- **Filosofía de Opciones Complementarias (Toggles Independientes) (`frontAgent` & `qrAgent`):**
+  - Eliminación del dropdown ambiguo que mezclaba términos conceptuales ("1. Matriz...", "2. Silueta...", "3. Silueta + ...").
+  - Sustitución por dos interruptores complementarios e independientes:
+    - **Ícono/Imagen** (toggle activo/inactivo, por defecto activo).
+    - **Silueta Temática de Fondo** (toggle activo/inactivo, por defecto inactivo).
+  - Si ambos están activos, se complementan armónicamente (`icon_center`). Si el usuario desactiva el ícono y deja la silueta, queda la silueta pura (`icon_only`). Si desactiva la silueta y deja el ícono, opera el QR tradicional con ícono (`none` con `showIcon = true`). Si apaga ambos, genera un QR puro clásico (`none` con `showIcon = false`).
+- **Muestras Visuales Interactivas (Preview Cards) (`frontAgent`):**
+  - **Ojos de Detección (Step 5):** Rejilla de tarjetas interactivas con renderizado vectorial SVG para previsualizar y seleccionar al instante los 8 estilos geométricos de ojos (cuadradas, redondeadas, círculos, rombos, hexágonos, hoja/gota, estrella 8 puntas, escudo protegido).
+  - **Marco y Forma del Póster (Step 6):** Rejilla de tarjetas interactivas con esquemas visuales para las 10 siluetas de corte exterior (rectangular, cuadrado, cápsula, circular, escudo, ticket/cupón, hexagonal, biseles diagonales, insignia octágono, esquinas invertidas).
+- **Reorganización Estructural Anatómica en 6 Pasos con Guías Didácticas (`frontAgent` & `pmAgent`):**
+  - Cada sección corresponde directamente a un elemento físico y funcional del código QR, incorporando una tarjeta didáctica explicativa:
+    - **Paso 1: Plantillas y Diseños Preestablecidos** (`step3-design.html`).
+    - **Paso 2: Contenido y Tipografía del QR** (`step1-info.html` — URL, Título, Banner, 25 Fuentes tipográficas).
+    - **Paso 3: Ícono o Logotipo Central** (`step2-icon.html` — Selección, subida y personalización cromática/espacial completa en una sola vista).
+    - **Paso 4: Matriz de Puntos, Patrones y Silueta** (`step4-patterns.html` — Colores de matriz, degradados, slider de densidad, 22 patrones y toggle de silueta temática).
+    - **Paso 5: Ojos de Detección (Finders)** (`step5-finders.html` — Tarjetas visuales de estilos de ojos, colores primario y secundario, y degradados).
+    - **Paso 6: Marco, Fondo y Forma del Póster** (`step6-frame.html` — Tarjetas visuales de siluetas de marco, color de lienzo, color de marco y slider de curvatura de tarjeta blanca).
+- **Certificación de Calidad Exhaustiva (`qaAgent`):**
+  - Verificación exitosa de los 12 casos de prueba de la suite principal (`test/qa_suite.js`) y las 201 combinaciones visuales de la matriz óptica (`test/qa_visual_matrix.js`) con 100% de tasa de decodificación óptica con `jsQR`.
+
+---
+
 ## [v1.3.4] — 2026-11-11
 ### 👁️ Reparación de Estilo y Color de Ojos en Siluetas y Despliegue de Colores en Opción 2
 

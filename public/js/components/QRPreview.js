@@ -137,8 +137,19 @@ export class QRPreview extends UIComponent {
     const frameColorVal = (document.getElementById('custom-frame-color')?.value) || design.frameColor || '#2563eb';
     const frameShapeVal = (document.getElementById('custom-frame-shape')?.value) || state.frameShape || design.frameShape || 'rectangular';
 
-    let silModeVal = (document.getElementById('custom-qr-silhouette')?.value) || state.qrSilhouetteMode || design.qrSilhouetteMode || 'none';
-    if (silModeVal === 'icon_pure') silModeVal = 'icon_only';
+    const iconShowEl = document.getElementById('qr-icon-show');
+    const silShowEl = document.getElementById('qr-silhouette-show');
+    const isIconChecked = iconShowEl ? iconShowEl.checked : (state.iconShow !== false);
+    const isSilChecked = silShowEl ? silShowEl.checked : (state.silhouetteShow === true || state.qrSilhouetteMode === 'icon_center' || state.qrSilhouetteMode === 'icon_only');
+
+    let silModeVal = 'none';
+    if (isSilChecked && isIconChecked) {
+      silModeVal = 'icon_center';
+    } else if (isSilChecked && !isIconChecked) {
+      silModeVal = 'icon_only';
+    } else {
+      silModeVal = 'none';
+    }
 
     const silColorVal = (document.getElementById('custom-silhouette-color')?.value) || state.silhouetteColor || design.silhouetteColor || '#2563eb';
     const patColorVal = (document.getElementById('custom-pattern-color')?.value) || state.patternColor || design.patternColor || '#475569';
@@ -190,7 +201,7 @@ export class QRPreview extends UIComponent {
       fontTitle: this.titleFontInput ? this.titleFontInput.value : 'Plus Jakarta Sans',
       fontBanner: this.bannerFontInput ? this.bannerFontInput.value : 'Plus Jakarta Sans',
       fontSizeTitle: state.fontSizeTitle || 24,
-      showIcon: state.iconShow !== false,
+      showIcon: isIconChecked,
       showShield: true,
       iconMode: state.iconMode,
       iconName: state.selectedIcon,
@@ -199,7 +210,7 @@ export class QRPreview extends UIComponent {
       iconBgColor: state.iconBgColor,
       iconBorderColor: state.iconBorderColor,
       iconSize: parseInt(state.iconSize, 10) || 34,
-      customLogoDataUrl: (state.iconShow !== false) ? (state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null)) : null,
+      customLogoDataUrl: isIconChecked ? (state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null)) : null,
       userEmail: state.user ? state.user.email : null,
       isExplicitGenerate: isExplicit
     };

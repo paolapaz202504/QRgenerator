@@ -1,11 +1,11 @@
-<!-- Section 4: Pattern Selector (Light SaaS Theme) -->
+<!-- Section 4: Matrix, 22 Patterns & Theme Silhouette (Light SaaS Theme) -->
 <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4 hover:shadow-md transition">
   <button id="toggle-step4" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
     <div class="flex items-center gap-3">
       <span class="w-7 h-7 rounded-lg bg-pink-50 border border-pink-200 text-pink-700 font-bold text-sm flex items-center justify-center">4</span>
       <div>
-        <h2 class="text-base font-semibold text-slate-900">Patrón de Puntos del QR</h2>
-        <p class="text-xs text-slate-500">22 Estilos únicos para los módulos del código QR</p>
+        <h2 class="text-base font-semibold text-slate-900">Matriz de Puntos, Patrones y Silueta</h2>
+        <p class="text-xs text-slate-500">Módulos de datos, 22 patrones geométricos y silueta artística complementaria</p>
       </div>
     </div>
     <div class="flex items-center gap-3">
@@ -17,21 +17,126 @@
   </button>
 
   <div id="panel-step4" class="pt-3 border-t border-slate-100 space-y-4">
+
+    <!-- Guía Didáctica de la Matriz y Silueta -->
+    <div class="bg-pink-50/70 border border-pink-200/80 rounded-xl p-3 flex items-start gap-2.5 text-xs text-pink-950">
+      <i class="fa-solid fa-wand-magic-sparkles text-pink-600 text-sm mt-0.5 shrink-0"></i>
+      <div class="space-y-1">
+        <p class="font-semibold text-pink-900">¿Qué es la Matriz y la Silueta Temática?</p>
+        <p class="text-slate-600 leading-relaxed text-[11px]">
+          La matriz son los puntos o píxeles donde viaja la información cifrada. Puedes elegir entre 22 estilos geométricos, aplicar degradados, o activar la <strong>Silueta Temática</strong> para que una figura artística se proyecte de fondo en armonía con tu ícono o marca.
+        </p>
+      </div>
+    </div>
+
+    <!-- Toggle Silueta Temática (Segundo Elemento Complementario) -->
+    <div class="bg-slate-50 border border-pink-200 rounded-xl p-3.5 space-y-3">
+      <div class="flex items-center justify-between">
+        <label for="qr-silhouette-show" class="text-xs font-semibold text-pink-800 flex items-center gap-1.5 uppercase tracking-wider cursor-pointer">
+          <i class="fa-solid fa-shapes text-pink-600"></i> Silueta Temática de Fondo
+        </label>
+        <!-- Toggle Switch Silueta -->
+        <label class="relative inline-flex items-center cursor-pointer" title="Activar o desactivar silueta de fondo">
+          <input type="checkbox" id="qr-silhouette-show" class="sr-only peer">
+          <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-600"></div>
+          <span class="ml-2 text-xs font-semibold text-slate-700">Activo</span>
+        </label>
+      </div>
+
+      <!-- Hidden Select for compatibility with state -->
+      <select id="custom-qr-silhouette" class="hidden">
+        <option value="none">1. Ícono/Imagen</option>
+        <option value="icon_only">2. Silueta de Ícono/Imagen</option>
+        <option value="icon_center">3. Silueta + Ícono/Imagen</option>
+      </select>
+      <p id="custom-qr-silhouette-desc" class="text-[11px] text-pink-800 font-medium leading-relaxed bg-pink-50 border border-pink-200 rounded-lg px-3 py-1.5"></p>
+
+      <!-- Sub-item Condicional: Colores de la Silueta (Desplegado solo si Silueta está activa) -->
+      <div id="container-silhouette-group" class="bg-white border border-pink-200 rounded-lg p-3 space-y-2.5 hidden">
+        <h4 class="text-xs font-semibold text-pink-700 flex items-center gap-1.5 uppercase tracking-wider">
+          <i class="fa-solid fa-palette text-pink-500"></i> Colores de la Silueta de Fondo y Patrón
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Color de la Silueta -->
+          <div>
+            <label class="block text-xs font-semibold text-pink-800 mb-1 flex items-center gap-1">
+              <i class="fa-solid fa-shapes"></i> Color de la Silueta
+            </label>
+            <div class="flex items-center gap-2">
+              <input type="color" id="custom-silhouette-color" value="#2563eb" class="w-8 h-8 rounded bg-white cursor-pointer border border-slate-300">
+              <span id="custom-silhouette-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#2563eb</span>
+            </div>
+            <span class="text-[10px] text-slate-500 block mt-1">Tinte y fondo suave de la figura temática</span>
+          </div>
+
+          <!-- Color del Patrón de la Silueta -->
+          <div>
+            <label class="block text-xs font-semibold text-indigo-800 mb-1 flex items-center gap-1">
+              <i class="fa-solid fa-grip"></i> Color del Patrón de la Silueta
+            </label>
+            <div class="flex items-center gap-2">
+              <input type="color" id="custom-pattern-color" value="#475569" class="w-8 h-8 rounded bg-white cursor-pointer border border-slate-300">
+              <span id="custom-pattern-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#475569</span>
+            </div>
+            <span class="text-[10px] text-slate-500 block mt-1">Color de los puntos QR dentro de la silueta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colores de Matriz y Puntos QR -->
+    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-3">
+      <h3 class="text-xs font-semibold text-indigo-700 flex items-center gap-1.5 uppercase tracking-wider">
+        <i class="fa-solid fa-qrcode text-indigo-600"></i> Colores de Matriz y Puntos QR
+      </h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color de Puntos (QR)</label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="custom-qr-color" value="#111827" class="w-8 h-8 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-qr-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#111827</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Tipo de Color QR</label>
+          <select id="custom-gradient-type" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+            <option value="single">Sólido</option>
+            <option value="linear">Degradado Lineal</option>
+            <option value="radial">Degradado Radial</option>
+          </select>
+        </div>
+        <div id="container-qr-color2" class="hidden">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color 2 (Degradado)</label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="custom-qr-color2" value="#a855f7" class="w-8 h-8 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-qr-color2-hex" class="text-xs font-mono text-slate-600 font-semibold">#a855f7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Slider de Densidad de Patrón -->
     <div class="bg-slate-50 border border-pink-200 rounded-xl p-3.5 space-y-2">
       <div class="flex items-center justify-between text-xs text-slate-700">
         <label for="custom-qr-density" class="font-semibold flex items-center gap-1.5 text-pink-800">
-          <i class="fa-solid fa-sliders text-pink-600"></i> Densidad del Patrón de Puntos
+          <i class="fa-solid fa-sliders text-pink-600"></i> Densidad de la Matriz del QR
         </label>
         <span id="custom-qr-density-val" class="font-mono font-bold text-pink-800 bg-pink-50 px-2.5 py-0.5 rounded border border-pink-200">50%</span>
       </div>
       <input type="range" id="custom-qr-density" min="1" max="100" value="50" step="1"
         class="w-full accent-pink-600 bg-slate-200 h-2 rounded-lg cursor-pointer" title="Ajustar densidad de la matriz del QR (1% a 100%)">
-      <p class="text-[11px] text-slate-500">Aumenta o disminuye la resolución y cantidad de elementos de la matriz del código QR.</p>
+      <p class="text-[11px] text-slate-500">Controla la cantidad de elementos o módulos que componen la cuadrícula del código QR.</p>
     </div>
 
-    <div id="pattern-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-      <!-- Dynamically populated -->
+    <!-- Grid de los 22 Patrones de Puntos -->
+    <div class="space-y-2">
+      <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">
+        Selecciona el Estilo de Patrón (22 Estilos):
+      </label>
+      <div id="pattern-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+        <!-- Dynamically populated by DesignPicker.js -->
+      </div>
     </div>
+
   </div>
 </div>

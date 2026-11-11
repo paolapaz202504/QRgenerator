@@ -58,6 +58,7 @@ export class AppState {
       eyeColor2: '#38bdf8',
       qrBoxRadius: 18,
       qrSilhouetteMode: 'none',
+      silhouetteShow: false,
       qrDensity: 50,
       gradientType: 'single',
       qrColor2: '#a855f7',

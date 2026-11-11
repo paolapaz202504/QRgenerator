@@ -326,6 +326,8 @@ export class DesignPicker extends UIComponent {
 
     // Contenedor de silueta activo para opción 2 ("icon_only") y opción 3 ("icon_center")
     const isSil = (silMode === 'icon_only' || silMode === 'icon_center');
+    const qrSilhouetteShow = document.getElementById('qr-silhouette-show');
+    if (qrSilhouetteShow) qrSilhouetteShow.checked = isSil;
     if (containerSilhouetteColor) containerSilhouetteColor.classList.toggle('hidden', !isSil);
     if (customSilhouetteColor) {
       customSilhouetteColor.value = silColor;
@@ -335,6 +337,30 @@ export class DesignPicker extends UIComponent {
       customPatternColor.value = patColor;
       if (customPatternColorHex) customPatternColorHex.textContent = patColor;
     }
+
+    // Sincronizar tarjetas visuales de Ojos (Step 5)
+    document.querySelectorAll('.eye-style-card').forEach(card => {
+      const isMatch = card.dataset.eye === eyeSty;
+      card.classList.toggle('active', isMatch);
+      card.classList.toggle('border-cyan-500', isMatch);
+      card.classList.toggle('bg-white', isMatch);
+      card.classList.toggle('ring-2', isMatch);
+      card.classList.toggle('ring-cyan-400', isMatch);
+      card.classList.toggle('border-slate-200', !isMatch);
+      card.classList.toggle('bg-slate-50', !isMatch);
+    });
+
+    // Sincronizar tarjetas visuales de Marco (Step 6)
+    document.querySelectorAll('.frame-shape-card').forEach(card => {
+      const isMatch = card.dataset.shape === frameShp;
+      card.classList.toggle('active', isMatch);
+      card.classList.toggle('border-amber-500', isMatch);
+      card.classList.toggle('bg-white', isMatch);
+      card.classList.toggle('ring-2', isMatch);
+      card.classList.toggle('ring-amber-400', isMatch);
+      card.classList.toggle('border-slate-200', !isMatch);
+      card.classList.toggle('bg-slate-50', !isMatch);
+    });
 
     const SIL_MAP = {
       none: '1. Ícono/Imagen: Matriz tradicional con ícono o logotipo integrado dentro del marco del póster.',
@@ -368,6 +394,7 @@ export class DesignPicker extends UIComponent {
       qrDensity: density,
 
       qrSilhouetteMode: silMode,
+      silhouetteShow: isSil,
       silhouetteColor: silColor,
       patternColor: patColor,
 

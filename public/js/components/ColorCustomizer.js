@@ -10,39 +10,59 @@ const SILHOUETTE_DESCRIPTIONS = {
 export class ColorCustomizer extends UIComponent {
   constructor() {
     super('customizer-panel');
+    
+    // Toggles de Acordeón
     this.toggleBtn = document.getElementById('toggle-customizer');
     this.customizerIcon = document.getElementById('customizer-icon');
-    
+    this.toggleStep4 = document.getElementById('toggle-step4');
+    this.panelStep4 = document.getElementById('panel-step4');
+    this.iconToggleStep4 = document.getElementById('icon-toggle-step4');
+    this.toggleStep5Finders = document.getElementById('toggle-step5-finders');
+    this.panelStep5Finders = document.getElementById('panel-step5-finders');
+    this.iconToggleStep5Finders = document.getElementById('icon-toggle-step5-finders');
+    this.toggleStep6Frame = document.getElementById('toggle-step6-frame');
+    this.panelStep6Frame = document.getElementById('panel-step6-frame');
+    this.iconToggleStep6Frame = document.getElementById('icon-toggle-step6-frame');
+
+    // Toggles de Silueta e Ícono
+    this.qrSilhouetteShow = document.getElementById('qr-silhouette-show');
+    this.qrIconShow = document.getElementById('qr-icon-show');
+    this.customQrSilhouette = document.getElementById('custom-qr-silhouette');
+    this.customQrSilhouetteDesc = document.getElementById('custom-qr-silhouette-desc');
+    this.containerSilhouetteGroup = document.getElementById('container-silhouette-group') || document.getElementById('container-silhouette-color');
+    this.containerSilhouetteColor = this.containerSilhouetteGroup;
+
+    // Matriz y Degradados
     this.customQrColor = document.getElementById('custom-qr-color');
     this.customGradientType = document.getElementById('custom-gradient-type');
     this.customQrColor2 = document.getElementById('custom-qr-color2');
     this.containerQrColor2 = document.getElementById('container-qr-color2');
-    this.customEyeColor = document.getElementById('custom-eye-color');
-    this.customEyeGradientType = document.getElementById('custom-eye-gradient-type');
-    this.customEyeColor2 = document.getElementById('custom-eye-color2');
-    this.containerEyeColor2 = document.getElementById('container-eye-color2');
-    this.customBgColor = document.getElementById('custom-bg-color');
-    this.customFrameColor = document.getElementById('custom-frame-color');
-    this.customEyeStyle = document.getElementById('custom-eye-style');
-    this.customFrameShape = document.getElementById('custom-frame-shape');
-    this.customQrSilhouette = document.getElementById('custom-qr-silhouette');
-    this.customQrSilhouetteDesc = document.getElementById('custom-qr-silhouette-desc');
-    this.customQrBoxRadius = document.getElementById('custom-qr-box-radius');
-
     this.customQrHex = document.getElementById('custom-qr-color-hex');
     this.customQrColor2Hex = document.getElementById('custom-qr-color2-hex');
-    this.customEyeColorHex = document.getElementById('custom-eye-color-hex');
-    this.customEyeColor2Hex = document.getElementById('custom-eye-color2-hex');
-    this.customBgHex = document.getElementById('custom-bg-color-hex');
-    this.customFrameHex = document.getElementById('custom-frame-color-hex');
-    this.customQrBoxRadiusVal = document.getElementById('custom-qr-box-radius-val');
 
-    this.containerSilhouetteGroup = document.getElementById('container-silhouette-group') || document.getElementById('container-silhouette-color');
-    this.containerSilhouetteColor = this.containerSilhouetteGroup;
+    // Silueta y Patrón
     this.customSilhouetteColor = document.getElementById('custom-silhouette-color');
     this.customSilhouetteColorHex = document.getElementById('custom-silhouette-color-hex');
     this.customPatternColor = document.getElementById('custom-pattern-color');
     this.customPatternColorHex = document.getElementById('custom-pattern-color-hex');
+
+    // Ojos de Detección (Finders)
+    this.customEyeStyle = document.getElementById('custom-eye-style');
+    this.customEyeColor = document.getElementById('custom-eye-color');
+    this.customEyeColorHex = document.getElementById('custom-eye-color-hex');
+    this.customEyeGradientType = document.getElementById('custom-eye-gradient-type');
+    this.customEyeColor2 = document.getElementById('custom-eye-color2');
+    this.customEyeColor2Hex = document.getElementById('custom-eye-color2-hex');
+    this.containerEyeColor2 = document.getElementById('container-eye-color2');
+
+    // Marco, Fondo y Forma
+    this.customFrameShape = document.getElementById('custom-frame-shape');
+    this.customBgColor = document.getElementById('custom-bg-color');
+    this.customBgHex = document.getElementById('custom-bg-color-hex');
+    this.customFrameColor = document.getElementById('custom-frame-color');
+    this.customFrameHex = document.getElementById('custom-frame-color-hex');
+    this.customQrBoxRadius = document.getElementById('custom-qr-box-radius');
+    this.customQrBoxRadiusVal = document.getElementById('custom-qr-box-radius-val');
 
     appState.subscribe((state, eventKey) => {
       if (['CHANGE_DESIGN', 'INIT_DATA'].includes(eventKey)) {
@@ -52,6 +72,31 @@ export class ColorCustomizer extends UIComponent {
   }
 
   bindEvents() {
+    // Acordeón Step 4
+    if (this.toggleStep4) {
+      this.toggleStep4.addEventListener('click', () => {
+        if (this.panelStep4) this.panelStep4.classList.toggle('hidden');
+        if (this.iconToggleStep4) this.iconToggleStep4.classList.toggle('rotate-180');
+      });
+    }
+
+    // Acordeón Step 5 Finders
+    if (this.toggleStep5Finders) {
+      this.toggleStep5Finders.addEventListener('click', () => {
+        if (this.panelStep5Finders) this.panelStep5Finders.classList.toggle('hidden');
+        if (this.iconToggleStep5Finders) this.iconToggleStep5Finders.classList.toggle('rotate-180');
+      });
+    }
+
+    // Acordeón Step 6 Frame
+    if (this.toggleStep6Frame) {
+      this.toggleStep6Frame.addEventListener('click', () => {
+        if (this.panelStep6Frame) this.panelStep6Frame.classList.toggle('hidden');
+        if (this.iconToggleStep6Frame) this.iconToggleStep6Frame.classList.toggle('rotate-180');
+      });
+    }
+
+    // Acordeón Legacy si existe
     if (this.toggleBtn) {
       this.toggleBtn.addEventListener('click', () => {
         if (this.container) {
@@ -63,15 +108,103 @@ export class ColorCustomizer extends UIComponent {
       });
     }
 
+    // Toggle Silueta Temática (#qr-silhouette-show)
+    if (this.qrSilhouetteShow) {
+      this.qrSilhouetteShow.addEventListener('change', () => {
+        const isSilActive = this.qrSilhouetteShow.checked;
+        const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
+        if (silContainer) {
+          silContainer.classList.toggle('hidden', !isSilActive);
+        }
+
+        const iconShowEl = document.getElementById('qr-icon-show');
+        const isIconActive = iconShowEl ? iconShowEl.checked : (appState.getState().iconShow !== false);
+
+        let mode = 'none';
+        if (isSilActive && isIconActive) mode = 'icon_center';
+        else if (isSilActive && !isIconActive) mode = 'icon_only';
+        else mode = 'none';
+
+        if (this.customQrSilhouette) this.customQrSilhouette.value = mode;
+        if (this.customQrSilhouetteDesc) {
+          this.customQrSilhouetteDesc.textContent = SILHOUETTE_DESCRIPTIONS[mode] || '';
+        }
+
+        appState.setState({
+          silhouetteShow: isSilActive,
+          qrSilhouetteMode: mode
+        }, 'CHANGE_INPUTS');
+      });
+    }
+
+    // Toggle Ícono/Imagen (#qr-icon-show) para sincronizar modo si silueta está activa
+    if (this.qrIconShow) {
+      this.qrIconShow.addEventListener('change', () => {
+        const isIconActive = this.qrIconShow.checked;
+        const silShowEl = document.getElementById('qr-silhouette-show');
+        const isSilActive = silShowEl ? silShowEl.checked : (appState.getState().silhouetteShow === true);
+
+        let mode = 'none';
+        if (isSilActive && isIconActive) mode = 'icon_center';
+        else if (isSilActive && !isIconActive) mode = 'icon_only';
+        else mode = 'none';
+
+        if (this.customQrSilhouette) this.customQrSilhouette.value = mode;
+        if (this.customQrSilhouetteDesc) {
+          this.customQrSilhouetteDesc.textContent = SILHOUETTE_DESCRIPTIONS[mode] || '';
+        }
+
+        appState.setState({
+          iconShow: isIconActive,
+          qrSilhouetteMode: mode
+        }, 'CHANGE_INPUTS');
+      });
+    }
+
+    // Muestras Visuales de Ojos de Detección (.eye-style-card)
+    const eyeCards = document.querySelectorAll('.eye-style-card');
+    eyeCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const eyeVal = card.dataset.eye;
+        eyeCards.forEach(c => {
+          c.classList.remove('active', 'border-cyan-500', 'bg-white', 'ring-2', 'ring-cyan-400');
+          c.classList.add('border-slate-200', 'bg-slate-50');
+        });
+        card.classList.add('active', 'border-cyan-500', 'bg-white', 'ring-2', 'ring-cyan-400');
+        card.classList.remove('border-slate-200', 'bg-slate-50');
+
+        if (this.customEyeStyle) {
+          this.customEyeStyle.value = eyeVal;
+          this.customEyeStyle.dispatchEvent(new Event('change'));
+        }
+      });
+    });
+
+    // Muestras Visuales de Formas de Marco (.frame-shape-card)
+    const frameCards = document.querySelectorAll('.frame-shape-card');
+    frameCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const shapeVal = card.dataset.shape;
+        frameCards.forEach(c => {
+          c.classList.remove('active', 'border-amber-500', 'bg-white', 'ring-2', 'ring-amber-400');
+          c.classList.add('border-slate-200', 'bg-slate-50');
+        });
+        card.classList.add('active', 'border-amber-500', 'bg-white', 'ring-2', 'ring-amber-400');
+        card.classList.remove('border-slate-200', 'bg-slate-50');
+
+        if (this.customFrameShape) {
+          this.customFrameShape.value = shapeVal;
+          this.customFrameShape.dispatchEvent(new Event('change'));
+        }
+      });
+    });
+
+    // Degradado de Matriz QR
     if (this.customGradientType) {
       this.customGradientType.addEventListener('change', () => {
         const type = this.customGradientType.value;
         if (this.containerQrColor2) {
-          if (type === 'single') {
-            this.containerQrColor2.classList.add('hidden');
-          } else {
-            this.containerQrColor2.classList.remove('hidden');
-          }
+          this.containerQrColor2.classList.toggle('hidden', type === 'single');
         }
         appState.setState({
           gradientType: type
@@ -79,15 +212,12 @@ export class ColorCustomizer extends UIComponent {
       });
     }
 
+    // Degradado de Ojos (Finders)
     if (this.customEyeGradientType) {
       this.customEyeGradientType.addEventListener('change', () => {
         const type = this.customEyeGradientType.value;
         if (this.containerEyeColor2) {
-          if (type === 'single') {
-            this.containerEyeColor2.classList.add('hidden');
-          } else {
-            this.containerEyeColor2.classList.remove('hidden');
-          }
+          this.containerEyeColor2.classList.toggle('hidden', type === 'single');
         }
         appState.setState({
           eyeGradientType: type
@@ -95,6 +225,7 @@ export class ColorCustomizer extends UIComponent {
       });
     }
 
+    // Curvatura de Tarjeta Blanca QR
     if (this.customQrBoxRadius) {
       this.customQrBoxRadius.addEventListener('input', () => {
         const val = parseInt(this.customQrBoxRadius.value, 10);
@@ -105,6 +236,7 @@ export class ColorCustomizer extends UIComponent {
       });
     }
 
+    // Color de Silueta Temática
     if (this.customSilhouetteColor) {
       const handleSilhouetteColor = () => {
         const val = this.customSilhouetteColor.value;
@@ -115,6 +247,7 @@ export class ColorCustomizer extends UIComponent {
       this.customSilhouetteColor.addEventListener('change', handleSilhouetteColor);
     }
 
+    // Color del Patrón de Silueta
     if (this.customPatternColor) {
       const handlePatternColor = () => {
         const val = this.customPatternColor.value;
@@ -125,6 +258,7 @@ export class ColorCustomizer extends UIComponent {
       this.customPatternColor.addEventListener('change', handlePatternColor);
     }
 
+    // Color Pickers y Selects
     [this.customQrColor, this.customQrColor2, this.customEyeColor, this.customEyeColor2, this.customBgColor, this.customFrameColor, this.customEyeStyle, this.customFrameShape, this.customQrSilhouette].forEach(input => {
       if (!input) return;
       const handler = () => {
@@ -140,13 +274,8 @@ export class ColorCustomizer extends UIComponent {
         if (input === this.customQrSilhouette) {
           const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
           if (silContainer) {
-            // Contenedor de silueta se muestra tanto para opción 2 como para opción 3
             const isSilhouette = (this.customQrSilhouette.value === 'icon_only' || this.customQrSilhouette.value === 'icon_center');
-            if (isSilhouette) {
-              silContainer.classList.remove('hidden');
-            } else {
-              silContainer.classList.add('hidden');
-            }
+            silContainer.classList.toggle('hidden', !isSilhouette);
           }
         }
 
@@ -185,15 +314,54 @@ export class ColorCustomizer extends UIComponent {
     const currentDesign = state.currentDesign;
     if (!currentDesign) return;
 
+    // Sincronización de Silueta e Ícono
+    let mode = state.qrSilhouetteMode || 'none';
+    if (mode === 'icon_pure') mode = 'icon_only';
+    const isSilActive = (mode === 'icon_only' || mode === 'icon_center' || state.silhouetteShow === true);
+    
+    if (this.qrSilhouetteShow) {
+      this.qrSilhouetteShow.checked = isSilActive;
+    }
+
+    const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
+    if (silContainer) {
+      silContainer.classList.toggle('hidden', !isSilActive);
+    }
+
     if (this.customQrSilhouette) {
-      let mode = state.qrSilhouetteMode || 'none';
-      if (mode === 'icon_pure') mode = 'icon_only';
       this.customQrSilhouette.value = mode;
       if (this.customQrSilhouetteDesc) {
         this.customQrSilhouetteDesc.textContent = SILHOUETTE_DESCRIPTIONS[mode] || '';
       }
     }
 
+    // Sincronización Visual de Tarjetas de Ojos (Finders)
+    const currentEye = state.customEyeStyle || currentDesign.eyeStyle || 'square';
+    document.querySelectorAll('.eye-style-card').forEach(card => {
+      const isMatch = card.dataset.eye === currentEye;
+      card.classList.toggle('active', isMatch);
+      card.classList.toggle('border-cyan-500', isMatch);
+      card.classList.toggle('bg-white', isMatch);
+      card.classList.toggle('ring-2', isMatch);
+      card.classList.toggle('ring-cyan-400', isMatch);
+      card.classList.toggle('border-slate-200', !isMatch);
+      card.classList.toggle('bg-slate-50', !isMatch);
+    });
+
+    // Sincronización Visual de Tarjetas de Marco y Forma
+    const currentShape = state.frameShape || currentDesign.frameShape || 'rectangular';
+    document.querySelectorAll('.frame-shape-card').forEach(card => {
+      const isMatch = card.dataset.shape === currentShape;
+      card.classList.toggle('active', isMatch);
+      card.classList.toggle('border-amber-500', isMatch);
+      card.classList.toggle('bg-white', isMatch);
+      card.classList.toggle('ring-2', isMatch);
+      card.classList.toggle('ring-amber-400', isMatch);
+      card.classList.toggle('border-slate-200', !isMatch);
+      card.classList.toggle('bg-slate-50', !isMatch);
+    });
+
+    // Colores y Degradados
     if (this.customQrColor && currentDesign.qrColor) {
       this.customQrColor.value = currentDesign.qrColor;
       if (this.customQrHex) this.customQrHex.textContent = currentDesign.qrColor;
@@ -212,30 +380,21 @@ export class ColorCustomizer extends UIComponent {
       if (this.customFrameHex) this.customFrameHex.textContent = currentDesign.frameColor;
     }
     if (this.customEyeStyle) {
-      const eyeSty = state.customEyeStyle || currentDesign.eyeStyle || 'square';
-      this.customEyeStyle.value = eyeSty;
+      this.customEyeStyle.value = currentEye;
     }
     if (this.customFrameShape) {
-      this.customFrameShape.value = state.frameShape || 'rectangular';
+      this.customFrameShape.value = currentShape;
     }
     if (this.customGradientType) {
       this.customGradientType.value = state.gradientType || 'single';
       if (this.containerQrColor2) {
-        if (state.gradientType && state.gradientType !== 'single') {
-          this.containerQrColor2.classList.remove('hidden');
-        } else {
-          this.containerQrColor2.classList.add('hidden');
-        }
+        this.containerQrColor2.classList.toggle('hidden', state.gradientType === 'single');
       }
     }
     if (this.customEyeGradientType) {
       this.customEyeGradientType.value = state.eyeGradientType || 'single';
       if (this.containerEyeColor2) {
-        if (state.eyeGradientType && state.eyeGradientType !== 'single') {
-          this.containerEyeColor2.classList.remove('hidden');
-        } else {
-          this.containerEyeColor2.classList.add('hidden');
-        }
+        this.containerEyeColor2.classList.toggle('hidden', state.eyeGradientType === 'single');
       }
     }
     if (this.customQrColor2 && state.qrColor2) {
@@ -250,17 +409,6 @@ export class ColorCustomizer extends UIComponent {
       const r = state.qrBoxRadius !== undefined ? state.qrBoxRadius : 18;
       this.customQrBoxRadius.value = r;
       if (this.customQrBoxRadiusVal) this.customQrBoxRadiusVal.textContent = `${r}px`;
-    }
-    const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
-    if (silContainer) {
-      let mode = state.qrSilhouetteMode || 'none';
-      if (mode === 'icon_pure') mode = 'icon_only';
-      const isSilhouette = (mode === 'icon_only' || mode === 'icon_center');
-      if (isSilhouette) {
-        silContainer.classList.remove('hidden');
-      } else {
-        silContainer.classList.add('hidden');
-      }
     }
     if (this.customSilhouetteColor) {
       const sColor = state.silhouetteColor || '#2563eb';

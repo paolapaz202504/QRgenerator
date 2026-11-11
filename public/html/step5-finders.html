@@ -1,0 +1,164 @@
+<!-- Step 5: Finder Eyes Customizer with Visual Previews (Light SaaS Theme) -->
+<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4 hover:shadow-md transition">
+  <button id="toggle-step5-finders" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
+    <div class="flex items-center gap-3">
+      <span class="w-7 h-7 rounded-lg bg-cyan-50 border border-cyan-200 text-cyan-700 font-bold text-sm flex items-center justify-center">5</span>
+      <div>
+        <h2 class="text-base font-semibold text-slate-900">Ojos de Detección (Finders)</h2>
+        <p class="text-xs text-slate-500">8 estilos geométricos con muestra visual, colores y degradados para las esquinas del QR</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">
+        8 Estilos de Ojos
+      </span>
+      <i id="icon-toggle-step5-finders" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200 rotate-180"></i>
+    </div>
+  </button>
+
+  <div id="panel-step5-finders" class="pt-3 border-t border-slate-100 space-y-4">
+
+    <!-- Guía Didáctica de los Finders -->
+    <div class="bg-cyan-50/70 border border-cyan-200/80 rounded-xl p-3 flex items-start gap-2.5 text-xs text-cyan-950">
+      <i class="fa-solid fa-eye text-cyan-600 text-sm mt-0.5 shrink-0"></i>
+      <div class="space-y-1">
+        <p class="font-semibold text-cyan-900">¿Qué son los Ojos de Detección (Finders)?</p>
+        <p class="text-slate-600 leading-relaxed text-[11px]">
+          Son los tres patrones concéntricos ubicados en las esquinas superior izquierda, superior derecha e inferior izquierda. Su función es permitir que el sensor de la cámara del teléfono oriente el código QR en 360 grados y lo lea a gran velocidad.
+        </p>
+      </div>
+    </div>
+
+    <!-- Hidden native select for 100% backward & reactive compatibility -->
+    <select id="custom-eye-style" class="hidden">
+      <option value="square">Cuadradas</option>
+      <option value="rounded">Redondeadas</option>
+      <option value="circle">Círculos Concéntricos</option>
+      <option value="diamond">Rombos / Diamantes</option>
+      <option value="hexagon">Hexágonos</option>
+      <option value="leaf">Hoja / Gota</option>
+      <option value="star">Estrella 8 Puntas</option>
+      <option value="shield">Escudo Protegido</option>
+    </select>
+
+    <!-- Muestras Visuales de los 8 Estilos de Ojos -->
+    <div class="space-y-2">
+      <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">
+        Selecciona la Forma Geométrica de los Ojos:
+      </label>
+      <div id="eye-styles-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <!-- 1. Cuadrado Clásico -->
+        <button type="button" data-eye="square" class="eye-style-card p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-cyan-500 hover:shadow-xs flex flex-col items-center gap-1.5 transition text-center cursor-pointer active">
+          <svg class="w-8 h-8 text-cyan-700" viewBox="0 0 28 28" fill="none">
+            <rect x="2" y="2" width="24" height="24" rx="0" stroke="currentColor" stroke-width="3" fill="none"/>
+            <rect x="9" y="9" width="10" height="10" rx="0" fill="currentColor"/>
+          </svg>
+          <span class="text-xs font-semibold text-slate-800">1. Cuadradas</span>
+          <span class="text-[9px] text-slate-500 font-mono">Clásico Oficial</span>
+        </button>
+
+        <!-- 2. Redondeado Moderno -->
+        <button type="button" data-eye="rounded" class="eye-style-card p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-cyan-500 hover:shadow-xs flex flex-col items-center gap-1.5 transition text-center cursor-pointer">
+          <svg class="w-8 h-8 text-cyan-700" viewBox="0 0 28 28" fill="none">
+            <rect x="2" y="2" width="24" height="24" rx="4" stroke="currentColor" stroke-width="3" fill="none"/>
+            <rect x="9" y="9" width="10" height="10" rx="2" fill="currentColor"/>
+          </svg>
+          <span class="text-xs font-semibold text-slate-800">2. Redondeadas</span>
+          <span class="text-[9px] text-slate-500 font-mono">Moderno Suave</span>
+        </button>
+
+        <!-- 3. Círculos Concéntricos -->
+        <button type="button" data-eye="circle" class="eye-style-card p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-cyan-500 hover:shadow-xs flex flex-col items-center gap-1.5 transition text-center cursor-pointer">
+          <svg class="w-8 h-8 text-cyan-700" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="11" stroke="currentColor" stroke-width="3" fill="none"/>
+            <circle cx="14" cy="14" r="5" fill="currentColor"/>
+          </svg>
+          <span class="text-xs font-semibold text-slate-800">3. Círculos</span>
+          <span class="text-[9px] text-slate-500 font-mono">Concéntrico Elegante</span>
+        </button>
+
+        <!-- 4. Rombos / Diamantes -->
+        <button type="button" data-eye="diamond" class="eye-style-card p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-cyan-500 hover:shadow-xs flex flex-col items-center gap-1.5 transition text-center cursor-pointer">
+          <svg class="w-8 h-8 text-cyan-700" viewBox="0 0 28 28" fill="none">
+            <polygon points="14,2 26,14 14,26 2,14" stroke="currentColor" stroke-width="3" fill="none"/>
+            <polygon points="14,8 20,14 14,20 8,14" fill="currentColor"/>
+          </svg>
+          <span class="text-xs font-semibold text-slate-800">4. Rombos</span>
+          <span class="text-[9px] text-slate-500 font-mono">Diamante Geométrico</span>
+        </button>
+
+        <!-- 5. Hexágonos -->
+        <button type="button" data-eye="hexagon" class="eye-style-card p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-cyan-500 hover:shadow-xs flex flex-col items-center gap-1.5 transition text-center cursor-pointer">
+          <svg class="w-8 h-8 text-cyan-700" viewBox="0 0 28 28" fill="none">
+            <polygon points="14,2 24,8 24,20 14,26 4,20 4,8" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <polygon points="14,8 19,11 19,17 14,20 9,17 9,11" fill="currentColor"/>
+          </svg>
+          <span class="text-xs font-semibold text-slate-800">5. Hexágonos</span>
+          <span class="text-[9px] text-slate-500 font-mono">Futurista Neón</span>
+        </button>
+
+        <!-- 6. Hoja / Gota -->
+        <button type="button" data-eye="leaf" class="eye-style-card p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-cyan-500 hover:shadow-xs flex flex-col items-center gap-1.5 transition text-center cursor-pointer">
+          <svg class="w-8 h-8 text-cyan-700" viewBox="0 0 28 28" fill="none">
+            <path d="M4 4 C14 4, 24 14, 24 24 C14 24, 4 14, 4 4 Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M9 9 C14 9, 19 14, 19 19 C14 19, 9 14, 9 9 Z" fill="currentColor"/>
+          </svg>
+          <span class="text-xs font-semibold text-slate-800">6. Hoja / Gota</span>
+          <span class="text-[9px] text-slate-500 font-mono">Orgánico Natural</span>
+        </button>
+
+        <!-- 7. Estrella 8 Puntas -->
+        <button type="button" data-eye="star" class="eye-style-card p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-cyan-500 hover:shadow-xs flex flex-col items-center gap-1.5 transition text-center cursor-pointer">
+          <svg class="w-8 h-8 text-cyan-700" viewBox="0 0 28 28" fill="none">
+            <polygon points="14,2 17,9 24,6 20,13 26,17 19,19 19,26 13,22 8,25 9,18 2,16 8,11 5,4 12,8" stroke="currentColor" stroke-width="2" fill="none"/>
+            <circle cx="14" cy="14" r="4.5" fill="currentColor"/>
+          </svg>
+          <span class="text-xs font-semibold text-slate-800">7. Estrella 8P</span>
+          <span class="text-[9px] text-slate-500 font-mono">Insignia Emblem</span>
+        </button>
+
+        <!-- 8. Escudo Protegido -->
+        <button type="button" data-eye="shield" class="eye-style-card p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-cyan-500 hover:shadow-xs flex flex-col items-center gap-1.5 transition text-center cursor-pointer">
+          <svg class="w-8 h-8 text-cyan-700" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2 L24 6 L24 16 C24 21, 14 26, 14 26 C14 26, 4 21, 4 16 L4 6 Z" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <path d="M14 7 L19 9 L19 15 C19 18, 14 21, 14 21 C14 21, 9 18, 9 15 L9 9 Z" fill="currentColor"/>
+          </svg>
+          <span class="text-xs font-semibold text-slate-800">8. Escudo</span>
+          <span class="text-[9px] text-slate-500 font-mono">Seguridad Shield</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Colores y Degradados de los Ojos -->
+    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
+      <h3 class="text-xs font-semibold text-cyan-700 flex items-center gap-1.5 uppercase tracking-wider">
+        <i class="fa-solid fa-palette text-cyan-600"></i> Colores y Degradados de los Ojos
+      </h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color de Ojos (Primario)</label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="custom-eye-color" value="#111827" class="w-8 h-8 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-eye-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#111827</span>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Tipo de Color Ojos</label>
+          <select id="custom-eye-gradient-type" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-medium focus:ring-2 focus:ring-cyan-500 cursor-pointer">
+            <option value="single">Sólido</option>
+            <option value="linear">Degradado Lineal</option>
+            <option value="radial">Degradado Radial</option>
+          </select>
+        </div>
+        <div id="container-eye-color2" class="hidden">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color 2 (Degradado Ojos)</label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="custom-eye-color2" value="#38bdf8" class="w-8 h-8 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-eye-color2-hex" class="text-xs font-mono text-slate-600 font-semibold">#38bdf8</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
