@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.4.4`  
+**Versión Actual:** `v1.4.5`  
 **Última Actualización:** 11 de Noviembre de 2026  
-**Estado General:** 🟢 Listo para Despliegue y Comercialización (215/215 Pruebas QA Aprobadas: 14 Core + 201 Combinatorias)
+**Estado General:** 🟢 Listo para Despliegue y Comercialización (216/216 Pruebas QA Aprobadas: 15 Core + 201 Combinatorias)
 
 ---
 
@@ -14,8 +14,8 @@ flowchart LR
     A["Requerimientos Definidos\n(pmAgent)"] --> B["Arquitectura y Análisis\n(analystAgent)"]
     B --> C["Desarrollo Full-Stack\n(front, backend, qr, payment)"]
     C --> D["Seguridad & Infraestructura\n(security, devops, cache, files)"]
-    D --> E["Control de Calidad Riguroso\n(qaAgent: 215 Pruebas ✅)"]
-    E --> F["🚀 Producto Certificado v1.4.4"]
+    D --> E["Control de Calidad Riguroso\n(qaAgent: 216 Pruebas ✅)"]
+    E --> F["🚀 Producto Certificado v1.4.5"]
 ```
 
 ---

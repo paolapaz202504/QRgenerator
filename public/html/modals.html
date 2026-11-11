@@ -444,12 +444,27 @@
     </div>
 
     <div class="overflow-y-auto custom-scrollbar space-y-6 pr-2 flex-1 text-xs">
-      <!-- Versión 1.4.4 -->
+      <!-- Versión 1.4.5 -->
       <div class="border-l-2 border-indigo-600 pl-4 space-y-2 relative">
         <div class="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-indigo-600"></div>
         <div class="flex items-center justify-between">
-          <span class="font-bold text-sm text-slate-900">v1.4.4 — Recodificación Geométrica de Módulos (Cero Líneas Falsas) y Reactividad Total de Marco y Fondo</span>
+          <span class="font-bold text-sm text-slate-900">v1.4.5 — Implementación Estricta de Reglas de Negocio: Créditos de Configuración vs Generaciones QR</span>
           <span class="bg-indigo-50 text-indigo-700 font-mono font-bold px-2 py-0.5 rounded text-[10px]">Actual</span>
+        </div>
+        <p class="text-slate-600">Separación y cumplimiento estricto de las 3 reglas del modelo de negocio:</p>
+        <ul class="list-disc list-inside space-y-1 text-slate-600">
+          <li><strong>Regla 1 (Selección de Plantilla):</strong> Al seleccionar una plantilla predefinida, esta se carga inmediatamente en la vista previa sin consumir créditos ni códigos QR del plan.</li>
+          <li><strong>Regla 2 (Modificación de Configuraciones):</strong> Al modificar cualquier ajuste o personalización (colores, patrones, ojos, marco, textos, ícono, silueta), la vista previa se mantiene congelada y se incrementa el contador de créditos de configuración del plan (<code>creditsUsed++</code>) con validación de límite de cuota (<code>maxCredits</code>).</li>
+          <li><strong>Regla 3 (Generación de Código QR):</strong> Al pulsar deliberadamente el botón "Generar código QR", se renderiza el código con todos los cambios efectuados por el usuario, se actualiza la vista previa y se incrementa el contador de códigos QR generados del plan (<code>generationsCount++</code>).</li>
+        </ul>
+      </div>
+
+      <!-- Versión 1.4.4 -->
+      <div class="border-l-2 border-slate-300 pl-4 space-y-2 relative">
+        <div class="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-slate-300"></div>
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-sm text-slate-800">v1.4.4 — Recodificación Geométrica de Módulos (Cero Líneas Falsas) y Reactividad Total de Marco y Fondo</span>
+          <span class="text-slate-500 font-mono text-[10px]">11/11/2026</span>
         </div>
         <p class="text-slate-600">Aislamiento geométrico estricto por celda y activación en vivo del Paso 6:</p>
         <ul class="list-disc list-inside space-y-1 text-slate-600">

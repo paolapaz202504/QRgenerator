@@ -67,20 +67,20 @@ class CanvasGenerator {
       let user = userRepository.findByEmail(emailKey);
       const userPlan = user ? (user.plan || 'free') : 'free';
       const planConfig = config.getPlanConfig(userPlan);
-      const maxCredits = planConfig.maxCredits;
+      const maxDownloads = planConfig.maxDownloads;
       const currentGen = user ? (user.generationsCount || 0) : 0;
 
-      if (currentGen >= maxCredits) {
+      if (currentGen >= maxDownloads) {
         return {
           success: false,
           limitReached: true,
-          message: `Has alcanzado el límite de ${maxCredits} créditos de generación de tu ${planConfig.name}.`
+          message: `Has alcanzado el límite de ${maxDownloads} códigos QR generados de tu ${planConfig.name}.`
         };
       }
 
       if (user) {
-        user.maxCredits = maxCredits;
-        user.maxDownloads = planConfig.maxDownloads;
+        user.maxCredits = planConfig.maxCredits;
+        user.maxDownloads = maxDownloads;
         user.generationsCount = currentGen + 1;
         await userRepository.saveUser(user);
       }

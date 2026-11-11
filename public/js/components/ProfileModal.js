@@ -115,16 +115,16 @@ export class ProfileModal extends UIComponent {
     const defaultMaxCredits = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 2000 : 50);
     const defaultMaxDownloads = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 500 : 15);
 
-    const genUsed = user.generationsCount || user.creditsUsed || 0;
+    const creditsUsed = user.creditsUsed || 0;
     const genMax = (user.maxCredits >= 999999 || planKey === 'corporate') ? '∞' : (user.maxCredits || defaultMaxCredits);
-    const dlUsed = user.downloadsCount || 0;
+    const qrUsed = user.generationsCount || 0;
     const dlMax = (user.maxDownloads >= 999999 || planKey === 'corporate') ? '∞' : (user.maxDownloads || defaultMaxDownloads);
 
     if (this.profileCredits) {
-      this.profileCredits.textContent = `${genUsed} / ${genMax} Créditos`;
+      this.profileCredits.textContent = `${creditsUsed} / ${genMax} Créditos`;
     }
     if (this.profileDownloads) {
-      this.profileDownloads.textContent = `${dlUsed} / ${dlMax} QRs`;
+      this.profileDownloads.textContent = `${qrUsed} / ${dlMax} QRs`;
     }
     if (this.profileProvider) {
       this.profileProvider.textContent = user.provider || 'Google OAuth 2.0';

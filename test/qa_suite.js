@@ -348,6 +348,58 @@ async function runTestSuite() {
     if (code.data !== testUrl) throw new Error(`Dato decodificado '${code.data}' no coincide con '${testUrl}'`);
   });
 
+  // 15. Reglas de Negocio Estrictas: Diferenciación entre Créditos de Configuración y Códigos QR Generados
+  await test('Reglas de Negocio Estrictas: Plantilla gratis, Config consume créditos, Botón genera QR', async () => {
+    const testEmail = `qa_rules_${Date.now()}@qrbey.com`;
+    await makeRequest('/api/auth/oauth-login', 'POST', {
+      provider: 'google',
+      email: testEmail,
+      name: 'Business Rules Tester'
+    });
+
+    let stats = (await makeRequest(`/api/user/stats?email=${testEmail}`, 'GET')).json().userStats;
+    if (stats.creditsUsed !== 0 || stats.generationsCount !== 0) {
+      throw new Error(`Estado inicial incorrecto: credits=${stats.creditsUsed}, gen=${stats.generationsCount}`);
+    }
+
+    // Regla 1: Plantilla / Preview (isExplicitGenerate: false) NO consume créditos ni códigos QR
+    await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/regla-1',
+      title: 'Regla 1 Preview',
+      userEmail: testEmail,
+      isExplicitGenerate: false
+    });
+    stats = (await makeRequest(`/api/user/stats?email=${testEmail}`, 'GET')).json().userStats;
+    if (stats.creditsUsed !== 0 || stats.generationsCount !== 0) {
+      throw new Error(`Regla 1 violada: Se consumió créditos o QRs en preview de plantilla`);
+    }
+
+    // Regla 2: Modificar configuración consume crédito (POST /api/user/consume-credit)
+    const consumeRes = (await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testEmail })).json();
+    if (!consumeRes.success || consumeRes.creditsUsed !== 1) {
+      throw new Error(`Regla 2 violada: No se incrementó creditsUsed a 1: ${JSON.stringify(consumeRes)}`);
+    }
+    stats = (await makeRequest(`/api/user/stats?email=${testEmail}`, 'GET')).json().userStats;
+    if (stats.creditsUsed !== 1 || stats.generationsCount !== 0) {
+      throw new Error(`Regla 2 inconsistencia: credits=${stats.creditsUsed}, gen=${stats.generationsCount}`);
+    }
+
+    // Regla 3: Clic en 'Generar código QR' (isExplicitGenerate: true) incrementa generaciones de QR
+    await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/regla-3',
+      title: 'Regla 3 Explicit',
+      userEmail: testEmail,
+      isExplicitGenerate: true
+    });
+    stats = (await makeRequest(`/api/user/stats?email=${testEmail}`, 'GET')).json().userStats;
+    if (stats.generationsCount !== 1) {
+      throw new Error(`Regla 3 violada: generationsCount esperado 1, obtenido ${stats.generationsCount}`);
+    }
+    if (stats.creditsUsed !== 1) {
+      throw new Error(`Regla 3 inconsistencia: creditsUsed no debe verse alterado por la generación`);
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

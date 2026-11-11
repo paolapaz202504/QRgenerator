@@ -4,6 +4,25 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.4.5] — 2026-11-11
+### 💼 Implementación Estricta de las 3 Reglas de Negocio: Créditos de Configuración vs Generaciones QR
+
+#### Añadido
+- **Separación de Métricas del Modelo de Negocio (`pmAgent` & `backendAgent`):**
+  - Implementación del endpoint `POST /api/user/consume-credit` en `UserController.js` y `routes/userRoutes.js` para registrar el consumo de créditos al interactuar con opciones de configuración (`creditsUsed++`), validando contra el límite de cuota `maxCredits` (50 en Free, 2000 en Pro).
+  - Implementación de método estático `ApiService.consumeCredit(userEmail)` en el frontend.
+  - Creación de prueba automatizada #15 en `test/qa_suite.js` para certificar el cumplimiento estricto e independiente de las 3 reglas.
+
+#### Modificado
+- **Flujo de Interacción y Reactividad en Frontend (`frontAgent` & `qrAgent`):**
+  - **Regla 1 (Selección de Plantilla):** Al hacer clic en cualquier plantilla del catálogo, esta se renderiza inmediatamente en la vista previa del canvas **sin incrementar créditos de configuración ni códigos QR del plan**.
+  - **Regla 2 (Modificación de Configuraciones):** Al alterar cualquier ajuste o parámetro (colores, degradados, radio de tarjeta, densidad, patrón de puntos, estilo de ojos, silueta, ícono, textos o fuentes), **la vista previa se mantiene estática/congelada** y se consume 1 crédito del plan mediante `scheduleConsumeCredit()` con debounce para evitar agotamiento accidental.
+  - **Regla 3 (Botón "Generar código QR"):** Al hacer clic en el botón *"Generar código QR"*, se envía la petición con `isExplicitGenerate: true`. El backend valida el límite de códigos QR del plan (`maxDownloads`), incrementa `generationsCount++`, genera el QR con todas las configuraciones del usuario y la vista previa se actualiza mostrando el código QR final.
+- **Sincronización en Modales de Perfil y Widgets (`frontAgent`):**
+  - `UserModal.js` y `ProfileModal.js` muestran claramente ambos contadores separados: `creditsUsed / maxCredits` (Créditos) y `generationsCount / maxDownloads` (QRs generados).
+
+---
+
 ## [v1.4.4] — 2026-11-11
 ### 🔬 Recodificación Geométrica de Módulos (Cero Líneas Falsas) y Activación Total de Marco y Fondo
 

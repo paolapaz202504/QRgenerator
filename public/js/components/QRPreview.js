@@ -26,22 +26,60 @@ export class QRPreview extends UIComponent {
     this.titleOffsetVal = document.getElementById('qr-title-offset-val');
 
     this.debounceTimer = null;
+    this.creditDebounceTimer = null;
     this.currentBlobUrl = null;
 
     appState.subscribe((state, eventKey) => {
-      // Reactividad en vivo: Generar vista previa automática con debounce ante cualquier cambio visual
-      const autoRenderEvents = [
+      // Regla 1: Selección de plantilla o inicialización -> Muestra inmediatamente la vista previa sin costo de créditos ni códigos QR
+      const templateEvents = [
         'INIT_DATA',
         'CHANGE_DESIGN',
+        'PLAN_UPDATED'
+      ];
+
+      // Regla 2: Modificación de configuraciones -> NO muestra vista previa, pero incrementa créditos del plan
+      const configChangeEvents = [
         'CHANGE_INPUTS',
         'CHANGE_PATTERN',
         'CHANGE_ICON',
-        'PLAN_UPDATED'
+        'CHANGE_ICON_MODE',
+        'CHANGE_ICON_SOURCE'
       ];
-      if (eventKey && autoRenderEvents.includes(eventKey)) {
+
+      if (eventKey && templateEvents.includes(eventKey)) {
         this.scheduleGenerate();
+      } else if (eventKey && configChangeEvents.includes(eventKey)) {
+        this.scheduleConsumeCredit();
       }
     });
+  }
+
+  scheduleConsumeCredit() {
+    clearTimeout(this.creditDebounceTimer);
+    this.creditDebounceTimer = setTimeout(async () => {
+      const state = appState.getState();
+      if (!state.user || !state.user.email) return;
+
+      try {
+        const res = await ApiService.consumeCredit(state.user.email);
+        if (res && res.success && res.creditsUsed !== undefined) {
+          appState.setState({
+            user: {
+              ...state.user,
+              creditsUsed: res.creditsUsed
+            }
+          }, 'CREDIT_CONSUMED');
+        } else if (res && res.limitReached) {
+          await ModalService.alert({
+            title: 'Límite de Créditos Alcanzado',
+            message: res.message || 'Has alcanzado el límite de créditos de configuración de tu plan.',
+            type: 'warning'
+          });
+        }
+      } catch (err) {
+        console.warn('[QRPreview] Error al consumir crédito de configuración:', err);
+      }
+    }, 350);
   }
 
   bindEvents() {
@@ -49,7 +87,7 @@ export class QRPreview extends UIComponent {
       if (input) {
         input.addEventListener('input', () => {
           this.syncFontStyles();
-          this.scheduleGenerate();
+          appState.setState({}, 'CHANGE_INPUTS');
         });
       }
     });
@@ -58,7 +96,7 @@ export class QRPreview extends UIComponent {
       if (select) {
         select.addEventListener('change', () => {
           this.syncFontStyles();
-          this.scheduleGenerate();
+          appState.setState({}, 'CHANGE_INPUTS');
         });
       }
     });
@@ -285,16 +323,15 @@ export class QRPreview extends UIComponent {
       };
       img.src = url;
 
-      // Update user generation credits counter in reactive state ONLY if explicit generate button clicked AND configuration changed
+      // Regla 3: Al hacer clic en "Generar código QR" (isExplicit = true), incrementar contador de códigos QR del plan
       if (shouldConsumeCredit) {
         const state = appState.getState();
         if (state.user) {
           const updatedUser = {
             ...state.user,
-            generationsCount: (state.user.generationsCount || 0) + 1,
-            creditsUsed: (state.user.generationsCount || 0) + 1
+            generationsCount: (state.user.generationsCount || 0) + 1
           };
-          appState.setState({ user: updatedUser }, 'CREDIT_USED');
+          appState.setState({ user: updatedUser }, 'QR_GENERATED');
         }
       }
     } catch (err) {
@@ -304,10 +341,10 @@ export class QRPreview extends UIComponent {
         const state = appState.getState();
         const userPlan = (state.user && state.user.plan) ? state.user.plan : 'free';
         const fallbackMsg = userPlan === 'pro' 
-          ? 'Has alcanzado el límite de 2,000 créditos de edición de tu Plan Profesional.' 
-          : 'Has alcanzado el límite de 50 créditos de edición de tu Plan Gratuito.';
+          ? 'Has alcanzado el límite de 500 códigos QR generados de tu Plan Profesional.' 
+          : 'Has alcanzado el límite de 15 códigos QR generados de tu Plan Gratuito.';
         await ModalService.alert({
-          title: 'Límite de Créditos Alcanzado',
+          title: 'Límite de Códigos QR Alcanzado',
           message: err.data.message || fallbackMsg,
           type: 'warning'
         });

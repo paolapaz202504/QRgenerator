@@ -42,10 +42,10 @@ class UserController {
             maxDownloads: planConfig.maxDownloads,
             downloadsCount: user.downloadsCount || 0,
             maxCredits: planConfig.maxCredits,
-            creditsUsed: user.generationsCount || 0,
+            creditsUsed: user.creditsUsed || 0,
             generationsCount: user.generationsCount || 0,
-            remainingCredits: Math.max(0, planConfig.maxCredits - (user.generationsCount || 0)),
-            remainingDownloads: Math.max(0, planConfig.maxDownloads - (user.downloadsCount || 0)),
+            remainingCredits: Math.max(0, planConfig.maxCredits - (user.creditsUsed || 0)),
+            remainingDownloads: Math.max(0, planConfig.maxDownloads - (user.generationsCount || 0)),
             planDurationMonths: user.planDurationMonths || 1,
             expirationDate: user.expirationDate || null
           },
@@ -157,7 +157,7 @@ class UserController {
           maxDownloads: user.maxDownloads,
           downloadsCount: user.downloadsCount || 0,
           maxCredits: user.maxCredits,
-          creditsUsed: user.generationsCount || 0,
+          creditsUsed: user.creditsUsed || 0,
           generationsCount: user.generationsCount || 0,
           planDurationMonths: 1,
           expirationDate: null
@@ -166,6 +166,44 @@ class UserController {
     } catch (err) {
       console.error('[Cancel Plan Error]:', err);
       res.status(500).json({ success: false, error: 'Error al cancelar la suscripción' });
+    }
+  }
+
+  async consumeCredit(req, res) {
+    try {
+      const { userEmail } = req.body;
+      if (!userEmail) {
+        return res.json({ success: true, message: 'Modo anónimo' });
+      }
+      const emailKey = userEmail.toLowerCase().trim();
+      let user = userRepository.findByEmail(emailKey);
+      if (!user) {
+        return res.status(404).json({ success: false, error: 'Usuario no encontrado' });
+      }
+
+      const planConfig = config.getPlanConfig(user.plan || 'free');
+      const maxCredits = planConfig.maxCredits;
+      const currentCredits = user.creditsUsed || 0;
+
+      if (currentCredits >= maxCredits) {
+        return res.status(403).json({
+          success: false,
+          limitReached: true,
+          message: `Has alcanzado el límite de ${maxCredits} créditos de configuración de tu ${planConfig.name}.`
+        });
+      }
+
+      user.creditsUsed = currentCredits + 1;
+      await userRepository.saveUser(user);
+
+      res.json({
+        success: true,
+        creditsUsed: user.creditsUsed,
+        remainingCredits: Math.max(0, maxCredits - user.creditsUsed)
+      });
+    } catch (err) {
+      console.error('[Consume Credit Error]:', err);
+      res.status(500).json({ success: false, error: 'Error al registrar consumo de crédito' });
     }
   }
 }

@@ -70,6 +70,20 @@ export class ApiService {
     }
   }
 
+  static async consumeCredit(userEmail) {
+    try {
+      const res = await fetch('/api/user/consume-credit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userEmail })
+      });
+      return await res.json();
+    } catch (err) {
+      console.warn('[ApiService] Error consuming credit:', err);
+      return { success: false, error: err.message };
+    }
+  }
+
   static async oauthLogin(provider, email, name) {
     const res = await fetch('/api/auth/oauth-login', {
       method: 'POST',

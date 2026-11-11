@@ -142,9 +142,9 @@ export class UserModal extends UIComponent {
       const defaultMaxCredits = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 2000 : 50);
       const defaultMaxDownloads = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 500 : 15);
 
-      const genUsed = user.generationsCount || user.creditsUsed || 0;
+      const creditsUsed = user.creditsUsed || 0;
       const genMax = (user.maxCredits >= 999999 || planKey === 'corporate') ? '∞' : (user.maxCredits || defaultMaxCredits);
-      const dlUsed = user.downloadsCount || 0;
+      const qrUsed = user.generationsCount || 0;
       const dlMax = (user.maxDownloads >= 999999 || planKey === 'corporate') ? '∞' : (user.maxDownloads || defaultMaxDownloads);
 
       const planBadge = document.getElementById('user-plan-badge');
@@ -162,13 +162,13 @@ export class UserModal extends UIComponent {
       }
 
       if (this.userCreditCounter) {
-        this.userCreditCounter.textContent = `${genUsed}/${genMax} Créditos`;
+        this.userCreditCounter.textContent = `${creditsUsed}/${genMax} Créditos`;
       }
       if (this.userDownloadCounter) {
-        this.userDownloadCounter.textContent = `${dlUsed}/${dlMax} QRs`;
+        this.userDownloadCounter.textContent = `${qrUsed}/${dlMax} QRs`;
       }
       if (this.creditCounterBadge) {
-        this.creditCounterBadge.textContent = `${genUsed}/${genMax} Créditos`;
+        this.creditCounterBadge.textContent = `${creditsUsed}/${genMax} Créditos`;
       }
     } else {
       this.userWidget.classList.add('hidden');
