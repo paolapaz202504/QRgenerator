@@ -14,13 +14,8 @@ class StandardSquareSilhouette extends SilhouetteStrategy {
 
         const cellX = qrX + c * cellSize;
         const cellY = qrY + r * cellSize;
-        const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
-        const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
-        const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
 
-        if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
-          if (isDataModule) { ctx.fillStyle = primaryQrColor; ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1); }
-        } else if (isDataModule) {
+        if (isDataModule) {
           if (activeDotStyle === 'connected') {
             const getMod = (row, col) => (row >= 0 && row < size && col >= 0 && col < size) ? modules.get(row, col) : false;
             const top = getMod(r - 1, c); const bottom = getMod(r + 1, c);

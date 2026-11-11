@@ -4,6 +4,18 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.4.2] — 2026-11-11
+### 🏛️ Rediseño Premium de Plantillas Institucionales y Pureza Estricta de Patrones Geométricos
+
+#### Mejorado
+- **Renovación Integral de la Categoría Institucional (`qrAgent`):**
+  - Reemplazo de las 30 plantillas iniciales por conceptos modernos, corporativos y de liderazgo (Sede Corporativa Central, Portal de Innovación, Certificación Digital ISO, Acceso Seguro & Credencial, Gobierno Corporativo 360, Transparencia & Ética, etc.), con paletas cromáticas ejecutivas de alto contraste e iconografía vectorial representativa.
+- **Pureza Geométrica Estricta en Códigos QR (`qrAgent` & `qaAgent`):**
+  - Se eliminó el dibujado de líneas cuadradas forzadas (`fillRect`) en las líneas de sincronización y módulos de formato de `StandardSquareSilhouette` e `IconBaseSilhouette`.
+  - Ahora todo código QR respeta rigurosamente el patrón geométrico seleccionado (círculos, diamantes, destellos, estrellas, corazones, etc.), sin líneas residuales ajenas que distorsionen el estilo visual elegido.
+
+---
+
 ## [v1.4.1] — 2026-11-11
 ### 🎨 Tag Compacto Interactivo de Precaución para Baja Calidad
 
