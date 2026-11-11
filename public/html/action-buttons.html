@@ -1,20 +1,20 @@
-<!-- Action Buttons Card Component (Light SaaS Theme) -->
-<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 hover:shadow-md transition">
+<!-- Action Buttons Card Component (Light SaaS Theme - Multi-Device Responsive) -->
+<div class="bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 hover:shadow-sm transition">
   <div class="flex-1 w-full flex flex-col gap-2">
     <button id="btn-generate" type="button"
-      class="w-full bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-3.5 px-6 rounded-xl shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2 transition-all transform active:scale-[0.99] text-sm">
-      <i class="fa-solid fa-wand-magic-sparkles"></i>
+      class="w-full bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2 transition-all transform active:scale-[0.99] text-xs sm:text-sm">
+      <i class="fa-solid fa-wand-magic-sparkles text-xs sm:text-sm"></i>
       Generar Código QR
     </button>
-    <div class="flex items-center justify-between text-xs text-slate-600 px-1 font-medium">
-      <span><i class="fa-solid fa-coins text-amber-500 mr-1"></i>Créditos de Generación:</span>
-      <span id="credit-counter-badge" class="font-mono font-bold text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-200">0/50 Créditos</span>
+    <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-600 px-1 font-medium">
+      <span class="truncate"><i class="fa-solid fa-coins text-amber-500 mr-1"></i>Créditos:</span>
+      <span id="credit-counter-badge" class="font-mono font-bold text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-200 shrink-0">0/50 Créditos</span>
     </div>
   </div>
   
   <button id="btn-reset" type="button"
-    class="px-5 sm:self-start py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-300 transition text-sm flex items-center justify-center gap-2">
-    <i class="fa-solid fa-rotate-left"></i>
+    class="w-full sm:w-auto px-4 sm:px-5 sm:self-start py-2.5 sm:py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl border border-slate-300 transition text-xs sm:text-sm flex items-center justify-center gap-2">
+    <i class="fa-solid fa-rotate-left text-xs sm:text-sm"></i>
     Restablecer
   </button>
 </div>

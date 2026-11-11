@@ -1,32 +1,32 @@
-<!-- Step 6: Frame, Background & Poster Shape (Light SaaS Theme) -->
-<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4 hover:shadow-md transition">
-  <button id="toggle-step6-frame" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
-    <div class="flex items-center gap-3">
-      <span class="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-sm flex items-center justify-center">6</span>
-      <div>
-        <h2 class="text-base font-semibold text-slate-900 flex items-center gap-1.5">
-          <i class="fa-solid fa-border-all text-amber-600"></i>
-          <span>Marco, Fondo y Forma del Póster</span>
+<!-- Step 6: Frame, Background & Poster Shape (Light SaaS Theme - Multi-Device Responsive) -->
+<div class="bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xs space-y-3.5 sm:space-y-4 hover:shadow-sm transition">
+  <button id="toggle-step6-frame" type="button" class="w-full flex items-center justify-between text-left focus:outline-none gap-2">
+    <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+      <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-xs sm:text-sm flex items-center justify-center shrink-0">6</span>
+      <div class="min-w-0">
+        <h2 class="text-sm sm:text-base font-semibold text-slate-900 flex items-center gap-1.5 truncate">
+          <i class="fa-solid fa-border-all text-amber-600 text-xs sm:text-sm"></i>
+          <span class="truncate">Marco, Fondo y Forma del Póster</span>
         </h2>
-        <p class="text-xs text-slate-500">10 siluetas de corte exterior, colores de lienzo y curvatura de tarjeta blanca</p>
+        <p class="text-[11px] sm:text-xs text-slate-500 truncate">10 siluetas de corte exterior, colores de lienzo y curvatura de tarjeta blanca</p>
       </div>
     </div>
-    <div class="flex items-center gap-3">
-      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <span class="text-[10px] sm:text-xs font-semibold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-mono">
         10 Siluetas
       </span>
       <i id="icon-toggle-step6-frame" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200 rotate-180"></i>
     </div>
   </button>
 
-  <div id="panel-step6-frame" class="pt-3 border-t border-slate-100 space-y-4">
+  <div id="panel-step6-frame" class="pt-3 border-t border-slate-100 space-y-3.5 sm:space-y-4">
 
     <!-- Guía Didáctica del Marco y Fondo -->
-    <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 flex items-start gap-2.5 text-xs text-amber-950">
+    <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-2.5 sm:p-3 flex items-start gap-2 sm:gap-2.5 text-xs text-amber-950">
       <i class="fa-solid fa-border-all text-amber-600 text-sm mt-0.5 shrink-0"></i>
-      <div class="space-y-1">
-        <p class="font-semibold text-amber-900">¿Qué es el Marco y Fondo del Póster?</p>
-        <p class="text-slate-600 leading-relaxed text-[11px]">
+      <div class="space-y-0.5 sm:space-y-1">
+        <p class="font-semibold text-amber-900 text-xs">¿Qué es el Marco y Fondo del Póster?</p>
+        <p class="text-slate-600 leading-relaxed text-[10px] sm:text-[11px]">
           Define la geometría externa de todo el diseño para impresión o descarga. Incluye la tarjeta central blanca que asegura el contraste óptico reglamentario para que cualquier cámara pueda leer el código QR sobre fondos de cualquier color.
         </p>
       </div>
@@ -46,12 +46,12 @@
       <option value="wavy">10. Esquinas Invertidas Flotantes</option>
     </select>
 
-    <!-- Muestras Visuales de las 10 Formas de Marco -->
+    <!-- Muestras Visuales de las 10 Formas de Marco (2 columnas en móviles, 3 en tablets, 5 en desktop) -->
     <div class="space-y-2">
       <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">
         Selecciona la Forma del Marco Exterior (10 Formas):
       </label>
-      <div id="frame-shapes-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+      <div id="frame-shapes-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-2.5">
         <!-- 1. Rectangular Clásico -->
         <button type="button" data-shape="rectangular" class="frame-shape-card p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-amber-500 hover:shadow-xs flex flex-col items-center gap-1 transition text-center cursor-pointer active">
           <svg class="w-7 h-7 text-amber-700" viewBox="0 0 24 24" fill="none">

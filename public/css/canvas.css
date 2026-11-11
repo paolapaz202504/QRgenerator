@@ -1,28 +1,66 @@
-/* Canvas styling */
+/* Canvas styling & Adaptive Viewports */
 #qr-canvas {
   background: transparent;
   max-height: 480px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
-/* Responsive Touch & Mobile Enhancements */
+/* Touch & Mobile Optimizations (< 640px) */
 @media (max-width: 640px) {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   #qr-canvas {
-    max-height: 320px;
+    max-height: 290px;
+  }
+
+  .design-card {
+    padding: 0.375rem;
+  }
+
+  .design-card img, .design-card svg {
+    max-height: 70px;
+  }
+
+  table th, table td {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Compact ranges and inputs on small mobile screens */
+  input[type="range"] {
+    height: 1.5rem;
+  }
+}
+
+/* Tablet & iPad Adjustments (641px - 1024px, Portrait & Landscape) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  #qr-canvas {
+    max-height: 380px;
   }
 
   .design-card {
     padding: 0.5rem;
   }
 
+  .design-card img, .design-card svg {
+    max-height: 90px;
+  }
+
   table th, table td {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
 }
 
-/* Tablet & iPad Adjustments */
-@media (min-width: 641px) and (max-width: 1024px) {
+/* Desktop High-DPI screens (> 1024px) */
+@media (min-width: 1025px) {
   #qr-canvas {
-    max-height: 420px;
+    max-height: 460px;
   }
 }

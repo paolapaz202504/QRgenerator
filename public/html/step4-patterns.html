@@ -1,32 +1,32 @@
-<!-- Section 4: Matrix, 22 Patterns & Theme Silhouette (Light SaaS Theme) -->
-<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4 hover:shadow-md transition">
-  <button id="toggle-step4" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
-    <div class="flex items-center gap-3">
-      <span class="w-7 h-7 rounded-lg bg-pink-50 border border-pink-200 text-pink-700 font-bold text-sm flex items-center justify-center">4</span>
-      <div>
-        <h2 class="text-base font-semibold text-slate-900 flex items-center gap-1.5">
-          <i class="fa-solid fa-shapes text-pink-600"></i>
-          <span>Matriz de Puntos, Patrones y Silueta</span>
+<!-- Section 4: Matrix, 22 Patterns & Theme Silhouette (Light SaaS Theme - Multi-Device Responsive) -->
+<div class="bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xs space-y-3.5 sm:space-y-4 hover:shadow-sm transition">
+  <button id="toggle-step4" type="button" class="w-full flex items-center justify-between text-left focus:outline-none gap-2">
+    <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+      <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-pink-50 border border-pink-200 text-pink-700 font-bold text-xs sm:text-sm flex items-center justify-center shrink-0">4</span>
+      <div class="min-w-0">
+        <h2 class="text-sm sm:text-base font-semibold text-slate-900 flex items-center gap-1.5 truncate">
+          <i class="fa-solid fa-shapes text-pink-600 text-xs sm:text-sm"></i>
+          <span class="truncate">Matriz de Puntos, Patrones y Silueta</span>
         </h2>
-        <p class="text-xs text-slate-500">Módulos de datos, 22 patrones geométricos y silueta artística complementaria</p>
+        <p class="text-[11px] sm:text-xs text-slate-500 truncate">Módulos de datos, 22 patrones geométricos y silueta artística complementaria</p>
       </div>
     </div>
-    <div class="flex items-center gap-3">
-      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-pink-50 text-pink-700 border border-pink-200">
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <span class="text-[10px] sm:text-xs font-semibold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-pink-50 text-pink-700 border border-pink-200 font-mono">
         22 Patrones
       </span>
       <i id="icon-toggle-step4" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200 rotate-180"></i>
     </div>
   </button>
 
-  <div id="panel-step4" class="pt-3 border-t border-slate-100 space-y-4">
+  <div id="panel-step4" class="pt-3 border-t border-slate-100 space-y-3.5 sm:space-y-4">
 
     <!-- Guía Didáctica de la Matriz y Silueta -->
-    <div class="bg-pink-50/70 border border-pink-200/80 rounded-xl p-3 flex items-start gap-2.5 text-xs text-pink-950">
+    <div class="bg-pink-50/70 border border-pink-200/80 rounded-xl p-2.5 sm:p-3 flex items-start gap-2 sm:gap-2.5 text-xs text-pink-950">
       <i class="fa-solid fa-wand-magic-sparkles text-pink-600 text-sm mt-0.5 shrink-0"></i>
-      <div class="space-y-1">
-        <p class="font-semibold text-pink-900">¿Qué es la Matriz y la Silueta Temática?</p>
-        <p class="text-slate-600 leading-relaxed text-[11px]">
+      <div class="space-y-0.5 sm:space-y-1">
+        <p class="font-semibold text-pink-900 text-xs">¿Qué es la Matriz y la Silueta Temática?</p>
+        <p class="text-slate-600 leading-relaxed text-[10px] sm:text-[11px]">
           La matriz son los puntos o píxeles donde viaja la información cifrada. Puedes elegir entre 22 estilos geométricos, aplicar degradados, o activar la <strong>Silueta Temática</strong> para que una figura artística se proyecte de fondo en armonía con tu ícono o marca.
         </p>
       </div>
@@ -136,7 +136,7 @@
       <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">
         Selecciona el Estilo de Patrón (22 Estilos):
       </label>
-      <div id="pattern-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+      <div id="pattern-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-2.5">
         <!-- Dynamically populated by DesignPicker.js -->
       </div>
     </div>

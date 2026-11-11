@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.1] — 2026-11-11
+### 📱 Diseño Adaptativo Multi-Dispositivo (Móvil, Tablet, iPad y PC)
+
+#### Novedades y Mejoras
+- **Experiencia visual perfeccionada en todas las pantallas:** Interfaz 100% responsiva diseñada para ajustarse armónicamente a teléfonos móviles, tabletas iPad y pantallas de computadora.
+- **Navegación ergonómica y táctil:** Controles y menús optimizados con zonas de toque cómodas para una personalización fluida de códigos QR desde cualquier dispositivo móvil o tablet.
+- **Acceso flotante a vista previa:** Botón inteligente en dispositivos móviles que permite verificar el código QR al instante con un solo toque mientras editas colores y estilos.
+- **Mayor velocidad y estabilidad:** Optimizaciones en la distribución visual de recursos y fluidez de la interfaz.
+
+---
+
 ## [v1.5.0] — 2026-11-11
 ### 🛡️ Acceso Exclusivo y Protegido mediante Cuentas Oficiales
 

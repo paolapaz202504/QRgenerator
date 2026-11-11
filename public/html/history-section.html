@@ -1,43 +1,43 @@
-<!-- Sección Incorporada: Historial y Tabla de Códigos QR Generados (Light SaaS Theme) -->
-<section id="section-history" class="mt-12 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+<!-- Sección Incorporada: Historial y Tabla de Códigos QR Generados (Light SaaS Theme - Multi-Device Responsive) -->
+<section id="section-history" class="mt-8 sm:mt-12 bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 sm:p-8 shadow-xs space-y-4 sm:space-y-6">
   
   <!-- Encabezado de la Sección -->
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center text-lg shadow-sm">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-100 pb-4 sm:pb-5">
+    <div class="flex items-center gap-2.5 sm:gap-3">
+      <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white flex items-center justify-center text-base sm:text-lg shadow-xs shrink-0">
         <i class="fa-solid fa-list-check"></i>
       </div>
       <div>
-        <h2 class="text-xl font-bold font-['Outfit'] text-slate-900">Historial de Códigos QR Generados</h2>
-        <p class="text-xs text-slate-500">Tabla interactiva con búsqueda en tiempo real, paginación y zona horaria</p>
+        <h2 class="text-lg sm:text-xl font-bold font-['Outfit'] text-slate-900">Historial de Códigos QR Generados</h2>
+        <p class="text-[11px] sm:text-xs text-slate-500">Tabla interactiva con búsqueda en tiempo real, paginación y zona horaria</p>
       </div>
     </div>
 
-    <div class="flex items-center gap-3">
-      <span id="history-total-count" class="text-xs font-semibold px-3.5 py-1.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+    <div class="flex items-center gap-2 sm:gap-3 self-start sm:self-auto">
+      <span id="history-total-count" class="text-[11px] sm:text-xs font-semibold px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
         0 Registros
       </span>
-      <button id="btn-refresh-history" type="button" title="Actualizar Tabla" class="w-9 h-9 rounded-xl bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900 flex items-center justify-center border border-slate-200 shadow-xs transition">
+      <button id="btn-refresh-history" type="button" title="Actualizar Tabla" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900 flex items-center justify-center border border-slate-200 shadow-xs transition">
         <i class="fa-solid fa-arrows-rotate text-xs"></i>
       </button>
     </div>
   </div>
 
   <!-- Barra de Filtros: Búsqueda y Paginador de Filas -->
-  <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+  <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
     <!-- Buscador -->
     <div class="relative w-full sm:w-80">
       <input type="text" id="history-search-input" placeholder="Buscar por título, enlace o fecha..." 
-        class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 pl-10 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-      <div class="absolute left-3.5 top-3 text-slate-400 text-xs">
+        class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 sm:px-4 py-2 sm:py-2.5 pl-9 sm:pl-10 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+      <div class="absolute left-3 top-2.5 sm:top-3 text-slate-400 text-xs">
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
     </div>
 
     <!-- Selector de Tamaño de Página -->
-    <div class="flex items-center gap-2 text-xs text-slate-600 font-medium self-end sm:self-auto">
+    <div class="flex items-center justify-between sm:justify-start gap-2 text-xs text-slate-600 font-medium self-auto">
       <span>Mostrar:</span>
-      <select id="history-page-size" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none cursor-pointer">
+      <select id="history-page-size" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 sm:py-2 text-xs text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none cursor-pointer">
         <option value="5">5 por página</option>
         <option value="10" selected>10 por página</option>
         <option value="25">25 por página</option>
@@ -47,7 +47,7 @@
   </div>
 
   <!-- Tabla Responsive de Registros -->
-  <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-xs">
+  <div class="overflow-x-auto rounded-xl sm:rounded-2xl border border-slate-200 bg-white shadow-xs" style="-webkit-overflow-scrolling: touch;">
     <table class="w-full text-left text-xs border-collapse">
       <thead>
         <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-[11px] tracking-wider">
