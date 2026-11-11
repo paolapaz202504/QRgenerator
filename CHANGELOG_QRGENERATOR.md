@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.4] — 2026-11-11
+### ⚡ Integración de Google Identity Services (GIS) Oficial
+
+#### Novedades y Mejoras
+- **Ventana oficial nativa de Google:** Incorporación de Google Identity Services en el cliente para abrir directamente el selector de cuentas de Google sin depender de redirecciones rígidas de servidor ni provocar advertencias de URI.
+- **Acceso en un clic sin interrupciones:** Selección instantánea de cuentas de Gmail con verificación inmediata del perfil e inicio de sesión automático.
+- **Mayor robustez y compatibilidad:** Estabilidad mejorada para entornos locales (`localhost:3030`) y despliegues en la nube.
+
+---
+
 ## [v1.5.3] — 2026-11-11
 ### 🛡️ Mecanismos Oficiales de Autenticación de Proveedor (Google, Microsoft y Yahoo)
 
