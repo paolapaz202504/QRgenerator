@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.4.8] — 2026-11-11
+### 📊 Cuotas Mensuales, Trazabilidad de Créditos y Soporte de Base de Datos
+
+#### Novedades y Mejoras
+- **Renovación mensual automática en planes superiores:** Los planes Profesional y Corporativo renuevan automáticamente sus cuotas al inicio de cada mes (500 descargas y 2,000 créditos para Pro; 2,000 descargas y 10,000 créditos para Corporativo).
+- **Plan gratuito vitalicio:** Tu cuenta básica incluye 15 descargas y 50 créditos totales sin fecha de vencimiento mensual para diseñar a tu propio ritmo.
+- **Trazabilidad y auditoría en cada generación:** Cada código QR creado se guarda de manera inmediata en tu historial personal registrando el balance exacto de créditos de ese instante para un control total de tus movimientos.
+- **Preparación para base de datos relacional:** Se integró el soporte nativo para bases de datos en la nube (TiDB Cloud MySQL Serverless) con esquema estructurado de auditoría y respaldo continuo.
+
+---
+
 ## [v1.4.7] — 2026-11-11
 ### 🔐 Máxima Privacidad, Seguridad Reforzada y Acceso Universal
 

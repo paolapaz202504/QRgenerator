@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.4.7';
+export const APP_VERSION = '1.4.8';
 
 export class ComponentLoader {
   /**

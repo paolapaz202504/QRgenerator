@@ -17,21 +17,24 @@ class Config {
         name: 'Plan Gratuito',
         priceMonthly: 0,
         maxDownloads: parseInt(process.env.PLAN_FREE_MAX_DOWNLOADS || '15', 10),
-        maxCredits: parseInt(process.env.PLAN_FREE_MAX_CREDITS || '50', 10)
+        maxCredits: parseInt(process.env.PLAN_FREE_MAX_CREDITS || '50', 10),
+        isMonthly: false // Regla de Negocio: Límites vitalicios/estáticos sin reinicio mensual
       },
       pro: {
         id: 'pro',
         name: 'Plan Profesional',
         priceMonthly: parseFloat(process.env.PLAN_PRO_PRICE_MONTHLY || '9.99'),
         maxDownloads: parseInt(process.env.PLAN_PRO_MAX_DOWNLOADS || '500', 10),
-        maxCredits: parseInt(process.env.PLAN_PRO_MAX_CREDITS || '2000', 10)
+        maxCredits: parseInt(process.env.PLAN_PRO_MAX_CREDITS || '2000', 10),
+        isMonthly: true // Regla de Negocio: Cuotas máximas mensuales
       },
       corporate: {
         id: 'corporate',
         name: 'Plan Corporativo',
         priceMonthly: parseFloat(process.env.PLAN_CORP_PRICE_MONTHLY || '29.99'),
-        maxDownloads: parseInt(process.env.PLAN_CORP_MAX_DOWNLOADS || '999999', 10),
-        maxCredits: parseInt(process.env.PLAN_CORP_MAX_CREDITS || '999999', 10)
+        maxDownloads: parseInt(process.env.PLAN_CORP_MAX_DOWNLOADS || '2000', 10),
+        maxCredits: parseInt(process.env.PLAN_CORP_MAX_CREDITS || '10000', 10),
+        isMonthly: true // Regla de Negocio: Cuotas máximas mensuales
       }
     };
 
@@ -46,6 +49,9 @@ class Config {
 
     this.plans = customPlans || defaultPlans;
     this.defaultPlanId = process.env.PLAN || 'free';
+
+    // Database Configuration (TiDB Cloud MySQL Serverless)
+    this.databaseUrl = process.env.DATABASE_URL || process.env.TIDB_DATABASE_URL || '';
 
     // Recurrente Payment Gateway Configuration
     this.recurrente = {

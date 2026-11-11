@@ -33,8 +33,40 @@ class UserRepository {
       const planConfig = config.getPlanConfig(user.plan || 'free');
       user.maxCredits = planConfig.maxCredits;
       user.maxDownloads = planConfig.maxDownloads;
+      user.isMonthly = planConfig.isMonthly !== false;
+
+      // Control y ciclo mensual estricto para planes de pago (Pro / Corporate)
+      this.checkAndResetMonthlyPeriod(user, planConfig);
     }
     return user;
+  }
+
+  checkAndResetMonthlyPeriod(user, planConfig) {
+    const currentPeriod = new Date().toISOString().substring(0, 7); // ej. '2026-11'
+
+    if (!user.currentPeriod) {
+      user.currentPeriod = currentPeriod;
+      user.totalGenerationsCount = user.generationsCount || 0;
+      user.totalCreditsUsed = user.creditsUsed || 0;
+    }
+
+    // Regla de Negocio: El plan Free NO se reinicia mensualmente (límite vitalicio)
+    if (!planConfig.isMonthly || (user.plan || 'free').toLowerCase() === 'free') {
+      return;
+    }
+
+    // Para planes Pro y Corporate: Las cuotas son mensuales
+    if (user.currentPeriod !== currentPeriod) {
+      console.log(`[Billing Cycle 🗓️] Reiniciando cuota mensual para usuario ${user.email} (${user.currentPeriod} ➔ ${currentPeriod})`);
+      user.totalGenerationsCount = (user.totalGenerationsCount || 0) + (user.generationsCount || 0);
+      user.totalCreditsUsed = (user.totalCreditsUsed || 0) + (user.creditsUsed || 0);
+      user.currentPeriod = currentPeriod;
+      user.generationsCount = 0; // Reinicio a 0 para el nuevo mes
+      user.creditsUsed = 0;     // Reinicio a 0 para el nuevo mes
+      user.downloadsCount = 0;  // Reinicio a 0 para el nuevo mes
+      user.lastPeriodReset = new Date().toISOString();
+      this.saveUser(user);
+    }
   }
 
   async saveUser(user) {

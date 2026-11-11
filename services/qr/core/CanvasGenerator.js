@@ -3,7 +3,9 @@ const { createCanvas, loadImage } = require('canvas');
 
 
 const userRepository = require('../../../repositories/UserRepository');
+const historyRepository = require('../../../repositories/HistoryRepository');
 const statsRepository = require('../../../repositories/StatsRepository');
+const auditRepository = require('../../../repositories/AuditRepository');
 const config = require('../../../config/env');
 const DesignLibrary = require('../config/DesignLibrary');
 
@@ -38,6 +40,61 @@ class CanvasGenerator {
       format = 'png'
     } = params;
 
+    let user = null;
+    let planConfig = null;
+    let userPlan = 'free';
+
+    // Validación estricta y control de cuotas por generación
+    if (isExplicitGenerate) {
+      if (!userEmail) {
+        return {
+          success: false,
+          authRequired: true,
+          message: 'Es obligatorio iniciar sesión para generar tu código QR.'
+        };
+      }
+
+      const emailKey = userEmail.toLowerCase().trim();
+      user = userRepository.findByEmail(emailKey);
+      if (!user) {
+        user = {
+          id: 'user_' + Date.now(),
+          name: emailKey.split('@')[0],
+          email: emailKey,
+          provider: 'Registered',
+          avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(emailKey)}`,
+          plan: 'free',
+          maxDownloads: 15,
+          maxCredits: 50,
+          generationsCount: 0,
+          creditsUsed: 0,
+          downloadsCount: 0,
+          currentPeriod: new Date().toISOString().substring(0, 7),
+          createdAt: new Date().toISOString(),
+          lastActive: new Date().toISOString()
+        };
+      }
+
+      userPlan = user.plan || 'free';
+      planConfig = config.getPlanConfig(userPlan);
+      const maxDownloads = planConfig.maxDownloads;
+      const currentGen = user.generationsCount || 0;
+
+      if (currentGen >= maxDownloads) {
+        return {
+          success: false,
+          limitReached: true,
+          message: `Has alcanzado el límite de ${maxDownloads} códigos QR generados de tu ${planConfig.name}.`
+        };
+      }
+
+      user.maxCredits = planConfig.maxCredits;
+      user.maxDownloads = maxDownloads;
+      user.generationsCount = currentGen + 1;
+      await userRepository.saveUser(user);
+      await statsRepository.incrementGenerations();
+    }
+
     // SVG Export Mode
     if (format === 'svg') {
       try {
@@ -52,6 +109,53 @@ class CanvasGenerator {
             light: svgBg
           }
         });
+
+        // Guardado automático y auditoría de trazabilidad de códigos QR SVG
+        if (isExplicitGenerate && userEmail) {
+          const emailKey = userEmail.toLowerCase().trim();
+          const qrId = 'qr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+          const creditsAtGen = user ? (user.creditsUsed || 0) : 0;
+          const maxCredits = planConfig ? planConfig.maxCredits : 50;
+          const remainingCredits = Math.max(0, maxCredits - creditsAtGen);
+          const period = user ? (user.currentPeriod || new Date().toISOString().substring(0, 7)) : new Date().toISOString().substring(0, 7);
+          const dataUrl = `data:image/svg+xml;utf8,${encodeURIComponent(svgString)}`;
+
+          const historyEntry = {
+            id: qrId,
+            userEmail: emailKey,
+            title: title || 'Código QR SVG',
+            url: url || 'https://qrbey.com',
+            format: 'svg',
+            resolution: targetWidth || 600,
+            creditsUsedAtGeneration: creditsAtGen,
+            remainingCreditsAtGeneration: remainingCredits,
+            planAtGeneration: userPlan,
+            period: period,
+            imageDataUrl: dataUrl,
+            createdAt: new Date().toISOString()
+          };
+
+          await historyRepository.addHistoryEntry(emailKey, historyEntry);
+
+          try {
+            const dbService = require('../../../services/DatabaseService');
+            if (dbService.isConnected()) {
+              await dbService.insertQrGeneration(historyEntry);
+            }
+          } catch (e) {}
+
+          await auditRepository.logAction({
+            userEmail: emailKey,
+            action: 'GENERATE_QR',
+            creditsAtAction: creditsAtGen,
+            remainingCredits: remainingCredits,
+            generationsAtAction: user ? user.generationsCount : 1,
+            plan: userPlan,
+            period: period,
+            metadata: { qrId, title: title || 'Código QR', url: url || '', format: 'svg', resolution: targetWidth || 600 }
+          });
+        }
+
         return {
           isSvg: true,
           data: svgString,
@@ -60,42 +164,6 @@ class CanvasGenerator {
       } catch (svgErr) {
         console.warn('[SVG Generation Error]:', svgErr.message);
       }
-    }
-
-    if (isExplicitGenerate) {
-      if (!userEmail) {
-        return {
-          success: false,
-          authRequired: true,
-          message: 'Es obligatorio iniciar sesión para generar tu código QR.'
-        };
-      }
-
-      const emailKey = userEmail.toLowerCase().trim();
-      let user = userRepository.findByEmail(emailKey);
-      const userPlan = user ? (user.plan || 'free') : 'free';
-      const planConfig = config.getPlanConfig(userPlan);
-      const maxDownloads = planConfig.maxDownloads;
-      const currentGen = user ? (user.generationsCount || 0) : 0;
-
-      if (currentGen >= maxDownloads) {
-        return {
-          success: false,
-          limitReached: true,
-          message: `Has alcanzado el límite de ${maxDownloads} códigos QR generados de tu ${planConfig.name}.`
-        };
-      }
-
-      if (user) {
-        user.maxCredits = planConfig.maxCredits;
-        user.maxDownloads = maxDownloads;
-        user.generationsCount = currentGen + 1;
-        await userRepository.saveUser(user);
-      }
-    }
-
-    if (isExplicitGenerate) {
-      await statsRepository.incrementGenerations();
     }
 
     let loadedIconImg = null;
@@ -356,7 +424,55 @@ class CanvasGenerator {
       }
     }
 
-    return canvas.toBuffer('image/png');
+    const pngBuffer = canvas.toBuffer('image/png');
+
+    // Guardado automático y auditoría de trazabilidad de códigos QR PNG generados
+    if (isExplicitGenerate && userEmail) {
+      const emailKey = userEmail.toLowerCase().trim();
+      const qrId = 'qr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+      const creditsAtGen = user ? (user.creditsUsed || 0) : 0;
+      const maxCredits = planConfig ? planConfig.maxCredits : 50;
+      const remainingCredits = Math.max(0, maxCredits - creditsAtGen);
+      const period = user ? (user.currentPeriod || new Date().toISOString().substring(0, 7)) : new Date().toISOString().substring(0, 7);
+      const dataUrl = `data:image/png;base64,${pngBuffer.toString('base64')}`;
+
+      const historyEntry = {
+        id: qrId,
+        userEmail: emailKey,
+        title: title || 'Código QR',
+        url: url || 'https://qrbey.com',
+        format: 'png',
+        resolution: targetWidth || 600,
+        creditsUsedAtGeneration: creditsAtGen,
+        remainingCreditsAtGeneration: remainingCredits,
+        planAtGeneration: userPlan,
+        period: period,
+        imageDataUrl: dataUrl,
+        createdAt: new Date().toISOString()
+      };
+
+      await historyRepository.addHistoryEntry(emailKey, historyEntry);
+
+      try {
+        const dbService = require('../../../services/DatabaseService');
+        if (dbService.isConnected()) {
+          await dbService.insertQrGeneration(historyEntry);
+        }
+      } catch (e) {}
+
+      await auditRepository.logAction({
+        userEmail: emailKey,
+        action: 'GENERATE_QR',
+        creditsAtAction: creditsAtGen,
+        remainingCredits: remainingCredits,
+        generationsAtAction: user ? user.generationsCount : 1,
+        plan: userPlan,
+        period: period,
+        metadata: { qrId, title: title || 'Código QR', url: url || '', format: 'png', resolution: targetWidth || 600 }
+      });
+    }
+
+    return pngBuffer;
   }
 
 

@@ -1,6 +1,7 @@
 const userRepository = require('../repositories/UserRepository');
 const historyRepository = require('../repositories/HistoryRepository');
 const statsRepository = require('../repositories/StatsRepository');
+const auditRepository = require('../repositories/AuditRepository');
 const config = require('../config/env');
 
 class UserController {
@@ -40,6 +41,8 @@ class UserController {
             email: user.email,
             name: user.name,
             plan: user.plan || 'free',
+            isMonthly: planConfig.isMonthly !== false,
+            currentPeriod: user.currentPeriod || new Date().toISOString().substring(0, 7),
             maxDownloads: planConfig.maxDownloads,
             downloadsCount: user.downloadsCount || 0,
             maxCredits: planConfig.maxCredits,
@@ -196,6 +199,19 @@ class UserController {
 
       user.creditsUsed = currentCredits + 1;
       await userRepository.saveUser(user);
+
+      // Auditoría en tiempo real del consumo de crédito
+      await auditRepository.logAction({
+        userEmail: emailKey,
+        action: 'CONSUME_CREDIT',
+        creditsAtAction: user.creditsUsed,
+        remainingCredits: Math.max(0, maxCredits - user.creditsUsed),
+        generationsAtAction: user.generationsCount || 0,
+        plan: user.plan || 'free',
+        period: user.currentPeriod || new Date().toISOString().substring(0, 7),
+        metadata: { client: 'QR Customizer Web' },
+        ipAddress: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1'
+      });
 
       res.json({
         success: true,

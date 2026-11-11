@@ -466,6 +466,81 @@ async function runTestSuite() {
     }
   });
 
+  // Prueba 19: Cuotas Mensuales y Límites de Planes (Free Vitalicio vs Pro/Corp Mensual)
+  await test('Cuotas Mensuales y Configuración de Planes (Free Vitalicio vs Pro/Corp Mensual)', async () => {
+    const configRes = await makeRequest('/api/config', 'GET');
+    const configData = configRes.json();
+    if (!configData || !configData.plans) {
+      throw new Error('No se pudo obtener la configuración de planes');
+    }
+
+    const { free, pro, corporate } = configData.plans;
+
+    // Plan Free: 15 descargas, 50 créditos, vitalicio
+    if (free.maxDownloads !== 15 || free.maxCredits !== 50 || free.isMonthly !== false) {
+      throw new Error(`Plan Free incorrecto: ${JSON.stringify(free)}`);
+    }
+
+    // Plan Pro: 500 descargas, 2000 créditos, mensual
+    if (pro.maxDownloads !== 500 || pro.maxCredits !== 2000 || pro.isMonthly !== true || pro.priceMonthly !== 9.99) {
+      throw new Error(`Plan Pro incorrecto: ${JSON.stringify(pro)}`);
+    }
+
+    // Plan Corporate: 2000 descargas, 10000 créditos, mensual
+    if (corporate.maxDownloads !== 2000 || corporate.maxCredits !== 10000 || corporate.isMonthly !== true || corporate.priceMonthly !== 29.99) {
+      throw new Error(`Plan Corporate incorrecto: ${JSON.stringify(corporate)}`);
+    }
+  });
+
+  // Prueba 20: Guardado Automático en Historial y Auditoría de Créditos al Generar Código QR
+  await test('Guardado de Código QR en Historial y Trazabilidad de Créditos al Generar (Auditoría)', async () => {
+    const auditTesterEmail = `auditoria_${Date.now()}@qrbey.com`;
+
+    // 1. Iniciar sesión / registrar usuario
+    await makeRequest('/api/auth/oauth-login', 'POST', {
+      email: auditTesterEmail,
+      name: 'Auditor Tester',
+      provider: 'Test'
+    });
+
+    // 2. Consumir 2 créditos de configuración
+    await makeRequest('/api/user/consume-credit', 'POST', { userEmail: auditTesterEmail });
+    await makeRequest('/api/user/consume-credit', 'POST', { userEmail: auditTesterEmail });
+
+    // 3. Generar código QR explícito
+    const genRes = await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/trazabilidad-test',
+      title: 'QR Auditado',
+      userEmail: auditTesterEmail,
+      isExplicitGenerate: true
+    });
+
+    if (genRes.statusCode !== 200) {
+      throw new Error(`Fallo al generar QR auditado: HTTP ${genRes.statusCode}`);
+    }
+
+    // 4. Verificar que el código QR fue guardado automáticamente en el historial con la trazabilidad de créditos
+    const histRes = await makeRequest(`/api/user/history?email=${auditTesterEmail}`, 'GET');
+    const histData = histRes.json();
+    if (!histData.success || !Array.isArray(histData.history) || histData.history.length === 0) {
+      throw new Error('El código QR generado no fue guardado automáticamente en el historial del usuario');
+    }
+
+    const savedEntry = histData.history[0];
+    if (savedEntry.creditsUsedAtGeneration !== 2) {
+      throw new Error(`Trazabilidad de créditos incorrecta: esperado 2 créditos consumidos, recibido: ${savedEntry.creditsUsedAtGeneration}`);
+    }
+    if (savedEntry.remainingCreditsAtGeneration !== 48) {
+      throw new Error(`Trazabilidad de créditos restantes incorrecta: esperado 48, recibido: ${savedEntry.remainingCreditsAtGeneration}`);
+    }
+    if (savedEntry.planAtGeneration !== 'free') {
+      throw new Error(`Plan al momento de generar incorrecto: ${savedEntry.planAtGeneration}`);
+    }
+    if (!savedEntry.imageDataUrl || !savedEntry.imageDataUrl.startsWith('data:image')) {
+      throw new Error('No se guardó el contenido visual del código QR en el historial');
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

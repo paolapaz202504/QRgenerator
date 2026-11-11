@@ -6,6 +6,8 @@ const config = require('./config/env');
 const userRepository = require('./repositories/UserRepository');
 const historyRepository = require('./repositories/HistoryRepository');
 const statsRepository = require('./repositories/StatsRepository');
+const auditRepository = require('./repositories/AuditRepository');
+const databaseService = require('./services/DatabaseService');
 
 const authRoutes = require('./routes/authRoutes');
 const configRoutes = require('./routes/configRoutes');
@@ -97,9 +99,11 @@ class Server {
 
   async initRepositories() {
     console.log(`[GCS Cloud Sync ☁️] Inicializando capa de repositorios desde Google Cloud Storage (${config.envFolder.toUpperCase()})...`);
+    await databaseService.initialize();
     await userRepository.initSync();
     await historyRepository.initSync();
     await statsRepository.initSync();
+    await auditRepository.initSync();
   }
 
   async start() {
