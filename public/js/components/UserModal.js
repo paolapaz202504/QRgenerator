@@ -165,7 +165,12 @@ export class UserModal extends UIComponent {
       if (this.statusText) this.statusText.textContent = `Abriendo ventana oficial de Google...`;
 
       try {
-        const clientId = this.googleClientId || '144230109272-pbt85eqhr5ecnb8i2ffvv0j1kjqr2o2g.apps.googleusercontent.com';
+        const clientId = this.googleClientId;
+        if (!clientId) {
+          console.warn('[UserModal] No se encontró googleClientId, abriendo ventana oficial.');
+          this.openStandardOAuthPopup(providerKey, providerName);
+          return;
+        }
         const client = window.google.accounts.oauth2.initTokenClient({
           client_id: clientId,
           scope: 'openid email profile',

@@ -11,7 +11,7 @@ class OAuthService {
         userinfoUrl: 'https://www.googleapis.com/oauth2/v3/userinfo',
         clientIdEnv: 'GOOGLE_CLIENT_ID',
         clientSecretEnv: 'GOOGLE_CLIENT_SECRET',
-        defaultClientId: '144230109272-pbt85eqhr5ecnb8i2ffvv0j1kjqr2o2g.apps.googleusercontent.com',
+        defaultClientId: process.env.GOOGLE_CLIENT_ID || '',
         scope: 'openid email profile'
       },
       microsoft: {

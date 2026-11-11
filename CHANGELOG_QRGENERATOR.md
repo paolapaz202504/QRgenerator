@@ -4,6 +4,15 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.5] — 2026-11-11
+### 🔑 Actualización de Credenciales Oficiales de Google OAuth 2.0
+
+#### Novedades y Mejoras
+- **Nuevas llaves de autenticación oficiales de Google:** Conexión actualizada con las credenciales registradas de Google Cloud Console para QRbey.
+- **Acceso verificado y confiable:** Mayor agilidad en la validación de cuentas de Gmail y enlace con la base de datos de alta velocidad en la nube (TiDB Cloud).
+
+---
+
 ## [v1.5.4] — 2026-11-11
 ### ⚡ Integración de Google Identity Services (GIS) Oficial
 
