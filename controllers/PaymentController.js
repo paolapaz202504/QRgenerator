@@ -42,8 +42,16 @@ class PaymentController {
 
   async webhook(req, res) {
     try {
-      const signature = req.headers['x-recurrente-signature'] || req.headers['x-signature'] || '';
-      const result = await paymentService.handleWebhook(req.body, signature);
+      const signature = req.headers['webhook-signature'] || 
+                        req.headers['svix-signature'] || 
+                        req.headers['x-recurrente-signature'] || 
+                        req.headers['x-signature'] || '';
+      const headers = {
+        id: req.headers['webhook-id'] || req.headers['svix-id'] || '',
+        timestamp: req.headers['webhook-timestamp'] || req.headers['svix-timestamp'] || '',
+        signature
+      };
+      const result = await paymentService.handleWebhook(req.body, headers);
       res.json(result);
     } catch (err) {
       console.error('[Payment Webhook Error]:', err.message);
