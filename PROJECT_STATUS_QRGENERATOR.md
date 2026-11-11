@@ -30,8 +30,8 @@ flowchart LR
 | `frontAgent` | Reactividad en preview, DOM payload y plantilla clara | 🟢 Completado | `QRPreview.js`, `DesignPicker.js`, `ColorCustomizer.js`, `modals.html` |
 | `iconAgent` | Iconografía contextual Lucide/Tabler/FontAwesome | 🟢 Completado | Galería de iconos y selector en tarjeta clara |
 | `backendAgent` | Centralización de planes, cuotas dinámicas y límites en `.env` | 🟢 Completado | `config/env.js`, `UserController.js`, `UserRepository.js` |
-| `paymentAgent` | Pasarela de pagos Recurrente (checkout y webhooks) | 🟢 Completado | `services/PaymentService.js`, `controllers/PaymentController.js`, `routes/paymentRoutes.js` |
-| `securityAgent` | Protección Helmet y limitación de tasa DoS | 🟢 Completado | `server.js` (Helmet + express-rate-limit) |
+| `paymentAgent` | Pasarela de pagos Recurrente oficial QRbey (Checkout API moderna, Sandbox DEV, Webhooks Svix en PROD) | 🟢 Certificado | `services/PaymentService.js`, `controllers/PaymentController.js`, `routes/paymentRoutes.js` |
+| `securityAgent` | Protección Helmet, rate limiting y aislamiento estricto de secretos API | 🟢 Completado | `server.js` (Helmet + express-rate-limit), variables de entorno aisladas |
 | `filesAgent` | Gestión de almacenamiento y persistencia GCS | 🟢 Completado | `services/GCSService.js`, persistencia en nube |
 | `cacheBdAgent` | Cabeceras de caché HTTP y desacoplamiento | 🟢 Completado | `controllers/QRController.js` (Cache-Control) |
 | `devOpsAgent` | Anti-sleep UptimeRobot y CI/CD OnRender | 🟢 Completado | `controllers/HealthController.js`, `routes/healthRoutes.js`, `render.yaml` |
