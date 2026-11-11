@@ -2329,15 +2329,29 @@ class DesignLibrary {
       'hexagon', 'ring', 'diamond_rounded', 'cross', 'clover', 'sunburst', 'leaf_dot',
       'halftone', 'shield_dot', 'flower', 'diagonal_lines', 'radial_drop', 'bubble', 'pixel'
     ];
-    const cleanFrameShapes = ["rounded", "rectangular"];
-    const allEyeStyles = ["rounded", "square", "leaf"];
-    const deepQrColors = ["#0f172a", "#111827", "#1e3a8a", "#14532d", "#7f1d1d", "#581c87", "#78350f", "#134e4a", "#831843", "#1e293b"];
-    const deepQrColors2 = ["#1e40af", "#1e293b", "#2563eb", "#166534", "#991b1b", "#701a75", "#92400e", "#0f766e", "#9f1239", "#334155"];
-    const lightBgColors = ["#ffffff", "#f8fafc", "#f1f5f9", "#f0fdf4", "#eff6ff", "#f5f3ff", "#faf5ff", "#fff7ed", "#fdf2f8", "#f0f9ff"];
+    const all10FrameShapes = [
+      'rectangular', 'rounded-smooth', 'pill-capsule', 'badge-ribbon', 'ticket-perforated',
+      'modern-card', 'arch-dome', 'diamond-shield', 'organic-pebble', 'hexagon-prism'
+    ];
+    const all8EyeStyles = [
+      'square', 'rounded', 'circle', 'leaf', 'diamond', 'shield', 'star', 'hexagon'
+    ];
+    const deepQrColors = [
+      "#0f172a", "#111827", "#1e3a8a", "#064e3b", "#881337", "#4c1d95",
+      "#134e4a", "#78350f", "#831843", "#1e293b", "#0c4a6e", "#1e1b4b"
+    ];
+    const deepQrColors2 = [
+      "#2563eb", "#6366f1", "#0284c7", "#059669", "#dc2626", "#7c3aed",
+      "#0d9488", "#d97706", "#db2777", "#475569", "#0284c7", "#4f46e5"
+    ];
+    const lightBgColors = [
+      "#ffffff", "#f8fafc", "#f1f5f9", "#f0fdf4", "#eff6ff", "#f5f3ff",
+      "#faf5ff", "#fff7ed", "#fdf2f8", "#f0f9ff", "#f8fafc", "#ffffff"
+    ];
 
     const catKeys = Object.keys(categoriesData);
 
-    catKeys.forEach((cat) => {
+    catKeys.forEach((cat, catIdx) => {
       const theme = categoriesData[cat];
       const slug = cat.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -2345,13 +2359,13 @@ class DesignLibrary {
         const title = theme.titles[i] || `${cat} ${i + 1}`;
         const bannerText = theme.banners[i % theme.banners.length];
         const iconName = theme.icons[i % theme.icons.length];
-        const bgColor = lightBgColors[(i + catKeys.indexOf(cat)) % lightBgColors.length];
+        const bgColor = lightBgColors[(i + catIdx) % lightBgColors.length];
         const frameColor = theme.frameColors[i % theme.frameColors.length];
         const silColor = theme.silColors[i % theme.silColors.length];
 
         // Always dark, saturated QR colors on the light card for flawless contrast
-        const qrColor = deepQrColors[(i + catKeys.indexOf(cat)) % deepQrColors.length];
-        const qrColor2 = deepQrColors2[(i + catKeys.indexOf(cat)) % deepQrColors2.length];
+        const qrColor = deepQrColors[(i + catIdx) % deepQrColors.length];
+        const qrColor2 = deepQrColors2[(i + catIdx) % deepQrColors2.length];
 
         const textColor = '#0f172a'; // High contrast dark text on light backgrounds
         const badgeBg = frameColor;
@@ -2360,18 +2374,35 @@ class DesignLibrary {
         const fontTitle = theme.fontsT[i % theme.fontsT.length];
         const fontBanner = theme.fontsB[i % theme.fontsB.length];
 
-        const isSil = (i === 4 || i === 18);
-        const qrSilhouetteMode = isSil ? 'icon_center' : 'none';
+        // Homogeneous distribution of modes:
+        // 0..9 (33.3%): Solo Ícono (icon_only=false, sil=none)
+        // 10..19 (33.3%): Ícono + Silueta (icon_center)
+        // 20..29 (33.4%): Solo Silueta (icon_only)
+        let qrSilhouetteMode = 'none';
+        let isIconActive = true;
+
+        if (i < 10) {
+          qrSilhouetteMode = 'none';
+          isIconActive = true;
+        } else if (i < 20) {
+          qrSilhouetteMode = 'icon_center';
+          isIconActive = true;
+        } else {
+          qrSilhouetteMode = 'icon_only';
+          isIconActive = false;
+        }
+
+        const isSil = (qrSilhouetteMode !== 'none');
         const qrDensity = 50;
 
-        const dotStyle = all22DotStyles[(i + catKeys.indexOf(cat)) % all22DotStyles.length];
-        const frameShape = cleanFrameShapes[(i + catKeys.indexOf(cat)) % cleanFrameShapes.length];
-        const eyeStyle = allEyeStyles[i % allEyeStyles.length];
+        const dotStyle = all22DotStyles[(i + catIdx) % all22DotStyles.length];
+        const frameShape = all10FrameShapes[(i + catIdx) % all10FrameShapes.length];
+        const eyeStyle = all8EyeStyles[(i + catIdx) % all8EyeStyles.length];
 
-        const gradientType = (i % 3 === 1) ? 'linear' : 'single';
-        const eyeGradientType = 'single';
+        const gradientType = (i % 3 === 1) ? 'linear' : ((i % 3 === 2) ? 'radial' : 'single');
+        const eyeGradientType = (i % 4 === 1) ? 'linear' : 'single';
         const eyeColor = isSil ? silColor : frameColor;
-        const eyeColor2 = null;
+        const eyeColor2 = (eyeGradientType === 'linear') ? qrColor2 : null;
 
         const qrBoxRadius = 18;
         const iconBgColor = '#ffffff';
@@ -2409,8 +2440,8 @@ class DesignLibrary {
           iconBorderColor,
           iconSize,
           iconPosition: 'center',
-          iconShow: true,
-          showIcon: true,
+          iconShow: isIconActive,
+          showIcon: isIconActive,
           fontTitle,
           fontBanner,
           fontSizeTitle,

@@ -55,19 +55,23 @@ class Server {
     this.app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
     // 4. Static Assets with Cache Control & Instant Version Revalidation
+    this.app.get(['/', '/index.html'], (req, res) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, proxy-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+      res.setHeader('Surrogate-Control', 'no-store');
+      res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    });
+
     this.app.use(express.static(path.join(__dirname, 'public'), {
       maxAge: '0',
       etag: true,
       setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.html')) {
-          // HTML partials and index must NEVER be cached by browser
-          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-          res.setHeader('Pragma', 'no-cache');
-          res.setHeader('Expires', '0');
-        } else if (filePath.endsWith('.js') || filePath.endsWith('.css')) {
-          // Scripts & Styles revalidate immediately with ETag
-          res.setHeader('Cache-Control', 'no-cache, must-revalidate');
-        }
+        // Enforce anti-cache headers for all web assets to guarantee instant update on regular F5
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, proxy-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        res.setHeader('Surrogate-Control', 'no-store');
       }
     }));
   }

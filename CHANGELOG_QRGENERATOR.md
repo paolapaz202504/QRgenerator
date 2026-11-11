@@ -4,6 +4,30 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.4.0] — 2026-11-11
+### 🚀 Anti-Caché F5 Instantáneo, 600 Plantillas Homogéneas (33/33/34), Iconografía y Verificador Óptico en Vivo
+
+#### Añadido
+- **Mecanismo Anti-Caché Instantáneo para F5 (`devOpsAgent` & `frontAgent`):**
+  - Implementación de cabeceras estrictas `Cache-Control: no-cache, no-store, must-revalidate, max-age=0, proxy-revalidate`, `Pragma: no-cache`, `Expires: 0` y `Surrogate-Control: no-store` en todas las rutas estáticas y HTML de `server.js`.
+  - Inyección de metaetiquetas de control de caché en `index.html` y script inline en `<head>` que sincroniza la versión local con `localStorage` y purga automáticamente la API `caches`, forzando refresco transparente en caliente sin requerir Ctrl + Shift + F5.
+  - Verificador en segundo plano en `app.js` contra `/api/health` para auto-recargar de forma transparente cuando se detecte una versión más reciente en el servidor.
+- **Regeneración Homogénea de las 600 Plantillas (`qrAgent`):**
+  - Reestructuración del generador en `DesignLibrary.js` garantizando la distribución exacta por cada una de las 20 categorías:
+    - **33.3% Solo Ícono (200 plantillas):** `iconShow: true`, `qrSilhouetteMode: 'none'`.
+    - **33.3% Ícono + Silueta (200 plantillas):** `iconShow: true`, `qrSilhouetteMode: 'icon_center'`.
+    - **33.4% Solo Silueta (200 plantillas):** `iconShow: false`, `qrSilhouetteMode: 'icon_only'`.
+  - Rotación homogénea de los **22 patrones de puntos**, **8 estilos de ojos** (`square`, `rounded`, `circle`, `leaf`, `diamond`, `shield`, `star`, `hexagon`) y **10 formas de marco exterior**, con paletas contrastadas y atractivas.
+- **Indicador de Escaneabilidad y Legibilidad en Tiempo Real (`frontAgent` & `qaAgent`):**
+  - Incorporación de `jsQR` en el cliente (`public/js/vendor/jsQR.js`) y tarjeta didáctica de escaneabilidad en `preview-download.html`.
+  - Análisis óptico en tiempo real sobre los píxeles del lienzo canvas tras cada generación, alertando al usuario si la combinación de colores (matriz, fondo o silueta) no alcanza el contraste mínimo para ser reconocido por un smartphone.
+- **Iconografía Contextual en Títulos (`frontAgent`):**
+  - Agregado de iconos representativos en los títulos `<h2>` y `<h3>` de todos los pasos, paneles y tarjeta de vista previa en vivo.
+- **Actualización de Textos de Interfaz (`frontAgent`):**
+  - Sustitución de "8 Estilos de Ojos" por "8 Estilos" en el badge de cabecera del Paso 5.
+
+---
+
 ## [v1.3.9] — 2026-11-11
 ### 🎨 Desacoplamiento de Entrada de Datos de Silueta e Ícono Central
 

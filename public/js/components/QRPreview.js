@@ -258,6 +258,9 @@ export class QRPreview extends UIComponent {
         ctx.clearRect(0, 0, img.width, img.height);
         ctx.drawImage(img, 0, 0);
         if (this.canvasLoader) this.canvasLoader.classList.add('hidden');
+
+        // Verificación óptica de legibilidad y escaneabilidad en tiempo real
+        this.checkScannability(ctx, img.width, img.height, payload);
       };
       img.src = url;
 
@@ -357,6 +360,64 @@ export class QRPreview extends UIComponent {
     } catch (err) {
       console.error('[QRPreview] Error downloading QR:', err);
     }
+  }
+
+  checkScannability(ctx, width, height, payload) {
+    const badgeOk = document.getElementById('scannability-badge-ok');
+    const badgeWarn = document.getElementById('scannability-badge-warn');
+    if (!badgeOk || !badgeWarn) return;
+
+    let isReadable = false;
+
+    // 1. Verificación Óptica mediante jsQR en el cliente
+    if (typeof window.jsQR === 'function') {
+      try {
+        const imgData = ctx.getImageData(0, 0, width, height);
+        const code = window.jsQR(imgData.data, width, height, {
+          inversionAttempts: 'dontInvert'
+        });
+        if (code && code.data) {
+          isReadable = true;
+        }
+      } catch (err) {
+        console.warn('[QRPreview] Error en decodificación óptica jsQR:', err);
+      }
+    }
+
+    // 2. Verificación de Contraste Cromático Heurístico (WCAG Ratio)
+    const qrColor = payload.qrColor || '#111827';
+    const bgColor = payload.bgColor || '#ffffff';
+    const contrastRatio = this.calculateContrastRatio(qrColor, bgColor);
+    if (contrastRatio < 2.0) {
+      isReadable = false;
+    }
+
+    // 3. Actualizar UI reactiva
+    if (isReadable) {
+      badgeOk.classList.remove('hidden');
+      badgeWarn.classList.add('hidden');
+    } else {
+      badgeOk.classList.add('hidden');
+      badgeWarn.classList.remove('hidden');
+    }
+  }
+
+  calculateContrastRatio(hex1, hex2) {
+    const lum1 = this.getLuminance(hex1);
+    const lum2 = this.getLuminance(hex2);
+    const brightest = Math.max(lum1, lum2);
+    const darkest = Math.min(lum1, lum2);
+    return (brightest + 0.05) / (darkest + 0.05);
+  }
+
+  getLuminance(hex) {
+    let clean = (hex || '#000000').replace('#', '');
+    if (clean.length === 3) clean = clean.split('').map(c => c + c).join('');
+    const r = parseInt(clean.substring(0, 2), 16) / 255;
+    const g = parseInt(clean.substring(2, 4), 16) / 255;
+    const b = parseInt(clean.substring(4, 6), 16) / 255;
+    const a = [r, g, b].map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
   }
 
   resetInputs() {

@@ -3,6 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Anti-Cache Directives to guarantee instant F5 updates -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <script>
+    (function() {
+      var CURRENT_VERSION = '1.4.0';
+      var lastVer = localStorage.getItem('qrbey_app_version');
+      if (lastVer && lastVer !== CURRENT_VERSION) {
+        localStorage.setItem('qrbey_app_version', CURRENT_VERSION);
+        if ('caches' in window) {
+          caches.keys().then(function(names) {
+            for (var i = 0; i < names.length; i++) caches.delete(names[i]);
+          });
+        }
+        var url = new URL(window.location.href);
+        url.searchParams.set('v', CURRENT_VERSION);
+        url.searchParams.set('t', Date.now());
+        window.location.replace(url.toString());
+      } else {
+        localStorage.setItem('qrbey_app_version', CURRENT_VERSION);
+      }
+    })();
+  </script>
+
   <title>QRbey — Generador de Códigos QR Personalizados con Logo</title>
   
   <!-- Primary SEO Metadata -->
@@ -152,7 +179,10 @@
   <!-- Footer Component Container -->
   <div id="footer-container"></div>
 
-  <!-- Main JS Module (v1.3.9 cache-bust) -->
-  <script type="module" src="js/app.js?v=1.3.9"></script>
+  <!-- Client Optical Decoder (jsQR) for instant scannability check -->
+  <script src="js/vendor/jsQR.js?v=1.4.0"></script>
+
+  <!-- Main JS Module (v1.4.0 cache-bust) -->
+  <script type="module" src="js/app.js?v=1.4.0"></script>
 </body>
 </html>
