@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.4.9] — 2026-11-11
+### 🔑 Flujo OAuth 2.0 por Proveedor y Selección Directa de Cuenta
+
+#### Novedades y Mejoras
+- **Identificación oficial por proveedor:** Ahora puedes identificarte directamente seleccionando tu proveedor oficial (Google/Gmail, Microsoft/Hotmail o Yahoo).
+- **Selector de cuentas interactivo:** Selecciona con un solo clic tu cuenta conectada o autoriza el acceso a través del selector oficial de OAuth 2.0.
+- **Acceso simplificado:** Eliminación de formularios innecesarios para una experiencia de ingreso limpia, ágil y directa.
+
+---
+
 ## [v1.4.8] — 2026-11-11
 ### 📊 Cuotas Mensuales, Trazabilidad de Créditos y Soporte de Base de Datos
 
