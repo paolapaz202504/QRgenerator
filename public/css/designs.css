@@ -1,28 +1,56 @@
-/* Category Tab Buttons */
+/* Category Tab Buttons (Light SaaS Theme) */
+.cat-btn {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+  color: #475569;
+}
+
+.cat-btn:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
 .cat-btn.active {
   background-color: #4f46e5 !important;
+  border-color: #4338ca !important;
   color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25) !important;
 }
 
 /* Design Card Selection */
 .design-card {
   transition: all 0.2s ease-in-out;
+  background-color: #ffffff;
+  border-color: #e2e8f0;
+}
+
+.design-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .design-card.active {
-  border-color: #6366f1 !important;
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.35) !important;
-  background-color: rgba(30, 41, 59, 0.9) !important;
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2), 0 4px 12px rgba(79, 70, 229, 0.15) !important;
+  background-color: #eef2ff !important;
 }
 
 /* Pattern Card Selection */
 .pattern-card {
   transition: all 0.2s ease-in-out;
+  background-color: #ffffff;
+  border-color: #e2e8f0;
+  color: #334155;
+}
+
+.pattern-card:hover {
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
 }
 
 .pattern-card.active {
-  border-color: #ec4899 !important;
-  box-shadow: 0 0 12px rgba(236, 72, 153, 0.35) !important;
-  background-color: rgba(131, 24, 67, 0.25) !important;
-  color: #ffffff !important;
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2) !important;
+  background-color: #eef2ff !important;
+  color: #4338ca !important;
 }

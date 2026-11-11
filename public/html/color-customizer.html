@@ -1,102 +1,104 @@
-<!-- Fine-Tuning Colors Customizer (Collapsible) -->
-<div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
-  <button id="toggle-customizer" type="button" class="w-full flex items-center justify-between text-xs font-semibold text-slate-300 hover:text-white transition">
+<!-- Fine-Tuning Colors Customizer (Light SaaS Theme) -->
+<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4 hover:shadow-md transition">
+  <button id="toggle-customizer" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
     <div class="flex items-center gap-3">
-      <span class="w-7 h-7 rounded-lg bg-amber-600/20 border border-amber-500/30 text-amber-400 font-bold text-sm flex items-center justify-center">5</span>
-      <h2 class="text-base font-semibold text-slate-100">Personalizar Colores de Fondo y Marco</h2>
+      <span class="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 font-bold text-sm flex items-center justify-center">5</span>
+      <div>
+        <h2 class="text-base font-semibold text-slate-900">Personalizar Colores de Fondo y Marco</h2>
+        <p class="text-xs text-slate-500">Ajusta los degradados, siluetas temáticas y forma del póster</p>
+      </div>
     </div>
-    <i id="customizer-icon" class="fa-solid fa-chevron-down transition-transform duration-200 rotate-180"></i>
+    <i id="customizer-icon" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200 rotate-180"></i>
   </button>
   
-  <div id="customizer-panel" class="space-y-4 pt-3 border-t border-slate-800">
+  <div id="customizer-panel" class="space-y-4 pt-3 border-t border-slate-100">
     
     <!-- Grupo 1: Silueta Temática (Full Width) -->
-    <div class="bg-slate-950/60 border border-pink-500/30 rounded-xl p-3.5 space-y-2">
-      <label class="block text-xs font-semibold text-pink-400 flex items-center gap-1.5 uppercase tracking-wider">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> 1. Silueta Temática
+    <div class="bg-slate-50 border border-pink-200 rounded-xl p-3.5 space-y-2">
+      <label class="block text-xs font-semibold text-pink-700 flex items-center gap-1.5 uppercase tracking-wider">
+        <i class="fa-solid fa-wand-magic-sparkles text-pink-600"></i> 1. Silueta Temática
       </label>
-      <select id="custom-qr-silhouette" class="w-full bg-slate-950 border border-pink-500/50 focus:border-pink-500 rounded-lg px-3 py-2.5 text-xs text-slate-100 font-medium">
+      <select id="custom-qr-silhouette" class="w-full bg-white border border-slate-300 focus:border-pink-500 rounded-lg px-3 py-2.5 text-xs text-slate-900 font-medium focus:ring-2 focus:ring-pink-500 cursor-pointer">
         <option value="none">1. Matriz Cuadrada Estándar</option>
         <option value="icon_only">2. Silueta de Ícono/Imagen</option>
         <option value="icon_center">3. Silueta + Ícono al Centro</option>
         <option value="icon_pure">4. Silueta Pura (Estilo Flotante)</option>
       </select>
-      <p id="custom-qr-silhouette-desc" class="text-[11px] text-pink-300/80 font-normal leading-relaxed bg-pink-500/10 border border-pink-500/20 rounded-lg px-3 py-1.5"></p>
+      <p id="custom-qr-silhouette-desc" class="text-[11px] text-pink-800 font-medium leading-relaxed bg-pink-50 border border-pink-200 rounded-lg px-3 py-1.5"></p>
     </div>
 
     <!-- Grupo 2: Color de Matriz y Puntos QR -->
-    <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-3">
-      <h3 class="text-xs font-semibold text-indigo-400 flex items-center gap-1.5 uppercase tracking-wider">
-        <i class="fa-solid fa-palette"></i> 2. Color de Matriz y Puntos QR
+    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-3">
+      <h3 class="text-xs font-semibold text-indigo-700 flex items-center gap-1.5 uppercase tracking-wider">
+        <i class="fa-solid fa-palette text-indigo-600"></i> 2. Color de Matriz y Puntos QR
       </h3>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Color de Puntos (QR)</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color de Puntos (QR)</label>
           <div class="flex items-center gap-2">
-            <input type="color" id="custom-qr-color" value="#111827" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
-            <span id="custom-qr-color-hex" class="text-xs font-mono text-slate-300">#111827</span>
+            <input type="color" id="custom-qr-color" value="#111827" class="w-9 h-9 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-qr-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#111827</span>
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Tipo de Color QR</label>
-          <select id="custom-gradient-type" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Tipo de Color QR</label>
+          <select id="custom-gradient-type" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs text-slate-800 font-medium focus:ring-2 focus:ring-indigo-500 cursor-pointer">
             <option value="single">Sólido</option>
             <option value="linear">Degradado Lineal</option>
             <option value="radial">Degradado Radial</option>
           </select>
         </div>
         <div id="container-qr-color2" class="hidden">
-          <label class="block text-xs font-medium text-slate-400 mb-1">Color 2 (Degradado)</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color 2 (Degradado)</label>
           <div class="flex items-center gap-2">
-            <input type="color" id="custom-qr-color2" value="#a855f7" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
-            <span id="custom-qr-color2-hex" class="text-xs font-mono text-slate-300">#a855f7</span>
+            <input type="color" id="custom-qr-color2" value="#a855f7" class="w-9 h-9 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-qr-color2-hex" class="text-xs font-mono text-slate-600 font-semibold">#a855f7</span>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- Grupo 3: Personalización de Colores de la Silueta (Opciones 2, 3 y 4 de Silueta Temática) -->
-    <div id="container-silhouette-group" class="bg-slate-950/50 border border-pink-500/30 rounded-xl p-3.5 space-y-3 hidden">
-      <h3 class="text-xs font-semibold text-pink-400 flex items-center gap-1.5 uppercase tracking-wider">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> 3. Color de la Silueta y Color del Patrón
+    <!-- Grupo 3: Personalización de Colores de la Silueta -->
+    <div id="container-silhouette-group" class="bg-slate-50 border border-pink-200 rounded-xl p-3.5 space-y-3 hidden">
+      <h3 class="text-xs font-semibold text-pink-700 flex items-center gap-1.5 uppercase tracking-wider">
+        <i class="fa-solid fa-wand-magic-sparkles text-pink-600"></i> 3. Color de la Silueta y Color del Patrón
       </h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <!-- Opción: Color de la Silueta -->
         <div>
-          <label class="block text-xs font-medium text-pink-400 mb-1 flex items-center gap-1">
+          <label class="block text-xs font-semibold text-pink-800 mb-1 flex items-center gap-1">
             <i class="fa-solid fa-shapes"></i> Color de la Silueta
           </label>
           <div class="flex items-center gap-2">
-            <input type="color" id="custom-silhouette-color" value="#2563eb" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
-            <span id="custom-silhouette-color-hex" class="text-xs font-mono text-slate-300">#2563eb</span>
+            <input type="color" id="custom-silhouette-color" value="#2563eb" class="w-9 h-9 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-silhouette-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#2563eb</span>
           </div>
-          <span class="text-[11px] text-slate-400 block mt-1">Tinte y fondo suave de la figura temática</span>
+          <span class="text-[11px] text-slate-500 block mt-1">Tinte y fondo suave de la figura temática</span>
         </div>
 
         <!-- Opción: Color del Patrón de la Silueta -->
         <div>
-          <label class="block text-xs font-medium text-indigo-400 mb-1 flex items-center gap-1">
+          <label class="block text-xs font-semibold text-indigo-800 mb-1 flex items-center gap-1">
             <i class="fa-solid fa-grip"></i> Color del Patrón de la Silueta
           </label>
           <div class="flex items-center gap-2">
-            <input type="color" id="custom-pattern-color" value="#475569" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
-            <span id="custom-pattern-color-hex" class="text-xs font-mono text-slate-300">#475569</span>
+            <input type="color" id="custom-pattern-color" value="#475569" class="w-9 h-9 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-pattern-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#475569</span>
           </div>
-          <span class="text-[11px] text-slate-400 block mt-1">Color de los puntos QR dentro de la silueta</span>
+          <span class="text-[11px] text-slate-500 block mt-1">Color de los puntos QR dentro de la silueta</span>
         </div>
       </div>
     </div>
 
     <!-- Grupo 4: Estilo y Colores de los Ojos (Finders) -->
-    <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-2.5">
-      <h3 class="text-xs font-semibold text-cyan-400 flex items-center gap-1.5 uppercase tracking-wider">
-        <i class="fa-solid fa-eye"></i> 4. Estilo y Color de Ojos (Finders)
+    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
+      <h3 class="text-xs font-semibold text-cyan-700 flex items-center gap-1.5 uppercase tracking-wider">
+        <i class="fa-solid fa-eye text-cyan-600"></i> 4. Estilo y Color de Ojos (Finders)
       </h3>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Estilo de Ojos</label>
-          <select id="custom-eye-style" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Estilo de Ojos</label>
+          <select id="custom-eye-style" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs text-slate-800 font-medium focus:ring-2 focus:ring-cyan-500 cursor-pointer">
             <option value="square">Cuadradas</option>
             <option value="rounded">Redondeadas</option>
             <option value="circle">Círculos Concéntricos</option>
@@ -108,53 +110,53 @@
           </select>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Color de Ojos</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color de Ojos</label>
           <div class="flex items-center gap-2">
-            <input type="color" id="custom-eye-color" value="#111827" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
-            <span id="custom-eye-color-hex" class="text-xs font-mono text-slate-300">#111827</span>
+            <input type="color" id="custom-eye-color" value="#111827" class="w-9 h-9 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-eye-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#111827</span>
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Tipo de Color de Ojos</label>
-          <select id="custom-eye-gradient-type" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Tipo de Color</label>
+          <select id="custom-eye-gradient-type" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs text-slate-800 font-medium focus:ring-2 focus:ring-cyan-500 cursor-pointer">
             <option value="single">Sólido</option>
             <option value="linear">Degradado Lineal</option>
             <option value="radial">Degradado Radial</option>
           </select>
         </div>
         <div id="container-eye-color2" class="hidden">
-          <label class="block text-xs font-medium text-slate-400 mb-1">Color 2 Ojos</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color 2 Ojos</label>
           <div class="flex items-center gap-2">
-            <input type="color" id="custom-eye-color2" value="#38bdf8" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
-            <span id="custom-eye-color2-hex" class="text-xs font-mono text-slate-300">#38bdf8</span>
+            <input type="color" id="custom-eye-color2" value="#38bdf8" class="w-9 h-9 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-eye-color2-hex" class="text-xs font-mono text-slate-600 font-semibold">#38bdf8</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Grupo 5: Fondo, Marco y Forma del Póster -->
-    <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-2.5">
-      <h3 class="text-xs font-semibold text-amber-400 flex items-center gap-1.5 uppercase tracking-wider">
-        <i class="fa-solid fa-border-all"></i> 5. Fondo, Marco y Forma del Póster
+    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
+      <h3 class="text-xs font-semibold text-amber-700 flex items-center gap-1.5 uppercase tracking-wider">
+        <i class="fa-solid fa-border-all text-amber-600"></i> 5. Fondo, Marco y Forma del Póster
       </h3>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Color de Fondo</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color de Fondo</label>
           <div class="flex items-center gap-2">
-            <input type="color" id="custom-bg-color" value="#ffffff" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
-            <span id="custom-bg-color-hex" class="text-xs font-mono text-slate-300">#ffffff</span>
+            <input type="color" id="custom-bg-color" value="#ffffff" class="w-9 h-9 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-bg-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#ffffff</span>
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Color de Marco</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Color de Marco</label>
           <div class="flex items-center gap-2">
-            <input type="color" id="custom-frame-color" value="#2563eb" class="w-9 h-9 rounded bg-transparent cursor-pointer border border-slate-700">
-            <span id="custom-frame-color-hex" class="text-xs font-mono text-slate-300">#2563eb</span>
+            <input type="color" id="custom-frame-color" value="#2563eb" class="w-9 h-9 rounded bg-white cursor-pointer border border-slate-300">
+            <span id="custom-frame-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#2563eb</span>
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Forma del Marco General</label>
-          <select id="custom-frame-shape" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200">
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Forma del Marco</label>
+          <select id="custom-frame-shape" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs text-slate-800 font-medium focus:ring-2 focus:ring-amber-500 cursor-pointer">
             <option value="rectangular">1. Rectangular Clásico</option>
             <option value="square">2. Cuadrado Moderno</option>
             <option value="rounded">3. Cápsula / Redondeado</option>
@@ -167,13 +169,13 @@
             <option value="wavy">10. Esquinas Invertidas Flotantes</option>
           </select>
         </div>
-        <div class="col-span-2 sm:col-span-3 bg-slate-900/60 border border-slate-800 rounded-lg p-2.5">
-          <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span>Redondeado Tarjeta Blanca del QR:</span>
-            <span id="custom-qr-box-radius-val" class="font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">18px</span>
+        <div class="col-span-2 sm:col-span-3 bg-white border border-slate-200 rounded-lg p-2.5">
+          <div class="flex items-center justify-between text-xs text-slate-700 mb-1">
+            <span class="font-semibold">Redondeado Tarjeta Blanca del QR:</span>
+            <span id="custom-qr-box-radius-val" class="font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">18px</span>
           </div>
           <input type="range" id="custom-qr-box-radius" min="0" max="35" value="18" step="1"
-            class="w-full accent-amber-500 bg-slate-900 h-2 rounded-lg cursor-pointer" title="Ajustar curvatura de esquinas de la tarjeta del QR">
+            class="w-full accent-amber-600 bg-slate-200 h-2 rounded-lg cursor-pointer" title="Ajustar curvatura de esquinas de la tarjeta del QR">
         </div>
       </div>
     </div>

@@ -120,6 +120,42 @@ class Application {
       }
     }
 
+    // Changelog Modal Triggers (Estándar de Control de Versiones DevTeam)
+    const btnOpenChangelog = document.getElementById('btn-open-changelog');
+    const changelogModal = document.getElementById('changelog-modal');
+    const btnCloseChangelog = document.getElementById('btn-close-changelog');
+    const btnCloseChangelogFooter = document.getElementById('btn-close-changelog-footer');
+
+    if (btnOpenChangelog && changelogModal) {
+      btnOpenChangelog.addEventListener('click', () => {
+        changelogModal.classList.remove('hidden');
+      });
+    }
+
+    [btnCloseChangelog, btnCloseChangelogFooter].forEach(btn => {
+      if (btn && changelogModal) {
+        btn.addEventListener('click', () => {
+          changelogModal.classList.add('hidden');
+        });
+      }
+    });
+
+    // Check payment URL return query params (Recurrente checkout redirection)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment') === 'success') {
+      const txnId = urlParams.get('txn');
+      if (txnId) {
+        ApiService.confirmTransaction(txnId).then(res => {
+          if (res.success && res.user) {
+            appState.setState({ user: { ...appState.getState().user, ...res.user } }, 'PLAN_UPDATED');
+          }
+        }).catch(err => console.warn('Error confirming payment redirect:', err));
+      }
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get('payment') === 'cancelled') {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     // Fetch initial user history
     this.historyTable.fetchHistory();
   }

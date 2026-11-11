@@ -34,8 +34,33 @@ class CanvasGenerator {
       patternIntensity = 100,
       customLogoDataUrl = null,
       userEmail = null,
-      isExplicitGenerate = false
+      isExplicitGenerate = false,
+      format = 'png'
     } = params;
+
+    // SVG Export Mode
+    if (format === 'svg') {
+      try {
+        const svgColor = customColors.qrColor || '#1e293b';
+        const svgBg = customColors.bgColor || '#ffffff';
+        const svgString = await QRCode.toString(url || 'QRbey', {
+          type: 'svg',
+          errorCorrectionLevel: 'H',
+          margin: 2,
+          color: {
+            dark: svgColor,
+            light: svgBg
+          }
+        });
+        return {
+          isSvg: true,
+          data: svgString,
+          contentType: 'image/svg+xml'
+        };
+      } catch (svgErr) {
+        console.warn('[SVG Generation Error]:', svgErr.message);
+      }
+    }
 
     if (userEmail && isExplicitGenerate) {
       const emailKey = userEmail.toLowerCase().trim();

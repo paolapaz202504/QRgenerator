@@ -96,4 +96,23 @@ export class ApiService {
     });
     return await res.json();
   }
+
+  // Recurrente Payment Gateway Integration
+  static async createCheckout(userEmail, plan, months = 1, returnUrl = window.location.origin) {
+    const res = await fetch('/api/payment/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userEmail, plan, months, returnUrl })
+    });
+    return await res.json();
+  }
+
+  static async confirmTransaction(transactionId) {
+    const res = await fetch('/api/payment/confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ transactionId })
+    });
+    return await res.json();
+  }
 }

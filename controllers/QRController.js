@@ -2,6 +2,8 @@ const qrGeneratorService = require('../services/QRGeneratorService');
 
 class QRController {
   getDesigns(req, res) {
+    // Cache headers for static designs catalogue (24 hours)
+    res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=3600');
     res.json({
       success: true,
       categories: qrGeneratorService.getCategories(),
@@ -16,6 +18,12 @@ class QRController {
       if (result && typeof result === 'object' && result.success === false) {
         return res.status(403).json(result);
       }
+      
+      if (result && result.isSvg) {
+        res.setHeader('Content-Type', 'image/svg+xml');
+        return res.send(result.data);
+      }
+
       res.setHeader('Content-Type', 'image/png');
       res.send(result);
     } catch (err) {

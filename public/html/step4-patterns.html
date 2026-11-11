@@ -1,33 +1,33 @@
-<!-- Section 4: Pattern Selector (Collapsible) -->
-<div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+<!-- Section 4: Pattern Selector (Light SaaS Theme) -->
+<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4 hover:shadow-md transition">
   <button id="toggle-step4" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
     <div class="flex items-center gap-3">
-      <span class="w-7 h-7 rounded-lg bg-pink-600/20 border border-pink-500/30 text-pink-400 font-bold text-sm flex items-center justify-center">4</span>
+      <span class="w-7 h-7 rounded-lg bg-pink-50 border border-pink-200 text-pink-700 font-bold text-sm flex items-center justify-center">4</span>
       <div>
-        <h2 class="text-base font-semibold text-slate-100">Patrón de Puntos del QR</h2>
-        <p class="text-xs text-slate-400">22 Estilos únicos para los módulos del código QR</p>
+        <h2 class="text-base font-semibold text-slate-900">Patrón de Puntos del QR</h2>
+        <p class="text-xs text-slate-500">22 Estilos únicos para los módulos del código QR</p>
       </div>
     </div>
     <div class="flex items-center gap-3">
-      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20">
+      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-pink-50 text-pink-700 border border-pink-200">
         22 Patrones
       </span>
       <i id="icon-toggle-step4" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200 rotate-180"></i>
     </div>
   </button>
 
-  <div id="panel-step4" class="pt-3 border-t border-slate-800 space-y-4">
+  <div id="panel-step4" class="pt-3 border-t border-slate-100 space-y-4">
     <!-- Slider de Densidad de Patrón -->
-    <div class="bg-slate-950/60 border border-pink-500/20 rounded-xl p-3.5 space-y-2">
-      <div class="flex items-center justify-between text-xs text-slate-300">
-        <label for="custom-qr-density" class="font-semibold flex items-center gap-1.5 text-pink-300">
-          <i class="fa-solid fa-sliders text-pink-400"></i> Densidad del Patrón de Puntos
+    <div class="bg-slate-50 border border-pink-200 rounded-xl p-3.5 space-y-2">
+      <div class="flex items-center justify-between text-xs text-slate-700">
+        <label for="custom-qr-density" class="font-semibold flex items-center gap-1.5 text-pink-800">
+          <i class="fa-solid fa-sliders text-pink-600"></i> Densidad del Patrón de Puntos
         </label>
-        <span id="custom-qr-density-val" class="font-mono font-bold text-pink-400 bg-pink-500/10 px-2.5 py-0.5 rounded border border-pink-500/20">50%</span>
+        <span id="custom-qr-density-val" class="font-mono font-bold text-pink-800 bg-pink-50 px-2.5 py-0.5 rounded border border-pink-200">50%</span>
       </div>
       <input type="range" id="custom-qr-density" min="1" max="100" value="50" step="1"
-        class="w-full accent-pink-500 bg-slate-900 h-2 rounded-lg cursor-pointer" title="Ajustar densidad de la matriz del QR (1% a 100%)">
-      <p class="text-[11px] text-slate-400">Aumenta o disminuye la resolución y cantidad de elementos de la matriz del código QR.</p>
+        class="w-full accent-pink-600 bg-slate-200 h-2 rounded-lg cursor-pointer" title="Ajustar densidad de la matriz del QR (1% a 100%)">
+      <p class="text-[11px] text-slate-500">Aumenta o disminuye la resolución y cantidad de elementos de la matriz del código QR.</p>
     </div>
 
     <div id="pattern-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">

@@ -1,33 +1,33 @@
-<!-- Customization of Icon OR Upload Custom Logo Image (Collapsible) -->
-<div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+<!-- Customization of Icon OR Upload Custom Logo Image (Light SaaS Theme) -->
+<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4 hover:shadow-md transition">
   <button id="toggle-step2" type="button" class="w-full flex items-center justify-between text-left focus:outline-none">
     <div class="flex items-center gap-3">
-      <span class="w-7 h-7 rounded-lg bg-cyan-600/20 border border-cyan-500/30 text-cyan-400 font-bold text-sm flex items-center justify-center">3</span>
+      <span class="w-7 h-7 rounded-lg bg-cyan-50 border border-cyan-200 text-cyan-700 font-bold text-sm flex items-center justify-center">3</span>
       <div>
-        <h2 class="text-base font-semibold text-slate-100">Personalización del Ícono o Logotipo Imagen</h2>
-        <p class="text-xs text-slate-400">Colección masiva: Redes Sociales, Naturaleza, Tabler & FontAwesome</p>
+        <h2 class="text-base font-semibold text-slate-900">Personalización del Ícono o Logotipo Imagen</h2>
+        <p class="text-xs text-slate-500">Colección masiva: Redes Sociales, Naturaleza, Tabler & FontAwesome</p>
       </div>
     </div>
     <div class="flex items-center gap-3">
       <!-- Show/Hide Toggle -->
       <label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation()">
         <input type="checkbox" id="qr-icon-show" class="sr-only peer" checked>
-        <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600"></div>
-        <span class="ml-2 text-xs font-semibold text-slate-300">Activo</span>
+        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600"></div>
+        <span class="ml-2 text-xs font-semibold text-slate-700">Activo</span>
       </label>
       <i id="icon-toggle-step2" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200 rotate-180"></i>
     </div>
   </button>
 
-  <div id="panel-step2" class="space-y-4 pt-3 border-t border-slate-800">
+  <div id="panel-step2" class="space-y-4 pt-3 border-t border-slate-100">
 
   <div id="icon-controls-wrapper" class="space-y-4">
     <!-- Mode Switcher: Vector Icon vs Custom Image Upload -->
-    <div class="flex items-center gap-3 bg-slate-950/80 border border-slate-800 p-1.5 rounded-xl">
-      <button id="btn-mode-icon" type="button" class="flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow">
+    <div class="flex items-center gap-3 bg-slate-50 border border-slate-200 p-1.5 rounded-xl">
+      <button id="btn-mode-icon" type="button" class="flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow-xs">
         <i class="fa-solid fa-icons mr-1.5"></i> Íconos Vectoriales (4 Fuentes)
       </button>
-      <button id="btn-mode-image" type="button" class="flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-400 hover:text-white">
+      <button id="btn-mode-image" type="button" class="flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-600 hover:text-slate-900 hover:bg-slate-100">
         <i class="fa-solid fa-image mr-1.5"></i> Subir Imagen / Logo
       </button>
     </div>
@@ -38,30 +38,30 @@
       
       <!-- 4 Icon Font Sources Selector Tabs -->
       <div class="space-y-2">
-        <label class="block text-xs font-medium text-slate-300">
+        <label class="block text-xs font-semibold text-slate-700">
           Selecciona la Categoría / Fuente de Íconos:
         </label>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-1 bg-slate-950/90 border border-slate-800 rounded-xl" id="icon-source-tabs">
-          <button type="button" data-source="brands" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow">
-            <i class="fa-brands fa-whatsapp text-emerald-400"></i> Redes & Marcas
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-1 bg-slate-50 border border-slate-200 rounded-xl" id="icon-source-tabs">
+          <button type="button" data-source="brands" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow-xs">
+            <i class="fa-brands fa-whatsapp text-emerald-300"></i> Redes & Marcas
           </button>
-          <button type="button" data-source="animals" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white hover:bg-slate-800">
-            <i class="fa-solid fa-leaf text-emerald-400"></i> Naturaleza
+          <button type="button" data-source="animals" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 hover:bg-slate-200">
+            <i class="fa-solid fa-leaf text-emerald-600"></i> Naturaleza
           </button>
-          <button type="button" data-source="tabler" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white hover:bg-slate-800">
-            <i class="ti ti-brand-tabler text-cyan-400"></i> Tabler (5,000+)
+          <button type="button" data-source="tabler" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 hover:bg-slate-200">
+            <i class="ti ti-brand-tabler text-cyan-600"></i> Tabler (5,000+)
           </button>
-          <button type="button" data-source="fontawesome" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white hover:bg-slate-800">
-            <i class="fa-brands fa-font-awesome text-purple-400"></i> FontAwesome
+          <button type="button" data-source="fontawesome" class="icon-source-tab flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900 hover:bg-slate-200">
+            <i class="fa-brands fa-font-awesome text-purple-600"></i> FontAwesome
           </button>
         </div>
       </div>
 
       <div class="flex items-center justify-between pt-1">
-        <span class="text-xs font-medium text-slate-300">
-          40 Íconos populares de <span id="active-source-name" class="font-bold text-cyan-400">Redes Sociales & Marcas</span>:
+        <span class="text-xs font-medium text-slate-700">
+          40 Íconos populares de <span id="active-source-name" class="font-bold text-cyan-700">Redes Sociales & Marcas</span>:
         </span>
-        <span id="active-icon-label" class="text-[11px] text-cyan-400 font-semibold px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
+        <span id="active-icon-label" class="text-[11px] text-cyan-800 font-semibold px-2 py-0.5 rounded bg-cyan-50 border border-cyan-200">
           Seleccionado: WHATSAPP
         </span>
       </div>
@@ -73,8 +73,8 @@
 
       <!-- Button to Open Full Icon Gallery Modal -->
       <button id="btn-open-icon-gallery" type="button" 
-        class="w-full bg-slate-800 hover:bg-slate-700 hover:border-cyan-500/50 text-cyan-300 font-semibold py-2.5 px-4 rounded-xl text-xs border border-slate-700 shadow-sm flex items-center justify-center gap-2 transition transform active:scale-95">
-        <i class="fa-solid fa-shapes text-cyan-400"></i>
+        class="w-full bg-white hover:bg-slate-50 hover:border-cyan-500 text-cyan-700 font-semibold py-2.5 px-4 rounded-xl text-xs border border-slate-300 shadow-xs flex items-center justify-center gap-2 transition transform active:scale-95">
+        <i class="fa-solid fa-shapes text-cyan-600"></i>
         <span>Ver Galería Completa de <span id="gallery-btn-source-name">Redes Sociales & Marcas</span> (120+ Íconos)</span>
         <i class="fa-solid fa-arrow-right text-[10px] opacity-70 ml-1"></i>
       </button>
@@ -82,24 +82,24 @@
 
     <!-- Mode 2: Custom Image Logo Upload Dropzone -->
     <div id="section-image-mode" class="hidden space-y-3">
-      <label class="block text-xs font-medium text-slate-300">
+      <label class="block text-xs font-semibold text-slate-700">
         Subir Logotipo o Imagen Personalizada (PNG, JPG, SVG, WEBP)
       </label>
       
-      <div class="flex flex-col items-center justify-center border-2 border-dashed border-slate-700 hover:border-cyan-500/60 bg-slate-950/60 rounded-xl p-4 transition cursor-pointer relative" id="logo-dropzone">
+      <div class="flex flex-col items-center justify-center border-2 border-dashed border-slate-300 hover:border-cyan-500 bg-slate-50 hover:bg-white rounded-xl p-4 transition cursor-pointer relative" id="logo-dropzone">
         <input type="file" id="qr-logo-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
         
         <div id="logo-upload-prompt" class="flex flex-col items-center gap-1.5 text-center">
-          <i class="fa-solid fa-cloud-arrow-up text-2xl text-cyan-400"></i>
-          <span class="text-xs font-semibold text-slate-200">Haz clic o arrastra una imagen aquí</span>
-          <span class="text-[10px] text-slate-400">Archivos recomendados: PNG transparente o SVG</span>
+          <i class="fa-solid fa-cloud-arrow-up text-2xl text-cyan-600"></i>
+          <span class="text-xs font-semibold text-slate-800">Haz clic o arrastra una imagen aquí</span>
+          <span class="text-[10px] text-slate-500">Archivos recomendados: PNG transparente o SVG</span>
         </div>
 
         <div id="logo-preview-container" class="hidden flex items-center gap-3">
-          <img id="qr-logo-thumb" src="" alt="Logo Thumb" class="w-12 h-12 object-contain bg-white/10 rounded-lg p-1 border border-slate-700">
+          <img id="qr-logo-thumb" src="" alt="Logo Thumb" class="w-12 h-12 object-contain bg-white rounded-lg p-1 border border-slate-200 shadow-xs">
           <div class="text-left">
-            <span id="logo-filename" class="text-xs font-bold text-slate-200 block truncate max-w-[180px]">logo.png</span>
-            <button id="btn-clear-logo" type="button" class="text-[11px] text-rose-400 hover:text-rose-300 transition">
+            <span id="logo-filename" class="text-xs font-bold text-slate-900 block truncate max-w-[180px]">logo.png</span>
+            <button id="btn-clear-logo" type="button" class="text-[11px] text-rose-600 hover:text-rose-700 font-semibold transition">
               <i class="fa-solid fa-trash mr-1"></i> Eliminar Logotipo
             </button>
           </div>
@@ -108,13 +108,13 @@
     </div>
 
     <!-- Icon Controls: Location, Size Slider & Color Pickers -->
-    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 border-t border-slate-800/80 pt-3">
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 border-t border-slate-100 pt-3">
       <!-- Location Selector -->
       <div class="sm:col-span-6">
-        <label class="block text-xs font-medium text-slate-300 mb-1">
+        <label class="block text-xs font-semibold text-slate-700 mb-1">
           Ubicación del Ícono / Logotipo
         </label>
-        <select id="qr-icon-position" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:ring-2 focus:ring-cyan-500 focus:outline-none cursor-pointer">
+        <select id="qr-icon-position" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-cyan-500 focus:outline-none cursor-pointer">
           <option value="center">🎯 Centro del QR (Logo Emblem Badge)</option>
           <option value="above">⬆️ Arriba del Título (Arriba del QR)</option>
           <option value="below">⬇️ Debajo del Título (Debajo del QR)</option>
@@ -126,24 +126,24 @@
       <!-- Size Slider -->
       <div class="sm:col-span-6">
         <div class="flex items-center justify-between mb-1">
-          <label class="block text-xs font-medium text-slate-300">
+          <label class="block text-xs font-semibold text-slate-700">
             Tamaño del Ícono / Logo
           </label>
-          <span id="qr-icon-size-val" class="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">34px</span>
+          <span id="qr-icon-size-val" class="text-xs font-mono font-bold text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-200">34px</span>
         </div>
         <input type="range" id="qr-icon-size" min="16" max="80" value="34" step="2"
-          class="w-full accent-cyan-500 bg-slate-950 h-2 rounded-lg cursor-pointer">
+          class="w-full accent-cyan-600 bg-slate-200 h-2 rounded-lg cursor-pointer">
       </div>
 
       <!-- Icon Color Picker -->
       <div id="icon-color-container" class="sm:col-span-4">
         <div class="flex flex-col gap-1">
-          <label class="block text-xs font-medium text-slate-300">
+          <label class="block text-xs font-semibold text-slate-700">
             Color del Ícono
           </label>
           <div class="flex items-center gap-2">
-            <input type="color" id="qr-icon-color" value="#2563eb" class="w-8 h-8 rounded-lg bg-transparent cursor-pointer border border-slate-700">
-            <span id="qr-icon-color-hex" class="text-xs font-mono text-slate-300">#2563eb</span>
+            <input type="color" id="qr-icon-color" value="#2563eb" class="w-8 h-8 rounded-lg bg-white cursor-pointer border border-slate-300">
+            <span id="qr-icon-color-hex" class="text-xs font-mono text-slate-600 font-semibold">#2563eb</span>
           </div>
         </div>
       </div>
@@ -151,12 +151,12 @@
       <!-- Icon Background Box Color Picker -->
       <div id="icon-bg-container" class="sm:col-span-4">
         <div class="flex flex-col gap-1">
-          <label class="block text-xs font-medium text-slate-300">
+          <label class="block text-xs font-semibold text-slate-700">
             Fondo Recuadro
           </label>
           <div class="flex items-center gap-2">
-            <input type="color" id="qr-icon-bg-color" value="#ffffff" class="w-8 h-8 rounded-lg bg-transparent cursor-pointer border border-slate-700">
-            <span id="qr-icon-bg-hex" class="text-xs font-mono text-slate-300">#ffffff</span>
+            <input type="color" id="qr-icon-bg-color" value="#ffffff" class="w-8 h-8 rounded-lg bg-white cursor-pointer border border-slate-300">
+            <span id="qr-icon-bg-hex" class="text-xs font-mono text-slate-600 font-semibold">#ffffff</span>
           </div>
         </div>
       </div>
@@ -164,12 +164,12 @@
       <!-- Icon Border Color Picker -->
       <div id="icon-border-container" class="sm:col-span-4">
         <div class="flex flex-col gap-1">
-          <label class="block text-xs font-medium text-slate-300">
+          <label class="block text-xs font-semibold text-slate-700">
             Borde Recuadro
           </label>
           <div class="flex items-center gap-2">
-            <input type="color" id="qr-icon-border-color" value="#2563eb" class="w-8 h-8 rounded-lg bg-transparent cursor-pointer border border-slate-700">
-            <span id="qr-icon-border-hex" class="text-xs font-mono text-slate-300">#2563eb</span>
+            <input type="color" id="qr-icon-border-color" value="#2563eb" class="w-8 h-8 rounded-lg bg-white cursor-pointer border border-slate-300">
+            <span id="qr-icon-border-hex" class="text-xs font-mono text-slate-600 font-semibold">#2563eb</span>
           </div>
         </div>
       </div>

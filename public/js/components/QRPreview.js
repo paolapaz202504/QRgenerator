@@ -244,7 +244,12 @@ export class QRPreview extends UIComponent {
 
     try {
       const payload = this.getPayload(resolution);
-      const canvasDataUrl = this.container ? this.container.toDataURL(`image/${format === 'svg' ? 'svg+xml' : 'png'}`) : null;
+      payload.format = format;
+
+      // Generar el archivo en alta fidelidad (SVG vectorial o PNG 800/2000px) desde el backend
+      const blob = await ApiService.generateQR(payload);
+      const downloadBlobUrl = URL.createObjectURL(blob);
+      const canvasDataUrl = this.container ? this.container.toDataURL('image/png') : null;
 
       const trackPayload = {
         userEmail: state.user.email,
@@ -265,8 +270,11 @@ export class QRPreview extends UIComponent {
         const link = document.createElement('a');
         const cleanTitle = (payload.title || 'codigo_qr').replace(/[^a-zA-Z0-9_-]/g, '_');
         link.download = `QR_${cleanTitle}.${format}`;
-        link.href = canvasDataUrl;
+        link.href = downloadBlobUrl;
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(downloadBlobUrl), 5000);
 
         appState.notify('HISTORY_UPDATED');
       } else if (trackRes.message) {

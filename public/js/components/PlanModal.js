@@ -286,6 +286,39 @@ export class PlanModal extends UIComponent {
     const planName = planNames[targetPlan] || targetPlan;
 
     try {
+      // Pasarela de Pagos Recurrente (recurrente.com)
+      const checkoutRes = await ApiService.createCheckout(state.user.email, targetPlan, months, window.location.origin);
+      if (checkoutRes.success && checkoutRes.checkoutUrl) {
+        // Modo Sandbox / Demo: Confirmación interactiva inmediata
+        if (checkoutRes.checkoutUrl.includes('checkout_txn=')) {
+          const confirmRes = await ApiService.confirmTransaction(checkoutRes.transactionId);
+          if (confirmRes.success && confirmRes.user) {
+            const updatedUser = {
+              ...state.user,
+              ...confirmRes.user
+            };
+            appState.setState({ user: updatedUser }, 'PLAN_UPDATED');
+
+            if (this.notificationBanner && this.notificationText) {
+              this.notificationText.textContent = confirmRes.message || `¡Felicidades! Has actualizado con éxito al ${planName} por ${months} mes(es).`;
+              this.notificationBanner.classList.remove('hidden');
+            }
+
+            await ModalService.alert({
+              title: '¡Suscripción Activada!',
+              message: `Tu pago de $${checkoutRes.amount} ${checkoutRes.currency || 'USD'} por ${months} mes(es) del ${planName} se ha procesado correctamente con Recurrente (${checkoutRes.environment || 'Sandbox'}).`,
+              type: 'success'
+            });
+            return;
+          }
+        } else {
+          // Redirección hacia el checkout oficial de Recurrente
+          window.location.href = checkoutRes.checkoutUrl;
+          return;
+        }
+      }
+
+      // Fallback estándar
       const res = await ApiService.upgradePlan(state.user.email, targetPlan, months);
       if (res.success && res.user) {
         const updatedUser = {
