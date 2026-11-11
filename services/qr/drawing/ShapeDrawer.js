@@ -48,33 +48,37 @@ class ShapeDrawer {
     ctx.strokeStyle = color;
     const cx = x + size / 2;
     const cy = y + size / 2;
-    const r = size / 2;
+    const r = (size / 2) * 0.90;
+    const pad = size * 0.08;
+    const eff = size - pad * 2;
 
     ctx.beginPath();
     switch (style) {
+      case 'dots':
+      case 'halftone':
+      case 'bubble':
+      case 'ring': {
+        ctx.arc(cx, cy, (size / 2) * 0.92, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      }
       case 'rounded': {
-        const pad = size * 0.06;
-        const eff = size - pad * 2;
         this.roundRect(ctx, x + pad, y + pad, eff, eff, eff * 0.28);
         ctx.fill();
         break;
       }
-      case 'dots': {
-        ctx.arc(cx, cy, r * 0.93, 0, Math.PI * 2);
-        ctx.fill();
-        break;
-      }
       case 'smooth': {
-        const pad = size * 0.07;
-        const eff = size - pad * 2;
         this.roundRect(ctx, x + pad, y + pad, eff, eff, eff * 0.44);
         ctx.fill();
         break;
       }
+      case 'square':
+      case 'pixel': {
+        ctx.fillRect(x + pad, y + pad, eff, eff);
+        break;
+      }
       case 'diamond': {
-        const pad = size * 0.06;
-        const eff = size - pad * 2;
-        const cut = eff * 0.38;
+        const cut = eff * 0.24;
         ctx.moveTo(x + pad + cut, y + pad);
         ctx.lineTo(x + pad + eff - cut, y + pad);
         ctx.lineTo(x + pad + eff, y + pad + cut);
@@ -87,32 +91,40 @@ class ShapeDrawer {
         ctx.fill();
         break;
       }
+      case 'diamond_rounded': {
+        this.roundRect(ctx, x + pad, y + pad, eff, eff, eff * 0.36);
+        ctx.fill();
+        break;
+      }
       case 'star': {
-        ctx.arc(cx, cy, r * 0.88, 0, Math.PI * 2);
+        ctx.arc(cx, cy, (size / 2) * 0.86, 0, Math.PI * 2);
         ctx.fill();
         ctx.beginPath();
-        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 5, r * 0.96, r * 0.60);
+        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 8, (size / 2) * 0.95, (size / 2) * 0.65);
         ctx.fill();
         break;
       }
       case 'sparkle': {
-        ctx.arc(cx, cy, r * 0.88, 0, Math.PI * 2);
+        ctx.arc(cx, cy, (size / 2) * 0.88, 0, Math.PI * 2);
         ctx.fill();
         ctx.beginPath();
-        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 4, r * 0.96, r * 0.58);
+        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 4, (size / 2) * 0.96, (size / 2) * 0.60);
         ctx.fill();
         break;
       }
       case 'heart': {
-        ctx.arc(cx, cy, r * 0.90, 0, Math.PI * 2);
+        ctx.arc(cx, cy, (size / 2) * 0.89, 0, Math.PI * 2);
         ctx.fill();
         ctx.beginPath();
-        require('./IconDrawer').prototype.drawHeartPath(ctx, x + size * 0.01, y + size * 0.01, size * 0.98);
+        require('./IconDrawer').prototype.drawHeartPath(ctx, x + pad, y + pad, eff);
         ctx.fill();
         break;
       }
       case 'hexagon': {
-        const hR = r * 1.02;
+        ctx.arc(cx, cy, (size / 2) * 0.88, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        const hR = (size / 2) * 0.93;
         for (let i = 0; i < 6; i++) {
           const angle = (Math.PI / 3) * i;
           const hx = cx + hR * Math.cos(angle);
@@ -124,111 +136,83 @@ class ShapeDrawer {
         ctx.fill();
         break;
       }
-      case 'ring': {
-        ctx.arc(cx, cy, r * 0.94, 0, Math.PI * 2);
-        ctx.fill();
-        break;
-      }
-      case 'diamond_rounded': {
-        const pad = size * 0.08;
-        const eff = size - pad * 2;
-        this.roundRect(ctx, x + pad, y + pad, eff, eff, eff * 0.38);
-        ctx.fill();
-        break;
-      }
       case 'cross': {
-        ctx.arc(cx, cy, r * 0.88, 0, Math.PI * 2);
+        ctx.arc(cx, cy, (size / 2) * 0.88, 0, Math.PI * 2);
         ctx.fill();
-        const w = size * 0.56;
-        const o = (size - w) / 2;
+        const barW = eff * 0.64;
+        const barO = (size - barW) / 2;
         ctx.beginPath();
-        this.roundRect(ctx, x + o, y + 0.2, w, size - 0.4, size * 0.1);
+        this.roundRect(ctx, x + barO, y + pad, barW, eff, barW * 0.20);
         ctx.fill();
         ctx.beginPath();
-        this.roundRect(ctx, x + 0.2, y + o, size - 0.4, w, size * 0.1);
+        this.roundRect(ctx, x + pad, y + barO, eff, barW, barW * 0.20);
         ctx.fill();
         break;
       }
       case 'clover': {
-        ctx.arc(cx, cy, r * 0.96, 0, Math.PI * 2);
+        ctx.arc(cx, cy, (size / 2) * 0.88, 0, Math.PI * 2);
         ctx.fill();
-        const cr = r * 0.42;
+        const cr = (size / 2) * 0.44;
+        const cDist = (size / 2) * 0.38;
         ctx.beginPath();
-        ctx.arc(cx, cy - r * 0.35, cr, 0, Math.PI * 2);
-        ctx.arc(cx + r * 0.35, cy, cr, 0, Math.PI * 2);
-        ctx.arc(cx, cy + r * 0.35, cr, 0, Math.PI * 2);
-        ctx.arc(cx - r * 0.35, cy, cr, 0, Math.PI * 2);
+        ctx.arc(cx, cy - cDist, cr, 0, Math.PI * 2);
+        ctx.arc(cx + cDist, cy, cr, 0, Math.PI * 2);
+        ctx.arc(cx, cy + cDist, cr, 0, Math.PI * 2);
+        ctx.arc(cx - cDist, cy, cr, 0, Math.PI * 2);
         ctx.fill();
         break;
       }
       case 'sunburst': {
-        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 8, r * 0.98, r * 0.65);
+        ctx.arc(cx, cy, (size / 2) * 0.86, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 8, (size / 2) * 0.95, (size / 2) * 0.65);
         ctx.fill();
         break;
       }
       case 'leaf_dot': {
-        const pad = size * 0.02;
-        const eff = size - pad * 2;
-        this.roundRect(ctx, x + pad, y + pad, eff, eff, { tl: eff * 0.48, tr: 0, br: eff * 0.48, bl: 0 });
-        ctx.fill();
-        break;
-      }
-      case 'halftone': {
-        ctx.arc(cx, cy, r * 0.93, 0, Math.PI * 2);
+        this.roundRect(ctx, x + pad, y + pad, eff, eff, { tl: eff * 0.45, tr: eff * 0.15, br: eff * 0.45, bl: eff * 0.15 });
         ctx.fill();
         break;
       }
       case 'shield_dot': {
-        const pad = size * 0.07;
-        const eff = size - pad * 2;
-        this.roundRect(ctx, x + pad, y + pad, eff, eff, { tl: 2, tr: 2, br: eff * 0.5, bl: eff * 0.5 });
+        this.roundRect(ctx, x + pad, y + pad, eff, eff, { tl: eff * 0.20, tr: eff * 0.20, br: eff * 0.45, bl: eff * 0.45 });
         ctx.fill();
         break;
       }
       case 'flower': {
-        ctx.arc(cx, cy, r * 0.92, 0, Math.PI * 2);
+        ctx.arc(cx, cy, (size / 2) * 0.86, 0, Math.PI * 2);
         ctx.fill();
-        const pr = r * 0.46;
+        const fr = (size / 2) * 0.44;
+        const fDist = (size / 2) * 0.38;
         for (let a = 0; a < 4; a++) {
           const ang = (Math.PI / 2) * a + Math.PI / 4;
           ctx.beginPath();
-          ctx.arc(cx + r * 0.52 * Math.cos(ang), cy + r * 0.52 * Math.sin(ang), pr, 0, Math.PI * 2);
+          ctx.arc(cx + fDist * Math.cos(ang), cy + fDist * Math.sin(ang), fr, 0, Math.PI * 2);
           ctx.fill();
         }
         break;
       }
+      case 'radial_drop': {
+        const dropR = eff * 0.45;
+        this.roundRect(ctx, x + pad, y + pad, eff, eff, { tl: dropR, tr: eff * 0.15, br: dropR, bl: dropR });
+        ctx.fill();
+        break;
+      }
       case 'diagonal_lines': {
+        ctx.arc(cx, cy, (size / 2) * 0.88, 0, Math.PI * 2);
+        ctx.fill();
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(Math.PI / 4);
-        this.roundRect(ctx, -r * 0.94, -r * 0.62, r * 1.88, r * 1.24, r * 0.25);
+        this.roundRect(ctx, -r * 0.75, -r * 0.50, r * 1.50, r * 1.0, r * 0.25);
         ctx.fill();
         ctx.restore();
         break;
       }
-      case 'radial_drop': {
-        const pad = size * 0.07;
-        const eff = size - pad * 2;
-        const dropR = eff * 0.48;
-        this.roundRect(ctx, x + pad, y + pad, eff, eff, { tl: dropR, tr: 0, br: dropR, bl: dropR });
-        ctx.fill();
-        break;
-      }
-      case 'bubble': {
-        ctx.arc(cx, cy, r * 0.93, 0, Math.PI * 2);
-        ctx.fill();
-        break;
-      }
-      case 'pixel': {
-        const pad = size * 0.06;
-        this.roundRect(ctx, x + pad, y + pad, size - pad * 2, size - pad * 2, 1);
-        ctx.fill();
-        break;
-      }
       case 'square':
       default: {
-        const pad = size * 0.05;
-        ctx.fillRect(x + pad, y + pad, size - pad * 2, size - pad * 2);
+        ctx.fillRect(x + pad, y + pad, eff, eff);
         break;
       }
     }

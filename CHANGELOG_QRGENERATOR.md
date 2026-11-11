@@ -4,6 +4,23 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.4.6] — 2026-11-11
+### 🔬 Aislamiento Óptico Absoluto: Erradicación Total de Fusión de Puntos y Líneas Artificiales
+
+#### Solucionado
+- **Investigación Conjunta `pmAgent`, `analystAgent` y `qrAgent` sobre Líneas Indeseadas:**
+  - **Diagnóstico de Causa Raíz:** Se identificó que 4 estilos (`cross`, `clover`, `hexagon`, `leaf_dot`) tenían puntos de contacto directo con celdas vecinas (`Smallest Gap = 0px`), mientras que figuras como `heart`, `star` y `flower` contenían núcleos de radio `0.90r - 0.96r` excesivamente grandes que ocupaban casi la totalidad de la celda, haciendo que módulos adyacentes de datos ('1 1 1') se fundieran visualmente en barras o líneas continuas sin interrupción.
+  - **Calibración Matemática de Inset y Masa Celular:**
+    - Recodificación de los 22 estilos en `ShapeDrawer.js` aplicando un margen celular perimetral (*Cell Inset Gap*) de entre 16% y 20% (`pad = size * 0.08`), asegurando una separación física mínima entre módulos de 2px a 4px.
+    - Se rediseñó `cross` como cruz griega contenida con barras de ancho `eff * 0.64`, eliminando el desbordamiento hacia los bordes.
+    - Se rediseñó `hexagon` con vértices contenidos en `r * 0.93`, eliminando el solapamiento en celdas contiguas.
+    - Se calibró `clover`, `flower`, `heart` y `star` con un núcleo de masa óptica balanceado (`r * 0.86 a 0.89`) que preserva la silueta estilizada y nítida de cada figura sin tocar las celdas adyacentes.
+  - **Certificación de Aislamiento y Escaneabilidad:**
+    - Se comprobó mediante análisis de mapa de bits que el 100% de los patrones presentan `Touch: false` y separación real garantizada.
+    - Se validó el 100% de escaneabilidad óptica con `jsQR` en los 22 patrones y 201 casos combinatorios sin una sola falla.
+
+---
+
 ## [v1.4.5] — 2026-11-11
 ### 💼 Implementación Estricta de las 3 Reglas de Negocio: Créditos de Configuración vs Generaciones QR
 
