@@ -30,7 +30,9 @@ export class QRPreview extends UIComponent {
     appState.subscribe((state, eventKey) => {
       const autoRenderEvents = [
         'INIT_DATA',
-        'CHANGE_DESIGN'
+        'CHANGE_DESIGN',
+        'CHANGE_PATTERN',
+        'CHANGE_INPUTS'
       ];
       if (eventKey && autoRenderEvents.includes(eventKey)) {
         this.scheduleGenerate();
@@ -140,19 +142,19 @@ export class QRPreview extends UIComponent {
         silhouetteColor: state.silhouetteColor || '#2563eb',
         patternColor: state.patternColor || '#475569'
       },
-      customDotStyle: state.currentPattern,
-      customEyeStyle: design.eyeStyle || 'square',
+      customDotStyle: state.currentPattern || (document.getElementById('pattern-grid')?.querySelector('.active-pattern')?.dataset?.patternId) || 'square',
+      customEyeStyle: (document.getElementById('custom-eye-style')?.value) || state.customEyeStyle || design.eyeStyle || 'square',
       customEyeColor: state.customEyeColor || null,
       eyeGradientType: state.eyeGradientType || 'single',
       eyeColor2: state.eyeColor2 || null,
       qrBoxRadius: state.qrBoxRadius !== undefined ? state.qrBoxRadius : 18,
-      qrSilhouetteMode: state.qrSilhouetteMode || 'none',
-      qrDensity: state.qrDensity !== undefined ? state.qrDensity : 50,
-      gradientType: state.gradientType || 'single',
+      qrSilhouetteMode: (document.getElementById('custom-qr-silhouette')?.value) || state.qrSilhouetteMode || 'none',
+      qrDensity: (document.getElementById('custom-qr-density') ? parseInt(document.getElementById('custom-qr-density').value, 10) : (state.qrDensity !== undefined ? state.qrDensity : 50)),
+      gradientType: (document.getElementById('custom-gradient-type')?.value) || state.gradientType || 'single',
       qrColor2: state.qrColor2 || null,
       silhouetteColor: state.silhouetteColor || '#2563eb',
       patternColor: state.patternColor || '#475569',
-      frameShape: state.frameShape || 'rectangular',
+      frameShape: (document.getElementById('custom-frame-shape')?.value) || state.frameShape || 'rectangular',
       titlePosition: state.titlePosition || (this.titlePosInput ? this.titlePosInput.value : 'bottom'),
       titleOffsetY: state.titleOffsetY !== undefined ? state.titleOffsetY : (this.titleOffsetInput ? parseInt(this.titleOffsetInput.value, 10) : 0),
       targetWidth,

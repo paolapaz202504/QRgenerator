@@ -4,6 +4,32 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.2] — 2026-11-11
+### 🔬 Plan Riguroso de QA, Calibración de Densidad y Siluetas Temáticas Desbloqueadas
+
+#### Añadido
+- **Suite Combinatoria Exhaustiva de Opciones Visuales (`qaAgent`):** Nuevo script automatizado `test/qa_visual_matrix.js` que evalúa 116 combinaciones:
+  - 88 pruebas: 22 patrones de puntos x 4 estilos de ojos (`square`, `rounded`, `circle`, `leaf`).
+  - 12 pruebas: 4 siluetas temáticas (`none`, `icon_only`, `icon_center`, `icon_pure`) x 3 tipos de degradado (`single`, `linear`, `radial`).
+  - 10 pruebas: 10 formas de marco del póster.
+  - 5 pruebas: Espectro de densidades (1%, 20%, 50%, 80%, 100%).
+  - 1 prueba: Renderizado y decodificación en Alta Definición (HD / 1200px).
+  - Tasa de aprobación certificada: **116 / 116 (100% exitosas)** mediante decodificación óptica con `jsQR`.
+- **Suite de Regresión de Densidades (`qaAgent`):** Script `test/test_densities_all_patterns.js` validando los 22 patrones en 7 niveles de densidad (154 combinaciones con 0 fallos).
+
+#### Corregido
+- **Calibración de Densidad y Radio de Ojos (`qrAgent` & `qaAgent`):**
+  - Calibración del radio exterior de ojos en `ShapeDrawer.prototype.drawEye` de `size * 0.30` a `size * 0.14`. A bajas densidades (1% a 15%), el radio previo recortaba las esquinas del borde cuadrado de 1 módulo del patrón de detección (finder eye), arruinando la proporción 1:1:3:1:1. Con `0.14`, todos los niveles de densidad (1% al 100%) escanean instantáneamente.
+  - Refuerzo de centro sólido en geometrías de módulos: corrección de huecos centrales en `clover`, `ring`, `sparkle` y `hexagon` en `ShapeDrawer.js`, garantizando que el punto central de muestreo óptico siempre registre un bit oscuro (1) sin errores de ráfaga.
+- **Desbloqueo y Compatibilidad de Siluetas Temáticas (`qrAgent` & `frontAgent`):**
+  - Eliminación de la restricción que forzaba los ojos a `rounded` cuando se activaba una silueta temática en `CanvasGenerator.js`, permitiendo que el usuario seleccione libremente cualquier estilo de ojos (`square`, `circle`, `leaf`, `rounded`).
+  - Eliminación de la restricción que anulaba los degradados lineales o radiales al activar siluetas temáticas, permitiendo degradados completos y scannables dentro de siluetas.
+- **Sincronización Reactiva en `QRPreview.js` (`frontAgent`):**
+  - Inclusión de los eventos `CHANGE_PATTERN` y `CHANGE_INPUTS` en `autoRenderEvents` con debounce de 150ms, permitiendo que cualquier ajuste de densidad, patrón, silueta o color se refleje de inmediato en el canvas sin esperar a hacer clic manual en "Generar QR".
+  - Extracción confiable de valores directamente del DOM en `getPayload()` para evitar discrepancias de estado.
+
+---
+
 ## [v1.3.1] — 2026-11-11
 ### 🚀 Activación Oficial de Cuenta Pro, Cache-Bust y Despliegue Garantizado de 22 Patrones
 

@@ -35,3 +35,7 @@
 | 2026-11-11 09:03 | `frontAgent` | Integración de `DEFAULT_PATTERNS` embebido y cache-busting `v1.3.1` para forzar 22 patrones en UI. | `AppState.js`, `DesignPicker.js`, `ApiService.js`, `index.html`, `header.html` |
 | 2026-11-11 09:05 | `qaAgent` | Ejecución de suite de 12 pruebas automatizadas y confirmación de pase al 100%. | `test/qa_suite.js` (12/12 Pasadas) |
 | 2026-11-11 09:06 | `devOpsAgent` | Despliegue de release v1.3.1 a GitHub `origin/main` y activación en OnRender. | Git Commit `origin/main` |
+| 2026-11-11 09:20 | `qrAgent` | Calibración de radio de ojos redondeados (factor 0.14) y núcleos sólidos en patrones (`clover`, `ring`, `sparkle`, `hexagon`). Desbloqueo de estilos de ojos y degradados en siluetas. | `ShapeDrawer.js`, `CanvasGenerator.js` |
+| 2026-11-11 09:22 | `frontAgent` | Inclusión de eventos `CHANGE_PATTERN` y `CHANGE_INPUTS` en `autoRenderEvents` de `QRPreview.js` y sincronización directa con el DOM. | `QRPreview.js`, `header.html`, `modals.html`, `index.html` |
+| 2026-11-11 09:23 | `qaAgent` | Creación y ejecución de la Suite Combinatoria Rigurosa de Opciones Visuales (`qa_visual_matrix.js`, 116 pruebas) y regresión de densidades (154 pruebas): 100% de éxito óptico con `jsQR`. | `test/qa_visual_matrix.js`, `test/test_densities_all_patterns.js` |
+| 2026-11-11 09:24 | `pmAgent` | Aprobación del Plan de Control de Calidad, actualización de tablero de control y changelog a versión v1.3.2. | `PLAN_DE_CONTROL_DE_CALIDAD.md`, `CHANGELOG_QRGENERATOR.md`, `PROJECT_STATUS_QRGENERATOR.md` |

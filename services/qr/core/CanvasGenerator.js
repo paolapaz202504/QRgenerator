@@ -237,10 +237,6 @@ class CanvasGenerator {
     let activeDotStyle = dotStyle || 'rounded';
     let effectiveGradientType = activeGradientType;
 
-    if (qrSilhouetteMode !== 'none') {
-      effectiveGradientType = 'single';
-    }
-
     if (effectiveGradientType !== 'single' && activeQrColor2) {
       const isQr1Dark = require('../drawing/ShapeDrawer').prototype.isDarkColor(activeQrColor);
       const isQr2Dark = require('../drawing/ShapeDrawer').prototype.isDarkColor(activeQrColor2);
@@ -272,7 +268,7 @@ class CanvasGenerator {
     ];
 
     const safeEyeStyle = ['square', 'rounded', 'circle', 'leaf'].includes(eyeStyle) ? eyeStyle : 'rounded';
-    const effectiveEyeStyle = (qrSilhouetteMode !== 'none') ? 'rounded' : safeEyeStyle;
+    const effectiveEyeStyle = safeEyeStyle;
 
     // Helper: draw the 3 finder-pattern eyes on a given context (no clip restrictions)
     const drawFinderEyes = (targetCtx, eyeFill) => {

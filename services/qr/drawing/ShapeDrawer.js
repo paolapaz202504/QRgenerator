@@ -85,10 +85,10 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'sparkle':
-        ctx.arc(cx, cy, r * 0.88, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r * 0.98, 0, Math.PI * 2);
         ctx.fill();
         ctx.beginPath();
-        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 4, r * 1.05, r * 0.65);
+        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 4, r * 1.08, r * 0.65);
         ctx.fill();
         break;
       case 'heart':
@@ -97,9 +97,9 @@ class ShapeDrawer {
         break;
       case 'hexagon':
         for (let i = 0; i < 6; i++) {
-          const angle = (Math.PI / 3) * i - Math.PI / 6;
-          const hx = cx + r * 0.96 * Math.cos(angle);
-          const hy = cy + r * 0.96 * Math.sin(angle);
+          const angle = (Math.PI / 3) * i;
+          const hx = cx + r * 1.06 * Math.cos(angle);
+          const hy = cy + r * 1.06 * Math.sin(angle);
           if (i === 0) ctx.moveTo(hx, hy);
           else ctx.lineTo(hx, hy);
         }
@@ -107,13 +107,9 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'ring':
-        ctx.arc(cx, cy, r * 1.05, 0, Math.PI * 2);
+        // Modern bullseye/halo ring with solid scannable core
+        ctx.arc(cx, cy, r * 1.02, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.arc(cx, cy, r * 0.22, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = color;
         break;
       case 'diamond_rounded':
         this.roundRect(ctx, x + 0.3, y + 0.3, size - 0.6, size - 0.6, size * 0.35);
@@ -129,11 +125,14 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'clover':
-        const cr = r * 0.48;
-        ctx.arc(cx - cr * 0.5, cy - cr * 0.5, cr, 0, Math.PI * 2);
-        ctx.arc(cx + cr * 0.5, cy - cr * 0.5, cr, 0, Math.PI * 2);
-        ctx.arc(cx - cr * 0.5, cy + cr * 0.5, cr, 0, Math.PI * 2);
-        ctx.arc(cx + cr * 0.5, cy + cr * 0.5, cr, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r * 0.98, 0, Math.PI * 2);
+        ctx.fill();
+        const cr = r * 0.44;
+        ctx.beginPath();
+        ctx.arc(cx, cy - r * 0.36, cr, 0, Math.PI * 2);
+        ctx.arc(cx + r * 0.36, cy, cr, 0, Math.PI * 2);
+        ctx.arc(cx, cy + r * 0.36, cr, 0, Math.PI * 2);
+        ctx.arc(cx - r * 0.36, cy, cr, 0, Math.PI * 2);
         ctx.fill();
         break;
       case 'sunburst':
@@ -205,7 +204,7 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'rounded':
-        this.roundRect(ctx, x, y, size, size, size * 0.3);
+        this.roundRect(ctx, x, y, size, size, size * 0.14);
         ctx.fill();
         break;
       case 'diamond':
