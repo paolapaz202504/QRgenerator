@@ -29,11 +29,14 @@ export class QRPreview extends UIComponent {
     this.currentBlobUrl = null;
 
     appState.subscribe((state, eventKey) => {
-      // Regla de Oro: Solo se renderiza automáticamente al iniciar o al cambiar de plantilla.
-      // Si el usuario cambia cualquier otra opción, debe presionar "Generar código qr" explícitamente.
+      // Reactividad en vivo: Generar vista previa automática con debounce ante cualquier cambio visual
       const autoRenderEvents = [
         'INIT_DATA',
-        'CHANGE_DESIGN'
+        'CHANGE_DESIGN',
+        'CHANGE_INPUTS',
+        'CHANGE_PATTERN',
+        'CHANGE_ICON',
+        'PLAN_UPDATED'
       ];
       if (eventKey && autoRenderEvents.includes(eventKey)) {
         this.scheduleGenerate();
@@ -46,6 +49,7 @@ export class QRPreview extends UIComponent {
       if (input) {
         input.addEventListener('input', () => {
           this.syncFontStyles();
+          this.scheduleGenerate();
         });
       }
     });
@@ -54,6 +58,7 @@ export class QRPreview extends UIComponent {
       if (select) {
         select.addEventListener('change', () => {
           this.syncFontStyles();
+          this.scheduleGenerate();
         });
       }
     });

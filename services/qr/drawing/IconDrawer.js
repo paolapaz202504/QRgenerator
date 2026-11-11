@@ -791,12 +791,12 @@ class IconDrawer {
   }
 
   drawHeartPath(ctx, x, y, size) {
-    const topCurveHeight = size * 0.22;
+    const topCurveHeight = size * 0.26;
     ctx.moveTo(x + size / 2, y + topCurveHeight);
-    ctx.bezierCurveTo(x + size / 2, y - size * 0.04, x - size * 0.05, y - size * 0.04, x - size * 0.05, y + topCurveHeight);
-    ctx.bezierCurveTo(x - size * 0.05, y + size * 0.75, x + size * 0.15, y + size * 1.05, x + size / 2, y + size * 1.02);
-    ctx.bezierCurveTo(x + size * 0.85, y + size * 1.05, x + size * 1.05, y + size * 0.75, x + size * 1.05, y + topCurveHeight);
-    ctx.bezierCurveTo(x + size * 1.05, y - size * 0.04, x + size / 2, y - size * 0.04, x + size / 2, y + topCurveHeight);
+    ctx.bezierCurveTo(x + size / 2, y + size * 0.02, x + size * 0.04, y + size * 0.02, x + size * 0.04, y + topCurveHeight);
+    ctx.bezierCurveTo(x + size * 0.04, y + size * 0.70, x + size * 0.20, y + size * 0.94, x + size / 2, y + size * 0.96);
+    ctx.bezierCurveTo(x + size * 0.80, y + size * 0.94, x + size * 0.96, y + size * 0.70, x + size * 0.96, y + topCurveHeight);
+    ctx.bezierCurveTo(x + size * 0.96, y + size * 0.02, x + size / 2, y + size * 0.02, x + size / 2, y + topCurveHeight);
     ctx.closePath();
   }
 

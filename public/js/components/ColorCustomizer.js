@@ -178,13 +178,15 @@ export class ColorCustomizer extends UIComponent {
 
     // Curvatura de Tarjeta Blanca QR
     if (this.customQrBoxRadius) {
-      this.customQrBoxRadius.addEventListener('input', () => {
+      const handleRadius = () => {
         const val = parseInt(this.customQrBoxRadius.value, 10);
         if (this.customQrBoxRadiusVal) this.customQrBoxRadiusVal.textContent = `${val}px`;
         appState.setState({
           qrBoxRadius: val
         }, 'CHANGE_INPUTS');
-      });
+      };
+      this.customQrBoxRadius.addEventListener('input', handleRadius);
+      this.customQrBoxRadius.addEventListener('change', handleRadius);
     }
 
     // Color de Silueta Temática
@@ -236,7 +238,8 @@ export class ColorCustomizer extends UIComponent {
           qrColor: this.customQrColor ? this.customQrColor.value : (currentDesign.qrColor || '#111827'),
           bgColor: this.customBgColor ? this.customBgColor.value : (currentDesign.bgColor || '#ffffff'),
           frameColor: this.customFrameColor ? this.customFrameColor.value : (currentDesign.frameColor || '#2563eb'),
-          eyeStyle: this.customEyeStyle ? this.customEyeStyle.value : (currentDesign.eyeStyle || 'square')
+          eyeStyle: this.customEyeStyle ? this.customEyeStyle.value : (currentDesign.eyeStyle || 'square'),
+          frameShape: this.customFrameShape ? this.customFrameShape.value : (currentDesign.frameShape || 'rectangular')
         };
 
         appState.setState({

@@ -2329,8 +2329,7 @@ class DesignLibrary {
       'halftone', 'shield_dot', 'flower', 'smooth', 'radial_drop', 'bubble', 'pixel'
     ];
     const all10FrameShapes = [
-      'rectangular', 'rounded-smooth', 'pill-capsule', 'badge-ribbon', 'ticket-perforated',
-      'modern-card', 'arch-dome', 'diamond-shield', 'organic-pebble', 'hexagon-prism'
+      'rectangular', 'square', 'rounded', 'circle', 'shield', 'ticket', 'hexagonal', 'diamond_card', 'badge_star', 'wavy'
     ];
     const all8EyeStyles = [
       'square', 'rounded', 'circle', 'leaf', 'diamond', 'shield', 'star', 'hexagon'

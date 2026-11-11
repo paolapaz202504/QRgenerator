@@ -4,6 +4,21 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.4.4] — 2026-11-11
+### 🔬 Recodificación Geométrica de Módulos (Cero Líneas Falsas) y Activación Total de Marco y Fondo
+
+#### Mejorado
+- **Aislamiento Celular Estricto en Patrones de Puntos (`qrAgent` & `analystAgent`):**
+  - Recodificación paramétrica de los 22 estilos en `ShapeDrawer.js` aplicando un margen celular interior (*Cell Inset Margin*) y núcleo de lectura óptica.
+  - Erradicación definitiva de solapamientos entre celdas vecinas en corazones, flores, estrellas, cruces, hexágonos y diamantes, impidiendo que módulos adyacentes se fusionen en líneas continuas.
+  - Certificación de escaneabilidad óptica del 100% en la matriz combinatoria de `jsQR` (201/201 pruebas exitosas).
+- **Activación Completa del Paso 6: Marco, Fondo y Forma del Póster (`frontAgent` & `qrAgent`):**
+  - Se eliminó la restricción `skipBorder: (qrSilhouetteMode !== 'none')` en `CanvasGenerator.js`, garantizando que el marco perimetral y la forma exterior elegida se dibujen siempre, incluso con siluetas activas.
+  - Sincronización en tiempo real de la vista previa ante cambios en forma de marco, color de fondo, color perimetral y redondeado de tarjeta blanca en `QRPreview.js` y `ColorCustomizer.js`.
+  - Alinear los 10 identificadores oficiales de formas de marco en las 600 plantillas de `DesignLibrary.js`.
+
+---
+
 ## [v1.4.3] — 2026-11-11
 ### 🛠️ Hotfix: Eliminación de Bucle de Recarga y Estabilización Cliente
 

@@ -183,7 +183,7 @@ class CanvasGenerator {
       customLogoDataUrl,
       loadedIconImg,
       frameShape,
-      skipBorder: (qrSilhouetteMode !== 'none'),
+      skipBorder: (params.skipBorder === true),
       titlePosition: params.titlePosition || 'bottom',
       titleOffsetY: parseInt(params.titleOffsetY, 10) || 0
     });
