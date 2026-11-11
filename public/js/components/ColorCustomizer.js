@@ -4,8 +4,7 @@ import { appState } from '../state/AppState.js';
 const SILHOUETTE_DESCRIPTIONS = {
   none: 'Matriz cuadrada tradicional de código QR dentro del marco del póster.',
   icon_only: 'El código QR adopta la forma del ícono o imagen seleccionada, ocultando la insignia central.',
-  icon_center: 'Forma temática del ícono o imagen seleccionada incluyendo además la insignia central.',
-  icon_pure: 'Silueta pura flotante de la figura o imagen seleccionada sin fondo blanco ni tarjeta posterior.'
+  icon_center: 'Forma temática del ícono o imagen seleccionada incluyendo además la insignia central.'
 };
 
 export class ColorCustomizer extends UIComponent {
@@ -141,7 +140,7 @@ export class ColorCustomizer extends UIComponent {
         if (input === this.customQrSilhouette) {
           const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
           if (silContainer) {
-            const isSilhouette = ['icon_only', 'icon_center', 'icon_pure'].includes(this.customQrSilhouette.value);
+            const isSilhouette = ['icon_only', 'icon_center'].includes(this.customQrSilhouette.value);
             if (isSilhouette) {
               silContainer.classList.remove('hidden');
             } else {
@@ -185,7 +184,8 @@ export class ColorCustomizer extends UIComponent {
     if (!currentDesign) return;
 
     if (this.customQrSilhouette) {
-      const mode = state.qrSilhouetteMode || 'none';
+      let mode = state.qrSilhouetteMode || 'none';
+      if (mode === 'icon_pure') mode = 'icon_only';
       this.customQrSilhouette.value = mode;
       if (this.customQrSilhouetteDesc) {
         this.customQrSilhouetteDesc.textContent = SILHOUETTE_DESCRIPTIONS[mode] || '';
@@ -250,8 +250,9 @@ export class ColorCustomizer extends UIComponent {
     }
     const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
     if (silContainer) {
-      const mode = state.qrSilhouetteMode || 'none';
-      const isSilhouette = ['icon_only', 'icon_center', 'icon_pure'].includes(mode);
+      let mode = state.qrSilhouetteMode || 'none';
+      if (mode === 'icon_pure') mode = 'icon_only';
+      const isSilhouette = ['icon_only', 'icon_center'].includes(mode);
       if (isSilhouette) {
         silContainer.classList.remove('hidden');
       } else {

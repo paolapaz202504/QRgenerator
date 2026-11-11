@@ -28,11 +28,11 @@ export class QRPreview extends UIComponent {
     this.currentBlobUrl = null;
 
     appState.subscribe((state, eventKey) => {
+      // Regla de Oro: Solo se renderiza automáticamente al iniciar o al cambiar de plantilla.
+      // Si el usuario cambia cualquier otra opción, debe presionar "Generar código qr" explícitamente.
       const autoRenderEvents = [
         'INIT_DATA',
-        'CHANGE_DESIGN',
-        'CHANGE_PATTERN',
-        'CHANGE_INPUTS'
+        'CHANGE_DESIGN'
       ];
       if (eventKey && autoRenderEvents.includes(eventKey)) {
         this.scheduleGenerate();
@@ -187,14 +187,9 @@ export class QRPreview extends UIComponent {
       delete payloadForHash.isExplicitGenerate;
       const payloadHash = JSON.stringify(payloadForHash);
       
-      const isUnchanged = (this.lastPayloadHash === payloadHash);
-      const shouldConsumeCredit = isExplicit && !isUnchanged;
-      
-      if (!isUnchanged) {
-        this.lastPayloadHash = payloadHash;
-      }
-
-      // Tell the backend whether to actually consume a credit
+      // Regla de Oro: Solo se consume crédito cuando el usuario presiona explícitamente "Generar código qr".
+      // El cambio de plantilla (isExplicit = false) no consume créditos.
+      const shouldConsumeCredit = isExplicit;
       payload.isExplicitGenerate = shouldConsumeCredit;
 
       const blob = await ApiService.generateQR(payload);

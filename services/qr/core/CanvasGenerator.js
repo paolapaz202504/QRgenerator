@@ -101,7 +101,8 @@ class CanvasGenerator {
 
     const design = DesignLibrary.designs.find(d => d.id === designId) || DesignLibrary.designs[0];
     const bgColor = params.bgColor || customColors.bgColor || design.bgColor;
-    const qrSilhouetteMode = params.qrSilhouetteMode || customColors.qrSilhouetteMode || 'none';
+    let qrSilhouetteMode = params.qrSilhouetteMode || customColors.qrSilhouetteMode || design.qrSilhouetteMode || 'none';
+    if (qrSilhouetteMode === 'icon_pure') qrSilhouetteMode = 'icon_only';
     const skipWhiteCard = false;
 
     let primaryQrColor = params.qrColor || customColors.qrColor || design.qrColor || '#111827';

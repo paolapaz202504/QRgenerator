@@ -290,7 +290,8 @@ export class DesignPicker extends UIComponent {
     const eyeCol = design.eyeColor || design.qrColor || '#111827';
     const eyeSty = design.eyeStyle || 'square';
     const frameShp = design.frameShape || 'rectangular';
-    const silMode = design.qrSilhouetteMode || 'none';
+    let silMode = design.qrSilhouetteMode || 'none';
+    if (silMode === 'icon_pure') silMode = 'icon_only';
     const silColor = design.silhouetteColor || qrCol;
     const patColor = design.patternColor || silColor;
     const boxRad = design.qrBoxRadius !== undefined ? design.qrBoxRadius : 18;
@@ -323,7 +324,7 @@ export class DesignPicker extends UIComponent {
     }
     if (customEyeColor2 && eyeCol2) { customEyeColor2.value = eyeCol2; if (customEyeColor2Hex) customEyeColor2Hex.textContent = eyeCol2; }
 
-    const isSil = ['icon_only', 'icon_center', 'icon_pure'].includes(silMode);
+    const isSil = ['icon_only', 'icon_center'].includes(silMode);
     if (containerSilhouetteColor) containerSilhouetteColor.classList.toggle('hidden', !isSil);
     if (customSilhouetteColor) {
       customSilhouetteColor.value = silColor;
@@ -337,8 +338,7 @@ export class DesignPicker extends UIComponent {
     const SIL_MAP = {
       none: 'Matriz cuadrada tradicional de código QR dentro del marco del póster.',
       icon_only: 'El código QR adopta la forma del ícono o imagen seleccionada, ocultando la insignia central.',
-      icon_center: 'Forma temática del ícono o imagen seleccionada incluyendo además la insignia central.',
-      icon_pure: 'Silueta pura flotante de la figura o imagen seleccionada sin fondo blanco ni tarjeta posterior.'
+      icon_center: 'Forma temática del ícono o imagen seleccionada incluyendo además la insignia central.'
     };
     if (customQrSilhouetteDesc) customQrSilhouetteDesc.textContent = SIL_MAP[silMode] || '';
 
