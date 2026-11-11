@@ -4,6 +4,15 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.8] — 2026-11-11
+### 🔒 Cierre Automático de Acceso y Experiencia de Pestaña Única
+
+#### Novedades y Mejoras
+- **Cierre definitivo de la ventana emergente:** Tras confirmar tu cuenta con el proveedor, la ventana secundaria de acceso se cierra por completo y de forma instantánea.
+- **Navegación limpia sin pestañas duplicadas:** Tu sesión se activa fluidamente en la página principal donde iniciaste la solicitud, manteniendo una única ventana abierta con tu perfil listo para crear códigos QR.
+
+---
+
 ## [v1.5.7] — 2026-11-11
 ### ⚡ Sincronización Automática e Instantánea de Sesión
 

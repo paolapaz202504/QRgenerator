@@ -82,10 +82,18 @@ class AuthController {
         <body>
           <div class="card">
             <div class="spinner"></div>
-            <h3 style="margin:0 0 8px;">¡Identificación Exitosa!</h3>
-            <p style="margin:0; font-size:13px; color:#64748b;">Retornando a QRbey y cerrando ventana...</p>
+            <h3 style="margin:0 0 8px; color:#10b981;">¡Autenticación Exitosa!</h3>
+            <p style="margin:0 0 16px; font-size:13px; color:#64748b;">Tu sesión ha iniciado. Cerrando esta ventana...</p>
+            <button onclick="forceClose()" style="background:#0f172a; color:#ffffff; border:none; padding:8px 18px; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer;">
+              Cerrar Ventana
+            </button>
           </div>
           <script>
+            function forceClose() {
+              try { window.open('', '_self', ''); } catch (e) {}
+              try { window.close(); } catch (e) {}
+            }
+
             try {
               const payload = {
                 type: 'QRBEY_OAUTH_SUCCESS',
@@ -95,25 +103,25 @@ class AuthController {
                 user: ${JSON.stringify(user)}
               };
 
-              // 1. Guardar en storage local para sincronización inmediata
+              // 1. Guardar en storage local para sincronización inmediata con la ventana principal
               localStorage.setItem('qrbey_pending_oauth', JSON.stringify(payload));
               localStorage.setItem('oauth_user', JSON.stringify(${JSON.stringify(user)}));
 
-              // 2. Comunicar a ventana principal
+              // 2. Comunicar a ventana principal por postMessage si el opener está disponible
               if (window.opener && !window.opener.closed) {
                 window.opener.postMessage(payload, '*');
                 if (typeof window.opener.handleOAuthSuccess === 'function') {
                   window.opener.handleOAuthSuccess(payload);
                 }
-                setTimeout(function() { window.close(); }, 300);
-              } else {
-                // Fallback seguro: si el navegador desvinculó window.opener, retornar directamente al home
-                setTimeout(function() { window.location.replace('/'); }, 400);
               }
             } catch (e) {
               console.error(e);
-              setTimeout(function() { window.location.replace('/'); }, 500);
             }
+
+            // 3. Forzar el cierre inmediato de la ventana emergente
+            setTimeout(forceClose, 200);
+            setTimeout(forceClose, 600);
+            setTimeout(forceClose, 1200);
           </script>
         </body>
         </html>

@@ -85,6 +85,10 @@ export class UserModal extends UIComponent {
       clearInterval(this.popupPollInterval);
       this.popupPollInterval = null;
     }
+    if (this.currentPopup && !this.currentPopup.closed) {
+      try { this.currentPopup.close(); } catch (e) {}
+      this.currentPopup = null;
+    }
     this.saveKnownAccount({ email: user.email, name: user.name, provider: provider || user.provider });
     appState.setState({ user }, 'USER_LOGGED_IN');
     this.closeModal();
@@ -194,6 +198,7 @@ export class UserModal extends UIComponent {
     );
 
     if (popup && !popup.closed) {
+      this.currentPopup = popup;
       popup.focus();
 
       // Sondeo activo en segundo plano para capturar el retorno incluso si el navegador desvincula window.opener

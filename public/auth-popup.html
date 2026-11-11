@@ -294,15 +294,13 @@
         // Fallback localStorage signal
         localStorage.setItem('qrbey_pending_oauth', JSON.stringify(authPayload));
 
-        if (window.opener && !window.opener.closed) {
-          setTimeout(() => {
-            window.close();
-          }, 300);
-        } else {
-          // Si el navegador desvinculó window.opener, redirigir directamente al sitio principal
-          setTimeout(() => {
-            window.location.replace('/');
-          }, 400);
+        function forceClosePopup() {
+          try { window.open('', '_self', ''); } catch (e) {}
+          try { window.close(); } catch (e) {}
+        }
+
+        setTimeout(forceClosePopup, 200);
+        setTimeout(forceClosePopup, 600);
         }
       }
 
