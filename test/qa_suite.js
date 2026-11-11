@@ -310,7 +310,17 @@ async function runTestSuite() {
     for (const fp of jsFiles) {
       const code = fs.readFileSync(fp, 'utf8');
       try {
-        new vm.SourceTextModule(code, { identifier: fp });
+        if (vm.SourceTextModule) {
+          new vm.SourceTextModule(code, { identifier: fp });
+        } else {
+          // Si no está activo el flag --experimental-vm-modules, validar como Script removiendo sentencias import/export
+          const scriptCode = code
+            .replace(/import\s+[\s\S]*?from\s+['"].*?['"];?/g, '// import')
+            .replace(/import\s+['"].*?['"];?/g, '// import')
+            .replace(/export\s+(default\s+)?(async\s+)?(class|function|const|let|var)\s+/g, '$2$3 ')
+            .replace(/export\s*\{[\s\S]*?\};?/g, '// export');
+          new vm.Script(scriptCode, { filename: fp });
+        }
       } catch (err) {
         throw new Error(`Error de sintaxis en ${fp}: ${err.message}`);
       }
@@ -397,6 +407,62 @@ async function runTestSuite() {
     }
     if (stats.creditsUsed !== 1) {
       throw new Error(`Regla 3 inconsistencia: creditsUsed no debe verse alterado por la generación`);
+    }
+  });
+
+  // Prueba 16: Privacidad y Aislamiento Estricto de Historial (Sin fuga de información a anónimos)
+  await test('Privacidad y Aislamiento de Historial: Anónimos reciben lista vacía sin filtrar datos ajenos', async () => {
+    const resAnon = await makeRequest('/api/user/history', 'GET');
+    const dataAnon = resAnon.json();
+    if (!dataAnon.success || !Array.isArray(dataAnon.history) || dataAnon.history.length !== 0) {
+      throw new Error(`Fuga de datos detectada: usuario anónimo recibió ${dataAnon.history.length} registros ajenos`);
+    }
+
+    const resEmpty = await makeRequest('/api/user/history?email=', 'GET');
+    const dataEmpty = resEmpty.json();
+    if (!dataEmpty.success || !Array.isArray(dataEmpty.history) || dataEmpty.history.length !== 0) {
+      throw new Error(`Fuga de datos detectada con email vacío`);
+    }
+  });
+
+  // Prueba 17: Obligatoriedad de Autenticación al Presionar "Generar código QR"
+  await test('Obligatoriedad de Inicio de Sesión al Generar Código QR (isExplicitGenerate: true)', async () => {
+    const resAuthReq = await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/test-auth-required',
+      title: 'QR Sin Sesion',
+      isExplicitGenerate: true
+      // Nota: sin userEmail
+    });
+
+    if (resAuthReq.statusCode !== 401) {
+      throw new Error(`Esperado HTTP 401 Unauthorized, obtenido: ${resAuthReq.statusCode}`);
+    }
+    const data = resAuthReq.json();
+    if (!data || data.authRequired !== true) {
+      throw new Error(`Esperado authRequired: true en respuesta`);
+    }
+  });
+
+  // Prueba 18: Registro e Inicio de Sesión Universal (Gmail, Hotmail, Yahoo)
+  await test('Registro e Inicio de Sesión Universal (Gmail, Hotmail, Yahoo y correo propio)', async () => {
+    const providersTest = [
+      { email: 'usuario.prueba@gmail.com', provider: 'Google / Gmail', name: 'Usuario Gmail' },
+      { email: 'usuario.prueba@hotmail.com', provider: 'Microsoft / Hotmail', name: 'Usuario Hotmail' },
+      { email: 'usuario.prueba@yahoo.com', provider: 'Yahoo Mail', name: 'Usuario Yahoo' }
+    ];
+
+    for (const item of providersTest) {
+      const loginRes = await makeRequest('/api/auth/oauth-login', 'POST', item);
+      if (loginRes.statusCode !== 200) {
+        throw new Error(`Error en login para ${item.email}: HTTP ${loginRes.statusCode}`);
+      }
+      const data = loginRes.json();
+      if (!data.success || !data.user || data.user.email !== item.email) {
+        throw new Error(`Datos de usuario inválidos para ${item.email}`);
+      }
+      if (data.user.maxCredits !== 50 || data.user.maxDownloads !== 15) {
+        throw new Error(`Cuotas iniciales incorrectas para ${item.email}`);
+      }
     }
   });
 

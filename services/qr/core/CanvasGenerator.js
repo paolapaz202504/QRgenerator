@@ -62,7 +62,15 @@ class CanvasGenerator {
       }
     }
 
-    if (userEmail && isExplicitGenerate) {
+    if (isExplicitGenerate) {
+      if (!userEmail) {
+        return {
+          success: false,
+          authRequired: true,
+          message: 'Es obligatorio iniciar sesión para generar tu código QR.'
+        };
+      }
+
       const emailKey = userEmail.toLowerCase().trim();
       let user = userRepository.findByEmail(emailKey);
       const userPlan = user ? (user.plan || 'free') : 'free';

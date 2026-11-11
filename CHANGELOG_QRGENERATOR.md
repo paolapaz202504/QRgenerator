@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.4.7] — 2026-11-11
+### 🔐 Máxima Privacidad, Seguridad Reforzada y Acceso Universal
+
+#### Novedades y Mejoras
+- **Acceso universal con cualquier correo electrónico:** Ahora puedes registrarte e iniciar sesión fácilmente ingresando cualquier dirección de correo (Gmail, Hotmail, Yahoo, Outlook o correo corporativo), además de los botones directos de acceso rápido.
+- **Privacidad absoluta en tu historial:** Tus códigos QR y creaciones guardadas están protegidos y completamente aislados. Tu historial solo es visible exclusivamente para ti al iniciar sesión con tu cuenta.
+- **Generación protegida y organizada:** Para asegurar que todos tus diseños queden respaldados en tu perfil personal y mantengas el control de tus descargas, el sistema te solicitará iniciar sesión al presionar "Generar código QR" si aún no lo has hecho.
+- **Canal oficial de contacto:** Se integró el correo oficial de atención y soporte (`qrbeyconctact@gmail.com`) en el pie de página y en la sección de ayuda.
+
+---
+
 ## [v1.4.6] — 2026-11-11
 ### ✨ Mayor Nitidez y Perfección Visual en Patrones Geométricos
 

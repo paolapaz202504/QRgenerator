@@ -16,7 +16,8 @@ class QRController {
     try {
       const result = await qrGeneratorService.generateCanvas(req.body);
       if (result && typeof result === 'object' && result.success === false) {
-        return res.status(403).json(result);
+        const statusCode = result.authRequired ? 401 : (result.limitReached ? 403 : 400);
+        return res.status(statusCode).json(result);
       }
       
       if (result && result.isSvg) {

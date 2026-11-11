@@ -23,7 +23,7 @@ export class HistoryTable extends UIComponent {
     this.filteredHistory = [];
 
     appState.subscribe((state, eventKey) => {
-      if (eventKey === 'USER_LOGGED_IN' || eventKey === 'HISTORY_UPDATED') {
+      if (['USER_LOGGED_IN', 'HISTORY_UPDATED', 'USER_LOGGED_OUT', 'INIT_DATA'].includes(eventKey)) {
         this.fetchHistory();
       }
     });
@@ -62,11 +62,29 @@ export class HistoryTable extends UIComponent {
         if (e.target === this.previewModal) this.previewModal.classList.add('hidden');
       });
     }
+
+    if (this.container) {
+      this.container.addEventListener('click', (e) => {
+        const btnLogin = e.target.closest('.btn-trigger-login');
+        if (btnLogin) {
+          const oauthModal = document.getElementById('oauth-modal');
+          if (oauthModal) oauthModal.classList.remove('hidden');
+        }
+      });
+    }
   }
 
   async fetchHistory() {
     const user = appState.getState().user;
-    const email = user ? user.email : null;
+    if (!user || !user.email) {
+      this.rawHistory = [];
+      this.filteredHistory = [];
+      this.currentPage = 1;
+      this.applyFiltersAndRender();
+      return;
+    }
+
+    const email = user.email;
     const res = await ApiService.getUserHistory(email);
 
     if (res.success && Array.isArray(res.history)) {
@@ -102,6 +120,34 @@ export class HistoryTable extends UIComponent {
   applyFiltersAndRender() {
     if (!this.container) return;
 
+    const user = appState.getState().user;
+
+    // Regla de Privacidad y Seguridad (securityAgent & filesAgent):
+    // Si no hay sesión iniciada, mostrar bloqueo seguro para evitar fuga de datos
+    if (!user || !user.email) {
+      this.container.innerHTML = `
+        <tr>
+          <td colspan="5" class="py-12 text-center">
+            <div class="max-w-md mx-auto space-y-3">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center text-xl mx-auto shadow-2xs">
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <h4 class="text-sm font-bold text-slate-800">Inicia sesión para ver tu historial privado</h4>
+              <p class="text-xs text-slate-500">Tus códigos QR generados se almacenan de forma segura y privada en tu cuenta. Inicia sesión para consultarlos y descargarlos.</p>
+              <button type="button" class="btn-trigger-login inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-xs transition shadow-xs cursor-pointer">
+                <i class="fa-solid fa-user-check"></i>
+                <span>Iniciar Sesión / Registrarme</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+      if (this.totalBadge) this.totalBadge.textContent = `0 Registros`;
+      if (this.paginationInfo) this.paginationInfo.textContent = 'Inicia sesión para ver tus registros';
+      if (this.paginationControls) this.paginationControls.innerHTML = '';
+      return;
+    }
+
     const query = this.searchInput ? this.searchInput.value.trim().toLowerCase() : '';
     if (query) {
       this.filteredHistory = this.rawHistory.filter(item => {
@@ -118,8 +164,17 @@ export class HistoryTable extends UIComponent {
     if (this.totalBadge) this.totalBadge.textContent = `${this.rawHistory.length} Registros`;
 
     if (totalItems === 0) {
-      this.container.innerHTML = '';
-      if (this.emptyState) this.emptyState.classList.remove('hidden');
+      this.container.innerHTML = `
+        <tr>
+          <td colspan="5" class="py-10 text-center text-slate-400 text-xs">
+            <div class="space-y-1">
+              <i class="fa-solid fa-folder-open text-2xl text-slate-300"></i>
+              <p class="font-medium text-slate-600">Aún no has generado códigos QR con tu cuenta.</p>
+              <p class="text-[11px] text-slate-400">Personaliza un diseño y presiona "Generar código qr" para guardarlo en tu historial.</p>
+            </div>
+          </td>
+        </tr>
+      `;
       if (this.paginationInfo) this.paginationInfo.textContent = 'Mostrando 0 a 0 de 0 registros';
       if (this.paginationControls) this.paginationControls.innerHTML = '';
       return;

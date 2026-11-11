@@ -278,10 +278,30 @@ export class QRPreview extends UIComponent {
 
   async generateNow(isExplicit = false) {
     if (!this.container) return;
+
+    // Regla de Negocio y Seguridad Estricta:
+    // Si el usuario presiona explícitamente "Generar código qr", debe haber iniciado sesión obligatoriamente.
+    const state = appState.getState();
+    const user = state.user;
+
+    if (isExplicit && (!user || !user.email)) {
+      if (this.canvasLoader) this.canvasLoader.classList.add('hidden');
+      const oauthModal = document.getElementById('oauth-modal');
+      if (oauthModal) {
+        oauthModal.classList.remove('hidden');
+        const alertBox = document.getElementById('oauth-auth-required-alert');
+        if (alertBox) alertBox.classList.remove('hidden');
+        const emailInput = document.getElementById('auth-email-input');
+        if (emailInput) {
+          emailInput.focus();
+        }
+      }
+      return;
+    }
+
     if (this.canvasLoader) this.canvasLoader.classList.remove('hidden');
 
     try {
-      const state = appState.getState();
       if (state.iconMode !== 'image' && !state.generatedIconDataUrl && state.selectedIcon) {
         try {
           const iconCls = getIconClass(state.selectedIcon);

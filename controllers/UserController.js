@@ -7,18 +7,19 @@ class UserController {
   async getHistory(req, res) {
     const userEmail = req.query.email ? req.query.email.toLowerCase().trim() : null;
 
-    if (userEmail) {
-      const userHistory = await historyRepository.getUserHistory(userEmail);
+    // Regla de Seguridad estricta (securityAgent & filesAgent):
+    // Usuarios anónimos o no autenticados NUNCA deben ver el historial de otros usuarios.
+    if (!userEmail) {
       return res.json({
         success: true,
-        history: userHistory
+        history: []
       });
     }
 
-    const allHistory = historyRepository.getAllHistories();
-    res.json({
+    const userHistory = await historyRepository.getUserHistory(userEmail);
+    return res.json({
       success: true,
-      history: allHistory
+      history: userHistory
     });
   }
 
