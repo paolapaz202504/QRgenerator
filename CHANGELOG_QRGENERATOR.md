@@ -4,6 +4,28 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.3] — 2026-11-11
+### 🎨 Reorganización Ergonómica de Controles por Responsabilidad y Renombrado de Siluetas
+
+#### Modificado
+- **Reorganización Integral del Panel 5 ("5. Personalizar Colores") (`frontAgent`):**
+  - Se agrupó toda la personalización visual y cromática en 5 subcategorías claras y ordenadas:
+    1. **Subcategoría 1: Silueta Temática del QR:** Selector de siluetas con descripción dinámica y contenedor condicional de colores de silueta y patrón (activo exclusivamente para la opción 3).
+    2. **Subcategoría 2: Colores de Matriz y Puntos QR:** Color de puntos QR, tipo de degradado (sólido, lineal, radial) y segundo color de degradado.
+    3. **Subcategoría 3: Estilo y Colores de Ojos (Finders):** 8 estilos de ojos, color primario, tipo de degradado de ojos y segundo color.
+    4. **Subcategoría 4: Colores y Ajustes del Ícono:** Color del ícono vectorial, fondo del recuadro, borde del recuadro, tamaño del ícono (slider 16-80px) y ubicación (centro, arriba, abajo, izquierda, derecha).
+    5. **Subcategoría 5: Colores de Fondo, Marco y Forma del Póster:** Color de fondo del póster, color de marco, 10 formas geométricas de póster y radio de curvatura de esquinas de la tarjeta blanca del QR.
+- **Depuración del Panel 3 ("3. Personalización del ícono o Logotipo Imagen") (`frontAgent`):**
+  - Se retiraron del Panel 3 los controles de color de ícono, fondo de recuadro, borde, tamaño y ubicación, trasladándolos al Panel 5.
+  - El Panel 3 ahora se enfoca de manera limpia y exclusiva en la selección del ícono vectorial (4 fuentes, 40 populares por fuente y modal de 120+) o subida de imagen/logotipo personalizado.
+- **Renombrado Intuitivo de Opciones de Silueta (`frontAgent` & `qrAgent`):**
+  - Opción `"1. Matriz Cuadrada Estándar"` renombrada a **`"1. Ícono"`**.
+  - Opción `"3. Silueta + Ícono al Centro"` renombrada a **`"3. Silueta + Ícono"`**.
+  - Opción 2 se mantiene como `"2. Silueta de Ícono/Imagen"`.
+  - Actualización de textos descriptivos y ayudas visuales en `ColorCustomizer.js` y `DesignPicker.js`.
+
+---
+
 ## [v1.3.2] — 2026-11-11
 ### 🔬 Plan Riguroso de QA, Regla de Oro de Generación y Depuración de Siluetas
 
