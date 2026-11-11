@@ -4,6 +4,18 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.8] — 2026-11-11
+### 🐛 Corrección de Cierre Sintáctico en IconPicker y Blindaje del Pipeline de Calidad
+
+#### Corregido
+- **Corrección de SyntaxError en Google Chrome (`frontAgent`):**
+  - Se removió una llave de cierre duplicada (`}`) en la línea 559 de [`public/js/components/IconPicker.js`](file:///C:/Users/genaro/Documents/Repositorios/QRgenerator/public/js/components/IconPicker.js) dentro de `render()`, resolviendo el fallo `Uncaught SyntaxError: Unexpected token '}'` reportado en la consola del navegador.
+- **Blindaje del Pipeline de Calidad (`qaAgent`):**
+  - Se incorporó la prueba automatizada **#13** a [`test/qa_suite.js`](file:///C:/Users/genaro/Documents/Repositorios/QRgenerator/test/qa_suite.js): `Verificación de Integridad Sintáctica de Módulos Frontend (public/js)`.
+  - Esta prueba compila y valida la sintaxis de todos los archivos `.js` mediante el motor V8 (`vm.SourceTextModule`), garantizando que ningún archivo con errores de sintaxis pueda pasar las pruebas o ser desplegado.
+
+---
+
 ## [v1.3.7] — 2026-11-11
 ### 🎨 Desacoplamiento Total de Figura/Silueta, Corrección de Hover y Despliegue Inmediato OnRender
 

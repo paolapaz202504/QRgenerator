@@ -1,13 +1,13 @@
 {
   "name": "qrgenerator",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "QRbey - QR Studio Pro SaaS",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test/qa_suite.js",
+    "test": "node --experimental-vm-modules test/qa_suite.js",
     "test:matrix": "node test/qa_visual_matrix.js",
-    "test:all": "node test/qa_suite.js && node test/qa_visual_matrix.js",
+    "test:all": "node --experimental-vm-modules test/qa_suite.js && node test/qa_visual_matrix.js",
     "deploy:render": "node scripts/devops_render_deploy.js"
   },
   "keywords": [],

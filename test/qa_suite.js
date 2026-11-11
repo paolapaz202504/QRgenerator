@@ -4,6 +4,9 @@
  */
 
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const vm = require('vm');
 const jsQR = require('jsqr');
 const { createCanvas, loadImage } = require('canvas');
 
@@ -281,6 +284,36 @@ async function runTestSuite() {
     const invalidDark = data.designs.filter(d => darkBgs.includes(d.bgColor));
     if (invalidDark.length > 0) {
       throw new Error(`Se encontraron ${invalidDark.length} diseños con fondos oscuros obsoletos`);
+    }
+  });
+
+  // 13. Verificación Sintáctica Estricta de Todo el Frontend ES Modules
+  await test('Verificación de Integridad Sintáctica de Módulos Frontend (public/js)', async () => {
+    function walkJs(dir) {
+      let results = [];
+      const list = fs.readdirSync(dir);
+      list.forEach(file => {
+        const fullPath = path.join(dir, file);
+        const stat = fs.statSync(fullPath);
+        if (stat && stat.isDirectory()) {
+          results = results.concat(walkJs(fullPath));
+        } else if (file.endsWith('.js')) {
+          results.push(fullPath);
+        }
+      });
+      return results;
+    }
+
+    const jsFiles = walkJs(path.join(__dirname, '../public/js'));
+    if (jsFiles.length < 5) throw new Error('No se encontraron archivos JS en public/js');
+
+    for (const fp of jsFiles) {
+      const code = fs.readFileSync(fp, 'utf8');
+      try {
+        new vm.SourceTextModule(code, { identifier: fp });
+      } catch (err) {
+        throw new Error(`Error de sintaxis en ${fp}: ${err.message}`);
+      }
     }
   });
 

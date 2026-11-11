@@ -556,7 +556,6 @@ export class IconPicker extends UIComponent {
         this.container.appendChild(btn);
       });
     }
-    }
   }
 }
 
