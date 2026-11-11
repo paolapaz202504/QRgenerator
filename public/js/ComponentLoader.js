@@ -1,3 +1,5 @@
+export const APP_VERSION = '1.3.7';
+
 export class ComponentLoader {
   /**
    * Dynamically fetches HTML component partials from ./html/ and injects them into placeholder containers.
@@ -25,7 +27,7 @@ export class ComponentLoader {
         const container = document.getElementById(id);
         if (!container) return;
         try {
-          const res = await fetch(file);
+          const res = await fetch(`${file}?v=${APP_VERSION}`);
           if (res.ok) {
             const html = await res.text();
             container.outerHTML = html;

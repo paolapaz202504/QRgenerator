@@ -4,6 +4,25 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.7] — 2026-11-11
+### 🎨 Desacoplamiento Total de Figura/Silueta, Corrección de Hover y Despliegue Inmediato OnRender
+
+#### Añadido
+- **Desacoplamiento Estructural Figura vs. Ícono Central (`frontAgent` & `qrAgent`):**
+  - La selección de la figura tematica (más de 5,000 íconos vectoriales en 4 librerías o carga de logotipos propios) ahora permanece **SIEMPRE VISIBLE Y DISPONIBLE** en el Paso 3.
+  - El switch `#qr-icon-show` pasa a controlar exclusivamente la manifestación física del medallón central: si está activo, muestra el ícono en el centro del QR y sus ajustes de color/recuadro/tamaño; si está inactivo, oculta el medallón central pero **la figura sigue seleccionada**.
+  - En el Paso 4, el switch `#qr-silhouette-show` puede activarse de forma completamente independiente para proyectar la figura del Paso 3 como silueta artística de fondo, permitiendo configurar libremente siluetas puras (`icon_only`) sin que dependan de tener el ícono central encendido.
+
+#### Corregido
+- **Corrección de Texto Blanco en Hover sobre Fondos Claros (`frontAgent`):**
+  - Se eliminaron las clases heredadas `hover:text-white` y fondos oscuros (`bg-slate-900`, `bg-slate-950/80`) en botones de pestañas, modal de iconos y tarjetas interactivas de `IconPicker.js` y `step2-icon.html`.
+  - Todos los elementos interactivos ahora utilizan textos oscuros de alto contraste (`text-slate-700 hover:text-slate-900 hover:bg-slate-100 / hover:bg-slate-200`) sobre fondos claros.
+- **Refresco Inmediato de Versión en OnRender (Cache-Busting) (`devOpsAgent` & `backendAgent`):**
+  - Se corrigió la política de caché estática de Express en `server.js`: los archivos `.html` se sirven con `Cache-Control: no-cache, no-store, must-revalidate` (eliminando la retención de 24 horas que causaba que el navegador mostrara versiones antiguas).
+  - Se integró el parámetro de versión `?v=1.3.7` en `ComponentLoader.js` para todos los parciales HTML y en `index.html` para `app.js`.
+
+---
+
 ## [v1.3.6] — 2026-11-11
 ### 🛠️ Unificación y Corrección de Acordeones en los 6 Pasos
 

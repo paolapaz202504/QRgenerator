@@ -221,7 +221,7 @@ export class IconPicker extends UIComponent {
     this.iconPositionSelect = document.getElementById('qr-icon-position');
 
     this.iconShowInput = document.getElementById('qr-icon-show');
-    this.iconControlsWrapper = document.getElementById('icon-controls-wrapper');
+    this.iconCenterCustomization = document.getElementById('icon-center-customization') || document.getElementById('icon-controls-wrapper');
 
     appState.subscribe((state, eventKey) => {
       if (['CHANGE_ICON', 'CHANGE_ICON_SOURCE', 'CHANGE_ICON_MODE', 'CHANGE_DESIGN', 'INIT_DATA'].includes(eventKey)) {
@@ -257,12 +257,8 @@ export class IconPicker extends UIComponent {
     if (this.iconShowInput) {
       this.iconShowInput.addEventListener('change', () => {
         const isChecked = this.iconShowInput.checked;
-        if (this.iconControlsWrapper) {
-          if (isChecked) {
-            this.iconControlsWrapper.classList.remove('hidden');
-          } else {
-            this.iconControlsWrapper.classList.add('hidden');
-          }
+        if (this.iconCenterCustomization) {
+          this.iconCenterCustomization.classList.toggle('hidden', !isChecked);
         }
         appState.setState({ iconShow: isChecked }, 'CHANGE_ICON');
       });
@@ -453,10 +449,10 @@ export class IconPicker extends UIComponent {
       const isSelected = (selectedIcon === iconName);
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `icon-btn p-2 rounded-xl flex flex-col items-center justify-center gap-1 transition shadow-sm ${
+      btn.className = `icon-btn p-2 rounded-xl flex flex-col items-center justify-center gap-1 transition shadow-2xs ${
         isSelected 
           ? 'active bg-cyan-600 border-2 border-cyan-400 ring-2 ring-cyan-400/50 text-white font-bold scale-105' 
-          : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 hover:bg-slate-800'
+          : 'bg-white border border-slate-200 text-slate-700 hover:text-cyan-700 hover:border-cyan-400 hover:bg-cyan-50/50'
       }`;
       btn.title = iconName;
       btn.innerHTML = `${this.renderIconHTML(iconName)}<span class="text-[9px] font-mono truncate max-w-[55px] opacity-70">${this.getCleanName(iconName)}</span>`;
@@ -468,12 +464,12 @@ export class IconPicker extends UIComponent {
       this.iconGalleryGrid.appendChild(btn);
     });
 
-    // Update modal source tabs styling
+    // Update modal source tabs styling (Light SaaS Theme - No white text on hover)
     document.querySelectorAll('#modal-icon-source-tabs .modal-source-tab').forEach(btn => {
       if (btn.dataset.source === iconSource) {
-        btn.className = 'modal-source-tab py-1.5 px-3 rounded-lg text-xs font-semibold transition bg-cyan-600 text-white shadow';
+        btn.className = 'modal-source-tab py-1.5 px-3 rounded-lg text-xs font-semibold transition bg-cyan-600 text-white shadow-xs';
       } else {
-        btn.className = 'modal-source-tab py-1.5 px-3 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white';
+        btn.className = 'modal-source-tab py-1.5 px-3 rounded-lg text-xs font-semibold transition text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 bg-white';
       }
     });
   }
@@ -484,13 +480,9 @@ export class IconPicker extends UIComponent {
 
     if (this.iconShowInput) {
       this.iconShowInput.checked = iconShow;
-      if (this.iconControlsWrapper) {
-        if (iconShow) {
-          this.iconControlsWrapper.classList.remove('hidden');
-        } else {
-          this.iconControlsWrapper.classList.add('hidden');
-        }
-      }
+    }
+    if (this.iconCenterCustomization) {
+      this.iconCenterCustomization.classList.toggle('hidden', !iconShow);
     }
 
     if (this.iconSizeInput && iconSize) {
@@ -516,41 +508,41 @@ export class IconPicker extends UIComponent {
       this.activeIconLabel.textContent = `Seleccionado: ${this.getCleanName(selectedIcon || 'fa-brands fa-whatsapp')}`;
     }
 
-    // Source tab button active states
+    // Source tab button active states (Light SaaS Theme - No white text on hover)
     document.querySelectorAll('#icon-source-tabs .icon-source-tab').forEach(btn => {
       if (btn.dataset.source === iconSource) {
-        btn.className = 'icon-source-tab flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow';
+        btn.className = 'icon-source-tab flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg text-xs font-semibold transition bg-indigo-600 text-white shadow-xs';
       } else {
-        btn.className = 'icon-source-tab flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white hover:bg-slate-800';
+        btn.className = 'icon-source-tab flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg text-xs font-semibold transition text-slate-700 hover:text-slate-900 hover:bg-slate-200 border border-slate-200 bg-white';
       }
     });
 
-    // Mode Switch styling
+    // Mode Switch styling (Light SaaS Theme - No white text on hover)
     if (this.btnModeIcon && this.btnModeImage) {
       if (iconMode === 'icon') {
-        this.btnModeIcon.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow';
-        this.btnModeImage.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-400 hover:text-white';
+        this.btnModeIcon.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow-xs';
+        this.btnModeImage.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-700 hover:text-slate-900 hover:bg-slate-100';
         if (this.sectionIconMode) this.sectionIconMode.classList.remove('hidden');
         if (this.sectionImageMode) this.sectionImageMode.classList.add('hidden');
       } else {
-        this.btnModeImage.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow';
-        this.btnModeIcon.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-400 hover:text-white';
+        this.btnModeImage.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition bg-cyan-600 text-white shadow-xs';
+        this.btnModeIcon.className = 'flex-1 text-xs py-2 px-3 rounded-lg font-semibold transition text-slate-700 hover:text-slate-900 hover:bg-slate-100';
         if (this.sectionImageMode) this.sectionImageMode.classList.remove('hidden');
         if (this.sectionIconMode) this.sectionIconMode.classList.add('hidden');
       }
     }
 
-    // Top 40 Popular Icons Grid rendering
+    // Top 40 Popular Icons Grid rendering (Light SaaS Theme)
     if (this.container) {
       this.container.innerHTML = '';
       sourceData.popular.forEach(iconName => {
         const isSelected = (selectedIcon === iconName);
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `icon-btn w-9 h-9 rounded-lg flex items-center justify-center text-sm transition shadow-sm ${
+        btn.className = `icon-btn w-9 h-9 rounded-lg flex items-center justify-center text-sm transition shadow-2xs ${
           isSelected 
             ? 'active bg-cyan-600 border-2 border-cyan-400 ring-2 ring-cyan-400/50 text-white font-bold scale-105' 
-            : 'bg-slate-950/80 border border-slate-700/70 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50'
+            : 'bg-white border border-slate-200 text-slate-700 hover:text-cyan-700 hover:border-cyan-400 hover:bg-cyan-50/50'
         }`;
         btn.innerHTML = this.renderIconHTML(iconName);
         btn.title = this.getCleanName(iconName);
@@ -563,6 +555,7 @@ export class IconPicker extends UIComponent {
         });
         this.container.appendChild(btn);
       });
+    }
     }
   }
 }

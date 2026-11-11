@@ -2,9 +2,9 @@ import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
 
 const SILHOUETTE_DESCRIPTIONS = {
-  none: '1. Ícono/Imagen: Matriz tradicional con ícono o logotipo integrado dentro del marco del póster.',
-  icon_only: '2. Silueta de Ícono/Imagen: El código QR adopta la silueta de la figura/imagen con colores de silueta y patrón personalizables.',
-  icon_center: '3. Silueta + Ícono/Imagen: Silueta temática de fondo con ícono central emblemático y colores de silueta y patrón personalizables.'
+  none: 'Silueta de Fondo Inactiva: La matriz se genera de forma tradicional.',
+  icon_only: 'Silueta Pura de Fondo: El código QR proyecta la figura seleccionada en el Paso 3 como silueta artística de fondo (sin medallón central).',
+  icon_center: 'Silueta + Ícono al Centro: Silueta artística de fondo y medallón central simultáneo.'
 };
 
 export class ColorCustomizer extends UIComponent {
