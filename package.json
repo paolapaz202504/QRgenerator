@@ -7,7 +7,8 @@
     "start": "node server.js",
     "test": "node test/qa_suite.js",
     "test:matrix": "node test/qa_visual_matrix.js",
-    "test:all": "node test/qa_suite.js && node test/qa_visual_matrix.js"
+    "test:all": "node test/qa_suite.js && node test/qa_visual_matrix.js",
+    "deploy:render": "node scripts/devops_render_deploy.js"
   },
   "keywords": [],
   "author": "",
