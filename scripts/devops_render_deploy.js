@@ -4,6 +4,8 @@
  * de forma incondicional el último commit de GitHub en producción.
  */
 require('dotenv').config();
+const pkg = require('../package.json');
+const TARGET_VERSION = pkg.version;
 
 const DEPLOY_HOOK = process.env.RENDER_DEPLOY_HOOK_URL || 'https://api.render.com/deploy/srv-dam6d4gu01pc73egvae0?key=tXtoboMPY_8';
 const HEALTH_URL = 'https://qr-studio-pro.onrender.com/api/health';
@@ -36,7 +38,7 @@ async function triggerDeploy() {
           if (hRes.ok) {
             const hData = await hRes.json();
             console.log(`[Intento ${attempts}/${maxAttempts}] Estado: ${hData.status} | Versión: ${hData.version} | Uptime: ${Math.round(hData.uptime)}s`);
-            if (hData.version === '1.3.7' && hData.uptime < 180) {
+            if (hData.version === TARGET_VERSION && hData.uptime < 300) {
               console.log('\n🎉 ¡DESPLIEGUE CONFIRMADO EN PRODUCCIÓN!');
               console.log(`🟢 Servicio actualizado con éxito a v${hData.version} en OnRender.`);
               return true;
