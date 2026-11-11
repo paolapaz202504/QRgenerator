@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.3] — 2026-11-11
+### 🛡️ Mecanismos Oficiales de Autenticación de Proveedor (Google, Microsoft y Yahoo)
+
+#### Novedades y Mejoras
+- **Conexión directa con el mecanismo de autenticación del proveedor:** Al pulsar Gmail, Hotmail o Yahoo, se activa directamente el flujo oficial del proveedor seleccionado (Google OAuth 2.0, Microsoft Identity y Yahoo).
+- **Procesamiento y sincronización instantánea:** Al confirmar tu usuario válido, el servidor enlaza de forma transparente la sesión con la base de datos de alta velocidad (TiDB Cloud) y actualiza tu perfil en pantalla.
+- **Retorno limpio y seguro:** La ventana de acceso se cierra de forma automática sin mostrar pasos ni ventanas secundarias.
+
+---
+
 ## [v1.5.2] — 2026-11-11
 ### 🚀 Apertura Directa de Ventana Oficial de Proveedor (Gmail, Hotmail y Yahoo)
 

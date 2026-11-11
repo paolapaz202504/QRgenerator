@@ -46,14 +46,19 @@ export class UserModal extends UIComponent {
     // 1. Comunicación por mensaje entre ventanas (postMessage)
     window.addEventListener('message', async (event) => {
       if (event.data && event.data.type === 'QRBEY_OAUTH_SUCCESS') {
-        const { provider, email, name } = event.data;
-        await this.executeLogin(provider, email, name);
+        if (event.data.user) {
+          this.onAuthCompleted(event.data.user, event.data.provider);
+        } else if (event.data.email) {
+          await this.executeLogin(event.data.provider || 'OAuth 2.0', event.data.email, event.data.name);
+        }
       }
     });
 
-    // 2. Callback directo expuesto a la ventana emergente same-origin
+    // 2. Callback directo expuesto a la ventana emergente
     window.handleOAuthSuccess = async (data) => {
-      if (data && data.email) {
+      if (data && data.user) {
+        this.onAuthCompleted(data.user, data.provider);
+      } else if (data && data.email) {
         await this.executeLogin(data.provider || 'OAuth 2.0', data.email, data.name);
       }
     };
@@ -64,12 +69,21 @@ export class UserModal extends UIComponent {
         try {
           const authData = JSON.parse(event.newValue);
           localStorage.removeItem('qrbey_pending_oauth');
-          if (authData && authData.email) {
+          if (authData && authData.user) {
+            this.onAuthCompleted(authData.user, authData.provider);
+          } else if (authData && authData.email) {
             await this.executeLogin(authData.provider || 'OAuth 2.0', authData.email, authData.name);
           }
         } catch (e) {}
       }
     });
+  }
+
+  onAuthCompleted(user, provider) {
+    this.saveKnownAccount({ email: user.email, name: user.name, provider: provider || user.provider });
+    appState.setState({ user }, 'USER_LOGGED_IN');
+    this.closeModal();
+    console.log(`✅ [OAuth 2.0] Sesión iniciada con éxito: ${user.email} (${user.plan})`);
   }
 
   getKnownAccounts() {
@@ -145,13 +159,13 @@ export class UserModal extends UIComponent {
     this.activeProvider = { key: providerKey, name: providerName, domain };
 
     if (this.statusBanner) this.statusBanner.classList.remove('hidden');
-    if (this.statusText) this.statusText.textContent = `Abriendo ventana oficial de ${providerName}...`;
+    if (this.statusText) this.statusText.textContent = `Abriendo mecanismo de autenticación de ${providerName}...`;
 
-    const popupW = 500;
-    const popupH = 640;
+    const popupW = 520;
+    const popupH = 650;
     const left = Math.max(0, Math.floor((window.screen.width - popupW) / 2));
     const top = Math.max(0, Math.floor((window.screen.height - popupH) / 2));
-    const popupUrl = `/auth-popup.html?provider=${encodeURIComponent(providerKey)}`;
+    const popupUrl = `/api/auth/${encodeURIComponent(providerKey)}`;
 
     const popup = window.open(
       popupUrl,
