@@ -81,6 +81,10 @@ export class UserModal extends UIComponent {
   }
 
   onAuthCompleted(user, provider) {
+    if (this.popupPollInterval) {
+      clearInterval(this.popupPollInterval);
+      this.popupPollInterval = null;
+    }
     this.saveKnownAccount({ email: user.email, name: user.name, provider: provider || user.provider });
     appState.setState({ user }, 'USER_LOGGED_IN');
     this.closeModal();
@@ -165,49 +169,8 @@ export class UserModal extends UIComponent {
       this.popupPollInterval = null;
     }
 
-    // 1. Si es Google y Google Identity Services (GIS) está presente, abrimos la ventana oficial de Google
-    // de forma 100% nativa en el cliente sin requerir redirect_uri de backend ni abrir segundas ventanas
-    if (providerKey === 'google' && window.google && window.google.accounts && window.google.accounts.oauth2) {
-      if (this.statusBanner) this.statusBanner.classList.remove('hidden');
-      if (this.statusText) this.statusText.textContent = `Abriendo ventana oficial de Google...`;
-
-      try {
-        const clientId = this.googleClientId || '773396023366-n7pb1c3f91pvlk8m7s175u0291ouinf3.apps.googleusercontent.com';
-        const client = window.google.accounts.oauth2.initTokenClient({
-          client_id: clientId,
-          scope: 'openid email profile',
-          callback: async (tokenRes) => {
-            if (tokenRes && tokenRes.access_token) {
-              if (this.statusText) this.statusText.textContent = `Validando cuenta de Google...`;
-              try {
-                const infoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-                  headers: { Authorization: `Bearer ${tokenRes.access_token}` }
-                });
-                const info = await infoRes.json();
-                if (info && info.email) {
-                  await this.executeLogin('Google / Gmail', info.email, info.name || info.email.split('@')[0]);
-                  return;
-                }
-              } catch (e) {
-                console.error('[Google GIS Userinfo Error]', e);
-                alert('No se pudo obtener el perfil de Google. Inténtalo de nuevo.');
-                if (this.statusBanner) this.statusBanner.classList.add('hidden');
-              }
-            } else {
-              if (this.statusBanner) this.statusBanner.classList.add('hidden');
-            }
-          }
-        });
-
-        // Solicita el token abriendo una única ventana oficial de Google
-        client.requestAccessToken({ prompt: 'select_account' });
-        return;
-      } catch (err) {
-        console.warn('[Google GIS init failed, fallback a ventana directa]', err);
-      }
-    }
-
-    // 2. Para otros proveedores (Microsoft / Yahoo) o fallback: abrir una única ventana emergente con sondeo
+    // Abre directamente la ventana oficial de autenticación del proveedor (Google / Microsoft / Yahoo)
+    // con sondeo activo en segundo plano para garantizar retorno instantáneo y cierre automático
     this.openStandardOAuthPopup(providerKey, providerName);
   }
 

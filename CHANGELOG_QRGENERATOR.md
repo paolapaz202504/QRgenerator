@@ -4,6 +4,15 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.7] — 2026-11-11
+### ⚡ Sincronización Automática e Instantánea de Sesión
+
+#### Novedades y Mejoras
+- **Recepción garantizada de credenciales:** Conexión directa y continua que captura la validación de cuenta y actualiza tu sesión en tiempo real.
+- **Cierre automático del formulario de acceso:** El modal de inicio de sesión se oculta inmediatamente al confirmar la cuenta, mostrando tu avatar, créditos y plan en la barra superior.
+
+---
+
 ## [v1.5.6] — 2026-11-11
 ### 🚀 Retorno Seguro y Ventana Única de Autenticación Oficial
 

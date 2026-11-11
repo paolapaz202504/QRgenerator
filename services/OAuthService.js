@@ -123,7 +123,26 @@ class OAuthService {
           });
 
           const tokenData = await tokenRes.json();
-          if (tokenData.access_token) {
+
+          // 1. Intentar extraer directamente del id_token (JWT estándar OpenID Connect)
+          if (tokenData.id_token) {
+            try {
+              const parts = tokenData.id_token.split('.');
+              if (parts.length >= 2) {
+                const jwtPayload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf8'));
+                if (jwtPayload.email) {
+                  email = jwtPayload.email;
+                  name = jwtPayload.name || jwtPayload.given_name || email.split('@')[0];
+                  avatar = jwtPayload.picture || null;
+                }
+              }
+            } catch (jwtErr) {
+              console.warn('[OAuthService] Advertencia decodificando id_token:', jwtErr.message);
+            }
+          }
+
+          // 2. Si no vino en id_token, consultar el endpoint de UserInfo con el access_token
+          if (!email && tokenData.access_token) {
             const userinfoRes = await fetch(provider.userinfoUrl, {
               headers: { Authorization: `Bearer ${tokenData.access_token}` }
             });
