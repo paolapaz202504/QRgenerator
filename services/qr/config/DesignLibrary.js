@@ -5,7 +5,26 @@ class DesignLibrary {
     this.patterns = [
       { id: 'square', name: 'Cuadrado Clásico', icon: 'fa-square' },
       { id: 'rounded', name: 'Módulo Redondeado', icon: 'fa-square-minus' },
-      { id: 'smooth', name: 'Módulo Fluido', icon: 'fa-cubes' }
+      { id: 'dots', name: 'Círculos / Puntos', icon: 'fa-circle' },
+      { id: 'smooth', name: 'Módulo Fluido', icon: 'fa-cubes' },
+      { id: 'diamond', name: 'Diamante / Rombo', icon: 'fa-gem' },
+      { id: 'star', name: 'Estrellas 5 Puntas', icon: 'fa-star' },
+      { id: 'sparkle', name: 'Destellos 4 Puntas', icon: 'fa-certificate' },
+      { id: 'heart', name: 'Corazones', icon: 'fa-heart' },
+      { id: 'hexagon', name: 'Hexágonos Tech', icon: 'fa-cube' },
+      { id: 'ring', name: 'Anillos Concéntricos', icon: 'fa-circle-dot' },
+      { id: 'diamond_rounded', name: 'Rombo Suave', icon: 'fa-diamond' },
+      { id: 'cross', name: 'Cruces Modernas', icon: 'fa-plus' },
+      { id: 'clover', name: 'Trébol 4 Hojas', icon: 'fa-clover' },
+      { id: 'sunburst', name: 'Sol / Rayos', icon: 'fa-sun' },
+      { id: 'leaf_dot', name: 'Hojas Naturales', icon: 'fa-leaf' },
+      { id: 'halftone', name: 'Semitono Gráfico', icon: 'fa-braille' },
+      { id: 'shield_dot', name: 'Escudo Insignia', icon: 'fa-shield' },
+      { id: 'flower', name: 'Flores 4 Pétalos', icon: 'fa-fan' },
+      { id: 'diagonal_lines', name: 'Líneas Diagonales', icon: 'fa-barcode' },
+      { id: 'radial_drop', name: 'Gota Radial', icon: 'fa-droplet' },
+      { id: 'bubble', name: 'Burbujas Flotantes', icon: 'fa-circle-notch' },
+      { id: 'pixel', name: 'Píxel 8-Bit Retro', icon: 'fa-border-all' }
     ];
   }
 
@@ -2305,11 +2324,16 @@ class DesignLibrary {
         ]
     }
 };
-    const premiumDotStyles = ["rounded","smooth","square"];
-    const cleanFrameShapes = ["rounded","rectangular"];
-    const allEyeStyles = ["rounded","square","leaf"];
-    const deepQrColors = ["#0f172a","#111827","#1e3a8a","#14532d","#7f1d1d","#581c87","#78350f","#134e4a","#831843"];
-    const deepQrColors2 = ["#1e40af","#1e293b","#2563eb","#166534","#991b1b","#701a75","#92400e","#0f766e","#9f1239"];
+    const all22DotStyles = [
+      'square', 'rounded', 'dots', 'smooth', 'diamond', 'star', 'sparkle', 'heart',
+      'hexagon', 'ring', 'diamond_rounded', 'cross', 'clover', 'sunburst', 'leaf_dot',
+      'halftone', 'shield_dot', 'flower', 'diagonal_lines', 'radial_drop', 'bubble', 'pixel'
+    ];
+    const cleanFrameShapes = ["rounded", "rectangular"];
+    const allEyeStyles = ["rounded", "square", "leaf"];
+    const deepQrColors = ["#0f172a", "#111827", "#1e3a8a", "#14532d", "#7f1d1d", "#581c87", "#78350f", "#134e4a", "#831843", "#1e293b"];
+    const deepQrColors2 = ["#1e40af", "#1e293b", "#2563eb", "#166534", "#991b1b", "#701a75", "#92400e", "#0f766e", "#9f1239", "#334155"];
+    const lightBgColors = ["#ffffff", "#f8fafc", "#f1f5f9", "#f0fdf4", "#eff6ff", "#f5f3ff", "#faf5ff", "#fff7ed", "#fdf2f8", "#f0f9ff"];
 
     const catKeys = Object.keys(categoriesData);
 
@@ -2321,51 +2345,30 @@ class DesignLibrary {
         const title = theme.titles[i] || `${cat} ${i + 1}`;
         const bannerText = theme.banners[i % theme.banners.length];
         const iconName = theme.icons[i % theme.icons.length];
-        const bgColor = theme.bgColors[i % theme.bgColors.length];
+        const bgColor = lightBgColors[(i + catKeys.indexOf(cat)) % lightBgColors.length];
         const frameColor = theme.frameColors[i % theme.frameColors.length];
         const silColor = theme.silColors[i % theme.silColors.length];
 
-        // Always dark, saturated QR colors on the white card for flawless contrast
+        // Always dark, saturated QR colors on the light card for flawless contrast
         const qrColor = deepQrColors[(i + catKeys.indexOf(cat)) % deepQrColors.length];
         const qrColor2 = deepQrColors2[(i + catKeys.indexOf(cat)) % deepQrColors2.length];
 
-        function getLuminance(hex) {
-          const c = hex.replace('#', '');
-          const r = parseInt(c.substring(0, 2), 16) / 255;
-          const g = parseInt(c.substring(2, 4), 16) / 255;
-          const b = parseInt(c.substring(4, 6), 16) / 255;
-          return 0.299 * r + 0.587 * g + 0.114 * b;
-        }
-        const isDarkBg = getLuminance(bgColor) < 0.5;
-        const textColor = isDarkBg ? '#f8fafc' : '#0f172a';
+        const textColor = '#0f172a'; // High contrast dark text on light backgrounds
         const badgeBg = frameColor;
-        const badgeText = getLuminance(badgeBg) < 0.6 ? '#ffffff' : '#0f172a';
+        const badgeText = '#ffffff';
 
         const fontTitle = theme.fontsT[i % theme.fontsT.length];
         const fontBanner = theme.fontsB[i % theme.fontsB.length];
 
-        // 4 designs per category are silhouettes (at indices 4, 11, 18, 25), rest are standard
-        const isSil = (i === 4 || i === 11 || i === 18 || i === 25);
-        let qrSilhouetteMode = 'none';
-        if (isSil) {
-          qrSilhouetteMode = (i === 4 || i === 18) ? 'icon_center' : 'icon_only';
-        }
+        const isSil = (i === 4 || i === 18);
+        const qrSilhouetteMode = isSil ? 'icon_center' : 'none';
+        const qrDensity = 50;
 
-        // For silhouettes: density 18 so modules are soft, spaced and allow the silhouette shape to be 100% visible
-        // For standard: density 55
-        const qrDensity = isSil ? 18 : 55;
-
-        // Dot styles: for silhouettes, only rounded (clean spaced modules)
-        // for standard, rotate across the 3 solid non-dotted styles
-        const dotStyle = isSil 
-          ? 'rounded'
-          : premiumDotStyles[(i + catKeys.indexOf(cat)) % premiumDotStyles.length];
-
-        // Clean frame shapes (rounded, rectangular) that never overlap or cut into text
+        const dotStyle = all22DotStyles[(i + catKeys.indexOf(cat)) % all22DotStyles.length];
         const frameShape = cleanFrameShapes[(i + catKeys.indexOf(cat)) % cleanFrameShapes.length];
         const eyeStyle = allEyeStyles[i % allEyeStyles.length];
 
-        const gradientType = (i % 3 === 1 && !isSil) ? 'linear' : 'single';
+        const gradientType = (i % 3 === 1) ? 'linear' : 'single';
         const eyeGradientType = 'single';
         const eyeColor = isSil ? silColor : frameColor;
         const eyeColor2 = null;
@@ -2376,10 +2379,8 @@ class DesignLibrary {
         const iconSize = 34;
         const fontSizeTitle = 18;
         const titlePosition = 'bottom';
-        // For standard: -22 centers title between white card (521) and bottom border (665) at y=603
-        // For silhouettes: -8 centers title between white card (621) and canvas bottom (700) at y=657
         const titleOffsetY = isSil ? -8 : -22;
-        const patternColor = isSil ? (i % 2 === 0 ? qrColor : silColor) : qrColor;
+        const patternColor = isSil ? silColor : qrColor;
 
         designs.push({
           id: `design-${slug}-${i + 1}`,

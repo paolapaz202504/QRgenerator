@@ -68,17 +68,17 @@ export class DesignPicker extends UIComponent {
       if (this.densityVal) this.densityVal.textContent = `${dVal}%`;
     }
 
-    // 1. Render Category Tabs (Wrapped rows, slightly reduced text size text-[11px])
+    // 1. Render Category Tabs (Wrapped rows, clean light SaaS styling)
     if (this.container) {
       this.container.innerHTML = '';
       const allBtn = document.createElement('button');
       allBtn.type = 'button';
-      allBtn.className = `px-2.5 py-1 rounded-lg text-[11px] font-medium transition flex items-center gap-1 ${
+      allBtn.className = `px-3 py-1.5 rounded-xl text-[11px] font-semibold transition flex items-center gap-1.5 shadow-2xs ${
         activeCategory === 'all'
-          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm font-bold'
-          : 'bg-slate-950/80 border border-slate-700/80 text-slate-300 hover:text-white hover:border-slate-500'
+          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm font-bold ring-2 ring-indigo-400/40'
+          : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300'
       }`;
-      allBtn.innerHTML = `<i class="fa-solid fa-star text-amber-400 text-[10px]"></i> Todos (${designs.length})`;
+      allBtn.innerHTML = `<i class="fa-solid fa-star text-amber-500 text-[11px]"></i> Todos (${designs.length})`;
       allBtn.addEventListener('click', () => appState.setState({ activeCategory: 'all' }, 'CHANGE_CATEGORY'));
       this.container.appendChild(allBtn);
 
@@ -86,18 +86,18 @@ export class DesignPicker extends UIComponent {
         const iconClass = CATEGORY_ICONS[cat] || 'fa-solid fa-folder';
         const catBtn = document.createElement('button');
         catBtn.type = 'button';
-        catBtn.className = `px-2.5 py-1 rounded-lg text-[11px] font-medium transition flex items-center gap-1 ${
+        catBtn.className = `px-3 py-1.5 rounded-xl text-[11px] font-semibold transition flex items-center gap-1.5 shadow-2xs ${
           activeCategory === cat
-            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm font-bold'
-            : 'bg-slate-950/80 border border-slate-700/80 text-slate-300 hover:text-white hover:border-slate-500'
+            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm font-bold ring-2 ring-indigo-400/40'
+            : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300'
         }`;
-        catBtn.innerHTML = `<i class="${iconClass} text-cyan-400 text-[10px]"></i> ${cat}`;
+        catBtn.innerHTML = `<i class="${iconClass} text-indigo-600 text-[11px]"></i> ${cat}`;
         catBtn.addEventListener('click', () => appState.setState({ activeCategory: cat }, 'CHANGE_CATEGORY'));
         this.container.appendChild(catBtn);
       });
     }
 
-    // 2. Filter & Render Designs Grid
+    // 2. Filter & Render Designs Grid (Clean Light Cards)
     const filteredDesigns = activeCategory === 'all'
       ? designs
       : designs.filter(d => d.category === activeCategory);
@@ -113,14 +113,14 @@ export class DesignPicker extends UIComponent {
         const card = document.createElement('div');
         card.className = `design-card group relative p-3 rounded-2xl border transition-all cursor-pointer ${
           isSelected
-            ? 'border-indigo-500 bg-indigo-950/40 ring-2 ring-indigo-500/50 shadow-lg scale-[1.02]'
-            : 'border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900/60'
+            ? 'border-indigo-600 bg-indigo-50/80 ring-2 ring-indigo-500/40 shadow-md scale-[1.02]'
+            : 'border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50/80 shadow-2xs'
         }`;
 
         const iconClass = getIconClass(design.iconName);
 
         card.innerHTML = `
-          <div class="h-24 rounded-xl flex flex-col items-center justify-center p-2 mb-2 relative overflow-hidden border border-white/10" style="background-color: ${design.bgColor}">
+          <div class="h-24 rounded-xl flex flex-col items-center justify-center p-2 mb-2 relative overflow-hidden border border-slate-200 shadow-2xs" style="background-color: ${design.bgColor}">
             <div class="text-[10px] font-bold px-2 py-0.5 rounded-full mb-1 text-center truncate max-w-[90%]" style="background-color: ${design.badgeBg}; color: ${design.badgeText}">
               ${design.bannerText || 'SCAN ME'}
             </div>
@@ -128,8 +128,8 @@ export class DesignPicker extends UIComponent {
               <i class="${iconClass} text-lg"></i>
             </div>
           </div>
-          <span class="text-xs font-bold text-slate-200 block truncate group-hover:text-indigo-400 transition text-center">${design.name}</span>
-          <span class="text-[10px] text-slate-400 block text-center truncate">${design.category}</span>
+          <span class="text-xs font-bold text-slate-800 block truncate group-hover:text-indigo-600 transition text-center">${design.name}</span>
+          <span class="text-[10px] text-slate-500 block text-center truncate">${design.category}</span>
         `;
 
         card.addEventListener('click', async () => {
@@ -139,7 +139,7 @@ export class DesignPicker extends UIComponent {
       });
     }
 
-    // 3. Render Patterns Grid
+    // 3. Render Patterns Grid (22 Patrones con Diseño Claro y Alto Contraste)
     if (this.patternGrid && patterns.length) {
       this.patternGrid.innerHTML = '';
       patterns.forEach(pat => {
@@ -148,11 +148,11 @@ export class DesignPicker extends UIComponent {
         btn.type = 'button';
         btn.className = `p-3 rounded-xl border text-center transition flex flex-col items-center justify-center gap-1.5 ${
           isSelected
-            ? 'border-pink-500 bg-pink-950/40 ring-2 ring-pink-500/50 text-white font-bold'
-            : 'border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:text-white'
+            ? 'border-pink-500 bg-pink-50 ring-2 ring-pink-400 text-pink-800 font-bold shadow-xs'
+            : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 shadow-2xs'
         }`;
         btn.innerHTML = `
-          <i class="fa-solid ${pat.icon} text-lg text-pink-400"></i>
+          <i class="fa-solid ${pat.icon} text-lg ${isSelected ? 'text-pink-600' : 'text-slate-600'}"></i>
           <span class="text-[11px] font-medium leading-tight">${pat.name}</span>
         `;
 

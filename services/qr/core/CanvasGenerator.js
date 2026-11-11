@@ -65,19 +65,22 @@ class CanvasGenerator {
     if (userEmail && isExplicitGenerate) {
       const emailKey = userEmail.toLowerCase().trim();
       let user = userRepository.findByEmail(emailKey);
-      const planConfig = config.getPlanConfig(user ? user.plan : 'free');
-      const maxCredits = user ? (user.maxCredits || planConfig.maxCredits) : planConfig.maxCredits;
+      const userPlan = user ? (user.plan || 'free') : 'free';
+      const planConfig = config.getPlanConfig(userPlan);
+      const maxCredits = planConfig.maxCredits;
       const currentGen = user ? (user.generationsCount || 0) : 0;
 
       if (currentGen >= maxCredits) {
         return {
           success: false,
           limitReached: true,
-          message: `Has alcanzado el límite de ${maxCredits} créditos de generación del Plan Gratuito.`
+          message: `Has alcanzado el límite de ${maxCredits} créditos de generación de tu ${planConfig.name}.`
         };
       }
 
       if (user) {
+        user.maxCredits = maxCredits;
+        user.maxDownloads = planConfig.maxDownloads;
         user.generationsCount = currentGen + 1;
         await userRepository.saveUser(user);
       }
@@ -131,12 +134,15 @@ class CanvasGenerator {
 
     const qrOpts = { errorCorrectionLevel: 'H' };
     const densityVal = (params.qrDensity !== undefined && params.qrDensity !== null) ? parseInt(params.qrDensity, 10) : 50;
-    // Map density (1% - 100%) to version (Version 3: 29x29 to Version 7: 45x45)
-    // Default at 50% density is Version 5 (37x37 modules)
-    const targetVersion = Math.max(3, Math.min(7, Math.round(2 + (densityVal / 100) * 5)));
-    qrOpts.version = targetVersion;
-
-    const qrData = QRCode.create(url, qrOpts);
+    let qrData;
+    try {
+      const probe = QRCode.create(url || 'QRbey', { errorCorrectionLevel: 'H' });
+      const minVersion = probe.version;
+      const targetVersion = Math.max(minVersion, Math.min(10, Math.round(minVersion + (densityVal / 100) * 3)));
+      qrData = QRCode.create(url || 'QRbey', { errorCorrectionLevel: 'H', version: targetVersion });
+    } catch (e) {
+      qrData = QRCode.create(url || 'QRbey', { errorCorrectionLevel: 'H' });
+    }
     const modules = qrData.modules;
     const size = modules.size;
 

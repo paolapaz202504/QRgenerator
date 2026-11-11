@@ -112,10 +112,13 @@ export class ProfileModal extends UIComponent {
     }
 
     // Credits & Downloads
+    const defaultMaxCredits = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 2000 : 50);
+    const defaultMaxDownloads = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 500 : 15);
+
     const genUsed = user.generationsCount || user.creditsUsed || 0;
-    const genMax = (user.maxCredits >= 999999 || planKey === 'pro' || planKey === 'corporate') ? '∞' : (user.maxCredits || 200);
+    const genMax = (user.maxCredits >= 999999 || planKey === 'corporate') ? '∞' : (user.maxCredits || defaultMaxCredits);
     const dlUsed = user.downloadsCount || 0;
-    const dlMax = (user.maxDownloads >= 999999 || planKey === 'corporate') ? '∞' : (user.maxDownloads || 20);
+    const dlMax = (user.maxDownloads >= 999999 || planKey === 'corporate') ? '∞' : (user.maxDownloads || defaultMaxDownloads);
 
     if (this.profileCredits) {
       this.profileCredits.textContent = `${genUsed} / ${genMax} Créditos`;

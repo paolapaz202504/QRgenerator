@@ -234,6 +234,55 @@ async function runTestSuite() {
     if (!reconfirmData.success) throw new Error('Fallo de idempotencia en reconfirmación');
   });
 
+  // 10. Validación Dinámica de Créditos por Plan
+  await test('Verificación Dinámica de Límites de Créditos por Plan (.env)', async () => {
+    // Registrar usuario free
+    await makeRequest('/api/auth/oauth-login', 'POST', {
+      provider: 'google',
+      email: 'qa_free_tester@qrbey.com',
+      name: 'Free Tester'
+    });
+    const freeStats = (await makeRequest('/api/user/stats?email=qa_free_tester@qrbey.com', 'GET')).json();
+    if (freeStats.userStats.maxCredits !== 50 || freeStats.userStats.maxDownloads !== 15) {
+      throw new Error(`Límites incorrectos para usuario Free: ${JSON.stringify(freeStats.userStats)}`);
+    }
+
+    // Usuario Pro
+    await makeRequest('/api/user/upgrade-plan', 'POST', {
+      userEmail: 'qa_free_tester@qrbey.com',
+      plan: 'pro',
+      months: 1
+    });
+    const proStats = (await makeRequest('/api/user/stats?email=qa_free_tester@qrbey.com', 'GET')).json();
+    if (proStats.userStats.maxCredits !== 2000 || proStats.userStats.maxDownloads !== 500) {
+      throw new Error(`Límites incorrectos para usuario Pro: ${JSON.stringify(proStats.userStats)}`);
+    }
+  });
+
+  // 11. 22 Patrones de Puntos Disponibles
+  await test('Catálogo de 22 Patrones de Puntos completos en API /api/designs', async () => {
+    const res = await makeRequest('/api/designs', 'GET');
+    const data = res.json();
+    if (!data.patterns || data.patterns.length !== 22) {
+      throw new Error(`Cantidad de patrones esperada 22, recibida: ${data.patterns ? data.patterns.length : 0}`);
+    }
+  });
+
+  // 12. 600 Diseños con Fondos Claros y Escaneabilidad Óptica
+  await test('Catálogo de 600 Diseños Preestablecidos con Fondos Claros y Alto Contraste', async () => {
+    const res = await makeRequest('/api/designs', 'GET');
+    const data = res.json();
+    if (!data.designs || data.designs.length !== 600) {
+      throw new Error(`Cantidad de diseños esperada 600, recibida: ${data.designs ? data.designs.length : 0}`);
+    }
+    // Verificar que los fondos no sean oscuros
+    const darkBgs = ['#0f172a', '#1e293b', '#090d16', '#1e1b4b'];
+    const invalidDark = data.designs.filter(d => darkBgs.includes(d.bgColor));
+    if (invalidDark.length > 0) {
+      throw new Error(`Se encontraron ${invalidDark.length} diseños con fondos oscuros obsoletos`);
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

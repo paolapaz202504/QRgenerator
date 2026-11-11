@@ -27,7 +27,14 @@ class UserRepository {
   findByEmail(email) {
     if (!email) return null;
     const key = email.toLowerCase().trim();
-    return this.usersStore[key] || null;
+    const user = this.usersStore[key] || null;
+    if (user) {
+      const config = require('../config/env');
+      const planConfig = config.getPlanConfig(user.plan || 'free');
+      user.maxCredits = planConfig.maxCredits;
+      user.maxDownloads = planConfig.maxDownloads;
+    }
+    return user;
   }
 
   async saveUser(user) {

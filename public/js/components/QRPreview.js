@@ -225,9 +225,14 @@ export class QRPreview extends UIComponent {
       console.error('[QRPreview] Error generating preview:', err);
       if (this.canvasLoader) this.canvasLoader.classList.add('hidden');
       if (err.data && err.data.limitReached) {
+        const state = appState.getState();
+        const userPlan = (state.user && state.user.plan) ? state.user.plan : 'free';
+        const fallbackMsg = userPlan === 'pro' 
+          ? 'Has alcanzado el límite de 2,000 créditos de edición de tu Plan Profesional.' 
+          : 'Has alcanzado el límite de 50 créditos de edición de tu Plan Gratuito.';
         await ModalService.alert({
           title: 'Límite de Créditos Alcanzado',
-          message: err.data.message || 'Has alcanzado el límite de 200 créditos del Plan Gratuito.',
+          message: err.data.message || fallbackMsg,
           type: 'warning'
         });
       }

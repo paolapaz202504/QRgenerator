@@ -30,19 +30,22 @@ class UserController {
       const user = userRepository.findByEmail(userEmail);
       if (user) {
         const userHistory = await historyRepository.getUserHistory(userEmail);
+        const planConfig = config.getPlanConfig(user.plan || 'free');
+        user.maxCredits = planConfig.maxCredits;
+        user.maxDownloads = planConfig.maxDownloads;
         return res.json({
           success: true,
           userStats: {
             email: user.email,
             name: user.name,
             plan: user.plan || 'free',
-            maxDownloads: user.maxDownloads || 20,
+            maxDownloads: planConfig.maxDownloads,
             downloadsCount: user.downloadsCount || 0,
-            maxCredits: user.maxCredits || 200,
+            maxCredits: planConfig.maxCredits,
             creditsUsed: user.generationsCount || 0,
             generationsCount: user.generationsCount || 0,
-            remainingCredits: Math.max(0, (user.maxCredits || 200) - (user.generationsCount || 0)),
-            remainingDownloads: Math.max(0, (user.maxDownloads || 20) - (user.downloadsCount || 0)),
+            remainingCredits: Math.max(0, planConfig.maxCredits - (user.generationsCount || 0)),
+            remainingDownloads: Math.max(0, planConfig.maxDownloads - (user.downloadsCount || 0)),
             planDurationMonths: user.planDurationMonths || 1,
             expirationDate: user.expirationDate || null
           },

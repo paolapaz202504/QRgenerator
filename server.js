@@ -74,6 +74,7 @@ class Server {
     
     // Perfil de usuario y estadísticas
     this.app.use('/api/user', userRoutes);
+    this.app.use('/api/users', userRoutes);
     
     // Pasarela de Pagos Recurrente
     this.app.use('/api/payment', paymentRoutes);

@@ -138,10 +138,14 @@ export class UserModal extends UIComponent {
       if (this.userName) this.userName.textContent = user.name || user.email.split('@')[0];
       if (this.userAvatar) this.userAvatar.src = user.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(user.email)}`;
       
+      const planKey = user.plan || 'free';
+      const defaultMaxCredits = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 2000 : 50);
+      const defaultMaxDownloads = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 500 : 15);
+
       const genUsed = user.generationsCount || user.creditsUsed || 0;
-      const genMax = (user.maxCredits >= 999999 || user.plan === 'pro' || user.plan === 'corporate') ? '∞' : (user.maxCredits || 200);
+      const genMax = (user.maxCredits >= 999999 || planKey === 'corporate') ? '∞' : (user.maxCredits || defaultMaxCredits);
       const dlUsed = user.downloadsCount || 0;
-      const dlMax = (user.maxDownloads >= 999999 || user.plan === 'corporate') ? '∞' : (user.maxDownloads || 20);
+      const dlMax = (user.maxDownloads >= 999999 || planKey === 'corporate') ? '∞' : (user.maxDownloads || defaultMaxDownloads);
 
       if (this.userCreditCounter) {
         this.userCreditCounter.textContent = `${genUsed}/${genMax} Créditos`;
@@ -158,7 +162,7 @@ export class UserModal extends UIComponent {
 
       // Update standalone credit counter badge for guest user
       if (this.creditCounterBadge) {
-        this.creditCounterBadge.textContent = `0/200 Créditos`;
+        this.creditCounterBadge.textContent = `0/50 Créditos`;
       }
     }
   }

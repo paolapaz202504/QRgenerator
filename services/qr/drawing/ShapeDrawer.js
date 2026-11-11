@@ -53,8 +53,7 @@ class ShapeDrawer {
     ctx.beginPath();
     switch (style) {
       case 'rounded':
-        const rPad = Math.max(0.8, size * 0.08);
-        this.roundRect(ctx, x + rPad, y + rPad, size - rPad * 2, size - rPad * 2, size * 0.35);
+        this.roundRect(ctx, x + 0.2, y + 0.2, size - 0.4, size - 0.4, size * 0.25);
         ctx.fill();
         break;
       case 'dots':
@@ -62,35 +61,45 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'smooth':
-        this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, size * 0.45);
+        this.roundRect(ctx, x + 0.4, y + 0.4, size - 0.8, size - 0.8, size * 0.42);
         ctx.fill();
         break;
       case 'diamond':
-        const d = (size * 1.16) / 2;
-        ctx.moveTo(cx, cy - d);
-        ctx.lineTo(cx + d, cy);
-        ctx.lineTo(cx, cy + d);
-        ctx.lineTo(cx - d, cy);
+        const cut = size * 0.28;
+        ctx.moveTo(x + cut, y);
+        ctx.lineTo(x + size - cut, y);
+        ctx.lineTo(x + size, y + cut);
+        ctx.lineTo(x + size, y + size - cut);
+        ctx.lineTo(x + size - cut, y + size);
+        ctx.lineTo(x + cut, y + size);
+        ctx.lineTo(x, y + size - cut);
+        ctx.lineTo(x, y + cut);
         ctx.closePath();
         ctx.fill();
         break;
       case 'star':
-        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 5, r * 0.9, r * 0.45);
+        ctx.arc(cx, cy, r * 0.88, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 5, r * 1.12, r * 0.72);
         ctx.fill();
         break;
       case 'sparkle':
-        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 4, r * 0.9, r * 0.3);
+        ctx.arc(cx, cy, r * 0.88, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 4, r * 1.05, r * 0.65);
         ctx.fill();
         break;
       case 'heart':
-        require('./IconDrawer').prototype.drawHeartPath(ctx, x + size * 0.1, y + size * 0.1, size * 0.8);
+        require('./IconDrawer').prototype.drawHeartPath(ctx, x - size * 0.05, y - size * 0.05, size * 1.1);
         ctx.fill();
         break;
       case 'hexagon':
         for (let i = 0; i < 6; i++) {
           const angle = (Math.PI / 3) * i - Math.PI / 6;
-          const hx = cx + r * 0.85 * Math.cos(angle);
-          const hy = cy + r * 0.85 * Math.sin(angle);
+          const hx = cx + r * 0.96 * Math.cos(angle);
+          const hy = cy + r * 0.96 * Math.sin(angle);
           if (i === 0) ctx.moveTo(hx, hy);
           else ctx.lineTo(hx, hy);
         }
@@ -98,31 +107,25 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'ring':
-        ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r * 1.05, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(cx, cy, r * 0.4, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r * 0.22, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = color;
         break;
       case 'diamond_rounded':
-        const p = size * 0.15;
-        ctx.moveTo(cx, y + p);
-        ctx.quadraticCurveTo(x + size - p, y + p, x + size - p, cy);
-        ctx.quadraticCurveTo(x + size - p, y + size - p, cx, y + size - p);
-        ctx.quadraticCurveTo(x + p, y + size - p, x + p, cy);
-        ctx.quadraticCurveTo(x + p, y + p, cx, y + p);
-        ctx.closePath();
+        this.roundRect(ctx, x + 0.3, y + 0.3, size - 0.6, size - 0.6, size * 0.35);
         ctx.fill();
         break;
       case 'cross':
-        const w = size * 0.36;
+        const w = size * 0.52;
         const o = (size - w) / 2;
-        this.roundRect(ctx, x + o, y + 1, w, size - 2, size * 0.1);
+        this.roundRect(ctx, x + o, y, w, size, size * 0.1);
         ctx.fill();
         ctx.beginPath();
-        this.roundRect(ctx, x + 1, y + o, size - 2, w, size * 0.1);
+        this.roundRect(ctx, x, y + o, size, w, size * 0.1);
         ctx.fill();
         break;
       case 'clover':
@@ -134,37 +137,29 @@ class ShapeDrawer {
         ctx.fill();
         break;
       case 'sunburst':
-        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 8, r * 0.9, r * 0.5);
+        require('./IconDrawer').prototype.drawStarPath(ctx, cx, cy, 8, r * 0.98, r * 0.65);
         ctx.fill();
         break;
       case 'leaf_dot':
-        this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, { tl: size * 0.45, tr: 0, br: size * 0.45, bl: 0 });
+        this.roundRect(ctx, x, y, size, size, { tl: size * 0.5, tr: 0, br: size * 0.5, bl: 0 });
         ctx.fill();
         break;
       case 'halftone':
-        const hStep = size / 3;
-        for (let dx = 0; dx < 3; dx++) {
-          for (let dy = 0; dy < 3; dy++) {
-            if ((dx + dy) % 2 === 0) {
-              ctx.beginPath();
-              ctx.arc(x + hStep * (dx + 0.5), y + hStep * (dy + 0.5), hStep * 0.42, 0, Math.PI * 2);
-              ctx.fill();
-            }
-          }
-        }
+        ctx.arc(cx, cy, r * 0.98, 0, Math.PI * 2);
+        ctx.fill();
         break;
       case 'shield_dot':
-        this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, { tl: 1, tr: 1, br: size * 0.45, bl: size * 0.45 });
+        this.roundRect(ctx, x + 0.4, y + 0.4, size - 0.8, size - 0.8, { tl: 1, tr: 1, br: size * 0.45, bl: size * 0.45 });
         ctx.fill();
         break;
       case 'flower':
-        const petalR = r * 0.45;
+        ctx.arc(cx, cy, r * 0.92, 0, Math.PI * 2);
+        ctx.fill();
+        const pr = r * 0.5;
         for (let a = 0; a < 4; a++) {
-          const ang = (Math.PI / 2) * a;
-          const px = cx + petalR * Math.cos(ang);
-          const py = cy + petalR * Math.sin(ang);
+          const ang = (Math.PI / 2) * a + Math.PI / 4;
           ctx.beginPath();
-          ctx.arc(px, py, petalR * 0.85, 0, Math.PI * 2);
+          ctx.arc(cx + r * 0.65 * Math.cos(ang), cy + r * 0.65 * Math.sin(ang), pr, 0, Math.PI * 2);
           ctx.fill();
         }
         break;
@@ -172,13 +167,21 @@ class ShapeDrawer {
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(Math.PI / 4);
-        this.roundRect(ctx, -r * 0.75, -r * 0.35, r * 1.5, r * 0.7, r * 0.3);
+        this.roundRect(ctx, -r * 0.95, -r * 0.65, r * 1.9, r * 1.3, r * 0.25);
         ctx.fill();
         ctx.restore();
         break;
       case 'radial_drop':
         const dropR = size * 0.45;
-        this.roundRect(ctx, x + 0.5, y + 0.5, size - 1, size - 1, { tl: dropR, tr: 0, br: dropR, bl: dropR });
+        this.roundRect(ctx, x + 0.4, y + 0.4, size - 0.8, size - 0.8, { tl: dropR, tr: 0, br: dropR, bl: dropR });
+        ctx.fill();
+        break;
+      case 'bubble':
+        ctx.arc(cx, cy, r * 0.96, 0, Math.PI * 2);
+        ctx.fill();
+        break;
+      case 'pixel':
+        this.roundRect(ctx, x + 0.3, y + 0.3, size - 0.6, size - 0.6, 1);
         ctx.fill();
         break;
       case 'square':

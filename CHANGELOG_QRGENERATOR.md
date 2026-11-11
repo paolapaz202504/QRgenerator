@@ -4,6 +4,19 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.0] — 2026-11-11
+### 🛡️ Calibración de Créditos por Plan, 22 Patrones y 600 Diseños Claros Certificados
+
+#### Corregido
+- **Sincronización Dinámica de Créditos por Plan (`backendAgent` & `pmAgent`):** Corrección del mensaje y límite de créditos para usuarios del plan "Pro / Creadores". Los límites de créditos (Free: 50, Pro: 2,000, Corp: 999,999) y descargas (Free: 15, Pro: 500, Corp: 999,999) se calculan y sincronizan ahora 100% dinámicamente desde `config.getPlanConfig(user.plan)` en `CanvasGenerator.js`, `StatsTracker.js`, `UserRepository.js`, `UserController.js`, `QRPreview.js` y `UserModal.js`.
+- **Selector de Categorías con Paleta Clara (`frontAgent` & `iconAgent`):** Eliminación completa de fondos negros/oscuros (`bg-slate-950/80`) en las píldoras e iconos de "Selecciona el diseño por categoría", adoptando diseño SaaS en blanco puro, bordes suaves `border-slate-200`, sombras sutiles e iconografía contextual en índigo corporativo.
+- **Regeneración de los 600 Diseños con Fondos Claros (`qrAgent`):** Eliminación de fondos oscuros (`#0f172a`, `#1e293b`, `#090d16`, `#1e1b4b`) en las tarjetas y previsualizaciones de la biblioteca de 600 diseños, reemplazándolos por una paleta clara y luminosa (`#ffffff`, `#f8fafc`, `#f1f5f9`, `#f0fdf4`, `#eff6ff`, `#f5f3ff`, `#faf5ff`, `#fff7ed`, `#fdf2f8`, `#f0f9ff`) con módulos QR en colores profundos y contrastados.
+- **Resolución de Fallos de Escaneabilidad Óptica (`qaAgent` & `qrAgent`):** Corrección en `CanvasGenerator.js` del dimensionamiento automático de versión en `QRCode.create` para evitar desbordamientos de datos (*Minimum version required*), y calibración de las 22 geometrías de módulos en `ShapeDrawer.js` (incluyendo cobertura de relleno en `star`, `sparkle`, `flower`, `diamond`, `ring`), alcanzando una tasa de decodificación óptica de 100% con `jsQR`.
+- **Despliegue de los 22 Patrones de Puntos (`frontAgent` & `qrAgent`):** Exposición de la totalidad de los 22 patrones de puntos en `DesignLibrary.js` y `DesignPicker.js`, con tarjetas de estilo claro `bg-white`, bordes elegantes y tipografía de alto contraste `text-slate-800`.
+- **Suite de Pruebas Ampliada a 12 Casos (`qaAgent`):** Adición de pruebas automatizadas para verificación de cuotas dinámicas de plan, 22 patrones en API y validación de ausencia de fondos oscuros obsoletos en `test/qa_suite.js`.
+
+---
+
 ## [v1.2.0] — 2026-11-11
 ### 🚀 Lanzamiento Oficial para Comercialización B2B SaaS
 

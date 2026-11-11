@@ -51,7 +51,15 @@ export class AppState {
     try {
       const savedUserStr = localStorage.getItem('oauth_user');
       if (savedUserStr) {
-        this.state.user = JSON.parse(savedUserStr);
+        const u = JSON.parse(savedUserStr);
+        if (u) {
+          const planKey = u.plan || 'free';
+          const maxCreds = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 2000 : 50);
+          const maxDl = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 500 : 15);
+          u.maxCredits = maxCreds;
+          u.maxDownloads = maxDl;
+          this.state.user = u;
+        }
       }
     } catch (e) {
       console.warn('[AppState] Failed to parse stored user:', e);

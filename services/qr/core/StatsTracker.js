@@ -37,14 +37,16 @@ class StatsTracker {
       await userRepository.saveUser(user);
     }
 
-    const maxLimit = user.maxDownloads || 20;
+    const config = require('../../../config/env');
+    const planConfig = config.getPlanConfig(user.plan || 'free');
+    const maxLimit = planConfig.maxDownloads;
     const currentDownloads = user.downloadsCount || 0;
 
-    if (user.plan === 'free' && currentDownloads >= maxLimit) {
+    if (currentDownloads >= maxLimit) {
       return {
         success: false,
         limitReached: true,
-        message: `Has alcanzado el límite gratuito de ${maxLimit} descargas. ¡Apoya con una donación o pasa a Pro para descargas ilimitadas!`
+        message: `Has alcanzado el límite de ${maxLimit} descargas de tu ${planConfig.name}. ¡Pasa a un plan superior para más descargas!`
       };
     }
 

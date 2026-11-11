@@ -25,3 +25,9 @@
 | 2026-11-11 08:10 | `devOpsAgent` | Integración y validación de Main API Key de UptimeRobot (`paolapaz202504@gmail.com`). Creación de script de gestión automatizada. | `scripts/devops_uptimerobot.js`, `.env`, `.env.example` |
 | 2026-11-11 08:12 | `devOpsAgent` | Creación y activación del monitor en UptimeRobot (ID: 804635812) para `https://qr-studio-pro.onrender.com/api/health` con intervalo de 5 min (HEAD). | UptimeRobot API, `render.yaml` |
 | 2026-11-11 08:14 | `devOpsAgent` | Sincronización y push automatizado a GitHub (`origin/main`). Disparo de Auto-Deploy en OnRender. | Git Commit `681e66c` |
+| 2026-11-11 08:35 | `backendAgent` | Corrección de sincronización de créditos y descargas dinámicas por plan en base de datos y endpoints. | `CanvasGenerator.js`, `StatsTracker.js`, `UserController.js`, `UserRepository.js` |
+| 2026-11-11 08:40 | `frontAgent` | Rediseño de píldoras de categorías y selector de patrones a tema claro SaaS, eliminando clases dark. | `DesignPicker.js`, `step4-patterns.html` |
+| 2026-11-11 08:45 | `qrAgent` | Calibración de geometrías de los 22 patrones de puntos y regeneración de 600 diseños con fondos claros. | `ShapeDrawer.js`, `DesignLibrary.js` |
+| 2026-11-11 08:50 | `frontAgent` | Normalización de badges de créditos y descargas en perfil y barra de acciones. Actualización a v1.3.0. | `UserModal.js`, `ProfileModal.js`, `QRPreview.js`, `AppState.js`, `header.html`, `modals.html` |
+| 2026-11-11 08:52 | `qaAgent` | Ejecución y ampliación de suite de pruebas a 12 casos (100% pasados, 0 fallas). | `test/qa_suite.js` (12/12 Pasadas) |
+| 2026-11-11 08:53 | `pmAgent` | Consolidación de release semántico v1.3.0 y actualización de trazabilidad. | `CHANGELOG_QRGENERATOR.md`, `DEVTEAM_LOG_QRGENERATOR.md`, `PROJECT_STATUS_QRGENERATOR.md` |
