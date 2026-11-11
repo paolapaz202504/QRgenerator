@@ -95,19 +95,25 @@ class AuthController {
                 user: ${JSON.stringify(user)}
               };
 
+              // 1. Guardar en storage local para sincronización inmediata
+              localStorage.setItem('qrbey_pending_oauth', JSON.stringify(payload));
+              localStorage.setItem('oauth_user', JSON.stringify(${JSON.stringify(user)}));
+
+              // 2. Comunicar a ventana principal
               if (window.opener && !window.opener.closed) {
                 window.opener.postMessage(payload, '*');
                 if (typeof window.opener.handleOAuthSuccess === 'function') {
                   window.opener.handleOAuthSuccess(payload);
                 }
+                setTimeout(function() { window.close(); }, 300);
+              } else {
+                // Fallback seguro: si el navegador desvinculó window.opener, retornar directamente al home
+                setTimeout(function() { window.location.replace('/'); }, 400);
               }
-              localStorage.setItem('qrbey_pending_oauth', JSON.stringify(payload));
             } catch (e) {
               console.error(e);
+              setTimeout(function() { window.location.replace('/'); }, 500);
             }
-            setTimeout(function() {
-              window.close();
-            }, 300);
           </script>
         </body>
         </html>

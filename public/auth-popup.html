@@ -294,9 +294,16 @@
         // Fallback localStorage signal
         localStorage.setItem('qrbey_pending_oauth', JSON.stringify(authPayload));
 
-        setTimeout(() => {
-          window.close();
-        }, 300);
+        if (window.opener && !window.opener.closed) {
+          setTimeout(() => {
+            window.close();
+          }, 300);
+        } else {
+          // Si el navegador desvinculó window.opener, redirigir directamente al sitio principal
+          setTimeout(() => {
+            window.location.replace('/');
+          }, 400);
+        }
       }
 
     })();

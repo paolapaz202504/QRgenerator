@@ -4,6 +4,15 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.6] — 2026-11-11
+### 🚀 Retorno Seguro y Ventana Única de Autenticación Oficial
+
+#### Novedades y Mejoras
+- **Ventana única de identificación:** Erradicación de ventanas emergentes duplicadas al seleccionar Google, Microsoft o Yahoo.
+- **Retorno instantáneo al sitio:** Sincronización en segundo plano con cierre automático de la ventana de acceso y actualización inmediata del menú de usuario.
+
+---
+
 ## [v1.5.5] — 2026-11-11
 ### 🔑 Actualización de Credenciales Oficiales de Google OAuth 2.0
 

@@ -21,7 +21,8 @@ export class UserModal extends UIComponent {
     this.authAlert = document.getElementById('oauth-auth-required-alert');
 
     this.activeProvider = null;
-    this.googleClientId = '';
+    this.googleClientId = '773396023366-n7pb1c3f91pvlk8m7s175u0291ouinf3.apps.googleusercontent.com';
+    this.popupPollInterval = null;
 
     appState.subscribe((state, eventKey) => {
       if (['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'DOWNLOAD_TRACKED', 'CREDIT_USED', 'PLAN_UPDATED', 'INIT_DATA'].includes(eventKey)) {
@@ -158,19 +159,20 @@ export class UserModal extends UIComponent {
   openProviderWindow(providerKey, providerName, domain) {
     this.activeProvider = { key: providerKey, name: providerName, domain };
 
-    // Si es Google y Google Identity Services (GIS) está presente, abrimos la ventana oficial de Google directamente
-    // sin requerir redirect_uri de backend, evitando el error de 'redirect_uri_mismatch'
+    // Limpiar sondeos previos si los hubiera
+    if (this.popupPollInterval) {
+      clearInterval(this.popupPollInterval);
+      this.popupPollInterval = null;
+    }
+
+    // 1. Si es Google y Google Identity Services (GIS) está presente, abrimos la ventana oficial de Google
+    // de forma 100% nativa en el cliente sin requerir redirect_uri de backend ni abrir segundas ventanas
     if (providerKey === 'google' && window.google && window.google.accounts && window.google.accounts.oauth2) {
       if (this.statusBanner) this.statusBanner.classList.remove('hidden');
       if (this.statusText) this.statusText.textContent = `Abriendo ventana oficial de Google...`;
 
       try {
-        const clientId = this.googleClientId;
-        if (!clientId) {
-          console.warn('[UserModal] No se encontró googleClientId, abriendo ventana oficial.');
-          this.openStandardOAuthPopup(providerKey, providerName);
-          return;
-        }
+        const clientId = this.googleClientId || '773396023366-n7pb1c3f91pvlk8m7s175u0291ouinf3.apps.googleusercontent.com';
         const client = window.google.accounts.oauth2.initTokenClient({
           client_id: clientId,
           scope: 'openid email profile',
@@ -188,27 +190,33 @@ export class UserModal extends UIComponent {
                 }
               } catch (e) {
                 console.error('[Google GIS Userinfo Error]', e);
+                alert('No se pudo obtener el perfil de Google. Inténtalo de nuevo.');
+                if (this.statusBanner) this.statusBanner.classList.add('hidden');
               }
+            } else {
+              if (this.statusBanner) this.statusBanner.classList.add('hidden');
             }
-          },
-          error_callback: (err) => {
-            console.warn('[Google GIS error, abriendo popup de respaldo]', err);
-            this.openStandardOAuthPopup(providerKey, providerName);
           }
         });
+
+        // Solicita el token abriendo una única ventana oficial de Google
         client.requestAccessToken({ prompt: 'select_account' });
         return;
       } catch (err) {
-        console.warn('[Google GIS exception, abriendo popup estándar]', err);
+        console.warn('[Google GIS init failed, fallback a ventana directa]', err);
       }
     }
 
+    // 2. Para otros proveedores (Microsoft / Yahoo) o fallback: abrir una única ventana emergente con sondeo
     this.openStandardOAuthPopup(providerKey, providerName);
   }
 
   openStandardOAuthPopup(providerKey, providerName) {
     if (this.statusBanner) this.statusBanner.classList.remove('hidden');
-    if (this.statusText) this.statusText.textContent = `Abriendo mecanismo de autenticación de ${providerName}...`;
+    if (this.statusText) this.statusText.textContent = `Conectando con ${providerName}...`;
+
+    // Limpiar cualquier señal residual de localStorage
+    localStorage.removeItem('qrbey_pending_oauth');
 
     const popupW = 520;
     const popupH = 650;
@@ -224,12 +232,43 @@ export class UserModal extends UIComponent {
 
     if (popup && !popup.closed) {
       popup.focus();
+
+      // Sondeo activo en segundo plano para capturar el retorno incluso si el navegador desvincula window.opener
+      this.popupPollInterval = setInterval(() => {
+        const rawPending = localStorage.getItem('qrbey_pending_oauth');
+        if (rawPending) {
+          try {
+            const data = JSON.parse(rawPending);
+            localStorage.removeItem('qrbey_pending_oauth');
+            clearInterval(this.popupPollInterval);
+            this.popupPollInterval = null;
+
+            try { if (!popup.closed) popup.close(); } catch (e) {}
+
+            if (data.user) {
+              this.onAuthCompleted(data.user, data.provider);
+            } else if (data.email) {
+              this.executeLogin(data.provider || providerName, data.email, data.name);
+            }
+            return;
+          } catch (e) {}
+        }
+
+        // Si el usuario cerró la ventana manualmente
+        if (popup.closed) {
+          clearInterval(this.popupPollInterval);
+          this.popupPollInterval = null;
+          if (this.statusBanner) this.statusBanner.classList.add('hidden');
+        }
+      }, 350);
+
     } else {
       if (this.authAlert) {
         this.authAlert.classList.remove('hidden');
         const span = this.authAlert.querySelector('span');
         if (span) span.textContent = 'Tu navegador bloqueó la ventana emergente. Por favor permite ventanas emergentes para identificarte con tu proveedor de correo.';
       }
+      if (this.statusBanner) this.statusBanner.classList.add('hidden');
     }
   }
 
