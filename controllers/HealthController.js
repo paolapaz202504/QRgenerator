@@ -1,3 +1,5 @@
+const pkg = require('../package.json');
+
 class HealthController {
   getHealth(req, res) {
     const memoryUsage = process.memoryUsage();
@@ -5,7 +7,7 @@ class HealthController {
     res.status(200).json({
       status: 'ok',
       service: 'QRbey Generator API',
-      version: '1.2.0',
+      version: pkg.version || '1.3.7',
       uptime: process.uptime(),
       timestamp: new Date().toISOString(),
       environment: process.env.NODE_ENV || 'development',
