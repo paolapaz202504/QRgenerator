@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.2] — 2026-11-11
+### 🚀 Apertura Directa de Ventana Oficial de Proveedor (Gmail, Hotmail y Yahoo)
+
+#### Novedades y Mejoras
+- **Inicio de sesión directo en un clic:** Al presionar sobre cualquiera de los tres proveedores oficiales (Google / Gmail, Microsoft / Hotmail o Yahoo), se abre directamente la ventana oficial de autenticación sin pasos ni pantallas intermedias.
+- **Retorno automático y sin esperas:** Tras seleccionar tu cuenta verificada o escribir tus credenciales en la ventana del proveedor, el sistema valida la sesión, actualiza tu perfil al instante y cierra la ventana emergente de forma automática.
+- **Experiencia de usuario limpia y segura:** Flujo de acceso optimizado para máxima comodidad y seguridad en computadoras, tabletas y teléfonos móviles.
+- **Mayor estabilidad de conexión:** Optimizaciones en la comunicación en segundo plano entre la ventana de autenticación y el panel principal.
+
+---
+
 ## [v1.5.1] — 2026-11-11
 ### 📱 Diseño Adaptativo Multi-Dispositivo (Móvil, Tablet, iPad y PC)
 

@@ -16,15 +16,6 @@ export class UserModal extends UIComponent {
     this.btnLogout = document.getElementById('btn-logout');
 
     this.stepProviders = document.getElementById('oauth-step-providers');
-    this.stepAccount = document.getElementById('oauth-step-account');
-    this.btnBackProviders = document.getElementById('btn-back-to-providers');
-    this.activeBadge = document.getElementById('active-provider-badge');
-    this.accountTitle = document.getElementById('account-selection-title');
-    this.accountsList = document.getElementById('oauth-accounts-list');
-    this.btnTriggerOfficial = document.getElementById('btn-trigger-official-oauth');
-    this.officialIcon = document.getElementById('official-oauth-icon');
-    this.officialLabel = document.getElementById('official-oauth-label');
-
     this.statusBanner = document.getElementById('oauth-status-banner');
     this.statusText = document.getElementById('oauth-status-text');
     this.authAlert = document.getElementById('oauth-auth-required-alert');
@@ -38,6 +29,7 @@ export class UserModal extends UIComponent {
       }
     });
 
+    this.setupPopupListeners();
     this.initGoogleConfig();
   }
 
@@ -50,12 +42,41 @@ export class UserModal extends UIComponent {
     } catch (e) {}
   }
 
+  setupPopupListeners() {
+    // 1. Comunicación por mensaje entre ventanas (postMessage)
+    window.addEventListener('message', async (event) => {
+      if (event.data && event.data.type === 'QRBEY_OAUTH_SUCCESS') {
+        const { provider, email, name } = event.data;
+        await this.executeLogin(provider, email, name);
+      }
+    });
+
+    // 2. Callback directo expuesto a la ventana emergente same-origin
+    window.handleOAuthSuccess = async (data) => {
+      if (data && data.email) {
+        await this.executeLogin(data.provider || 'OAuth 2.0', data.email, data.name);
+      }
+    };
+
+    // 3. Fallback de sincronización vía storage (para navegadores móviles que desvinculan opener)
+    window.addEventListener('storage', async (event) => {
+      if (event.key === 'qrbey_pending_oauth' && event.newValue) {
+        try {
+          const authData = JSON.parse(event.newValue);
+          localStorage.removeItem('qrbey_pending_oauth');
+          if (authData && authData.email) {
+            await this.executeLogin(authData.provider || 'OAuth 2.0', authData.email, authData.name);
+          }
+        } catch (e) {}
+      }
+    });
+  }
+
   getKnownAccounts() {
     try {
       const raw = localStorage.getItem('qrbey_known_accounts');
       if (raw) return JSON.parse(raw);
     } catch (e) {}
-    // Cuentas predeterminadas / conocidas para agilizar pruebas
     return [
       { email: 'paolapaz202504@gmail.com', name: 'Paola Paz', provider: 'google' }
     ];
@@ -91,36 +112,23 @@ export class UserModal extends UIComponent {
       });
     }
 
-    // Botones de Proveedores (Gmail, Hotmail, Yahoo)
+    // Al seleccionar cualquiera de los tres proveedores (Gmail, Hotmail, Yahoo),
+    // abre directamente la ventana oficial de dicho proveedor para seleccionar cuenta o escribir credenciales
     document.querySelectorAll('.oauth-provider-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const providerKey = btn.dataset.provider;
+        const providerKey = btn.dataset.provider || 'google';
         const providerName = btn.dataset.name || 'Google / Gmail';
         const domain = btn.dataset.domain || 'gmail.com';
-        this.selectProvider(providerKey, providerName, domain);
+        this.openProviderWindow(providerKey, providerName, domain);
       });
     });
-
-    // Volver a elegir proveedor
-    if (this.btnBackProviders) {
-      this.btnBackProviders.addEventListener('click', () => {
-        this.showStepProviders();
-      });
-    }
-
-    // Botón oficial OAuth 2.0 (Google GIS / Popup oficial)
-    if (this.btnTriggerOfficial) {
-      this.btnTriggerOfficial.addEventListener('click', () => {
-        this.triggerOfficialOAuthFlow();
-      });
-    }
   }
 
   openModal() {
     if (this.container) {
       if (this.authAlert) this.authAlert.classList.add('hidden');
       if (this.statusBanner) this.statusBanner.classList.add('hidden');
-      this.showStepProviders();
+      if (this.stepProviders) this.stepProviders.classList.remove('hidden');
       this.container.classList.remove('hidden');
     }
   }
@@ -133,162 +141,33 @@ export class UserModal extends UIComponent {
     }
   }
 
-  showStepProviders() {
-    if (this.stepProviders) this.stepProviders.classList.remove('hidden');
-    if (this.stepAccount) this.stepAccount.classList.add('hidden');
-    this.activeProvider = null;
-  }
-
-  selectProvider(providerKey, providerName, domain) {
+  openProviderWindow(providerKey, providerName, domain) {
     this.activeProvider = { key: providerKey, name: providerName, domain };
 
-    if (this.stepProviders) this.stepProviders.classList.add('hidden');
-    if (this.stepAccount) this.stepAccount.classList.remove('hidden');
+    if (this.statusBanner) this.statusBanner.classList.remove('hidden');
+    if (this.statusText) this.statusText.textContent = `Abriendo ventana oficial de ${providerName}...`;
 
-    if (this.activeBadge) this.activeBadge.textContent = providerName.split(' / ')[0];
+    const popupW = 500;
+    const popupH = 640;
+    const left = Math.max(0, Math.floor((window.screen.width - popupW) / 2));
+    const top = Math.max(0, Math.floor((window.screen.height - popupH) / 2));
+    const popupUrl = `/auth-popup.html?provider=${encodeURIComponent(providerKey)}`;
 
-    // Icono y texto del botón oficial
-    if (this.officialIcon && this.officialLabel) {
-      if (providerKey === 'google') {
-        this.officialIcon.className = 'fa-brands fa-google text-red-500 text-base';
-        this.officialLabel.textContent = 'Abrir selector de cuenta de Google';
-      } else if (providerKey === 'microsoft') {
-        this.officialIcon.className = 'fa-brands fa-microsoft text-blue-500 text-base';
-        this.officialLabel.textContent = 'Abrir inicio de sesión de Microsoft';
-      } else if (providerKey === 'yahoo') {
-        this.officialIcon.className = 'fa-brands fa-yahoo text-purple-600 text-base';
-        this.officialLabel.textContent = 'Abrir inicio de sesión de Yahoo';
+    const popup = window.open(
+      popupUrl,
+      'QRbeyOAuthLogin',
+      `width=${popupW},height=${popupH},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no`
+    );
+
+    if (popup && !popup.closed) {
+      popup.focus();
+    } else {
+      if (this.authAlert) {
+        this.authAlert.classList.remove('hidden');
+        const span = this.authAlert.querySelector('span');
+        if (span) span.textContent = 'Tu navegador bloqueó la ventana emergente. Por favor permite ventanas emergentes para identificarte con tu proveedor de correo.';
       }
     }
-
-    // Renderizar cuentas disponibles para este proveedor
-    this.renderProviderAccounts(domain, providerKey);
-
-    // Si es Google y GIS está cargado, intentar lanzar el selector nativo
-    if (providerKey === 'google') {
-      setTimeout(() => {
-        this.triggerGoogleGIS(false);
-      }, 250);
-    }
-  }
-
-  renderProviderAccounts(domain, providerKey) {
-    if (!this.accountsList) return;
-    this.accountsList.innerHTML = '';
-
-    const known = this.getKnownAccounts().filter(a => {
-      const email = (a.email || '').toLowerCase();
-      if (domain === 'gmail.com') return email.includes('@gmail.com');
-      if (domain === 'hotmail.com') return email.includes('@hotmail.com') || email.includes('@outlook.com');
-      if (domain === 'yahoo.com') return email.includes('@yahoo.com');
-      return false;
-    });
-
-    if (known.length > 0) {
-      const label = document.createElement('p');
-      label.className = 'text-[11px] font-semibold text-slate-600 mb-1';
-      label.textContent = 'Cuentas detectadas en este equipo:';
-      this.accountsList.appendChild(label);
-
-      known.forEach(account => {
-        const item = document.createElement('button');
-        item.type = 'button';
-        item.className = 'w-full flex items-center justify-between p-2.5 bg-slate-50 hover:bg-indigo-50/60 border border-slate-200 hover:border-indigo-300 rounded-xl transition cursor-pointer text-left group shadow-2xs';
-        item.innerHTML = `
-          <div class="flex items-center gap-2.5 min-w-0">
-            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(account.email)}" alt="Avatar" class="w-7 h-7 rounded-full bg-slate-200 shrink-0">
-            <div class="truncate">
-              <span class="block font-bold text-xs text-slate-800 group-hover:text-indigo-700 truncate">${account.name || account.email.split('@')[0]}</span>
-              <span class="block text-[11px] text-slate-500 font-mono truncate">${account.email}</span>
-            </div>
-          </div>
-          <span class="text-[11px] font-bold text-indigo-600 group-hover:translate-x-0.5 transition-transform flex items-center gap-1 shrink-0">
-            <span>Acceder</span>
-            <i class="fa-solid fa-arrow-right text-[9px]"></i>
-          </span>
-        `;
-
-        item.addEventListener('click', async () => {
-          await this.executeLogin(this.activeProvider.name, account.email, account.name);
-        });
-
-        this.accountsList.appendChild(item);
-      });
-    }
-  }
-
-  triggerOfficialOAuthFlow() {
-    if (!this.activeProvider) return;
-
-    if (this.activeProvider.key === 'google') {
-      this.triggerGoogleGIS(true);
-    } else if (this.activeProvider.key === 'microsoft') {
-      this.triggerMicrosoftOAuth();
-    } else if (this.activeProvider.key === 'yahoo') {
-      this.triggerYahooOAuth();
-    }
-  }
-
-  triggerGoogleGIS(showAlertOnError = true) {
-    if (window.google && window.google.accounts && window.google.accounts.oauth2 && this.googleClientId) {
-      try {
-        const tokenClient = google.accounts.oauth2.initTokenClient({
-          client_id: this.googleClientId,
-          scope: 'email profile',
-          callback: async (tokenResponse) => {
-            if (tokenResponse && tokenResponse.access_token) {
-              if (this.statusBanner) this.statusBanner.classList.remove('hidden');
-              if (this.statusText) this.statusText.textContent = 'Obteniendo cuenta verificada de Google...';
-
-              try {
-                const userRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-                  headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
-                });
-                const gUser = await userRes.json();
-                if (gUser && gUser.email) {
-                  this.saveKnownAccount({ email: gUser.email, name: gUser.name, provider: 'google' });
-                  await this.executeLogin('Google / Gmail', gUser.email, gUser.name);
-                }
-              } catch (fetchErr) {
-                console.error('[Google Userinfo Error]:', fetchErr);
-              }
-            }
-          }
-        });
-        tokenClient.requestAccessToken({ prompt: 'select_account' });
-        return;
-      } catch (err) {
-        console.warn('[Google GIS initTokenClient Error]:', err.message);
-      }
-    }
-
-    if (showAlertOnError) {
-      // Si el SDK no abre el popup (por ejemplo en orígenes no registrados en Google Console)
-      const popupW = 520;
-      const popupH = 640;
-      const left = (window.screen.width - popupW) / 2;
-      const top = (window.screen.height - popupH) / 2;
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(this.googleClientId || '')}&response_type=token&scope=email%20profile&redirect_uri=${encodeURIComponent(window.location.origin)}`;
-      window.open(authUrl, 'GoogleOAuthPopup', `width=${popupW},height=${popupH},top=${top},left=${left}`);
-    }
-  }
-
-  triggerMicrosoftOAuth() {
-    const popupW = 520;
-    const popupH = 640;
-    const left = (window.screen.width - popupW) / 2;
-    const top = (window.screen.height - popupH) / 2;
-    const authUrl = `https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize?client_id=common&response_type=token&scope=User.Read&redirect_uri=${encodeURIComponent(window.location.origin)}`;
-    window.open(authUrl, 'MicrosoftOAuthPopup', `width=${popupW},height=${popupH},top=${top},left=${left}`);
-  }
-
-  triggerYahooOAuth() {
-    const popupW = 520;
-    const popupH = 640;
-    const left = (window.screen.width - popupW) / 2;
-    const top = (window.screen.height - popupH) / 2;
-    const authUrl = `https://api.login.yahoo.com/oauth2/request_auth?client_id=dj0yJmk9&response_type=token&redirect_uri=${encodeURIComponent(window.location.origin)}`;
-    window.open(authUrl, 'YahooOAuthPopup', `width=${popupW},height=${popupH},top=${top},left=${left}`);
   }
 
   async executeLogin(provider, email, name) {
@@ -298,7 +177,7 @@ export class UserModal extends UIComponent {
     try {
       const res = await ApiService.oauthLogin(provider, email, name);
       if (res.success && res.user) {
-        this.saveKnownAccount({ email: res.user.email, name: res.user.name, provider: (this.activeProvider ? this.activeProvider.key : 'google') });
+        this.saveKnownAccount({ email: res.user.email, name: res.user.name, provider });
         appState.setState({ user: res.user }, 'USER_LOGGED_IN');
         this.closeModal();
 

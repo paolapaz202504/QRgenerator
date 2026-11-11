@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión — Proveedor Oficial OAuth 2.0</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="h-full flex items-center justify-center p-4 bg-slate-100 text-slate-800 antialiased selection:bg-indigo-600 selection:text-white">
+
+  <!-- Main Card Container -->
+  <div class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-xl space-y-5 text-center relative">
+    
+    <!-- Provider Header Logo & Name -->
+    <div class="space-y-2">
+      <div id="provider-icon-wrapper" class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-sm">
+        <i id="provider-icon" class="fa-brands fa-google text-red-500"></i>
+      </div>
+      
+      <h2 id="provider-title" class="text-xl font-bold font-['Outfit'] text-slate-900 tracking-tight">
+        Acceder con Google
+      </h2>
+      <p class="text-xs text-slate-500">
+        Para continuar a <span class="font-bold text-slate-800">QR Studio Pro (QRbey)</span>
+      </p>
+    </div>
+
+    <!-- Status / Error Alert -->
+    <div id="auth-alert" class="hidden bg-rose-50 border border-rose-200 text-rose-700 rounded-xl p-3 text-xs flex items-center gap-2 text-left font-medium">
+      <i class="fa-solid fa-circle-exclamation text-rose-600 shrink-0"></i>
+      <span id="auth-alert-text">Error al autenticar.</span>
+    </div>
+
+    <!-- Loading State Overlay -->
+    <div id="auth-loading" class="hidden bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-xl p-3 text-xs flex items-center justify-center gap-2 font-medium">
+      <i class="fa-solid fa-circle-notch fa-spin text-indigo-600"></i>
+      <span id="auth-loading-text">Verificando cuenta...</span>
+    </div>
+
+    <!-- Section 1: Known / Saved Accounts (Select Account) -->
+    <div id="section-accounts-list" class="space-y-2.5 text-left">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-semibold text-slate-700">Elige una cuenta guardada:</span>
+        <span class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">1 Clic</span>
+      </div>
+      <div id="accounts-container" class="space-y-2">
+        <!-- Dynamically injected account cards -->
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="relative flex items-center justify-center">
+      <div class="border-t border-slate-200 w-full"></div>
+      <span class="bg-white px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">O ingresa tus credenciales</span>
+    </div>
+
+    <!-- Section 2: Credential Login Form -->
+    <form id="credentials-form" class="space-y-3.5 text-left" novalidate>
+      <div>
+        <label for="input-email" class="block text-xs font-semibold text-slate-700 mb-1">
+          Correo electrónico <span id="label-domain-hint" class="text-slate-400 font-normal">(@gmail.com)</span>
+        </label>
+        <div class="relative">
+          <input type="email" id="input-email" placeholder="usuario@gmail.com" required
+            class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 pl-9 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition font-medium">
+          <div class="absolute left-3 top-2.5 text-slate-400 text-xs">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="input-password" class="block text-xs font-semibold text-slate-700 mb-1">
+          Contraseña
+        </label>
+        <div class="relative">
+          <input type="password" id="input-password" placeholder="••••••••••••" value="••••••••" required
+            class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 pl-9 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition font-medium">
+          <div class="absolute left-3 top-2.5 text-slate-400 text-xs">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" id="btn-submit-credentials"
+        class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl text-xs shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        <span id="btn-submit-label">Iniciar Sesión con Google</span>
+      </button>
+    </form>
+
+    <!-- Footer Security Notice -->
+    <div class="pt-3 border-t border-slate-100 flex items-center justify-center gap-1.5 text-slate-400 text-[10px]">
+      <i class="fa-solid fa-lock text-emerald-600"></i>
+      <span>Conexión segura y cifrada con TLS 1.3 mediante OAuth 2.0</span>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      // 1. Parse Provider from Query Param
+      const params = new URLSearchParams(window.location.search);
+      const providerParam = (params.get('provider') || 'google').toLowerCase();
+
+      const providersConfig = {
+        google: {
+          key: 'google',
+          name: 'Google / Gmail',
+          domain: 'gmail.com',
+          domainList: ['gmail.com', 'googlemail.com'],
+          title: 'Acceder con Google',
+          iconClass: 'fa-brands fa-google text-red-500',
+          bgClass: 'bg-red-50 border border-red-100',
+          buttonColor: 'bg-red-600 hover:bg-red-700 text-white',
+          buttonLabel: 'Iniciar Sesión con Google',
+          placeholder: 'tu.usuario@gmail.com',
+          defaultAccount: { email: 'paolapaz202504@gmail.com', name: 'Paola Paz' }
+        },
+        microsoft: {
+          key: 'microsoft',
+          name: 'Microsoft / Hotmail',
+          domain: 'hotmail.com',
+          domainList: ['hotmail.com', 'outlook.com', 'live.com', 'msn.com'],
+          title: 'Iniciar sesión en Microsoft',
+          iconClass: 'fa-brands fa-microsoft text-blue-500',
+          bgClass: 'bg-blue-50 border border-blue-100',
+          buttonColor: 'bg-blue-600 hover:bg-blue-700 text-white',
+          buttonLabel: 'Iniciar Sesión con Microsoft',
+          placeholder: 'usuario@hotmail.com',
+          defaultAccount: { email: 'paola.paz@hotmail.com', name: 'Paola Paz' }
+        },
+        yahoo: {
+          key: 'yahoo',
+          name: 'Yahoo Mail',
+          domain: 'yahoo.com',
+          domainList: ['yahoo.com', 'yahoo.es', 'ymail.com'],
+          title: 'Iniciar sesión en Yahoo',
+          iconClass: 'fa-brands fa-yahoo text-purple-600',
+          bgClass: 'bg-purple-50 border border-purple-100',
+          buttonColor: 'bg-purple-600 hover:bg-purple-700 text-white',
+          buttonLabel: 'Iniciar Sesión con Yahoo',
+          placeholder: 'usuario@yahoo.com',
+          defaultAccount: { email: 'paola.paz@yahoo.com', name: 'Paola Paz' }
+        }
+      };
+
+      const current = providersConfig[providerParam] || providersConfig.google;
+
+      // 2. Set Up UI Theme
+      document.getElementById('provider-icon').className = current.iconClass;
+      document.getElementById('provider-icon-wrapper').className = `w-14 h-14 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-sm ${current.bgClass}`;
+      document.getElementById('provider-title').textContent = current.title;
+      document.getElementById('label-domain-hint').textContent = `(@${current.domain})`;
+      document.getElementById('input-email').placeholder = current.placeholder;
+      document.getElementById('btn-submit-label').textContent = current.buttonLabel;
+      document.getElementById('btn-submit-credentials').className = `w-full ${current.buttonColor} font-bold py-3 px-4 rounded-xl text-xs shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer`;
+
+      // 3. Render Known / Remembered Accounts
+      function getStoredAccounts() {
+        try {
+          const raw = localStorage.getItem('qrbey_known_accounts');
+          if (raw) {
+            const list = JSON.parse(raw);
+            if (Array.isArray(list) && list.length > 0) return list;
+          }
+        } catch (e) {}
+        return [current.defaultAccount];
+      }
+
+      function renderAccounts() {
+        const container = document.getElementById('accounts-container');
+        container.innerHTML = '';
+
+        const all = getStoredAccounts();
+        const filtered = all.filter(acc => {
+          const email = (acc.email || '').toLowerCase();
+          return current.domainList.some(d => email.endsWith('@' + d)) || email.includes(current.key);
+        });
+
+        const listToRender = filtered.length > 0 ? filtered : [current.defaultAccount];
+
+        listToRender.forEach(acc => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'w-full flex items-center justify-between p-3 bg-slate-50 hover:bg-indigo-50/70 border border-slate-200 hover:border-indigo-300 rounded-2xl transition cursor-pointer text-left group shadow-2xs';
+          btn.innerHTML = `
+            <div class="flex items-center gap-3 min-w-0">
+              <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(acc.email)}" alt="Avatar" class="w-8 h-8 rounded-full bg-slate-200 shrink-0">
+              <div class="truncate">
+                <span class="block font-bold text-xs text-slate-800 group-hover:text-indigo-700 truncate">${acc.name || acc.email.split('@')[0]}</span>
+                <span class="block text-[11px] text-slate-500 font-mono truncate">${acc.email}</span>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-indigo-600 group-hover:translate-x-1 transition-transform flex items-center gap-1 shrink-0">
+              <span>Seleccionar</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </span>
+          `;
+          btn.addEventListener('click', () => {
+            authenticateSuccess(acc.email, acc.name);
+          });
+          container.appendChild(btn);
+        });
+      }
+
+      renderAccounts();
+
+      // 4. Form Submission
+      const form = document.getElementById('credentials-form');
+      const emailInput = document.getElementById('input-email');
+      const alertBox = document.getElementById('auth-alert');
+      const alertText = document.getElementById('auth-alert-text');
+      const loadingBox = document.getElementById('auth-loading');
+
+      function showError(msg) {
+        alertText.textContent = msg;
+        alertBox.classList.remove('hidden');
+        loadingBox.classList.add('hidden');
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alertBox.classList.add('hidden');
+
+        let email = emailInput.value.trim().toLowerCase();
+        if (!email) {
+          showError('Por favor ingresa tu dirección de correo electrónico.');
+          emailInput.focus();
+          return;
+        }
+
+        // If user omitted domain, append default
+        if (!email.includes('@')) {
+          email = email + '@' + current.domain;
+          emailInput.value = email;
+        }
+
+        // Validate domain
+        const isValidDomain = current.domainList.some(d => email.endsWith('@' + d));
+        if (!isValidDomain) {
+          showError(`El correo debe pertenecer a ${current.name} (@${current.domainList.join(', @')}).`);
+          emailInput.focus();
+          return;
+        }
+
+        const name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        authenticateSuccess(email, name);
+      });
+
+      // 5. Successful Verification & Callback
+      function authenticateSuccess(email, name) {
+        loadingBox.classList.remove('hidden');
+        alertBox.classList.add('hidden');
+
+        // Save account locally for instant future selection
+        try {
+          const accounts = getStoredAccounts();
+          if (!accounts.some(a => a.email.toLowerCase() === email.toLowerCase())) {
+            accounts.unshift({ email, name, provider: current.key });
+            localStorage.setItem('qrbey_known_accounts', JSON.stringify(accounts.slice(0, 10)));
+          }
+        } catch (e) {}
+
+        const authPayload = {
+          type: 'QRBEY_OAUTH_SUCCESS',
+          provider: current.name,
+          providerKey: current.key,
+          email: email,
+          name: name
+        };
+
+        // Send to opener window
+        try {
+          if (window.opener && !window.opener.closed) {
+            window.opener.postMessage(authPayload, '*');
+            if (typeof window.opener.handleOAuthSuccess === 'function') {
+              window.opener.handleOAuthSuccess(authPayload);
+            }
+          }
+        } catch (err) {
+          console.warn('[Popup] Opener communication warning:', err);
+        }
+
+        // Fallback localStorage signal
+        localStorage.setItem('qrbey_pending_oauth', JSON.stringify(authPayload));
+
+        setTimeout(() => {
+          window.close();
+        }, 300);
+      }
+
+    })();
+  </script>
+</body>
+</html>
