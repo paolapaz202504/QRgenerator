@@ -74,6 +74,14 @@ class UserRepository {
     const key = user.email.toLowerCase().trim();
     this.usersStore[key] = user;
     await gcsService.saveJsonToCloud('Users/users.json', this.usersStore);
+
+    try {
+      const databaseService = require('../services/DatabaseService');
+      if (databaseService.isConnected()) {
+        await databaseService.saveUser(user);
+      }
+    } catch (e) {}
+
     return user;
   }
 

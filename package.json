@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@google-cloud/storage": "^8.2.0",
+    "@tidbcloud/serverless": "^0.3.0",
     "canvas": "^3.2.3",
     "dotenv": "^18.0.0",
     "express": "^5.2.1",
