@@ -4,6 +4,15 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.1] — 2026-11-11
+### 🚀 Activación Oficial de Cuenta Pro, Cache-Bust y Despliegue Garantizado de 22 Patrones
+
+#### Corregido
+- **Activación de Cuenta Pro paolapaz202504@gmail.com (`backendAgent`):** Actualización de la cuenta a Plan Pro (2,000 créditos de edición, 500 descargas HD) en persistencia local y Google Cloud Storage (DEV y PROD). Se añade la insignia interactiva `Plan Pro` en el Navbar.
+- **Cache-Busting y Renderizado Forzado de los 22 Patrones (`frontAgent` & `cacheBdAgent`):** Inclusión de `DEFAULT_PATTERNS` embebido en `AppState.js` y `DesignPicker.js` para renderizar los 22 patrones inmediatamente sin depender de caché de navegador. Ajuste de cabecera de `/api/designs` a `max-age=60, must-revalidate` y adición de cache-bust `?v=1.3.1` en `index.html`.
+
+---
+
 ## [v1.3.0] — 2026-11-11
 ### 🛡️ Calibración de Créditos por Plan, 22 Patrones y 600 Diseños Claros Certificados
 

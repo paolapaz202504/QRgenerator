@@ -2,8 +2,8 @@ const qrGeneratorService = require('../services/QRGeneratorService');
 
 class QRController {
   getDesigns(req, res) {
-    // Cache headers for static designs catalogue (24 hours)
-    res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=3600');
+    // Dynamic cache header (60s with revalidation) to ensure clients receive fresh patterns
+    res.setHeader('Cache-Control', 'public, max-age=60, must-revalidate');
     res.json({
       success: true,
       categories: qrGeneratorService.getCategories(),

@@ -1,5 +1,5 @@
 import { UIComponent } from './UIComponent.js';
-import { appState } from '../state/AppState.js';
+import { appState, DEFAULT_PATTERNS } from '../state/AppState.js';
 import { renderIconToDataUrl, getIconClass } from '../utils/iconRender.js';
 
 const CATEGORY_ICONS = {
@@ -140,9 +140,10 @@ export class DesignPicker extends UIComponent {
     }
 
     // 3. Render Patterns Grid (22 Patrones con Diseño Claro y Alto Contraste)
-    if (this.patternGrid && patterns.length) {
+    const activePatternsList = (patterns && patterns.length >= 22) ? patterns : DEFAULT_PATTERNS;
+    if (this.patternGrid) {
       this.patternGrid.innerHTML = '';
-      patterns.forEach(pat => {
+      activePatternsList.forEach(pat => {
         const isSelected = currentPattern === pat.id;
         const btn = document.createElement('button');
         btn.type = 'button';

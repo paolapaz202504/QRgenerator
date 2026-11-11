@@ -15,7 +15,7 @@ export class ApiService {
 
   static async getDesigns() {
     try {
-      const res = await fetch('/api/designs');
+      const res = await fetch(`/api/designs?v=${Date.now()}`);
       return await res.json();
     } catch (err) {
       console.warn('[ApiService] Error fetching designs:', err);

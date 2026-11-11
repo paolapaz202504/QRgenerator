@@ -1,7 +1,7 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.3.0`  
+**Versión Actual:** `v1.3.1`  
 **Última Actualización:** 11 de Noviembre de 2026  
 **Estado General:** 🟢 Listo para Despliegue y Comercialización (12/12 Pruebas QA Aprobadas)
 

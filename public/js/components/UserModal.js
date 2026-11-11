@@ -147,6 +147,20 @@ export class UserModal extends UIComponent {
       const dlUsed = user.downloadsCount || 0;
       const dlMax = (user.maxDownloads >= 999999 || planKey === 'corporate') ? '∞' : (user.maxDownloads || defaultMaxDownloads);
 
+      const planBadge = document.getElementById('user-plan-badge');
+      if (planBadge) {
+        if (planKey === 'corporate') {
+          planBadge.textContent = 'Corporativo';
+          planBadge.className = 'bg-purple-100 text-purple-800 border border-purple-300 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider';
+        } else if (planKey === 'pro') {
+          planBadge.textContent = 'Pro / Creadores';
+          planBadge.className = 'bg-indigo-100 text-indigo-800 border border-indigo-300 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider';
+        } else {
+          planBadge.textContent = 'Gratuito';
+          planBadge.className = 'bg-slate-200 text-slate-700 border border-slate-300 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider';
+        }
+      }
+
       if (this.userCreditCounter) {
         this.userCreditCounter.textContent = `${genUsed}/${genMax} Créditos`;
       }

@@ -236,24 +236,25 @@ async function runTestSuite() {
 
   // 10. Validación Dinámica de Créditos por Plan
   await test('Verificación Dinámica de Límites de Créditos por Plan (.env)', async () => {
+    const testEmail = `qa_free_${Date.now()}@qrbey.com`;
     // Registrar usuario free
     await makeRequest('/api/auth/oauth-login', 'POST', {
       provider: 'google',
-      email: 'qa_free_tester@qrbey.com',
+      email: testEmail,
       name: 'Free Tester'
     });
-    const freeStats = (await makeRequest('/api/user/stats?email=qa_free_tester@qrbey.com', 'GET')).json();
+    const freeStats = (await makeRequest(`/api/user/stats?email=${testEmail}`, 'GET')).json();
     if (freeStats.userStats.maxCredits !== 50 || freeStats.userStats.maxDownloads !== 15) {
       throw new Error(`Límites incorrectos para usuario Free: ${JSON.stringify(freeStats.userStats)}`);
     }
 
     // Usuario Pro
     await makeRequest('/api/user/upgrade-plan', 'POST', {
-      userEmail: 'qa_free_tester@qrbey.com',
+      userEmail: testEmail,
       plan: 'pro',
       months: 1
     });
-    const proStats = (await makeRequest('/api/user/stats?email=qa_free_tester@qrbey.com', 'GET')).json();
+    const proStats = (await makeRequest(`/api/user/stats?email=${testEmail}`, 'GET')).json();
     if (proStats.userStats.maxCredits !== 2000 || proStats.userStats.maxDownloads !== 500) {
       throw new Error(`Límites incorrectos para usuario Pro: ${JSON.stringify(proStats.userStats)}`);
     }
