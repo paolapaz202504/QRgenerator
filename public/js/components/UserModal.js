@@ -24,10 +24,6 @@ export class UserModal extends UIComponent {
     this.btnTriggerOfficial = document.getElementById('btn-trigger-official-oauth');
     this.officialIcon = document.getElementById('official-oauth-icon');
     this.officialLabel = document.getElementById('official-oauth-label');
-    this.providerLabel = document.getElementById('provider-name-label');
-    this.providerDomainSuffix = document.getElementById('provider-domain-suffix');
-    this.usernameInput = document.getElementById('oauth-username-input');
-    this.btnConfirmLogin = document.getElementById('btn-confirm-provider-login');
 
     this.statusBanner = document.getElementById('oauth-status-banner');
     this.statusText = document.getElementById('oauth-status-text');
@@ -118,22 +114,6 @@ export class UserModal extends UIComponent {
         this.triggerOfficialOAuthFlow();
       });
     }
-
-    // Confirmar usuario del dominio seleccionado
-    if (this.btnConfirmLogin) {
-      this.btnConfirmLogin.addEventListener('click', () => {
-        this.submitProviderUsername();
-      });
-    }
-
-    if (this.usernameInput) {
-      this.usernameInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          this.submitProviderUsername();
-        }
-      });
-    }
   }
 
   openModal() {
@@ -166,12 +146,6 @@ export class UserModal extends UIComponent {
     if (this.stepAccount) this.stepAccount.classList.remove('hidden');
 
     if (this.activeBadge) this.activeBadge.textContent = providerName.split(' / ')[0];
-    if (this.providerLabel) this.providerLabel.textContent = providerName.split(' / ')[0];
-    if (this.providerDomainSuffix) this.providerDomainSuffix.textContent = `@${domain}`;
-    if (this.usernameInput) {
-      this.usernameInput.value = '';
-      this.usernameInput.placeholder = `ej: usuario_${domain.split('.')[0]}`;
-    }
 
     // Icono y texto del botón oficial
     if (this.officialIcon && this.officialLabel) {
@@ -315,25 +289,6 @@ export class UserModal extends UIComponent {
     const top = (window.screen.height - popupH) / 2;
     const authUrl = `https://api.login.yahoo.com/oauth2/request_auth?client_id=dj0yJmk9&response_type=token&redirect_uri=${encodeURIComponent(window.location.origin)}`;
     window.open(authUrl, 'YahooOAuthPopup', `width=${popupW},height=${popupH},top=${top},left=${left}`);
-  }
-
-  async submitProviderUsername() {
-    if (!this.activeProvider) return;
-    const rawUser = this.usernameInput ? this.usernameInput.value.trim() : '';
-
-    if (!rawUser) {
-      alert(`Por favor, ingresa tu identificador de cuenta de ${this.activeProvider.name}.`);
-      if (this.usernameInput) this.usernameInput.focus();
-      return;
-    }
-
-    // Sanitizar username eliminando @ o espacios si el usuario escribió la dirección completa
-    const cleanUser = rawUser.split('@')[0].replace(/[^a-zA-Z0-9._-]/g, '');
-    const email = `${cleanUser}@${this.activeProvider.domain}`;
-    const name = cleanUser.charAt(0).toUpperCase() + cleanUser.slice(1);
-
-    this.saveKnownAccount({ email, name, provider: this.activeProvider.key });
-    await this.executeLogin(this.activeProvider.name, email, name);
   }
 
   async executeLogin(provider, email, name) {

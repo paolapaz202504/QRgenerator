@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.0] — 2026-11-11
+### 🛡️ Acceso Exclusivo y Protegido mediante Cuentas Oficiales
+
+#### Novedades y Mejoras
+- **Autenticación exclusiva mediante proveedores oficiales:** Ahora el inicio de sesión se realiza únicamente a través de los servicios oficiales y protegidos de Gmail, Hotmail/Microsoft y Yahoo.
+- **Máxima protección de identidad:** Se retiró el ingreso manual de nombres de usuario para garantizar que cada cuenta sea 100% verificada directamente con el proveedor, evitando accesos no autorizados.
+- **Acceso rápido con un solo clic:** Selecciona tu proveedor o cuenta verificada para ingresar de forma inmediata y comenzar a diseñar tus códigos QR con total seguridad.
+- **Mayor estabilidad y rendimiento:** Optimizaciones en la velocidad de validación y respuesta del sistema.
+
+---
+
 ## [v1.4.9] — 2026-11-11
 ### 🔑 Flujo OAuth 2.0 por Proveedor y Selección Directa de Cuenta
 
