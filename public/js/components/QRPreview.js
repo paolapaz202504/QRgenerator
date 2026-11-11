@@ -2,6 +2,7 @@ import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
 import { ApiService } from '../services/ApiService.js';
 import { ModalService } from '../services/ModalService.js';
+import { renderIconToDataUrl, getIconClass } from '../utils/iconRender.js';
 
 export class QRPreview extends UIComponent {
   constructor() {
@@ -210,7 +211,7 @@ export class QRPreview extends UIComponent {
       iconBgColor: state.iconBgColor,
       iconBorderColor: state.iconBorderColor,
       iconSize: parseInt(state.iconSize, 10) || 34,
-      customLogoDataUrl: isIconChecked ? (state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null)) : null,
+      customLogoDataUrl: state.iconMode === 'image' ? state.customLogoDataUrl : (state.generatedIconDataUrl || state.customLogoDataUrl || null),
       userEmail: state.user ? state.user.email : null,
       isExplicitGenerate: isExplicit
     };
@@ -221,6 +222,20 @@ export class QRPreview extends UIComponent {
     if (this.canvasLoader) this.canvasLoader.classList.remove('hidden');
 
     try {
+      const state = appState.getState();
+      if (state.iconMode !== 'image' && !state.generatedIconDataUrl && state.selectedIcon) {
+        try {
+          const iconCls = getIconClass(state.selectedIcon);
+          const iconColor = state.iconColor || '#2563eb';
+          const dataUrl = await renderIconToDataUrl(iconCls, iconColor);
+          if (dataUrl) {
+            appState.setState({ generatedIconDataUrl: dataUrl }, 'CHANGE_ICON');
+          }
+        } catch (err) {
+          console.warn('[QRPreview] Pre-rendering icon fallback error:', err);
+        }
+      }
+
       const payload = this.getPayload(600, isExplicit);
       
       const payloadForHash = { ...payload };
@@ -285,6 +300,19 @@ export class QRPreview extends UIComponent {
     }
 
     try {
+      if (state.iconMode !== 'image' && !state.generatedIconDataUrl && state.selectedIcon) {
+        try {
+          const iconCls = getIconClass(state.selectedIcon);
+          const iconColor = state.iconColor || '#2563eb';
+          const dataUrl = await renderIconToDataUrl(iconCls, iconColor);
+          if (dataUrl) {
+            appState.setState({ generatedIconDataUrl: dataUrl }, 'CHANGE_ICON');
+          }
+        } catch (err) {
+          console.warn('[QRPreview] Pre-rendering icon download fallback error:', err);
+        }
+      }
+
       const payload = this.getPayload(resolution);
       payload.format = format;
 

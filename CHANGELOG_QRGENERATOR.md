@@ -4,6 +4,18 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.9] — 2026-11-11
+### 🎨 Desacoplamiento de Entrada de Datos de Silueta e Ícono Central
+
+#### Corregido
+- **Corrección de Entrada de Figura para Silueta Independiente (`frontAgent` & `qrAgent`):**
+  - En [`public/js/components/QRPreview.js`](file:///C:/Users/genaro/Documents/Repositorios/QRgenerator/public/js/components/QRPreview.js), se desacopló `customLogoDataUrl` de la condición `isIconChecked`. Anteriormente, si el usuario desactivaba *Mostrar ícono en el centro del QR*, `customLogoDataUrl` se enviaba como `null`, privando al motor Canvas de la imagen o ícono seleccionado en el Paso 3 para generar la silueta temática de fondo y provocando que cayera en un recuadro genérico.
+  - Ahora `customLogoDataUrl` siempre transmite la figura seleccionada o cargada; el switch de ícono central solo gobierna el parámetro `showIcon`, permitiendo que el motor proyecte la silueta artística fidedigna de fondo sin dibujar el medallón central.
+- **Blindaje de Calidad con Prueba #14 (`qaAgent`):**
+  - Se incorporó la prueba automatizada **#14** a [`test/qa_suite.js`](file:///C:/Users/genaro/Documents/Repositorios/QRgenerator/test/qa_suite.js), verificando la generación y decodificación óptica (`jsQR`) para códigos con silueta activa (`icon_only`) e ícono central desactivado (`showIcon: false`).
+
+---
+
 ## [v1.3.8] — 2026-11-11
 ### 🐛 Corrección de Cierre Sintáctico en IconPicker y Blindaje del Pipeline de Calidad
 

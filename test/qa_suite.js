@@ -317,6 +317,37 @@ async function runTestSuite() {
     }
   });
 
+  // 14. Desacoplamiento Silueta vs Ícono Central
+  await test('Desacoplamiento Silueta vs Ícono: Silueta activa con showIcon=false y customLogoDataUrl', async () => {
+    const dummyIconDataUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAALUlEQVRYR+3QQREAAAzCMPBnffk8Bhcq2Kekm+f0BQCAgICAgICAgICAgICAgMAbv6gCG75hSmsAAAAASUVORK5CYII=';
+    const testUrl = 'https://qrbey.com/silueta-independiente';
+    
+    const res = await makeRequest('/api/generate', 'POST', {
+      url: testUrl,
+      title: 'Silueta Pura',
+      qrSilhouetteMode: 'icon_only',
+      showIcon: false,
+      iconName: 'fa-heart',
+      customLogoDataUrl: dummyIconDataUrl,
+      silhouetteColor: '#ec4899',
+      patternColor: '#831843'
+    });
+
+    if (res.statusCode !== 200) throw new Error(`Status esperado 200, recibido: ${res.statusCode}`);
+    if (!res.buffer || res.buffer.length < 5000) throw new Error('Buffer de imagen inválido o corrupto');
+
+    // Validación óptica con jsQR
+    const img = await loadImage(res.buffer);
+    const canvas = createCanvas(img.width, img.height);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const imgData = ctx.getImageData(0, 0, img.width, img.height);
+
+    const code = jsQR(imgData.data, imgData.width, imgData.height);
+    if (!code) throw new Error('jsQR no pudo decodificar el código QR con silueta independiente');
+    if (code.data !== testUrl) throw new Error(`Dato decodificado '${code.data}' no coincide con '${testUrl}'`);
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

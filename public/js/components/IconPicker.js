@@ -224,7 +224,7 @@ export class IconPicker extends UIComponent {
     this.iconCenterCustomization = document.getElementById('icon-center-customization') || document.getElementById('icon-controls-wrapper');
 
     appState.subscribe((state, eventKey) => {
-      if (['CHANGE_ICON', 'CHANGE_ICON_SOURCE', 'CHANGE_ICON_MODE', 'CHANGE_DESIGN', 'INIT_DATA'].includes(eventKey)) {
+      if (['CHANGE_ICON', 'CHANGE_ICON_SOURCE', 'CHANGE_ICON_MODE', 'CHANGE_DESIGN', 'INIT_DATA', 'RESET_STATE'].includes(eventKey)) {
         this.render();
         this.renderModalGallery();
       }
