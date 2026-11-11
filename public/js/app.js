@@ -18,7 +18,6 @@ class Application {
 
     // 1. Load modularized HTML component partials from ./html/
     await ComponentLoader.loadComponents();
-    this.verifyServerVersion();
 
     // 2. Instantiate and mount UI Component controllers after DOM is populated
     this.heroBanner = new HeroBanner();
@@ -163,31 +162,6 @@ class Application {
 
     // Fetch initial user history
     this.historyTable.fetchHistory();
-  }
-
-  async verifyServerVersion() {
-    try {
-      const res = await fetch(`/api/health?t=${Date.now()}`, { cache: 'no-store' });
-      if (res.ok) {
-        const data = await res.json();
-        const serverVersion = data.version;
-        const currentVersion = '1.4.2';
-        if (serverVersion && serverVersion !== currentVersion) {
-          console.log(`[VersionSync] Nueva versión detectada en servidor (${currentVersion} -> ${serverVersion}). Actualizando...`);
-          localStorage.setItem('qrbey_app_version', serverVersion);
-          if ('caches' in window) {
-            const names = await caches.keys();
-            await Promise.all(names.map(name => caches.delete(name)));
-          }
-          const url = new URL(window.location.href);
-          url.searchParams.set('v', serverVersion);
-          url.searchParams.set('t', Date.now());
-          window.location.replace(url.toString());
-        }
-      }
-    } catch (e) {
-      // Offline or network warning
-    }
   }
 }
 

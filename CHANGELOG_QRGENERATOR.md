@@ -4,6 +4,16 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.4.3] — 2026-11-11
+### 🛠️ Hotfix: Eliminación de Bucle de Recarga y Estabilización Cliente
+
+#### Corregido
+- **Eliminación de Bucles de Recarga (`frontAgent`):**
+  - Se eliminó el script inline de `index.html` y el método `verifyServerVersion()` en `app.js` que provocaban recargas infinitas cíclicas cuando existía desincronización de versiones en `localStorage`.
+  - La frescura de contenidos y la respuesta a F5 queda garantizada de forma segura mediante las directivas HTTP del servidor (`Surrogate-Control: no-store`, `Cache-Control: no-cache, no-store, must-revalidate`) y versionado de assets estáticos sin perturbar el ciclo de vida de la página.
+
+---
+
 ## [v1.4.2] — 2026-11-11
 ### 🏛️ Rediseño Premium de Plantillas Institucionales y Pureza Estricta de Patrones Geométricos
 

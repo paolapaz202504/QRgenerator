@@ -444,12 +444,26 @@
     </div>
 
     <div class="overflow-y-auto custom-scrollbar space-y-6 pr-2 flex-1 text-xs">
-      <!-- Versión 1.4.2 -->
+      <!-- Versión 1.4.3 -->
       <div class="border-l-2 border-indigo-600 pl-4 space-y-2 relative">
         <div class="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-indigo-600"></div>
         <div class="flex items-center justify-between">
-          <span class="font-bold text-sm text-slate-900">v1.4.2 — Rediseño Premium de Plantillas Institucionales y Pureza Estricta de Patrones</span>
+          <span class="font-bold text-sm text-slate-900">v1.4.3 — Hotfix: Eliminación de Recargas Forzadas y Estabilización Cliente</span>
           <span class="bg-indigo-50 text-indigo-700 font-mono font-bold px-2 py-0.5 rounded text-[10px]">Actual</span>
+        </div>
+        <p class="text-slate-600">Corrección de estabilidad en la carga del cliente web:</p>
+        <ul class="list-disc list-inside space-y-1 text-slate-600">
+          <li><strong>Eliminación de Bucle de Recarga:</strong> Se removió el script inline de recarga automática en <code>index.html</code> y la revalidación forzada en <code>app.js</code> que causaba loops continuos si existía desincronización de versiones en almacenamiento local.</li>
+          <li><strong>Anti-Caché Puro en Servidor:</strong> La frescura de los archivos se garantiza exclusivamente a nivel HTTP mediante cabeceras <code>Cache-Control: no-cache, no-store, must-revalidate</code> en Express y versionado de assets estáticos sin perturbar el ciclo de vida del navegador.</li>
+        </ul>
+      </div>
+
+      <!-- Versión 1.4.2 -->
+      <div class="border-l-2 border-slate-300 pl-4 space-y-2 relative">
+        <div class="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-slate-300"></div>
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-sm text-slate-800">v1.4.2 — Rediseño Premium de Plantillas Institucionales y Pureza Estricta de Patrones</span>
+          <span class="text-slate-500 font-mono text-[10px]">11/11/2026</span>
         </div>
         <p class="text-slate-600">Reemplazo estético de plantillas iniciales y consistencia geométrica sin líneas extrañas:</p>
         <ul class="list-disc list-inside space-y-1 text-slate-600">
