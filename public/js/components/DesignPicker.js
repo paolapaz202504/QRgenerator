@@ -324,8 +324,8 @@ export class DesignPicker extends UIComponent {
     }
     if (customEyeColor2 && eyeCol2) { customEyeColor2.value = eyeCol2; if (customEyeColor2Hex) customEyeColor2Hex.textContent = eyeCol2; }
 
-    // Grupo 3 exclusivo para "3. Silueta + Ícono al Centro"
-    const isSil = (silMode === 'icon_center');
+    // Contenedor de silueta activo para opción 2 ("icon_only") y opción 3 ("icon_center")
+    const isSil = (silMode === 'icon_only' || silMode === 'icon_center');
     if (containerSilhouetteColor) containerSilhouetteColor.classList.toggle('hidden', !isSil);
     if (customSilhouetteColor) {
       customSilhouetteColor.value = silColor;
@@ -337,9 +337,9 @@ export class DesignPicker extends UIComponent {
     }
 
     const SIL_MAP = {
-      none: '1. Ícono: Matriz tradicional con ícono integrado dentro del marco del póster.',
-      icon_only: '2. Silueta de Ícono/Imagen: El código QR adopta la silueta del ícono o imagen seleccionada.',
-      icon_center: '3. Silueta + Ícono: Silueta temática de fondo con ícono central. Activa los colores de silueta y patrón.'
+      none: '1. Ícono/Imagen: Matriz tradicional con ícono o logotipo integrado dentro del marco del póster.',
+      icon_only: '2. Silueta de Ícono/Imagen: El código QR adopta la silueta de la figura/imagen con colores de silueta y patrón personalizables.',
+      icon_center: '3. Silueta + Ícono/Imagen: Silueta temática de fondo con ícono central emblemático y colores de silueta y patrón personalizables.'
     };
     if (customQrSilhouetteDesc) customQrSilhouetteDesc.textContent = SIL_MAP[silMode] || '';
 
@@ -372,6 +372,7 @@ export class DesignPicker extends UIComponent {
       patternColor: patColor,
 
       customEyeColor: eyeCol,
+      customEyeStyle: eyeSty,
       eyeStyle: eyeSty,
       eyeGradientType: eyeGradType,
       eyeColor2: eyeCol2,

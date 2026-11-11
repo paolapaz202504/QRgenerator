@@ -49,3 +49,7 @@
 | 2026-11-11 10:13 | `frontAgent` | Renombrado intuitivo de opciones de silueta: '1. Ícono' y '3. Silueta + Ícono'. Actualización de mapeos y textos descriptivos. | `ColorCustomizer.js`, `DesignPicker.js` |
 | 2026-11-11 10:14 | `qaAgent` | Ejecución de suite completa (12 core + 201 combinatorias): 213/213 pruebas aprobadas (100% de escaneabilidad óptica). | `test/qa_suite.js`, `test/qa_visual_matrix.js` |
 | 2026-11-11 10:15 | `pmAgent` | Consolidación de release semántico v1.3.3, actualización de Navbar, modal de versiones y bitácora. | `package.json`, `header.html`, `modals.html`, `CHANGELOG_QRGENERATOR.md`, `DEVTEAM_LOG_QRGENERATOR.md` |
+| 2026-11-11 10:37 | `frontAgent` | Renombrado de opciones a '1. Ícono/Imagen' y '3. Silueta + Ícono/Imagen'. Habilitación de colores de silueta en opción 2. | `color-customizer.html`, `ColorCustomizer.js`, `DesignPicker.js` |
+| 2026-11-11 10:38 | `qrAgent` | Reparación de dibujado y preservación de ojos (finders) en siluetas temáticas (opciones 2 y 3). Herencia de `IconBaseSilhouette`. | `IconBaseSilhouette.js`, `IconOnlySilhouette.js` |
+| 2026-11-11 10:39 | `qaAgent` | Certificación de suite core (12) y combinatoria (201): 213/213 pruebas aprobadas (100% escaneo óptico). | `test/qa_suite.js`, `test/qa_visual_matrix.js` |
+| 2026-11-11 10:40 | `pmAgent` | Consolidación de release semántico v1.3.4 y sincronización Git/Render. | `package.json`, `header.html`, `modals.html`, `CHANGELOG_QRGENERATOR.md`, `DEVTEAM_LOG_QRGENERATOR.md` |

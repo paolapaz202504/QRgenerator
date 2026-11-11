@@ -2,9 +2,9 @@ import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
 
 const SILHOUETTE_DESCRIPTIONS = {
-  none: '1. Ícono: Matriz tradicional con ícono integrado dentro del marco del póster.',
-  icon_only: '2. Silueta de Ícono/Imagen: El código QR adopta la silueta del ícono o imagen seleccionada.',
-  icon_center: '3. Silueta + Ícono: Silueta temática de fondo con ícono central. Activa los colores de silueta y patrón.'
+  none: '1. Ícono/Imagen: Matriz tradicional con ícono o logotipo integrado dentro del marco del póster.',
+  icon_only: '2. Silueta de Ícono/Imagen: El código QR adopta la silueta de la figura/imagen con colores de silueta y patrón personalizables.',
+  icon_center: '3. Silueta + Ícono/Imagen: Silueta temática de fondo con ícono central emblemático y colores de silueta y patrón personalizables.'
 };
 
 export class ColorCustomizer extends UIComponent {
@@ -140,9 +140,9 @@ export class ColorCustomizer extends UIComponent {
         if (input === this.customQrSilhouette) {
           const silContainer = this.containerSilhouetteGroup || this.containerSilhouetteColor;
           if (silContainer) {
-            // El Grupo 3 solo se habilita para "3. Silueta + Ícono al Centro" (silueta de fondo)
-            const isSilhouetteWithBg = (this.customQrSilhouette.value === 'icon_center');
-            if (isSilhouetteWithBg) {
+            // Contenedor de silueta se muestra tanto para opción 2 como para opción 3
+            const isSilhouette = (this.customQrSilhouette.value === 'icon_only' || this.customQrSilhouette.value === 'icon_center');
+            if (isSilhouette) {
               silContainer.classList.remove('hidden');
             } else {
               silContainer.classList.add('hidden');
@@ -162,6 +162,7 @@ export class ColorCustomizer extends UIComponent {
         appState.setState({
           currentDesign: updatedDesign,
           customEyeColor: this.customEyeColor ? this.customEyeColor.value : null,
+          customEyeStyle: this.customEyeStyle ? this.customEyeStyle.value : 'square',
           gradientType: this.customGradientType ? this.customGradientType.value : 'single',
           qrColor2: this.customQrColor2 ? this.customQrColor2.value : null,
           eyeGradientType: this.customEyeGradientType ? this.customEyeGradientType.value : 'single',
@@ -210,8 +211,9 @@ export class ColorCustomizer extends UIComponent {
       this.customFrameColor.value = currentDesign.frameColor;
       if (this.customFrameHex) this.customFrameHex.textContent = currentDesign.frameColor;
     }
-    if (this.customEyeStyle && currentDesign.eyeStyle) {
-      this.customEyeStyle.value = currentDesign.eyeStyle;
+    if (this.customEyeStyle) {
+      const eyeSty = state.customEyeStyle || currentDesign.eyeStyle || 'square';
+      this.customEyeStyle.value = eyeSty;
     }
     if (this.customFrameShape) {
       this.customFrameShape.value = state.frameShape || 'rectangular';
@@ -253,9 +255,8 @@ export class ColorCustomizer extends UIComponent {
     if (silContainer) {
       let mode = state.qrSilhouetteMode || 'none';
       if (mode === 'icon_pure') mode = 'icon_only';
-      // Grupo 3 exclusivo para icon_center
-      const isSilhouetteWithBg = (mode === 'icon_center');
-      if (isSilhouetteWithBg) {
+      const isSilhouette = (mode === 'icon_only' || mode === 'icon_center');
+      if (isSilhouette) {
         silContainer.classList.remove('hidden');
       } else {
         silContainer.classList.add('hidden');

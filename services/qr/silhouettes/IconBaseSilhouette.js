@@ -9,8 +9,6 @@ class IconBaseSilhouette extends SilhouetteStrategy {
       alphaMask, qrSilhouetteMode, qrAreaSize, service
     } = params;
 
-    // Contrast safeguard: if the selected color is too light on a white card (luminance >= 140),
-    // adjust it so camera optical sensors can detect modules and finder eyes with high contrast
     let effectiveQrColor = activeQrColor;
     if (!isDarkBg && typeof activeQrColor === 'string' && !service.isDarkColor(activeQrColor)) {
       const rgb = service.hexToRgb(activeQrColor);
@@ -35,15 +33,16 @@ class IconBaseSilhouette extends SilhouetteStrategy {
     }
 
     // 1. Draw the tinted silhouette shape background (color sólido con 40% transparencia)
-    // Over the clean white card that CanvasGenerator already drew:
     ctx.save();
     ctx.globalAlpha = 0.40; // 40% opacidad / transparencia suave para contraste
     ctx.fillStyle = effectiveSilhouetteColor;
     service.drawSilhouetteMask(ctx, qrSilhouetteMode, loadedIconImg, iconName, qrX, qrY, qrAreaSize);
     ctx.restore();
 
-    // 2. Base QR matrix points (outside the silhouette) are painted in effectiveQrColor
-    const outsideColor = effectiveQrColor;
+    // 2. Draw the finder pattern eyes FIRST (clean 9x9 white background + styled outer eye, cutout ring, and pupil)
+    // Drawing eyes here ensures the silhouette tint does not bleed into the finder eyes, and data modules
+    // outside the 7x7 finder boundary (including timing lines and format info) are preserved.
+    params.drawFinderEyes(ctx, finalEyeFill);
 
     // Helper for connected modules
     const getMod = (row, col) => (row >= 0 && row < size && col >= 0 && col < size) ? modules.get(row, col) : false;
@@ -54,12 +53,23 @@ class IconBaseSilhouette extends SilhouetteStrategy {
         const isDataModule = modules.get(r, c);
         if (!isDataModule) continue;
 
-        // Skip finder eyes (they are drawn separately)
+        // Skip finder eyes (already cleanly rendered above)
         const isEye = (r < 7 && c < 7) || (r < 7 && c >= size - 7) || (r >= size - 7 && c < 7);
         if (isEye) continue;
 
         const cellX = qrX + c * cellSize;
         const cellY = qrY + r * cellSize;
+
+        // High priority: timing patterns and format info modules
+        const isHorizontalTiming = (r === 6 && c >= 7 && c < size - 7);
+        const isVerticalTiming   = (c === 6 && r >= 7 && r < size - 7);
+        const isCornerFormatInfo = (r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8);
+
+        if (isCornerFormatInfo || isHorizontalTiming || isVerticalTiming) {
+          ctx.fillStyle = primaryQrColor;
+          ctx.fillRect(cellX, cellY, cellSize + 0.1, cellSize + 0.1);
+          continue;
+        }
 
         // Check if this module is inside the silhouette or outside
         const isInside = service.isCellInsideSilhouette(r, c, size, cellX, cellY, cellSize, qrX, qrY, qrAreaSize, qrSilhouetteMode, alphaMask);
@@ -88,9 +98,6 @@ class IconBaseSilhouette extends SilhouetteStrategy {
         }
       }
     }
-
-    // 4. Draw the finder pattern eyes cleanly using finalEyeFill
-    params.drawFinderEyes(ctx, finalEyeFill);
   }
 }
 

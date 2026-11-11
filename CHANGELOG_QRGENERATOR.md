@@ -4,6 +4,24 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.4] — 2026-11-11
+### 👁️ Reparación de Estilo y Color de Ojos en Siluetas y Despliegue de Colores en Opción 2
+
+#### Corregido
+- **Estilo y Color de Ojos en Siluetas Temáticas (`qrAgent` & `frontAgent`):**
+  - Se corrigió el orden de renderizado en `IconBaseSilhouette.js` e `IconOnlySilhouette.js`: `drawFinderEyes` ahora se dibuja inmediatamente después del fondo de silueta y antes del trazado de módulos de datos, eliminando la sobrescritura accidental por el tinte de la silueta.
+  - Preservación estricta de los módulos de información de formato (`r <= 8 && c <= 8`) y líneas de timing (`r === 6`, `c === 6`) en color QR principal de alto contraste, garantizando decodificación óptica instantánea.
+  - Sincronización del estado reactivo `customEyeStyle` en `ColorCustomizer.js` y `DesignPicker.js`, asegurando que cualquier cambio de estilo (cuadradas, redondeadas, círculos, rombos, hexágonos, hoja, estrella, escudo) se transmita de forma inmutable a la generación del canvas.
+- **Despliegue de Colores de Silueta en Opción 2 (`frontAgent`):**
+  - El sub-bloque *"Colores de la Silueta de Fondo y Patrón"* ahora se muestra tanto para la opción **"2. Silueta de Ícono/Imagen"** como para **"3. Silueta + Ícono/Imagen"**.
+  - `IconOnlySilhouette` hereda de `IconBaseSilhouette`, proyectando la silueta y patrón seleccionados sin el recuadro central (emblem badge).
+- **Renombrado de Opciones (`frontAgent`):**
+  - Opción 1 renombrada a **`"1. Ícono/Imagen"`**.
+  - Opción 3 renombrada a **`"3. Silueta + Ícono/Imagen"`**.
+  - Actualización de textos en selectores HTML, `ColorCustomizer.js` y `DesignPicker.js`.
+
+---
+
 ## [v1.3.3] — 2026-11-11
 ### 🎨 Reorganización Ergonómica de Controles por Responsabilidad y Renombrado de Siluetas
 
