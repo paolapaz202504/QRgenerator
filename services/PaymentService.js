@@ -47,13 +47,17 @@ class PaymentService {
       try {
         // Petición al API de Recurrente: https://app.recurrente.com/api/checkouts
         const recurrenteApiUrl = 'https://app.recurrente.com/api/checkouts';
+        const headers = {
+          'Content-Type': 'application/json',
+          'X-SECRET-KEY': config.recurrente.secretKey
+        };
+        if (config.recurrente.publicKey) {
+          headers['X-PUBLIC-KEY'] = config.recurrente.publicKey;
+        }
+
         const response = await fetch(recurrenteApiUrl, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-PUBLIC-KEY': config.recurrente.publicKey,
-            'X-SECRET-KEY': config.recurrente.secretKey
-          },
+          headers,
           body: JSON.stringify({
             items: [{
               name: `Suscripción ${planConfig.name} (${months} mes${months > 1 ? 'es' : ''})`,
@@ -72,7 +76,8 @@ class PaymentService {
           const data = await response.json();
           checkoutUrl = data.checkout_url || data.url;
         } else {
-          console.warn('[Recurrente API] Error creando sesión remota, usando fallback seguro:', response.status);
+          const errText = await response.text();
+          console.warn('[Recurrente API] Error creando sesión remota:', response.status, errText);
         }
       } catch (apiErr) {
         console.warn('[Recurrente API Warning]:', apiErr.message);
