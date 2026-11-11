@@ -10,19 +10,6 @@ const SILHOUETTE_DESCRIPTIONS = {
 export class ColorCustomizer extends UIComponent {
   constructor() {
     super('customizer-panel');
-    
-    // Toggles de Acordeón
-    this.toggleBtn = document.getElementById('toggle-customizer');
-    this.customizerIcon = document.getElementById('customizer-icon');
-    this.toggleStep4 = document.getElementById('toggle-step4');
-    this.panelStep4 = document.getElementById('panel-step4');
-    this.iconToggleStep4 = document.getElementById('icon-toggle-step4');
-    this.toggleStep5Finders = document.getElementById('toggle-step5-finders');
-    this.panelStep5Finders = document.getElementById('panel-step5-finders');
-    this.iconToggleStep5Finders = document.getElementById('icon-toggle-step5-finders');
-    this.toggleStep6Frame = document.getElementById('toggle-step6-frame');
-    this.panelStep6Frame = document.getElementById('panel-step6-frame');
-    this.iconToggleStep6Frame = document.getElementById('icon-toggle-step6-frame');
 
     // Toggles de Silueta e Ícono
     this.qrSilhouetteShow = document.getElementById('qr-silhouette-show');
@@ -72,42 +59,6 @@ export class ColorCustomizer extends UIComponent {
   }
 
   bindEvents() {
-    // Acordeón Step 4
-    if (this.toggleStep4) {
-      this.toggleStep4.addEventListener('click', () => {
-        if (this.panelStep4) this.panelStep4.classList.toggle('hidden');
-        if (this.iconToggleStep4) this.iconToggleStep4.classList.toggle('rotate-180');
-      });
-    }
-
-    // Acordeón Step 5 Finders
-    if (this.toggleStep5Finders) {
-      this.toggleStep5Finders.addEventListener('click', () => {
-        if (this.panelStep5Finders) this.panelStep5Finders.classList.toggle('hidden');
-        if (this.iconToggleStep5Finders) this.iconToggleStep5Finders.classList.toggle('rotate-180');
-      });
-    }
-
-    // Acordeón Step 6 Frame
-    if (this.toggleStep6Frame) {
-      this.toggleStep6Frame.addEventListener('click', () => {
-        if (this.panelStep6Frame) this.panelStep6Frame.classList.toggle('hidden');
-        if (this.iconToggleStep6Frame) this.iconToggleStep6Frame.classList.toggle('rotate-180');
-      });
-    }
-
-    // Acordeón Legacy si existe
-    if (this.toggleBtn) {
-      this.toggleBtn.addEventListener('click', () => {
-        if (this.container) {
-          this.container.classList.toggle('hidden');
-        }
-        if (this.customizerIcon) {
-          this.customizerIcon.classList.toggle('rotate-180');
-        }
-      });
-    }
-
     // Toggle Silueta Temática (#qr-silhouette-show)
     if (this.qrSilhouetteShow) {
       this.qrSilhouetteShow.addEventListener('change', () => {

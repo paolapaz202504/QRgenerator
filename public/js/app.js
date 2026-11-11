@@ -82,12 +82,14 @@ class Application {
       });
     }
 
-    // Step 1 to 4 Collapsible Panel Toggles
+    // Collapsible Panel Toggles for all 6 Steps
     const stepToggles = [
       { btnId: 'toggle-step3', panelId: 'panel-step3', iconId: 'icon-toggle-step3' },
       { btnId: 'toggle-step1', panelId: 'panel-step1', iconId: 'icon-toggle-step1' },
       { btnId: 'toggle-step2', panelId: 'panel-step2', iconId: 'icon-toggle-step2' },
-      { btnId: 'toggle-step4', panelId: 'panel-step4', iconId: 'icon-toggle-step4' }
+      { btnId: 'toggle-step4', panelId: 'panel-step4', iconId: 'icon-toggle-step4' },
+      { btnId: 'toggle-step5-finders', panelId: 'panel-step5-finders', iconId: 'icon-toggle-step5-finders' },
+      { btnId: 'toggle-step6-frame', panelId: 'panel-step6-frame', iconId: 'icon-toggle-step6-frame' }
     ];
 
     stepToggles.forEach(({ btnId, panelId, iconId }) => {
@@ -95,7 +97,9 @@ class Application {
       const panel = document.getElementById(panelId);
       const icon = document.getElementById(iconId);
       if (btn && panel) {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          // Prevenir colapso accidental si se hace click en controles internos
+          if (e.target.closest('input, label, select')) return;
           panel.classList.toggle('hidden');
           if (icon) icon.classList.toggle('rotate-180');
         });

@@ -4,6 +4,26 @@ Todas las modificaciones notables de este proyecto están documentadas en este a
 
 ---
 
+## [v1.3.6] — 2026-11-11
+### 🛠️ Unificación y Corrección de Acordeones en los 6 Pasos
+
+#### Corregido
+- **Colapso del Panel 4 ("4. Matriz de Puntos, Patrones y Silueta") (`frontAgent`):**
+  - Se identificó y resolvió una colisión de listeners de eventos: `app.js` y `ColorCustomizer.js` tenían ambos registrado un listener para `toggle-step4`. Al hacer clic, ambos ejecutaban `panel.classList.toggle('hidden')` en el mismo frame (añadiendo y quitando la clase inmediatamente), cancelando el efecto de colapso.
+  - Se eliminaron los listeners redundantes de acordeones dentro de `ColorCustomizer.js`.
+- **Centralización Universal de Acordeones (`frontAgent`):**
+  - `app.js` ahora centraliza la gestión de colapso y rotación de flechas (`rotate-180`) para los 6 pasos:
+    1. `toggle-step3` -> `panel-step3` (Paso 1: Diseños).
+    2. `toggle-step1` -> `panel-step1` (Paso 2: Información y Tipografía).
+    3. `toggle-step2` -> `panel-step2` (Paso 3: Ícono Central).
+    4. `toggle-step4` -> `panel-step4` (Paso 4: Matriz, Patrones y Silueta).
+    5. `toggle-step5-finders` -> `panel-step5-finders` (Paso 5: Ojos de Detección).
+    6. `toggle-step6-frame` -> `panel-step6-frame` (Paso 6: Marco y Fondo del Póster).
+- **Protección contra Clics en Controles Internos (`frontAgent`):**
+  - Se añadió la guarda `if (e.target.closest('input, label, select')) return;` para evitar que interactuar con controles o switches en la cabecera colapse accidentalmente el acordeón.
+
+---
+
 ## [v1.3.5] — 2026-11-11
 ### 🧩 Arquitectura Modular por Elementos del QR, Toggles Complementarios y Muestras Visuales
 
