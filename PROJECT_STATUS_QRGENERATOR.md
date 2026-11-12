@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.9.1`  
+**Versión Actual:** `v1.9.2`  
 **Última Actualización:** 12 de Noviembre de 2026  
-**Estado General:** 🟢 Menú Principal Depurado, Submenú Dedicado en /editor (Editor & Mis QR), Soluciones sin Botón Redundante 'Crear QR' y Breadcrumbs Optimizados v1.9.1 (38/38 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
+**Estado General:** 🟢 Orden Secuencial Estricto de Menú (Inicio ➔ Soluciones ➔ Editor ➔ Precios ➔ Nosotros ➔ Ayuda ➔ Contacto), Persistencia Universal de Usuario en Navbar (`nav-auth.js`) y Redirección a Contacto en Nosotros v1.9.2 (38/38 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
 
 ---
 
@@ -11,18 +11,18 @@
 
 ```mermaid
 flowchart LR
-    A["Menú Principal Depurado\n(Sin 'Mis QR' en Barra Superior)"] --> B["Soluciones y Sectores sin 'Crear QR'\n(Restaurantes, Salones, Comercios Despejados)"]
-    B --> C["Submenú Dedicado en /editor\n(Editor y Mis QR Visibles y Accesibles)"]
-    C --> D["Breadcrumbs Optimizados\n(Retirados en Nosotros y Contacto)"]
-    D --> E["Navegación Fluida & Scroll Suave\n(Sincronizada con Historial y Editor)"]
-    E --> F["Certificación QA & DoD\n(38/38 Pruebas Pasadas al 100%)"]
-    F --> G["🚀 QRbey SaaS v1.9.1: Despliegue a Producción OnRender"]
+    A["Orden Secuencial del Menú\n(Inicio ➔ Soluciones ➔ Editor ➔ Precios ➔ Nosotros ➔ Ayuda ➔ Contacto)"] --> B["Persistencia Universal de Usuario\n(nav-auth.js en Todas las Páginas)"]
+    B --> C["Widget de Perfil / Botón Ingreso\n(Sincronizado en Contacto y Secundarias)"]
+    C --> D["Enlace a Contacto en Nosotros\n(Redirección Directa a /contacto)"]
+    D --> E["Certificación QA & DoD\n(38/38 Pruebas Pasadas al 100%)"]
+    E --> F["🚀 QRbey SaaS v1.9.2: Despliegue a Producción OnRender"]
     
+    style A fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+    style B fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style C fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style E fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style F fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-    style G fill:#e0e7ff,stroke:#4338ca,stroke-width:2px
+    style F fill:#e0e7ff,stroke:#4338ca,stroke-width:2px
 ```
 
 ---

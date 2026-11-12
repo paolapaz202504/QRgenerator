@@ -1064,44 +1064,68 @@ async function runTestSuite() {
     }
   });
 
-  // PRUEBA 37: Menú Reorganizado (Precios, Soluciones y Sectores sin botón Crear QR, Submenú Editor y Mis QR, sin Breadcrumbs en Nosotros y Contacto)
-  await test('Menú Reorganizado: Precios, Soluciones y Sectores sin Crear QR, Submenú Editor/Mis QR, sin Breadcrumbs en Nosotros/Contacto', async () => {
+  // PRUEBA 37: Orden del Menú (Inicio a Contacto), Persistencia de Usuario y Enlace Contacto en Nosotros
+  await test('Menú Reorganizado (v1.9.2): Orden Secuencial Inicio->Contacto, Persistencia de Usuario y Enlace a Contacto', async () => {
     const fs = require('fs');
     const headerHtml = fs.readFileSync('public/html/header.html', 'utf8');
 
-    // 1. Botón Precios presente y Mis QR retirado del menú principal
-    if (!headerHtml.includes('Precios') || !headerHtml.includes('id="btn-open-plans"')) {
-      throw new Error('El botón Precios no se encuentra correctamente identificado en header.html');
-    }
-    if (headerHtml.includes('Mis QR')) {
-      throw new Error('El menú principal no debe contener la opción "Mis QR"');
+    // 1. Orden exacto de navegación desktop:
+    // Inicio -> Soluciones y Sectores -> Editor -> Precios -> Nosotros -> Ayuda -> Contacto
+    const posInicio = headerHtml.indexOf('nav-item-inicio');
+    const posSoluciones = headerHtml.indexOf('nav-item-soluciones');
+    const posEditor = headerHtml.indexOf('nav-item-editor');
+    const posPrecios = headerHtml.indexOf('nav-item-precios');
+    const posNosotros = headerHtml.indexOf('nav-item-nosotros');
+    const posAyuda = headerHtml.indexOf('nav-item-ayuda');
+    const posContacto = headerHtml.indexOf('nav-item-contacto');
+
+    if (posInicio === -1 || posSoluciones === -1 || posEditor === -1 || posPrecios === -1 || posNosotros === -1 || posAyuda === -1 || posContacto === -1) {
+      throw new Error('Faltan elementos clave en la navegación desktop de header.html');
     }
 
-    // 2. Menú Soluciones y Sectores con icono y 3 submenús
-    if (!headerHtml.includes('Soluciones y Sectores') || !headerHtml.includes('fa-layer-group')) {
-      throw new Error('El menú "Soluciones y Sectores" con icono no está presente en header.html');
-    }
-    if (!headerHtml.includes('Restaurantes') || !headerHtml.includes('fa-utensils')) {
-      throw new Error('El submenú Restaurantes con icono fa-utensils no está presente');
-    }
-    if (!headerHtml.includes('Salones') || !headerHtml.includes('fa-scissors')) {
-      throw new Error('El submenú Salones con icono fa-scissors no está presente');
-    }
-    if (!headerHtml.includes('Comercios') || !headerHtml.includes('fa-store')) {
-      throw new Error('El submenú Comercios con icono fa-store no está presente');
+    if (!(posInicio < posSoluciones && posSoluciones < posEditor && posEditor < posPrecios && posPrecios < posNosotros && posNosotros < posAyuda && posAyuda < posContacto)) {
+      throw new Error('El orden del menú desktop no sigue la secuencia: Inicio -> Soluciones -> Editor -> Precios -> Nosotros -> Ayuda -> Contacto');
     }
 
-    // 3. Botón Ayuda apunta a /#faq
-    if (!headerHtml.includes('href="/#faq"') || !headerHtml.includes('id="btn-open-faq"')) {
-      throw new Error('El botón Ayuda no redirige a /#faq en header.html');
+    // 2. Orden en sub-barra móvil:
+    const posMInicio = headerHtml.indexOf('nav-m-inicio');
+    const posMSoluciones = headerHtml.indexOf('nav-m-soluciones');
+    const posMEditor = headerHtml.indexOf('nav-m-editor');
+    const posMPrecios = headerHtml.indexOf('nav-m-precios');
+    const posMNosotros = headerHtml.indexOf('nav-m-nosotros');
+    const posMAyuda = headerHtml.indexOf('nav-m-ayuda');
+    const posMContacto = headerHtml.indexOf('nav-m-contacto');
+
+    if (!(posMInicio < posMSoluciones && posMSoluciones < posMEditor && posMEditor < posMPrecios && posMPrecios < posMNosotros && posMNosotros < posMAyuda && posMAyuda < posMContacto)) {
+      throw new Error('El orden del menú móvil no sigue la secuencia: Inicio -> Soluciones -> Editor -> Precios -> Nosotros -> Ayuda -> Contacto');
     }
 
-    // 4. Enlace de Contacto en menú
-    if (!headerHtml.includes('href="/contacto"') || !headerHtml.includes('Contacto')) {
-      throw new Error('El menú Contacto no está presente en header.html');
+    // 3. Widget de usuario y botón de login presentes
+    if (!headerHtml.includes('id="user-profile-widget"') || !headerHtml.includes('id="btn-open-oauth"')) {
+      throw new Error('El panel de usuario (perfil o login) no está presente en header.html');
     }
 
-    // 5. En opciones de Soluciones y Sectores NO debe agregarse el botón "Crear QR"
+    // 4. Contacto tiene los widgets de usuario y script de persistencia
+    const contactoHtml = fs.readFileSync('public/contacto.html', 'utf8');
+    if (!contactoHtml.includes('id="user-profile-widget"') || !contactoHtml.includes('id="btn-open-oauth"')) {
+      throw new Error('public/contacto.html debe contener el panel de usuario persistente (#user-profile-widget y #btn-open-oauth)');
+    }
+    if (!contactoHtml.includes('nav-auth.js')) {
+      throw new Error('public/contacto.html debe incluir el script nav-auth.js para sincronización de sesión');
+    }
+
+    // 5. En Nosotros: el botón bajo "Contacto Real y Transparente" debe redirigir a /contacto
+    const sobreNosotrosHtml = fs.readFileSync('public/sobre-nosotros.html', 'utf8');
+    if (!sobreNosotrosHtml.includes('href="/contacto"') || sobreNosotrosHtml.includes('mailto:qrbeyconctact@gmail.com')) {
+      throw new Error('public/sobre-nosotros.html debe enlazar a /contacto en la sección de contacto transparente');
+    }
+
+    const nosotrosHtml = fs.readFileSync('public/nosotros.html', 'utf8');
+    if (!nosotrosHtml.includes('href="/contacto"') || nosotrosHtml.includes('mailto:qrbeyconctact@gmail.com')) {
+      throw new Error('public/nosotros.html debe enlazar a /contacto en la sección #contacto');
+    }
+
+    // 6. En opciones de Soluciones y Sectores NO debe agregarse el botón "Crear QR"
     const solutionPages = [
       'public/restaurantes.html',
       'public/salones-belleza.html',
@@ -1115,9 +1139,12 @@ async function runTestSuite() {
       if (!content.includes('aria-label="Breadcrumb"') || !content.includes('Inicio')) {
         throw new Error(`La página de soluciones ${page} debe conservar su breadcrumb.`);
       }
+      if (!content.includes('nav-auth.js')) {
+        throw new Error(`La página de soluciones ${page} debe incluir nav-auth.js.`);
+      }
     }
 
-    // 6. En Editor: se eliminan breadcrumbs duplicados y se agrega submenú con Editor y Mis QR
+    // 7. En Editor: se eliminan breadcrumbs duplicados y se agrega submenú con Editor y Mis QR
     const editorHtml = fs.readFileSync('public/editor.html', 'utf8');
     if (editorHtml.includes('aria-label="Breadcrumb"') || editorHtml.includes('breadcrumb')) {
       throw new Error('public/editor.html no debe contener breadcrumb.');
@@ -1129,7 +1156,7 @@ async function runTestSuite() {
       throw new Error('public/editor.html no contiene la opción "Mis QR (Historial de Códigos QR Generados)" en el submenú.');
     }
 
-    // 7. Se retiran los breadcrumbs de nosotros y contacto
+    // 8. Se retiran los breadcrumbs de nosotros y contacto
     const noBreadcrumbs = ['public/nosotros.html', 'public/sobre-nosotros.html', 'public/contacto.html'];
     for (const page of noBreadcrumbs) {
       const content = fs.readFileSync(page, 'utf8');

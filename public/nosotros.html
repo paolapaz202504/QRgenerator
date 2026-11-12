@@ -70,7 +70,7 @@
 </head>
 <body class="min-h-screen flex flex-col font-['Plus_Jakarta_Sans'] bg-slate-50 text-slate-800 antialiased selection:bg-indigo-600 selection:text-white">
 
-  <!-- Header Navbar Component Reutilizable -->
+  <!-- Header Navbar Component Reutilizable (Light SaaS Theme - Multi-Device Responsive) -->
   <header class="border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-xs">
     <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-4 flex-nowrap">
       <!-- Brand / Logo Area -->
@@ -84,10 +84,11 @@
               <a href="/" class="text-lg sm:text-xl font-bold font-['Outfit'] tracking-tight text-slate-900 hover:text-indigo-600 transition">
                 QRbey
               </a>
+              <!-- Changelog Modal Trigger Badge (Estándar DevTeam) -->
               <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
                 class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
                 <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
-                <span>v1.9.1</span>
+                <span>v1.9.2</span>
               </button>
             </div>
             <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>
@@ -95,20 +96,22 @@
         </div>
       </div>
 
-      <!-- Navegación Directa: Inicio, Soluciones y Sectores (Dropdown), Editor, Nosotros y Contacto -->
+      <!-- Navegación Directa Ordenada: Inicio, Soluciones y Sectores, Editor, Precios, Nosotros, Ayuda, Contacto -->
       <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold text-slate-600">
+        <!-- 1. Inicio -->
         <a href="/" class="nav-item-inicio px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
           <i class="fa-solid fa-house text-indigo-600 text-[11px]"></i>
           <span>Inicio</span>
         </a>
 
-        <!-- Menú Desplegable Soluciones y Sectores -->
+        <!-- 2. Soluciones y Sectores (Dropdown) -->
         <div class="relative group/nav-dropdown">
           <button type="button" class="nav-item-soluciones px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5 cursor-pointer">
             <i class="fa-solid fa-layer-group text-indigo-600 text-[11px]"></i>
             <span>Soluciones y Sectores</span>
             <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 group-hover/nav-dropdown:rotate-180 transition-transform duration-200"></i>
           </button>
+          <!-- Submenús con iconos contextuales -->
           <div class="absolute left-0 top-full pt-1.5 hidden group-hover/nav-dropdown:block z-50 w-56">
             <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-1.5 backdrop-blur-md space-y-0.5">
               <a href="/restaurantes" class="nav-sub-restaurantes flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:bg-amber-50 hover:text-amber-800 transition">
@@ -142,41 +145,66 @@
           </div>
         </div>
 
+        <!-- 3. Editor -->
         <a href="/editor" class="nav-item-editor px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
           <i class="fa-solid fa-sliders text-indigo-600 text-[11px]"></i>
           <span>Editor</span>
         </a>
+
+        <!-- 4. Precios -->
+        <a href="/#planes" id="btn-open-plans" class="nav-item-precios px-2.5 py-1.5 rounded-lg hover:text-amber-800 hover:bg-amber-50 text-slate-600 transition flex items-center gap-1.5 cursor-pointer" title="Ver Precios y Planes">
+          <i class="fa-solid fa-tags text-amber-600 text-[11px]"></i>
+          <span>Precios</span>
+        </a>
+
+        <!-- 5. Nosotros -->
         <a href="/sobre-nosotros" class="nav-item-nosotros bg-indigo-50 text-indigo-700 font-bold px-2.5 py-1.5 rounded-lg transition flex items-center gap-1.5">
           <i class="fa-solid fa-shield-halved text-indigo-600 text-[11px]"></i>
           <span>Nosotros</span>
         </a>
+
+        <!-- 6. Ayuda -->
+        <a href="/#faq" id="btn-open-faq" class="nav-item-ayuda px-2.5 py-1.5 rounded-lg hover:text-cyan-700 hover:bg-cyan-50 text-slate-600 transition flex items-center gap-1.5 cursor-pointer" title="Centro de Ayuda y Preguntas Frecuentes">
+          <i class="fa-solid fa-circle-question text-cyan-600 text-[11px]"></i>
+          <span>Ayuda</span>
+        </a>
+
+        <!-- 7. Contacto -->
         <a href="/contacto" class="nav-item-contacto px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
           <i class="fa-solid fa-envelope text-indigo-600 text-[11px]"></i>
           <span>Contacto</span>
         </a>
       </nav>
 
-      <!-- Action Buttons -->
+      <!-- 8. ("Registrar / Iniciar" o "Perfil de usuario registrado") -->
       <div class="flex items-center gap-1.5 sm:gap-2.5 flex-nowrap shrink-0">
-        <a href="/#planes" id="btn-open-plans" title="Ver Precios y Planes"
-          class="flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0">
-          <i class="fa-solid fa-tags text-amber-600 text-xs"></i>
-          <span class="hidden sm:inline">Precios</span>
-        </a>
-        <a href="/#faq" id="btn-open-faq" title="Centro de Ayuda y Preguntas Frecuentes"
-          class="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0">
-          <i class="fa-solid fa-circle-question text-cyan-600 text-xs"></i>
-          <span class="hidden sm:inline">Ayuda</span>
-        </a>
+        <!-- 8a. Perfil de Usuario Registrado -->
+        <button id="user-profile-widget" type="button" title="Ver Mi Perfil de Usuario Registrado"
+          class="hidden flex items-center gap-1.5 sm:gap-2 bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-300 rounded-full py-1 px-2.5 sm:px-3 text-xs transition cursor-pointer group shadow-2xs shrink-0">
+          <img id="user-avatar" src="" alt="Avatar" class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-300 object-cover border border-slate-200 group-hover:scale-105 transition shrink-0">
+          <span id="user-name" class="font-semibold text-slate-800 group-hover:text-indigo-700 transition truncate max-w-[70px] xs:max-w-[90px] sm:max-w-[130px]"></span>
+          <span class="text-[11px] text-indigo-600 font-medium group-hover:underline shrink-0 hidden xs:inline">(ver perfil)</span>
+        </button>
+
+        <!-- 8b. Botón Registrar / Iniciar -->
+        <button id="btn-open-oauth" type="button" title="Registrar / Iniciar Sesión"
+          class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-semibold px-2.5 sm:px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition whitespace-nowrap shrink-0 cursor-pointer">
+          <i class="fa-solid fa-user-plus text-xs"></i>
+          <span class="hidden sm:inline">Registrar / Iniciar</span>
+          <span class="inline sm:hidden text-[11px]">Ingreso</span>
+        </button>
       </div>
     </div>
 
-    <!-- Sub-barra Móvil -->
+    <!-- Sub-barra de Accesos Directos para Móviles y Tablets (< lg) -->
     <div class="lg:hidden bg-slate-50/95 border-t border-slate-200/80 px-2 py-1.5 flex items-center justify-around text-[11px] font-semibold text-slate-600 overflow-x-auto gap-1">
-      <a href="/" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+      <!-- 1. Inicio -->
+      <a href="/" class="nav-m-inicio px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
         <i class="fa-solid fa-house text-indigo-600 text-[10px]"></i>
         <span>Inicio</span>
       </a>
+
+      <!-- 2. Soluciones -->
       <div class="relative group/mobile-dropdown shrink-0">
         <button type="button" class="nav-m-soluciones px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 cursor-pointer">
           <i class="fa-solid fa-layer-group text-indigo-600 text-[10px]"></i>
@@ -200,15 +228,33 @@
           </div>
         </div>
       </div>
-      <a href="/editor" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+
+      <!-- 3. Editor -->
+      <a href="/editor" class="nav-m-editor px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
         <i class="fa-solid fa-sliders text-indigo-600 text-[10px]"></i>
         <span>Editor</span>
       </a>
-      <a href="/sobre-nosotros" class="px-2 py-1 rounded-md bg-indigo-50 text-indigo-700 font-bold flex items-center gap-1 shrink-0">
+
+      <!-- 4. Precios -->
+      <a href="/#planes" class="nav-m-precios px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+        <i class="fa-solid fa-tags text-amber-600 text-[10px]"></i>
+        <span>Precios</span>
+      </a>
+
+      <!-- 5. Nosotros -->
+      <a href="/sobre-nosotros" class="nav-m-nosotros px-2 py-1 rounded-md bg-indigo-50 text-indigo-700 font-bold flex items-center gap-1 shrink-0">
         <i class="fa-solid fa-shield-halved text-indigo-600 text-[10px]"></i>
         <span>Nosotros</span>
       </a>
-      <a href="/contacto" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+
+      <!-- 6. Ayuda -->
+      <a href="/#faq" class="nav-m-ayuda px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+        <i class="fa-solid fa-circle-question text-cyan-600 text-[10px]"></i>
+        <span>Ayuda</span>
+      </a>
+
+      <!-- 7. Contacto -->
+      <a href="/contacto" class="nav-m-contacto px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
         <i class="fa-solid fa-envelope text-indigo-600 text-[10px]"></i>
         <span>Contacto</span>
       </a>
@@ -371,10 +417,10 @@
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-3">
-        <a href="mailto:qrbeyconctact@gmail.com" 
+        <a href="/contacto" 
           class="inline-flex items-center gap-2 px-5 py-3 bg-white text-slate-900 hover:bg-slate-100 rounded-xl font-bold text-xs transition shadow-sm">
           <i class="fa-solid fa-envelope text-indigo-600 text-sm"></i>
-          <span>Escribir a qrbeyconctact@gmail.com</span>
+          <span>Ir a Formulario de Contacto</span>
         </a>
         <a href="/" 
           class="inline-flex items-center gap-2 px-5 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold text-xs transition shadow-sm">
@@ -404,5 +450,7 @@
     </div>
   </footer>
 
+  <!-- Autenticación y Perfil en Navbar para Páginas Secundarias -->
+  <script src="/js/nav-auth.js"></script>
 </body>
 </html>

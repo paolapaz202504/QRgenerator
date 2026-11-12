@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.2] — 2026-11-12
+### 🚀 Menú Principal Consistente y Secuencial, Acceso Directo a Contacto y Persistencia de Usuario
+
+#### Novedades y Mejoras
+- **Orden Secuencial y Consistente del Menú Principal:** La barra de navegación ahora sigue una secuencia perfectamente ordenada en todas las páginas: **Inicio**, **Soluciones y Sectores** (con acceso a Restaurantes, Salones y Comercios), **Editor**, **Precios**, **Nosotros**, **Ayuda**, **Contacto** y el acceso de **Registro / Ingreso o Perfil de usuario**.
+- **Persistencia de Sesión y Perfil en Toda la Plataforma:** Tu estado de sesión y acceso a tu perfil de usuario permanecen 100% visibles y accesibles desde cualquier rincón del sitio web, incluyendo la página de Contacto y páginas de soluciones de negocio.
+- **Enlace Directo al Formulario de Contacto en "Nosotros":** En la sección informativa sobre nuestros principios y atención personalizada, el botón de contacto ahora te lleva de manera directa e intuitiva al formulario oficial de asistencia.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Sincronización instantánea de la interfaz y navegación fluida adaptada a teléfonos móviles, tabletas y computadoras.
+
+---
+
 ## [v1.9.1] — 2026-11-12
 ### 🎯 Navegación Simplificada, Submenú Dedicado en Editor y Experiencia Visual Depurada
 

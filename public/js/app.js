@@ -51,6 +51,24 @@ class Application {
     this.profileModal.mount();
     this.faqSection.mount();
 
+    // Exponer instancias globales para sincronización de navegación y modales
+    window.profileModalInstance = this.profileModal;
+    window.userModalInstance = this.userModal;
+    window.planModalInstance = this.planModal;
+
+    // Detectar si el usuario navegó solicitando abrir perfil (?profile=1) o login (?login=1)
+    const initUrlParams = new URLSearchParams(window.location.search);
+    if (initUrlParams.get('profile') === '1') {
+      setTimeout(() => {
+        if (this.profileModal) this.profileModal.openModal();
+      }, 350);
+    }
+    if (initUrlParams.get('login') === '1') {
+      setTimeout(() => {
+        if (this.userModal) this.userModal.openModal();
+      }, 350);
+    }
+
     // Sincronizar configuración de planes y cuotas desde .env (Única fuente de verdad)
     try {
       const configRes = await ApiService.getConfig();
@@ -128,6 +146,17 @@ class Application {
         }
         if (this.historyTable && typeof this.historyTable.fetchHistory === 'function') {
           this.historyTable.fetchHistory();
+        }
+      });
+    }
+
+    // Smooth Scroll / Modal Open for Plans Button
+    const btnOpenPlans = document.getElementById('btn-open-plans');
+    if (btnOpenPlans) {
+      btnOpenPlans.addEventListener('click', (e) => {
+        if (this.planModal && typeof this.planModal.openModal === 'function') {
+          e.preventDefault();
+          this.planModal.openModal();
         }
       });
     }
