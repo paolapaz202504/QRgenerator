@@ -42,7 +42,18 @@ export class PlanModal extends UIComponent {
 
   bindEvents() {
     if (this.btnOpenPlans) {
-      this.btnOpenPlans.addEventListener('click', () => {
+      this.btnOpenPlans.addEventListener('click', async () => {
+        const state = appState.getState();
+        if (state.user && state.user.email) {
+          try {
+            const res = await ApiService.getUserStats(state.user.email);
+            if (res.success && res.userStats) {
+              appState.setState({ user: { ...state.user, ...res.userStats } }, 'PLAN_UPDATED');
+            }
+          } catch (e) {
+            console.warn('Error refrescando stats al abrir planes:', e);
+          }
+        }
         if (this.container) this.container.classList.remove('hidden');
         this.updateDurationAndPrices();
         this.updateActivePlanUI(appState.getState().user);
@@ -171,11 +182,13 @@ export class PlanModal extends UIComponent {
   updateActivePlanUI(user) {
     const userPlan = (user && user.plan) ? user.plan.toLowerCase() : 'free';
     
-    // Cálculo dinámico y preciso de fecha de vencimiento sin valores fijos
+    // Cálculo dinámico y preciso de fecha de vencimiento a partir de hoy o fecha activa
     let expFormatted = '';
+    const now = new Date();
+
     if (user && user.expirationDate) {
       const d = new Date(user.expirationDate);
-      if (!isNaN(d.getTime())) {
+      if (!isNaN(d.getTime()) && d > now) {
         expFormatted = d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
       }
     }
@@ -183,8 +196,8 @@ export class PlanModal extends UIComponent {
     if (!expFormatted && userPlan !== 'free') {
       const months = (user && user.planDurationMonths) ? parseInt(user.planDurationMonths, 10) : 1;
       const validMonths = isNaN(months) || months < 1 ? 1 : months;
-      const baseDate = (user && user.createdAt) ? new Date(user.createdAt) : new Date();
-      const autoExp = new Date(baseDate);
+      // La base para calcular vencimiento siempre es a partir de HOY, nunca createdAt histórico
+      const autoExp = new Date(now);
       autoExp.setMonth(autoExp.getMonth() + validMonths);
       expFormatted = autoExp.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }

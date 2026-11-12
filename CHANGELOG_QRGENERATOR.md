@@ -4,6 +4,15 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.6.0] — 2026-11-11
+### 🚀 Sincronización Inmediata de Perfil y Vigencia desde la Fecha de Compra
+
+#### Novedades y Mejoras
+- **Cálculo a partir de la fecha de adquisición:** Al contratar o actualizar un plan, la fecha de vencimiento se calcula tomando como inicio el día de compra actual (hoy), garantizando periodos futuros correctos y eliminando fechas vencidas o históricas.
+- **Sincronización en tiempo real en Mi Perfil:** Al consultar tu perfil, la fecha de vigencia, créditos y descargas se refrescan automáticamente desde el servidor, reflejando de inmediato cualquier actualización de tu suscripción.
+
+---
+
 ## [v1.5.9] — 2026-11-11
 ### 📅 Cálculo Dinámico y Preciso de Vigencia de Suscripciones
 

@@ -32,10 +32,19 @@ export class ProfileModal extends UIComponent {
   bindEvents() {
     [this.btnOpenProfile, this.userAvatarHeader, this.userNameHeader].forEach(el => {
       if (el) {
-        el.addEventListener('click', () => {
-          const user = appState.getState().user;
-          if (user && user.email) {
-            this.renderProfile(user);
+        el.addEventListener('click', async () => {
+          const state = appState.getState();
+          if (state.user && state.user.email) {
+            try {
+              const { ApiService } = await import('../services/ApiService.js');
+              const res = await ApiService.getUserStats(state.user.email);
+              if (res.success && res.userStats) {
+                appState.setState({ user: { ...state.user, ...res.userStats } }, 'PLAN_UPDATED');
+              }
+            } catch (e) {
+              console.warn('Error refrescando perfil desde servidor:', e);
+            }
+            this.renderProfile(appState.getState().user);
             if (this.container) this.container.classList.remove('hidden');
           } else {
             const oauthModal = document.getElementById('oauth-modal');
@@ -96,18 +105,25 @@ export class ProfileModal extends UIComponent {
 
     // Expiration date
     if (this.profileExpiration) {
-      if (planKey === 'free' || !user.expirationDate) {
+      if (planKey === 'free') {
         this.profileExpiration.textContent = 'Sin vencimiento (Permanente)';
-        this.profileExpiration.className = 'text-xs font-mono font-bold text-emerald-400';
+        this.profileExpiration.className = 'text-xs font-mono font-bold text-emerald-600';
       } else {
-        const expDate = new Date(user.expirationDate);
+        const now = new Date();
+        let expDate = user.expirationDate ? new Date(user.expirationDate) : null;
+        if (!expDate || isNaN(expDate.getTime()) || expDate <= now) {
+          const months = parseInt(user.planDurationMonths || 1, 10);
+          expDate = new Date(now);
+          expDate.setMonth(expDate.getMonth() + (isNaN(months) || months < 1 ? 1 : months));
+        }
+
         const formattedDate = expDate.toLocaleDateString('es-ES', {
           day: '2-digit',
           month: 'long',
           year: 'numeric'
         });
         this.profileExpiration.textContent = `${formattedDate} (${user.planDurationMonths || 1} mes/es)`;
-        this.profileExpiration.className = 'text-xs font-mono font-bold text-cyan-300';
+        this.profileExpiration.className = 'text-xs font-mono font-bold text-indigo-700';
       }
     }
 

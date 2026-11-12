@@ -35,14 +35,18 @@ class UserRepository {
       user.maxDownloads = planConfig.maxDownloads;
       user.isMonthly = planConfig.isMonthly !== false;
 
-      // Garantizar que planes de pago tengan siempre su fecha de vencimiento calculada
-      if ((user.plan || 'free').toLowerCase() !== 'free' && !user.expirationDate) {
-        const months = parseInt(user.planDurationMonths || 1, 10);
-        const validMonths = isNaN(months) || months < 1 ? 1 : months;
-        const exp = new Date(user.createdAt || Date.now());
-        exp.setMonth(exp.getMonth() + validMonths);
-        user.expirationDate = exp.toISOString();
-        this.saveUser(user);
+      // Garantizar que planes de pago tengan siempre su fecha de vencimiento calculada a partir de la fecha activa
+      if ((user.plan || 'free').toLowerCase() !== 'free') {
+        const now = new Date();
+        const currentExp = user.expirationDate ? new Date(user.expirationDate) : null;
+        if (!currentExp || isNaN(currentExp.getTime()) || currentExp <= now) {
+          const months = parseInt(user.planDurationMonths || 1, 10);
+          const validMonths = isNaN(months) || months < 1 ? 1 : months;
+          const exp = new Date(now);
+          exp.setMonth(exp.getMonth() + validMonths);
+          user.expirationDate = exp.toISOString();
+          this.saveUser(user);
+        }
       }
 
       // Control y ciclo mensual estricto para planes de pago (Pro / Corporate)

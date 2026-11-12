@@ -79,9 +79,6 @@ export class AppState {
       if (savedUserStr) {
         const u = JSON.parse(savedUserStr);
         if (u) {
-          if (u.email && u.email.toLowerCase() === 'paolapaz202504@gmail.com') {
-            u.plan = 'pro';
-          }
           const planKey = u.plan || 'free';
           const maxCreds = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 2000 : 50);
           const maxDl = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 500 : 15);
