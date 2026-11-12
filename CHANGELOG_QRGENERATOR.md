@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.9] — 2026-11-12
+### 💎 Experiencia Unificada de Planes, Gestión Activa de Suscripción y Botones Simplificados
+
+#### Novedades y Mejoras
+- **Experiencia de Planes Totalmente Unificada:** Ahora disfrutas de exactamente la misma interfaz y calculadora interactiva tanto en la página de inicio como al presionar *"Mi Plan"* en el menú principal, permitiéndote consultar o gestionar tu suscripción con total comodidad desde cualquier pantalla.
+- **Gestión Directa del Plan Activo y Cambio de Nivel:** Visualiza de forma clara tu plan vigente mediante distintivos destacados y cambia de plan en cualquier momento (actualizar a Profesional, subir a Corporativo o volver al Plan Gratuito) con confirmaciones transparentes y cálculo automático de vigencias.
+- **Botones de Pago Más Claros y Directos:** Se simplifican los botones de contratación a un conciso *"Pagar"*, ofreciendo una experiencia de compra más rápida, despejada y confiable.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas sincronizadas al instante entre el menú y la página principal, con interfaz adaptativa para celulares, tablets y computadoras.
+
+---
+
 ## [v1.8.8] — 2026-11-12
 ### 🚀 Menú Principal Reorganizado, Nueva Página de Editor y Sincronización Integral de Planes
 

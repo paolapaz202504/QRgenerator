@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.8.5`  
+**Versión Actual:** `v1.8.9`  
 **Última Actualización:** 12 de Noviembre de 2026  
-**Estado General:** 🟢 Reorganización de Menú Principal & Sincronización Centralizada de Planes (.env Single Source of Truth) v1.8.5 Completada al 100% (36/36 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
+**Estado General:** 🟢 Componente de Planes Reutilizable 1:1 en Modal y Home, Botón 'Pagar' y Cambio de Plan Activo v1.8.9 Completada al 100% (36/36 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
 
 ---
 
@@ -11,12 +11,12 @@
 
 ```mermaid
 flowchart LR
-    A["Review Crítico v1.8.2 en qrbey.onrender.com\n(Jerarquía Visual, Schema en HTML, Canónicos)"] --> B["Ajuste de Arquitectura DevTeam\n(front, seo, devops, qa, pm)"]
-    B --> C["Pre-renderizado Estático en index.html\n(Hero, Testimonios, FAQ y Footer directos)"]
-    C --> D["Navegación Navbar Prominente\n(Restaurantes, Salones, Comercios, Nosotros)"]
-    D --> E["Unificación de Dominio Canónico\n(https://qrbey.onrender.com en todo el sitio)"]
-    E --> F["Certificación QA & Matriz Visual\n(36/36 QA Suite + 201/201 Combinaciones)"]
-    F --> G["🚀 QRbey SaaS v1.8.4: Desplegado y Verificado en Render"]
+    A["Menú Principal Reorganizado\n(Inicio, Restaurantes, Salones, Comercios, Editor, Nosotros)"] --> B["Ruta Dedicada /editor\n(Diseño y Personalización Desacoplados de Home)"]
+    B --> C["Componente de Planes Reutilizable\n(HTML Unificado en Modal y Home)"]
+    C --> D["Botón 'Pagar' Directo\n(Eliminado 'con Recurrente' en PRO y CORP)"]
+    D --> E["Gestión Dinámica de Plan Activo\n(Cambio a Free, Upgrade y Downgrade Sincronizado)"]
+    E --> F["Certificación QA & DoD\n(36/36 Pruebas Pasadas al 100%)"]
+    F --> G["🚀 QRbey SaaS v1.8.9: Despliegue a Producción OnRender"]
     
     style C fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px

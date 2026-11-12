@@ -127,260 +127,239 @@
   </div>
 </div>
 
-<!-- Modal de Selección y Compra de Planes (Light SaaS Theme + Recurrente) -->
-<div id="plan-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-  <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-4xl w-full shadow-2xl space-y-6 relative max-h-[92vh] flex flex-col">
+<!-- Modal de Selección y Administración de Planes (Light SaaS Theme - Reutiliza exactamente el mismo componente) -->
+<div id="plan-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-8 max-w-5xl w-full shadow-2xl relative max-h-[92vh] flex flex-col my-auto overflow-hidden">
     
-    <!-- Botón Cerrar -->
-    <button id="btn-close-plan-modal" type="button" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg transition">
-      <i class="fa-solid fa-xmark"></i>
+    <!-- Botón Cerrar Modal -->
+    <button id="btn-close-plan-modal" type="button" class="absolute top-4 sm:top-5 right-4 sm:right-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition z-20 cursor-pointer" title="Cerrar ventana">
+      <i class="fa-solid fa-xmark text-sm"></i>
     </button>
 
-    <!-- Header del Modal -->
-    <div class="text-center space-y-2">
-      <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold px-3.5 py-1 rounded-full shadow-2xs">
-        <i class="fa-solid fa-gem text-amber-500"></i>
-        <span>Planes & Suscripciones Oficiales</span>
-      </div>
-      <h3 class="text-2xl font-bold font-['Outfit'] text-slate-900">
-        Elige el Plan Perfecto para tu Negocio
-      </h3>
-      <p class="text-xs text-slate-500 max-w-lg mx-auto">
-        Genera códigos QR de alta definición sin marcas de agua. Pagos seguros mediante <strong>Recurrente</strong> (tarjetas y transferencias bancarias).
-      </p>
-    </div>
-
-    <!-- Banner Notificación de Actualización de Plan -->
-    <div id="plan-notification-banner" class="hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between text-xs text-emerald-800 transition">
-      <div class="flex items-center gap-2.5">
-        <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>
-        <span id="plan-notification-text" class="font-semibold">¡Plan actualizado correctamente!</span>
-      </div>
-      <button id="btn-dismiss-plan-banner" type="button" class="text-emerald-600 hover:text-emerald-900 text-xs">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-
-    <!-- Selector de Duración en Meses -->
-    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-cyan-50 border border-cyan-200 text-cyan-700 flex items-center justify-center text-sm shadow-2xs">
-          <i class="fa-solid fa-calendar-days"></i>
-        </div>
-        <div>
-          <label for="plan-duration-months" class="text-xs font-bold text-slate-800 block">Cantidad de Meses a Contratar:</label>
-          <p class="text-[11px] text-slate-500">Define los meses de servicio para calcular el descuento y fecha de vencimiento.</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 w-full sm:w-auto">
-        <button id="btn-month-minus" type="button" class="btn-month-minus w-9 h-9 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-sm flex items-center justify-center transition active:scale-95 shadow-2xs">
-          <i class="fa-solid fa-minus"></i>
-        </button>
-        <input type="number" id="plan-duration-months" min="1" max="60" value="1" step="1"
-          class="plan-duration-input w-20 bg-white border border-cyan-400 text-cyan-800 font-bold font-mono rounded-xl px-3 py-2 text-center text-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none transition shadow-2xs">
-        <button id="btn-month-plus" type="button" class="btn-month-plus w-9 h-9 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-sm flex items-center justify-center transition active:scale-95 shadow-2xs">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-        <span class="text-xs font-semibold text-slate-600 ml-1">Mes(es)</span>
-      </div>
-    </div>
-
-    <!-- Contenedor de 3 Cards de Planes -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 overflow-y-auto custom-scrollbar pt-2 px-1 pb-2 flex-1">
-      
-      <!-- Card 1: Plan Gratuito -->
-      <div id="card-plan-free" class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col justify-between space-y-6 transition relative shadow-2xs">
-        <div class="space-y-4">
-          <div class="flex items-center justify-between gap-2 flex-wrap">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500 font-mono">Básico / Starter</span>
-            <div id="badge-status-free">
-              <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold px-2 py-0.5 rounded-full">Plan Activo</span>
-            </div>
+    <!-- Contenido del Componente Reutilizable con scroll interno -->
+    <div id="plan-modal-body" class="overflow-y-auto custom-scrollbar flex-1 pr-1 pt-1">
+      <div class="planes-component space-y-6 sm:space-y-8">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <div class="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-800 text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full shadow-2xs">
+            <i class="fa-solid fa-gem text-amber-600"></i>
+            <span>Precios Claros y Transparentes</span>
           </div>
-
-          <div>
-            <h4 class="text-lg font-bold font-['Outfit'] text-slate-900">Plan Gratuito</h4>
-            <div class="mt-2 flex items-baseline gap-1">
-              <span class="text-3xl font-extrabold text-slate-900">$0</span>
-              <span class="text-xs text-slate-500">/ mes (Gratis siempre)</span>
-            </div>
-          </div>
-
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Ideal para pruebas iniciales y uso personal. Cuota vitalicia fija (al llegar a los límites establecidos se requiere ascender de plan).
+          <h2 class="text-2xl sm:text-3xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight">
+            Planes que Crecen con tu Negocio
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500">
+            Códigos QR de alta definición sin marcas de agua. Sin contratos forzosos ni caducidad sorpresa.
           </p>
+        </div>
 
-          <div class="grid grid-cols-2 gap-2 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
-            <div>
-              <span class="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Créditos Edición</span>
-              <span class="text-sm font-bold text-cyan-700 font-mono">50 (Único)</span>
+        <!-- Banner Notificación de Actualización de Plan -->
+        <div class="plan-notification-banner hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between text-xs text-emerald-800 transition max-w-3xl mx-auto shadow-2xs">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>
+            <span class="plan-notification-text font-semibold">¡Plan actualizado correctamente!</span>
+          </div>
+          <button type="button" class="btn-dismiss-plan-banner text-emerald-600 hover:text-emerald-900 text-xs cursor-pointer">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Selector de Duración en Meses (Sincronizado) -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 max-w-3xl mx-auto shadow-2xs">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center justify-center text-sm shadow-2xs shrink-0">
+              <i class="fa-solid fa-calendar-days text-base"></i>
             </div>
             <div>
-              <span class="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Descargas HD</span>
-              <span class="text-sm font-bold text-indigo-700 font-mono">15 QRs</span>
+              <label for="plan-duration-months" class="text-xs sm:text-sm font-bold text-slate-800 block">Cantidad de Meses a Contratar:</label>
+              <p class="text-[11px] text-slate-500">Define los meses de servicio para calcular el total y fecha de vigencia.</p>
             </div>
           </div>
 
-          <ul class="space-y-2 text-xs text-slate-600">
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-emerald-600 text-xs"></i>
-              <span>15 Descargas totales en PNG y SVG</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-emerald-600 text-xs"></i>
-              <span>50 Créditos totales de edición</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-emerald-600 text-xs"></i>
-              <span>Galería de íconos vectoriales</span>
-            </li>
-          </ul>
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-center">
+            <button type="button" class="btn-month-minus w-9 h-9 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-sm flex items-center justify-center transition active:scale-95 shadow-2xs cursor-pointer" title="Reducir meses">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <input type="number" min="1" max="60" value="1" step="1"
+              class="plan-duration-input w-20 bg-white border border-indigo-400 text-indigo-800 font-bold font-mono rounded-xl px-3 py-2 text-center text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition shadow-2xs">
+            <button type="button" class="btn-month-plus w-9 h-9 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-sm flex items-center justify-center transition active:scale-95 shadow-2xs cursor-pointer" title="Aumentar meses">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <span class="text-xs font-semibold text-slate-600 ml-1">Mes(es)</span>
+          </div>
         </div>
 
-        <button id="btn-select-free" type="button" disabled
-          class="w-full py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed text-center transition flex items-center justify-center gap-2">
-          <i class="fa-solid fa-circle-check text-emerald-600"></i>
-          Plan Activo Actual
-        </button>
+        <!-- Contenedor de 3 Cards de Planes -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto pt-2">
+          
+          <!-- Card 1: Plan Gratuito -->
+          <div class="card-plan-free bg-white border border-slate-200 rounded-2xl p-6 flex flex-col justify-between space-y-6 transition relative shadow-2xs hover:border-slate-300">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between gap-2 flex-wrap">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 font-mono">Básico / Starter</span>
+                <div class="badge-status-free">
+                  <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-600"></i> Plan Activo</span>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold font-['Outfit'] text-slate-900">Plan Gratuito</h3>
+                <div class="mt-2 flex items-baseline gap-1">
+                  <span class="text-3xl sm:text-4xl font-extrabold text-slate-900">$0</span>
+                  <span class="text-xs text-slate-500">/ mes (Gratis siempre)</span>
+                </div>
+              </div>
+
+              <p class="plan-para-quien text-xs text-slate-500 leading-relaxed">
+                Para probar: 1 QR estático, sin analytics. Cuota vitalicia fija.
+              </p>
+
+              <div class="grid grid-cols-2 gap-2 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                <div>
+                  <span class="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Créditos Edición</span>
+                  <span class="text-sm font-bold text-cyan-700 font-mono">50 (Único)</span>
+                </div>
+                <div>
+                  <span class="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Descargas HD</span>
+                  <span class="text-sm font-bold text-indigo-700 font-mono">15 QRs</span>
+                </div>
+              </div>
+
+              <ul class="space-y-2 text-xs text-slate-600 pt-2 border-t border-slate-100">
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> 15 Descargas totales PNG y WebP</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> 50 Créditos totales de edición</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> Diseñador de marcos y colores</li>
+                <li class="flex items-center gap-2 text-slate-400"><i class="fa-solid fa-xmark text-slate-400 text-xs"></i> Sin analítica de escaneos</li>
+              </ul>
+            </div>
+
+            <div class="action-free-container">
+              <button type="button" class="btn-select-free-plan w-full py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed text-center transition flex items-center justify-center gap-2" disabled>
+                <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                <span>Plan Activo Actual</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Plan Profesional (Destacado) -->
+          <div class="card-plan-pro bg-gradient-to-b from-indigo-50/70 via-white to-white border-2 border-indigo-500 rounded-2xl p-6 flex flex-col justify-between space-y-6 transition relative shadow-lg scale-102 hover:border-indigo-400">
+            <!-- Floating Ribbon -->
+            <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-[10px] font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 z-10 whitespace-nowrap">
+              <i class="fa-solid fa-fire text-amber-300 text-[10px]"></i>
+              <span>Más Popular</span>
+            </div>
+
+            <div class="space-y-4 pt-1">
+              <div class="flex items-center justify-between gap-2 flex-wrap">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 font-mono">Pymes & Creadores</span>
+                <div class="badge-status-pro"></div>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold font-['Outfit'] text-slate-900">Plan Profesional</h3>
+                <div class="mt-2 flex items-baseline gap-1">
+                  <span class="price-pro-display text-3xl sm:text-4xl font-extrabold text-slate-900">$9.99</span>
+                  <span class="price-pro-period text-xs text-indigo-600 font-semibold">/ 1 mes</span>
+                </div>
+                <div class="expiry-pro-container hidden text-[11px] text-indigo-700 font-mono mt-1 flex items-center gap-1 font-semibold">
+                  <i class="fa-solid fa-calendar-check text-[10px]"></i>
+                  <span>Vence el: <span class="expiry-pro-date font-bold">--/--/----</span></span>
+                </div>
+              </div>
+
+              <p class="plan-para-quien text-xs text-indigo-950 font-semibold leading-relaxed">
+                Para una pyme: QRs dinámicos ilimitados, analytics de escaneos, sin marca de agua.
+              </p>
+
+              <div class="grid grid-cols-2 gap-2 bg-indigo-50/90 border border-indigo-200 rounded-xl p-3 text-center">
+                <div>
+                  <span class="text-[10px] text-indigo-800 uppercase tracking-wider block font-semibold">Créditos Edición</span>
+                  <span class="text-sm font-bold text-cyan-800 font-mono">2,000 / mes</span>
+                </div>
+                <div>
+                  <span class="text-[10px] text-indigo-800 uppercase tracking-wider block font-semibold">Descargas HD</span>
+                  <span class="text-sm font-bold text-indigo-800 font-mono">500 / mes</span>
+                </div>
+              </div>
+
+              <ul class="space-y-2 text-xs text-slate-700 pt-2 border-t border-indigo-100">
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> <strong>500 Descargas QR</strong> PNG y SVG vectorial puro</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> <strong>2,000 Créditos de edición mensual</strong></li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> Exportación Vectorial SVG para imprenta</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> Métricas de escaneos y dispositivos</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> Pagos protegidos con cifrado bancario SSL</li>
+              </ul>
+            </div>
+
+            <button type="button"
+              class="btn-select-pro-plan w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20 transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span>Pagar</span>
+            </button>
+          </div>
+
+          <!-- Card 3: Plan Corporativo -->
+          <div class="card-plan-corporate bg-white border border-slate-200 rounded-2xl p-6 flex flex-col justify-between space-y-6 transition relative shadow-2xs hover:border-purple-300">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between gap-2 flex-wrap">
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-700 font-mono">Enterprise / Agencias</span>
+                <div class="badge-status-corporate"></div>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold font-['Outfit'] text-slate-900">Plan Corporativo</h3>
+                <div class="mt-2 flex items-baseline gap-1">
+                  <span class="price-corp-display text-3xl sm:text-4xl font-extrabold text-slate-900">$29.99</span>
+                  <span class="price-corp-period text-xs text-slate-500">/ 1 mes</span>
+                </div>
+                <div class="expiry-corp-container hidden text-[11px] text-purple-700 font-mono mt-1 flex items-center gap-1 font-semibold">
+                  <i class="fa-solid fa-calendar-check text-[10px]"></i>
+                  <span>Vence el: <span class="expiry-corp-date font-bold">--/--/----</span></span>
+                </div>
+              </div>
+
+              <p class="plan-para-quien text-xs text-slate-500 leading-relaxed">
+                Para cadenas o agencias: multi-sucursal, API, soporte prioritario.
+              </p>
+
+              <div class="grid grid-cols-2 gap-2 bg-purple-50 border border-purple-200 rounded-xl p-3 text-center">
+                <div>
+                  <span class="text-[10px] text-purple-800 uppercase tracking-wider block font-semibold">Créditos Edición</span>
+                  <span class="text-sm font-bold text-purple-800 font-mono">10,000 / mes</span>
+                </div>
+                <div>
+                  <span class="text-[10px] text-purple-800 uppercase tracking-wider block font-semibold">Descargas HD</span>
+                  <span class="text-sm font-bold text-purple-800 font-mono">2,000 / mes</span>
+                </div>
+              </div>
+
+              <ul class="space-y-2 text-xs text-slate-600 pt-2 border-t border-slate-100">
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> 2,000 Descargas mensuales en alta resolución</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> 10,000 Créditos de edición mensual</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> Acceso API completo para agentes y MCP</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> Multi-sucursal y gestión de sedes</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600 text-xs"></i> Soporte VIP 24/7 preferente</li>
+              </ul>
+            </div>
+
+            <button type="button"
+              class="btn-select-corp-plan w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-crown text-amber-400"></i>
+              <span>Pagar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center pt-2 text-xs text-slate-500 border-t border-slate-200/60 max-w-2xl mx-auto flex items-center justify-center gap-2">
+          <i class="fa-solid fa-shield-check text-emerald-600 text-sm"></i>
+          <span>Pagos protegidos con cifrado bancario SSL vía <strong>Recurrente</strong>. Cancela en cualquier momento.</span>
+        </div>
       </div>
-
-      <!-- Card 2: Plan Profesional (Destacado) -->
-      <div id="card-plan-pro" class="bg-gradient-to-b from-indigo-50/60 to-white border-2 border-indigo-500 rounded-2xl p-6 flex flex-col justify-between space-y-6 transition relative shadow-md">
-        <!-- Floating Ribbon -->
-        <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-[10px] font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 z-10 whitespace-nowrap">
-          <i class="fa-solid fa-fire text-amber-300 text-[10px]"></i>
-          <span>Más Popular</span>
-        </div>
-
-        <div class="space-y-4 pt-1">
-          <div class="flex items-center justify-between gap-2 flex-wrap">
-            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 font-mono">Pro / Creadores</span>
-            <div id="badge-status-pro"></div>
-          </div>
-
-          <div>
-            <h4 class="text-lg font-bold font-['Outfit'] text-slate-900">Plan Profesional</h4>
-            <div class="mt-2 flex items-baseline gap-1">
-              <span id="price-pro-display" class="price-pro-display text-3xl font-extrabold text-slate-900">$9.99</span>
-              <span id="price-pro-period" class="price-pro-period text-xs text-slate-500">/ 1 mes</span>
-            </div>
-            <div id="expiry-pro-container" class="expiry-pro-container hidden text-[11px] text-indigo-700 font-mono mt-1 flex items-center gap-1 font-semibold">
-              <i class="fa-solid fa-calendar-check text-[10px]"></i>
-              <span>Vence el: <span id="expiry-pro-date" class="expiry-pro-date font-bold">--/--/----</span></span>
-            </div>
-          </div>
-
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Para freelancers, pymes y creadores que requieren alta capacidad de edición y descargas frecuentes.
-          </p>
-
-          <div class="grid grid-cols-2 gap-2 bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-center">
-            <div>
-              <span class="text-[10px] text-indigo-800 uppercase tracking-wider block font-semibold">Créditos Edición</span>
-              <span class="text-sm font-bold text-cyan-800 font-mono">2,000 / mes</span>
-            </div>
-            <div>
-              <span class="text-[10px] text-indigo-800 uppercase tracking-wider block font-semibold">Descargas HD</span>
-              <span class="text-sm font-bold text-indigo-800 font-mono">500 / mes</span>
-            </div>
-          </div>
-
-          <ul class="space-y-2 text-xs text-slate-700">
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-indigo-600 text-xs"></i>
-              <span><strong>500 Descargas QR</strong> PNG y SVG vectorial puro</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-indigo-600 text-xs"></i>
-              <span><strong>2,000 Créditos de edición</strong></span>
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-indigo-600 text-xs"></i>
-              <span>Subida de logotipos corporativos HD</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-indigo-600 text-xs"></i>
-              <span>Pagos seguros vía <strong>Recurrente</strong></span>
-            </li>
-          </ul>
-        </div>
-
-        <button id="btn-buy-pro" type="button"
-          class="w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20 transition transform active:scale-95 flex items-center justify-center gap-2">
-          <i class="fa-solid fa-cart-shopping"></i>
-          Pagar con Recurrente
-        </button>
-      </div>
-
-      <!-- Card 3: Plan Corporativo -->
-      <div id="card-plan-corporate" class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col justify-between space-y-6 transition relative shadow-2xs hover:border-purple-300">
-        <div class="space-y-4">
-          <div class="flex items-center justify-between gap-2 flex-wrap">
-            <span class="text-xs font-bold uppercase tracking-wider text-purple-700 font-mono">Enterprise / Agencias</span>
-            <div id="badge-status-corporate"></div>
-          </div>
-
-          <div>
-            <h4 class="text-lg font-bold font-['Outfit'] text-slate-900">Plan Corporativo</h4>
-            <div class="mt-2 flex items-baseline gap-1">
-              <span id="price-corp-display" class="price-corp-display text-3xl font-extrabold text-slate-900">$29.99</span>
-              <span id="price-corp-period" class="price-corp-period text-xs text-slate-500">/ 1 mes</span>
-            </div>
-            <div id="expiry-corp-container" class="expiry-corp-container hidden text-[11px] text-purple-700 font-mono mt-1 flex items-center gap-1 font-semibold">
-              <i class="fa-solid fa-calendar-check text-[10px]"></i>
-              <span>Vence el: <span id="expiry-corp-date" class="expiry-corp-date font-bold">--/--/----</span></span>
-            </div>
-          </div>
-
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Potencia total para agencias y empresas con alto volumen de campañas e impresiones a gran formato.
-          </p>
-
-          <div class="grid grid-cols-2 gap-2 bg-purple-50 border border-purple-200 rounded-xl p-3 text-center">
-            <div>
-              <span class="text-[10px] text-purple-800 uppercase tracking-wider block font-semibold">Créditos Edición</span>
-              <span class="text-sm font-bold text-purple-800 font-mono">10,000 / mes</span>
-            </div>
-            <div>
-              <span class="text-[10px] text-purple-800 uppercase tracking-wider block font-semibold">Descargas HD</span>
-              <span class="text-sm font-bold text-purple-800 font-mono">2,000 / mes</span>
-            </div>
-          </div>
-
-          <ul class="space-y-2 text-xs text-slate-700">
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-purple-600 text-xs"></i>
-              <span><strong>2,000 Descargas QR mensuales</strong> (PNG HD y SVG)</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-purple-600 text-xs"></i>
-              <span><strong>10,000 Créditos de edición mensuales</strong></span>
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-purple-600 text-xs"></i>
-              <span>Licencia de uso comercial y multiusuario</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <i class="fa-solid fa-check text-purple-600 text-xs"></i>
-              <span>Soporte prioritario y facturación</span>
-            </li>
-          </ul>
-        </div>
-
-        <button id="btn-buy-corporate" type="button"
-          class="w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-600/20 transition transform active:scale-95 flex items-center justify-center gap-2">
-          <i class="fa-solid fa-crown text-amber-300"></i>
-          Pagar con Recurrente
-        </button>
-      </div>
-
     </div>
 
     <!-- Footer del Modal -->
     <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-xs text-slate-500">
       <span>Garantía de satisfacción y pago seguro procesado por Recurrente.</span>
-      <button id="btn-close-plan-footer" type="button" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition">
+      <button id="btn-close-plan-footer" type="button" class="btn-close-plan-footer px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition cursor-pointer">
         Cerrar
       </button>
     </div>

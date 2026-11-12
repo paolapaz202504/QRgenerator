@@ -74,11 +74,11 @@ export class PlanModal extends UIComponent {
       });
     }
 
-    if (this.btnDismissBanner) {
-      this.btnDismissBanner.addEventListener('click', () => {
-        if (this.notificationBanner) this.notificationBanner.classList.add('hidden');
+    document.querySelectorAll('#btn-dismiss-plan-banner, .btn-dismiss-plan-banner').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#plan-notification-banner, .plan-notification-banner').forEach(b => b.classList.add('hidden'));
       });
-    }
+    });
 
     // Sincronización bidireccional de selector de duración (Meses)
     const syncDuration = (val) => {
@@ -114,6 +114,17 @@ export class PlanModal extends UIComponent {
         const input = document.querySelector('#plan-duration-months, .plan-duration-input');
         let current = parseInt(input ? input.value : '1', 10) || 1;
         syncDuration(current + 1);
+      });
+    });
+
+    // Botones de Selección Plan Gratuito (Permite regresar a Free si se tiene Pro o Corp)
+    document.querySelectorAll('#btn-select-free, .btn-select-free-plan').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const user = appState.getState().user;
+        const userPlan = (user && user.plan) ? user.plan.toLowerCase() : 'free';
+        if (userPlan !== 'free') {
+          this.handleCancelPlan();
+        }
       });
     });
 
@@ -236,17 +247,17 @@ export class PlanModal extends UIComponent {
       }
     });
 
-    if (this.btnSelectFree) {
+    document.querySelectorAll('#btn-select-free, .btn-select-free-plan').forEach(btn => {
       if (userPlan === 'free') {
-        this.btnSelectFree.disabled = true;
-        this.btnSelectFree.className = 'w-full py-3 px-4 rounded-xl font-bold text-xs bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed text-center transition flex items-center justify-center gap-2';
-        this.btnSelectFree.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i> Plan Activo Actual';
+        btn.disabled = true;
+        btn.className = 'w-full py-3 px-4 rounded-xl font-bold text-xs bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed text-center transition flex items-center justify-center gap-2';
+        btn.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i> Plan Activo Actual';
       } else {
-        this.btnSelectFree.disabled = true;
-        this.btnSelectFree.className = 'w-full py-3 px-4 rounded-xl font-bold text-xs bg-slate-900 text-slate-500 border border-slate-800 cursor-not-allowed text-center transition flex items-center justify-center gap-2';
-        this.btnSelectFree.innerHTML = '<i class="fa-solid fa-box text-slate-500"></i> Plan Básico Starter';
+        btn.disabled = false;
+        btn.className = 'w-full py-3 px-4 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition transform active:scale-95 text-center flex items-center justify-center gap-2 cursor-pointer';
+        btn.innerHTML = '<i class="fa-solid fa-arrow-down text-slate-300"></i> Cambiar a Plan Gratuito';
       }
-    }
+    });
 
     // -------------------------------------------------------------
     // CARD 2: PLAN PROFESIONAL
@@ -276,13 +287,13 @@ export class PlanModal extends UIComponent {
         btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
         btn.innerHTML = '<i class="fa-solid fa-ban text-rose-400"></i> Cancelar Plan Pro';
       } else if (userPlan === 'corporate') {
-        btn.disabled = true;
-        btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-slate-900 text-slate-500 border border-slate-800 cursor-not-allowed text-center transition flex items-center justify-center gap-2';
-        btn.innerHTML = '<i class="fa-solid fa-check text-slate-500"></i> Plan Profesional (Nivel Inferior)';
+        btn.disabled = false;
+        btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border border-indigo-500/40 transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
+        btn.innerHTML = '<i class="fa-solid fa-arrow-down text-indigo-300"></i> Cambiar a Plan Pro (Pagar)';
       } else {
         btn.disabled = false;
         btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20 transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
-        btn.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Pagar con Recurrente';
+        btn.innerHTML = '<i class="fa-solid fa-credit-card"></i> Pagar';
       }
     });
 
@@ -316,11 +327,11 @@ export class PlanModal extends UIComponent {
       } else if (userPlan === 'pro') {
         btn.disabled = false;
         btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
-        btn.innerHTML = '<i class="fa-solid fa-arrow-up-right-dots text-amber-300"></i> Actualizar a Plan Corporativo';
+        btn.innerHTML = '<i class="fa-solid fa-arrow-up-right-dots text-amber-300"></i> Actualizar a Plan Corporativo (Pagar)';
       } else {
         btn.disabled = false;
         btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
-        btn.innerHTML = '<i class="fa-solid fa-crown text-amber-400"></i> Pagar con Recurrente';
+        btn.innerHTML = '<i class="fa-solid fa-crown text-amber-400"></i> Pagar';
       }
     });
   }
@@ -355,10 +366,9 @@ export class PlanModal extends UIComponent {
             };
             appState.setState({ user: updatedUser }, 'PLAN_UPDATED');
 
-            if (this.notificationBanner && this.notificationText) {
-              this.notificationText.textContent = confirmRes.message || `¡Felicidades! Has actualizado con éxito al ${planName} por ${months} mes(es).`;
-              this.notificationBanner.classList.remove('hidden');
-            }
+            const successMsg = confirmRes.message || `¡Felicidades! Has actualizado con éxito al ${planName} por ${months} mes(es).`;
+            document.querySelectorAll('#plan-notification-text, .plan-notification-text').forEach(el => el.textContent = successMsg);
+            document.querySelectorAll('#plan-notification-banner, .plan-notification-banner').forEach(el => el.classList.remove('hidden'));
 
             await ModalService.alert({
               title: '¡Suscripción Activada!',
@@ -383,10 +393,9 @@ export class PlanModal extends UIComponent {
         };
         appState.setState({ user: updatedUser }, 'PLAN_UPDATED');
 
-        if (this.notificationBanner && this.notificationText) {
-          this.notificationText.textContent = res.message || `¡Felicidades! Has actualizado con éxito al ${planName} por ${months} mes(es).`;
-          this.notificationBanner.classList.remove('hidden');
-        }
+        const successMsg = res.message || `¡Felicidades! Has actualizado con éxito al ${planName} por ${months} mes(es).`;
+        document.querySelectorAll('#plan-notification-text, .plan-notification-text').forEach(el => el.textContent = successMsg);
+        document.querySelectorAll('#plan-notification-banner, .plan-notification-banner').forEach(el => el.classList.remove('hidden'));
       } else {
         await ModalService.alert({
           title: 'Error de Suscripción',
@@ -427,10 +436,9 @@ export class PlanModal extends UIComponent {
         };
         appState.setState({ user: updatedUser }, 'PLAN_UPDATED');
 
-        if (this.notificationBanner && this.notificationText) {
-          this.notificationText.textContent = res.message || 'Tu suscripción ha sido cancelada exitosamente. Se ha asignado automáticamente el Plan Gratuito.';
-          this.notificationBanner.classList.remove('hidden');
-        }
+        const cancelMsg = res.message || 'Tu suscripción ha sido cancelada exitosamente. Se ha asignado automáticamente el Plan Gratuito.';
+        document.querySelectorAll('#plan-notification-text, .plan-notification-text').forEach(el => el.textContent = cancelMsg);
+        document.querySelectorAll('#plan-notification-banner, .plan-notification-banner').forEach(el => el.classList.remove('hidden'));
       } else {
         await ModalService.alert({
           title: 'Error al Cancelar',
