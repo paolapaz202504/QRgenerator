@@ -1,8 +1,185 @@
 /**
  * MiniEditor - Controlador para el mini-editor demostrativo en la Home.
  * Permite a cualquier usuario generar un QR de prueba sin restricciones ni registro,
- * y transferir los datos precargados al editor avanzado (/editor?url=...&preset=...).
+ * utilizando plantillas desacopladas y persistentes extraídas de /editor,
+ * y transferir los datos precargados al editor avanzado (/editor?url=...&preset=...&title=...).
  */
+
+/**
+ * Plantillas persistentes extraídas exactamente de /editor (DesignLibrary).
+ * Estas plantillas permanecen inmutables y desacopladas en el mini-editor
+ * aunque las plantillas de /editor cambien en el futuro.
+ */
+export const MINI_EDITOR_TEMPLATES = {
+  // 1. Restaurante -> "Happy Hour" (Gastronomía, design-gastronomia-6)
+  restaurante: {
+    id: 'design-gastronomia-6',
+    name: 'Happy Hour',
+    category: 'Gastronomía',
+    bgColor: '#f5f3ff',
+    qrColor: '#4c1d95',
+    qrColor2: '#7c3aed',
+    gradientType: 'radial',
+    silhouetteColor: '#c026d3',
+    patternColor: '#4c1d95',
+    frameColor: '#c026d3',
+    frameShape: 'ticket',
+    frameStyle: 'badge',
+    textColor: '#0f172a',
+    badgeBg: '#c026d3',
+    badgeText: '#ffffff',
+    dotStyle: 'star',
+    eyeStyle: 'shield',
+    eyeColor: '#c026d3',
+    eyeColor2: '#7c3aed',
+    eyeGradientType: 'linear',
+    iconName: 'fa-martini-glass-citrus',
+    iconColor: '#c026d3',
+    iconBgColor: '#ffffff',
+    iconBorderColor: '#c026d3',
+    iconSize: 34,
+    iconPosition: 'center',
+    iconShow: true,
+    showIcon: true,
+    fontTitle: 'Montserrat',
+    fontBanner: 'Montserrat',
+    fontSizeTitle: 18,
+    titlePosition: 'bottom',
+    titleOffsetY: -22,
+    bannerText: 'HAPPY HOUR',
+    qrSilhouetteMode: 'none',
+    qrDensity: 50,
+    qrBoxRadius: 18,
+    defaultTitle: 'Happy Hour',
+    placeholder: 'Escribe el título (ej: Happy Hour)'
+  },
+  // 2. Salón -> "Spa & Relax" (Belleza, design-belleza-2)
+  salon: {
+    id: 'design-belleza-2',
+    name: 'Spa & Relax',
+    category: 'Belleza',
+    bgColor: '#f0fdf4',
+    qrColor: '#064e3b',
+    qrColor2: '#059669',
+    gradientType: 'linear',
+    silhouetteColor: '#a21caf',
+    patternColor: '#064e3b',
+    frameColor: '#a21caf',
+    frameShape: 'circle',
+    frameStyle: 'badge',
+    textColor: '#0f172a',
+    badgeBg: '#a21caf',
+    badgeText: '#ffffff',
+    dotStyle: 'smooth',
+    eyeStyle: 'leaf',
+    eyeColor: '#a21caf',
+    eyeColor2: '#059669',
+    eyeGradientType: 'linear',
+    iconName: 'fa-sparkles',
+    iconColor: '#a21caf',
+    iconBgColor: '#ffffff',
+    iconBorderColor: '#a21caf',
+    iconSize: 34,
+    iconPosition: 'center',
+    iconShow: true,
+    showIcon: true,
+    fontTitle: 'Great Vibes',
+    fontBanner: 'Poppins',
+    fontSizeTitle: 18,
+    titlePosition: 'bottom',
+    titleOffsetY: -22,
+    bannerText: 'SPA & RELAX',
+    qrSilhouetteMode: 'none',
+    qrDensity: 50,
+    qrBoxRadius: 18,
+    defaultTitle: 'Spa & Relax',
+    placeholder: 'Escribe el título (ej: Spa & Relax)'
+  },
+  // 3. Comercio -> "Oferta Hoy" (Compras, design-compras-7)
+  comercio: {
+    id: 'design-compras-7',
+    name: 'Oferta Hoy',
+    category: 'Compras',
+    bgColor: '#fff7ed',
+    qrColor: '#78350f',
+    qrColor2: '#d97706',
+    gradientType: 'single',
+    silhouetteColor: '#f97316',
+    patternColor: '#78350f',
+    frameColor: '#f97316',
+    frameShape: 'diamond_card',
+    frameStyle: 'badge',
+    textColor: '#0f172a',
+    badgeBg: '#f97316',
+    badgeText: '#ffffff',
+    dotStyle: 'heart',
+    eyeStyle: 'hexagon',
+    eyeColor: '#f97316',
+    eyeColor2: null,
+    eyeGradientType: 'single',
+    iconName: 'fa-credit-card',
+    iconColor: '#f97316',
+    iconBgColor: '#ffffff',
+    iconBorderColor: '#f97316',
+    iconSize: 34,
+    iconPosition: 'center',
+    iconShow: true,
+    showIcon: true,
+    fontTitle: 'Bebas Neue',
+    fontBanner: 'Bebas Neue',
+    fontSizeTitle: 18,
+    titlePosition: 'bottom',
+    titleOffsetY: -22,
+    bannerText: 'OFERTA HOY',
+    qrSilhouetteMode: 'none',
+    qrDensity: 50,
+    qrBoxRadius: 18,
+    defaultTitle: 'Oferta Hoy',
+    placeholder: 'Escribe el título (ej: Oferta Hoy)'
+  },
+  // 4. General -> "Arte & Diseño" (Música y Arte, design-musicayarte-10)
+  generico: {
+    id: 'design-musicayarte-10',
+    name: 'Arte & Diseño',
+    category: 'Música y Arte',
+    bgColor: '#f8fafc',
+    qrColor: '#111827',
+    qrColor2: '#6366f1',
+    gradientType: 'single',
+    silhouetteColor: '#ef4444',
+    patternColor: '#111827',
+    frameColor: '#ef4444',
+    frameShape: 'ticket',
+    frameStyle: 'badge',
+    textColor: '#0f172a',
+    badgeBg: '#ef4444',
+    badgeText: '#ffffff',
+    dotStyle: 'smooth',
+    eyeStyle: 'rounded',
+    eyeColor: '#ef4444',
+    eyeColor2: '#6366f1',
+    eyeGradientType: 'linear',
+    iconName: 'fa-icons',
+    iconColor: '#ef4444',
+    iconBgColor: '#ffffff',
+    iconBorderColor: '#ef4444',
+    iconSize: 34,
+    iconPosition: 'center',
+    iconShow: true,
+    showIcon: true,
+    fontTitle: 'Pacifico',
+    fontBanner: 'Montserrat',
+    fontSizeTitle: 18,
+    titlePosition: 'bottom',
+    titleOffsetY: -22,
+    bannerText: 'ARTE & DISEÑO',
+    qrSilhouetteMode: 'none',
+    qrDensity: 50,
+    qrBoxRadius: 18,
+    defaultTitle: 'Arte & Diseño',
+    placeholder: 'Escribe el título (ej: Arte & Diseño)'
+  }
+};
 export class MiniEditor {
   constructor() {
     this.section = null;
@@ -106,26 +283,17 @@ export class MiniEditor {
       }
     });
 
+    const template = MINI_EDITOR_TEMPLATES[preset] || MINI_EDITOR_TEMPLATES.generico;
+
     // Asignar plantilla y título sugerido según sector
     if (this.titleInput) {
-      if (preset === 'restaurante') {
-        this.titleInput.value = 'Happy Hour';
-        this.titleInput.placeholder = 'Escribe el título (ej: Happy Hour)';
-      } else if (preset === 'salon') {
-        this.titleInput.value = 'Citas & Salón';
-        this.titleInput.placeholder = 'Escribe el título (ej: Citas & Salón)';
-      } else if (preset === 'comercio') {
-        this.titleInput.value = 'WiFi & Tienda';
-        this.titleInput.placeholder = 'Escribe el título (ej: WiFi & Tienda)';
-      } else {
-        this.titleInput.value = 'Mi Código QR';
-        this.titleInput.placeholder = 'Escribe el título (ej: Mi Código QR)';
-      }
+      this.titleInput.value = template.defaultTitle;
+      this.titleInput.placeholder = template.placeholder;
     }
 
     // Actualizar enlace de personalización si ya hay URL
     if (this.currentUrl) {
-      const titleVal = this.titleInput ? this.titleInput.value.trim() : '';
+      const titleVal = this.titleInput ? this.titleInput.value.trim() : template.defaultTitle;
       this.updateCustomizeLink(this.currentUrl, this.currentPreset, titleVal);
     }
   }
@@ -142,8 +310,11 @@ export class MiniEditor {
 
   updateCustomizeLink(url, preset, title = '') {
     if (this.btnCustomize) {
-      const titleParam = title ? `&title=${encodeURIComponent(title)}` : '';
-      this.btnCustomize.href = `/editor?url=${encodeURIComponent(url)}&preset=${encodeURIComponent(preset)}${titleParam}`;
+      const template = MINI_EDITOR_TEMPLATES[preset] || MINI_EDITOR_TEMPLATES.generico;
+      const finalTitle = title ? title.trim() : template.defaultTitle;
+      const titleParam = `&title=${encodeURIComponent(finalTitle)}`;
+      const designParam = `&designId=${encodeURIComponent(template.id)}`;
+      this.btnCustomize.href = `/editor?url=${encodeURIComponent(url)}&preset=${encodeURIComponent(preset)}${designParam}${titleParam}`;
     }
   }
 
@@ -156,9 +327,11 @@ export class MiniEditor {
       return;
     }
 
+    const template = MINI_EDITOR_TEMPLATES[this.currentPreset] || MINI_EDITOR_TEMPLATES.generico;
+
     const titleVal = (this.titleInput && this.titleInput.value.trim()) 
       ? this.titleInput.value.trim() 
-      : (this.currentPreset === 'restaurante' ? 'Happy Hour' : 'Mi Código QR');
+      : template.defaultTitle;
 
     const normalizedUrl = this.normalizeUrl(rawVal);
     this.currentUrl = normalizedUrl;
@@ -178,25 +351,6 @@ export class MiniEditor {
       abortController.abort();
     }, 5000);
 
-    // Mapear preset a diseño predeterminado
-    // Para Restaurante: utiliza la plantilla predeterminada nombrada "Happy Hour" de la categoría "Gastronomía" (design-gastronomia-6)
-    let designId = 'design-gastronomia-6';
-    let bannerText = 'HAPPY HOUR';
-
-    if (this.currentPreset === 'restaurante') {
-      designId = 'design-gastronomia-6'; // Plantilla "Happy Hour" en Gastronomía
-      bannerText = 'HAPPY HOUR';
-    } else if (this.currentPreset === 'salon') {
-      designId = 'design-belleza-1';
-      bannerText = 'RESERVAS';
-    } else if (this.currentPreset === 'comercio') {
-      designId = 'design-compras-1';
-      bannerText = 'CONÉCTATE';
-    } else if (this.currentPreset === 'generico') {
-      designId = 'design-gastronomia-6';
-      bannerText = 'ESCANÉAME';
-    }
-
     try {
       const response = await fetch('/api/generate', {
         method: 'POST',
@@ -204,10 +358,44 @@ export class MiniEditor {
         body: JSON.stringify({
           url: normalizedUrl,
           title: titleVal,
-          bannerText: bannerText,
+          bannerText: template.bannerText,
           isExplicitGenerate: false, // Vista previa gratuita sin autenticación ni consumo de cuota
-          designId: designId,
-          targetWidth: 500
+          designId: template.id,
+          targetWidth: 500,
+          // Propiedades persistentes desacopladas de la plantilla
+          bgColor: template.bgColor,
+          qrColor: template.qrColor,
+          qrColor2: template.qrColor2,
+          gradientType: template.gradientType,
+          silhouetteColor: template.silhouetteColor,
+          patternColor: template.patternColor,
+          frameColor: template.frameColor,
+          frameShape: template.frameShape,
+          frameStyle: template.frameStyle,
+          textColor: template.textColor,
+          badgeBg: template.badgeBg,
+          badgeText: template.badgeText,
+          dotStyle: template.dotStyle,
+          eyeStyle: template.eyeStyle,
+          eyeColor: template.eyeColor,
+          eyeColor2: template.eyeColor2,
+          eyeGradientType: template.eyeGradientType,
+          iconName: template.iconName,
+          iconColor: template.iconColor,
+          iconBgColor: template.iconBgColor,
+          iconBorderColor: template.iconBorderColor,
+          iconSize: template.iconSize,
+          iconPosition: template.iconPosition,
+          iconShow: template.iconShow,
+          showIcon: template.showIcon,
+          fontTitle: template.fontTitle,
+          fontBanner: template.fontBanner,
+          fontSizeTitle: template.fontSizeTitle,
+          titlePosition: template.titlePosition,
+          titleOffsetY: template.titleOffsetY,
+          qrSilhouetteMode: template.qrSilhouetteMode,
+          qrDensity: template.qrDensity,
+          qrBoxRadius: template.qrBoxRadius
         }),
         signal: abortController.signal
       });

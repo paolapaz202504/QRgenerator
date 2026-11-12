@@ -4,6 +4,23 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.5] — 2026-11-12
+### 🎨 Plantillas Especializadas Persistentes en el Mini-Editor y Botones Simplificados
+
+#### Novedades y Mejoras
+- **Plantillas Especializadas para Cada Sector de Negocio:** El mini-editor de la página de inicio ahora incorpora una plantilla visual exclusiva y adaptada a cada categoría comercial:
+  - **Restaurante:** Plantilla "Happy Hour" con tonos sofisticados y marco temático festivo.
+  - **Salón:** Plantilla "Spa & Relax" con paleta suave, armoniosa y estilo elegante para centros de bienestar y belleza.
+  - **Comercio:** Plantilla "Oferta Hoy" con diseño vibrante y atractivo para destacar promociones, cupones y tiendas.
+  - **General:** Plantilla "Arte & Diseño" con estilo moderno, creativo y versátil para cualquier tipo de enlace o proyecto.
+- **Persistencia e Independencia Total de Diseños:** Cada plantilla cuenta con su configuración completa de colores, marcos, íconos y estilos visuales asegurada de forma permanente en el mini-editor, manteniendo tu experiencia visual consistente y sin alteraciones.
+- **Identificador Superior de Vista Previa:** Se ha añadido el rótulo superior *"Código QR creado:"* arriba del visor del código QR para una visualización más intuitiva y clara.
+- **Botones de Acción Claros y Directos:** Se han simplificado los botones de acción post-generación mostrando únicamente los textos *"Personalizar"* y *"Descargar"*, logrando una experiencia más limpia y directa.
+- **Apertura Instantánea del Perfil de Usuario:** Ahora puedes consultar tus datos de perfil, plan activo y balance de créditos con un solo clic sobre tu nombre o avatar de forma fluida, sin parpadeos ni recargas involuntarias de la página.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas inmediatas y renderizado ágil en todos los dispositivos con transferencia de datos ultraligera.
+
+---
+
 ## [v1.9.4] — 2026-11-12
 ### 🍸 Plantilla "Happy Hour" Predeterminada y Título Personalizable en el Mini-Editor
 

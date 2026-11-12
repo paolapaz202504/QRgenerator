@@ -59,16 +59,39 @@ class Application {
     window.userModalInstance = this.userModal;
     window.planModalInstance = this.planModal;
 
-    // Detectar si el usuario navegó solicitando abrir perfil (?profile=1) o login (?login=1)
+    // Detectar si el usuario navegó solicitando abrir perfil (?profile=1), login (?login=1) o planes (?plans=1)
     const initUrlParams = new URLSearchParams(window.location.search);
     if (initUrlParams.get('profile') === '1') {
       setTimeout(() => {
-        if (this.profileModal) this.profileModal.openModal();
+        if (this.profileModal && typeof this.profileModal.openModal === 'function') {
+          this.profileModal.openModal();
+          initUrlParams.delete('profile');
+          const cleanQuery = initUrlParams.toString();
+          const cleanUrl = window.location.pathname + (cleanQuery ? `?${cleanQuery}` : '') + window.location.hash;
+          window.history.replaceState({}, document.title, cleanUrl);
+        }
       }, 350);
     }
     if (initUrlParams.get('login') === '1') {
       setTimeout(() => {
-        if (this.userModal) this.userModal.openModal();
+        if (this.userModal && typeof this.userModal.openModal === 'function') {
+          this.userModal.openModal();
+          initUrlParams.delete('login');
+          const cleanQuery = initUrlParams.toString();
+          const cleanUrl = window.location.pathname + (cleanQuery ? `?${cleanQuery}` : '') + window.location.hash;
+          window.history.replaceState({}, document.title, cleanUrl);
+        }
+      }, 350);
+    }
+    if (initUrlParams.get('plans') === '1') {
+      setTimeout(() => {
+        if (this.planModal && typeof this.planModal.openModal === 'function') {
+          this.planModal.openModal();
+          initUrlParams.delete('plans');
+          const cleanQuery = initUrlParams.toString();
+          const cleanUrl = window.location.pathname + (cleanQuery ? `?${cleanQuery}` : '') + window.location.hash;
+          window.history.replaceState({}, document.title, cleanUrl);
+        }
       }, 350);
     }
 
@@ -99,12 +122,13 @@ class Application {
       const queryUrl = urlParams.get('url');
       const presetParam = urlParams.get('preset');
       const queryTitle = urlParams.get('title');
+      const queryDesignId = urlParams.get('designId');
 
       let initialCategory = 'Gastronomía';
       let initialTitle = 'Menú Digital';
       let initialBanner = 'Escanéame';
 
-      // Soporte Handoff desde Mini-Editor (?url=...&preset=...&title=...)
+      // Soporte Handoff desde Mini-Editor (?url=...&preset=...&title=...&designId=...)
       if (presetParam) {
         const pLower = presetParam.toLowerCase().trim();
         if (pLower === 'restaurante') {
@@ -113,16 +137,16 @@ class Application {
           initialBanner = 'HAPPY HOUR';
         } else if (pLower === 'salon') {
           initialCategory = 'Belleza';
-          initialTitle = queryTitle ? queryTitle.trim() : 'Citas & Salón';
-          initialBanner = 'RESERVAS';
+          initialTitle = queryTitle ? queryTitle.trim() : 'Spa & Relax';
+          initialBanner = 'SPA & RELAX';
         } else if (pLower === 'comercio') {
           initialCategory = 'Compras';
-          initialTitle = queryTitle ? queryTitle.trim() : 'WiFi & Tienda';
-          initialBanner = 'CONÉCTATE';
+          initialTitle = queryTitle ? queryTitle.trim() : 'Oferta Hoy';
+          initialBanner = 'OFERTA HOY';
         } else if (pLower === 'generico') {
-          initialCategory = 'Gastronomía';
-          initialTitle = queryTitle ? queryTitle.trim() : 'Mi Código QR';
-          initialBanner = 'ESCANÉAME';
+          initialCategory = 'Música y Arte';
+          initialTitle = queryTitle ? queryTitle.trim() : 'Arte & Diseño';
+          initialBanner = 'ARTE & DISEÑO';
         }
       } else if (catParam && res.categories) {
         const found = res.categories.find(c => c.toLowerCase() === catParam.toLowerCase());
@@ -131,12 +155,24 @@ class Application {
         initialCategory = res.categories[0];
       }
 
-      // Buscar el diseño idóneo según la categoría seleccionada (Priorizando "Happy Hour" para Restaurante)
+      // Buscar el diseño idóneo según la categoría y preset seleccionados
       let initialDesign = res.designs.length ? { ...res.designs[0] } : null;
-      if (initialCategory && res.designs) {
+      if (queryDesignId && res.designs) {
+        const byId = res.designs.find(d => d.id === queryDesignId);
+        if (byId) initialDesign = { ...byId };
+      } else if (initialCategory && res.designs) {
         let matchingDesign = null;
-        if (presetParam && presetParam.toLowerCase().trim() === 'restaurante') {
-          matchingDesign = res.designs.find(d => d.id === 'design-gastronomia-6' || (d.category === 'Gastronomía' && d.name.toLowerCase().includes('happy hour')));
+        if (presetParam) {
+          const p = presetParam.toLowerCase().trim();
+          if (p === 'restaurante') {
+            matchingDesign = res.designs.find(d => d.id === 'design-gastronomia-6' || (d.category === 'Gastronomía' && d.name.toLowerCase().includes('happy hour')));
+          } else if (p === 'salon') {
+            matchingDesign = res.designs.find(d => d.id === 'design-belleza-2' || (d.category === 'Belleza' && (d.bannerText === 'SPA & RELAX' || d.name.toLowerCase().includes('spa'))));
+          } else if (p === 'comercio') {
+            matchingDesign = res.designs.find(d => d.id === 'design-compras-7' || (d.category === 'Compras' && (d.bannerText === 'OFERTA HOY' || d.name.toLowerCase().includes('oferta'))));
+          } else if (p === 'generico') {
+            matchingDesign = res.designs.find(d => d.id === 'design-musicayarte-10' || (d.category === 'Música y Arte' && (d.bannerText === 'ARTE & DISEÑO' || d.name.toLowerCase().includes('arte'))));
+          }
         }
         if (!matchingDesign) {
           matchingDesign = res.designs.find(d => d.category === initialCategory);

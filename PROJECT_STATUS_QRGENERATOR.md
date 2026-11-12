@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.9.4`  
+**Versión Actual:** `v1.9.5`  
 **Última Actualización:** 12 de Noviembre de 2026  
-**Estado General:** 🟢 Plantilla "Happy Hour" Predeterminada en Gastronomía, Cuadro de Texto de Título y Generación Integrada con Rótulo en Mini-Editor v1.9.4 (39/39 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
+**Estado General:** 🟢 Plantillas Desacopladas Persistentes 1:1 en Mini-Editor ("Happy Hour", "Spa & Relax", "Oferta Hoy", "Arte & Diseño"), Título "Código QR creado:" y Botones "Personalizar" / "Descargar" v1.9.5 (39/39 Pruebas QA Aprobadas al 100%)
 
 ---
 
@@ -11,11 +11,11 @@
 
 ```mermaid
 flowchart LR
-    A["Hero de Propuesta de Valor\n(Marketing claro en 5 segundos)"] --> B["Mini-Editor con Título y Enlace\n(Plantilla 'Happy Hour' en Restaurantes)"]
-    B --> C["Generación Instantánea de Demo\n(QR con título asignado sin restricciones)"]
-    C --> D["Handoff Fluido a /editor\n(?url=...&preset=...&title=...)"]
-    D --> E["Editor Completo Precargado\n(Plantilla Happy Hour y título listos)"]
-    E --> F["🚀 QRbey SaaS v1.9.4: Despliegue a Producción OnRender"]
+    A["Hero de Propuesta de Valor\n(Marketing claro en 5 segundos)"] --> B["Mini-Editor con 4 Plantillas 1:1\n(Happy Hour, Spa & Relax, Oferta Hoy, Arte & Diseño)"]
+    B --> C["Generación Instantánea de Demo\n(QR con título asignado y estilo visual exacto)"]
+    C --> D["Handoff Fluido a /editor\n(?url=...&preset=...&title=...&designId=...)"]
+    D --> E["Editor Completo Precargado\n(Plantilla exacta y título listos)"]
+    E --> F["🚀 QRbey SaaS v1.9.5: Despliegue a Producción OnRender"]
     
     style A fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style B fill:#dcfce7,stroke:#16a34a,stroke-width:2px

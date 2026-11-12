@@ -4,24 +4,7 @@ import { appState } from '../state/AppState.js';
 export class ProfileModal extends UIComponent {
   constructor() {
     super('user-profile-modal');
-
-    this.btnOpenProfile = document.getElementById('btn-open-profile');
-    this.userProfileWidget = document.getElementById('user-profile-widget');
-    this.userAvatarHeader = document.getElementById('user-avatar');
-    this.userNameHeader = document.getElementById('user-name');
-
-    this.btnCloseProfile = document.getElementById('btn-close-profile-modal');
-    this.btnProfileChangePlan = document.getElementById('btn-profile-change-plan');
-    this.btnProfileLogout = document.getElementById('btn-profile-logout');
-
-    this.profileAvatar = document.getElementById('profile-modal-avatar');
-    this.profileName = document.getElementById('profile-modal-name');
-    this.profileEmail = document.getElementById('profile-modal-email');
-    this.profilePlan = document.getElementById('profile-modal-plan');
-    this.profileExpiration = document.getElementById('profile-modal-expiration');
-    this.profileCredits = document.getElementById('profile-modal-credits');
-    this.profileDownloads = document.getElementById('profile-modal-downloads');
-    this.profileProvider = document.getElementById('profile-modal-provider');
+    this.initElements();
 
     appState.subscribe((state, eventKey) => {
       if (['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'PLAN_UPDATED', 'DOWNLOAD_TRACKED', 'CREDIT_USED', 'INIT_DATA'].includes(eventKey)) {
@@ -30,47 +13,128 @@ export class ProfileModal extends UIComponent {
     });
   }
 
+  initElements() {
+    if (!this.container) this.container = document.getElementById('user-profile-modal');
+    if (!this.btnOpenProfile) this.btnOpenProfile = document.getElementById('btn-open-profile');
+    if (!this.userProfileWidget) this.userProfileWidget = document.getElementById('user-profile-widget');
+    if (!this.userAvatarHeader) this.userAvatarHeader = document.getElementById('user-avatar');
+    if (!this.userNameHeader) this.userNameHeader = document.getElementById('user-name');
+
+    if (!this.btnCloseProfile) this.btnCloseProfile = document.getElementById('btn-close-profile-modal');
+    if (!this.btnProfileChangePlan) this.btnProfileChangePlan = document.getElementById('btn-profile-change-plan');
+    if (!this.btnProfileLogout) this.btnProfileLogout = document.getElementById('btn-profile-logout');
+
+    if (!this.profileAvatar) this.profileAvatar = document.getElementById('profile-modal-avatar');
+    if (!this.profileName) this.profileName = document.getElementById('profile-modal-name');
+    if (!this.profileEmail) this.profileEmail = document.getElementById('profile-modal-email');
+    if (!this.profilePlan) this.profilePlan = document.getElementById('profile-modal-plan');
+    if (!this.profileExpiration) this.profileExpiration = document.getElementById('profile-modal-expiration');
+    if (!this.profileCredits) this.profileCredits = document.getElementById('profile-modal-credits');
+    if (!this.profileDownloads) this.profileDownloads = document.getElementById('profile-modal-downloads');
+    if (!this.profileProvider) this.profileProvider = document.getElementById('profile-modal-provider');
+  }
+
+  async openModal() {
+    this.initElements();
+    const state = appState.getState();
+    const currentUser = state.user || (() => {
+      try {
+        const saved = localStorage.getItem('oauth_user');
+        return saved ? JSON.parse(saved) : null;
+      } catch (e) {
+        return null;
+      }
+    })();
+
+    if (currentUser && (currentUser.email || currentUser.name)) {
+      if (currentUser.email) {
+        try {
+          const { ApiService } = await import('../services/ApiService.js');
+          const res = await ApiService.getUserStats(currentUser.email);
+          if (res && res.success && res.userStats) {
+            const updated = { ...currentUser, ...res.userStats };
+            appState.setState({ user: updated }, 'PLAN_UPDATED');
+            try {
+              localStorage.setItem('oauth_user', JSON.stringify(updated));
+            } catch (e) {}
+          }
+        } catch (e) {
+          console.warn('[ProfileModal] Error refrescando perfil desde servidor:', e);
+        }
+      }
+      this.renderProfile(appState.getState().user || currentUser);
+      if (this.container) {
+        this.container.classList.remove('hidden');
+      }
+    } else {
+      const oauthModal = document.getElementById('oauth-modal');
+      if (oauthModal) {
+        oauthModal.classList.remove('hidden');
+      } else if (window.userModalInstance && typeof window.userModalInstance.openModal === 'function') {
+        window.userModalInstance.openModal();
+      }
+    }
+  }
+
+  closeModal() {
+    this.initElements();
+    if (this.container) {
+      this.container.classList.add('hidden');
+    }
+  }
+
   bindEvents() {
+    this.initElements();
+
     [this.btnOpenProfile, this.userProfileWidget, this.userAvatarHeader, this.userNameHeader].forEach(el => {
       if (el) {
-        el.addEventListener('click', async () => {
-          const state = appState.getState();
-          if (state.user && state.user.email) {
-            try {
-              const { ApiService } = await import('../services/ApiService.js');
-              const res = await ApiService.getUserStats(state.user.email);
-              if (res.success && res.userStats) {
-                appState.setState({ user: { ...state.user, ...res.userStats } }, 'PLAN_UPDATED');
-              }
-            } catch (e) {
-              console.warn('Error refrescando perfil desde servidor:', e);
-            }
-            this.renderProfile(appState.getState().user);
-            if (this.container) this.container.classList.remove('hidden');
-          } else {
-            const oauthModal = document.getElementById('oauth-modal');
-            if (oauthModal) oauthModal.classList.remove('hidden');
+        el.addEventListener('click', async (e) => {
+          if (e) {
+            e.preventDefault();
+            e.stopPropagation();
           }
+          await this.openModal();
         });
       }
     });
 
     if (this.btnCloseProfile) {
-      this.btnCloseProfile.addEventListener('click', () => {
-        if (this.container) this.container.classList.add('hidden');
+      this.btnCloseProfile.addEventListener('click', (e) => {
+        if (e) e.preventDefault();
+        this.closeModal();
       });
     }
 
+    if (this.container) {
+      this.container.addEventListener('click', (e) => {
+        if (e.target === this.container) {
+          this.closeModal();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.container && !this.container.classList.contains('hidden')) {
+        this.closeModal();
+      }
+    });
+
     if (this.btnProfileChangePlan) {
-      this.btnProfileChangePlan.addEventListener('click', () => {
-        if (this.container) this.container.classList.add('hidden');
-        const planModal = document.getElementById('plan-modal');
-        if (planModal) planModal.classList.remove('hidden');
+      this.btnProfileChangePlan.addEventListener('click', (e) => {
+        if (e) e.preventDefault();
+        this.closeModal();
+        if (window.planModalInstance && typeof window.planModalInstance.openModal === 'function') {
+          window.planModalInstance.openModal();
+        } else {
+          const planModal = document.getElementById('plan-modal');
+          if (planModal) planModal.classList.remove('hidden');
+        }
       });
     }
 
     if (this.btnProfileLogout) {
-      this.btnProfileLogout.addEventListener('click', async () => {
+      this.btnProfileLogout.addEventListener('click', async (e) => {
+        if (e) e.preventDefault();
         const { ModalService } = await import('../services/ModalService.js');
         const confirmed = await ModalService.confirm({
           title: '¿Cerrar Sesión?',
@@ -81,7 +145,7 @@ export class ProfileModal extends UIComponent {
           type: 'danger'
         });
         if (confirmed) {
-          if (this.container) this.container.classList.add('hidden');
+          this.closeModal();
           appState.setState({ user: null }, 'USER_LOGGED_OUT');
         }
       });

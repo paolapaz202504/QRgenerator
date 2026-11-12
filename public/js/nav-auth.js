@@ -28,11 +28,33 @@
         userWidget.classList.remove('hidden');
         userWidget.classList.add('flex');
         userWidget.onclick = (e) => {
-          if (window.profileModalInstance && typeof window.profileModalInstance.openModal === 'function') {
+          if (e) {
             e.preventDefault();
+            e.stopPropagation();
+          }
+          if (window.profileModalInstance && typeof window.profileModalInstance.openModal === 'function') {
             window.profileModalInstance.openModal();
           } else {
-            window.location.href = '/?profile=1';
+            const isSpa = window.location.pathname === '/' || 
+                          window.location.pathname === '' || 
+                          window.location.pathname.endsWith('index.html') ||
+                          window.location.pathname.endsWith('editor.html') ||
+                          window.location.pathname === '/editor';
+            if (isSpa) {
+              let attempts = 0;
+              const interval = setInterval(() => {
+                attempts++;
+                if (window.profileModalInstance && typeof window.profileModalInstance.openModal === 'function') {
+                  clearInterval(interval);
+                  window.profileModalInstance.openModal();
+                } else if (attempts > 20) {
+                  clearInterval(interval);
+                  console.warn('[nav-auth] profileModalInstance initialization timeout');
+                }
+              }, 100);
+            } else {
+              window.location.href = '/?profile=1';
+            }
           }
         };
       }
@@ -53,11 +75,33 @@
       if (btnOpenOAuth) {
         btnOpenOAuth.classList.remove('hidden');
         btnOpenOAuth.onclick = (e) => {
-          if (window.userModalInstance && typeof window.userModalInstance.openModal === 'function') {
+          if (e) {
             e.preventDefault();
+            e.stopPropagation();
+          }
+          if (window.userModalInstance && typeof window.userModalInstance.openModal === 'function') {
             window.userModalInstance.openModal();
           } else {
-            window.location.href = '/?login=1';
+            const isSpa = window.location.pathname === '/' || 
+                          window.location.pathname === '' || 
+                          window.location.pathname.endsWith('index.html') ||
+                          window.location.pathname.endsWith('editor.html') ||
+                          window.location.pathname === '/editor';
+            if (isSpa) {
+              let attempts = 0;
+              const interval = setInterval(() => {
+                attempts++;
+                if (window.userModalInstance && typeof window.userModalInstance.openModal === 'function') {
+                  clearInterval(interval);
+                  window.userModalInstance.openModal();
+                } else if (attempts > 20) {
+                  clearInterval(interval);
+                  console.warn('[nav-auth] userModalInstance initialization timeout');
+                }
+              }, 100);
+            } else {
+              window.location.href = '/?login=1';
+            }
           }
         };
       }

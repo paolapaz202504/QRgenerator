@@ -31,11 +31,12 @@ class UserController {
     if (userEmail) {
       const user = userRepository.findByEmail(userEmail);
       if (user) {
-        const userHistory = await historyRepository.getUserHistory(userEmail);
+        const includeHistory = req.query.includeHistory === 'true';
+        const userHistory = includeHistory ? await historyRepository.getUserHistory(userEmail) : undefined;
         const planConfig = config.getPlanConfig(user.plan || 'free');
         user.maxCredits = planConfig.maxCredits;
         user.maxDownloads = planConfig.maxDownloads;
-        return res.json({
+        const responseData = {
           success: true,
           userStats: {
             email: user.email,
@@ -53,19 +54,26 @@ class UserController {
             planDurationMonths: user.planDurationMonths || 1,
             expirationDate: user.expirationDate || null
           },
-          history: userHistory,
           globalStats
-        });
+        };
+        if (includeHistory) {
+          responseData.history = userHistory;
+        }
+        return res.json(responseData);
       }
     }
 
-    const allHistory = historyRepository.getAllHistories();
-    res.json({
+    const includeHistory = req.query.includeHistory === 'true';
+    const allHistory = includeHistory ? historyRepository.getAllHistories() : undefined;
+    const anonymousResponse = {
       success: true,
       userStats: null,
-      history: allHistory,
       globalStats
-    });
+    };
+    if (includeHistory) {
+      anonymousResponse.history = allHistory;
+    }
+    res.json(anonymousResponse);
   }
 
   async upgradePlan(req, res) {

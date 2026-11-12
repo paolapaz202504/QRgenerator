@@ -41,36 +41,49 @@ export class PlanModal extends UIComponent {
     });
   }
 
+  async openModal() {
+    if (!this.container) this.container = document.getElementById('plan-modal');
+    const state = appState.getState();
+    if (state.user && state.user.email) {
+      try {
+        const res = await ApiService.getUserStats(state.user.email);
+        if (res.success && res.userStats) {
+          appState.setState({ user: { ...state.user, ...res.userStats } }, 'PLAN_UPDATED');
+        }
+      } catch (e) {
+        console.warn('Error refrescando stats al abrir planes:', e);
+      }
+    }
+    if (this.container) this.container.classList.remove('hidden');
+    AnalyticsService.trackPlanView('all');
+    this.updateDurationAndPrices();
+    this.updateActivePlanUI(appState.getState().user);
+  }
+
+  closeModal() {
+    if (!this.container) this.container = document.getElementById('plan-modal');
+    if (this.container) this.container.classList.add('hidden');
+  }
+
   bindEvents() {
     if (this.btnOpenPlans) {
-      this.btnOpenPlans.addEventListener('click', async () => {
-        const state = appState.getState();
-        if (state.user && state.user.email) {
-          try {
-            const res = await ApiService.getUserStats(state.user.email);
-            if (res.success && res.userStats) {
-              appState.setState({ user: { ...state.user, ...res.userStats } }, 'PLAN_UPDATED');
-            }
-          } catch (e) {
-            console.warn('Error refrescando stats al abrir planes:', e);
-          }
-        }
-        if (this.container) this.container.classList.remove('hidden');
-        AnalyticsService.trackPlanView('all');
-        this.updateDurationAndPrices();
-        this.updateActivePlanUI(appState.getState().user);
+      this.btnOpenPlans.addEventListener('click', (e) => {
+        if (e) e.preventDefault();
+        this.openModal();
       });
     }
 
     if (this.btnClosePlanModal) {
-      this.btnClosePlanModal.addEventListener('click', () => {
-        if (this.container) this.container.classList.add('hidden');
+      this.btnClosePlanModal.addEventListener('click', (e) => {
+        if (e) e.preventDefault();
+        this.closeModal();
       });
     }
 
     if (this.btnClosePlanFooter) {
-      this.btnClosePlanFooter.addEventListener('click', () => {
-        if (this.container) this.container.classList.add('hidden');
+      this.btnClosePlanFooter.addEventListener('click', (e) => {
+        if (e) e.preventDefault();
+        this.closeModal();
       });
     }
 
