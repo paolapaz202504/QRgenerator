@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.9.2';
+export const APP_VERSION = '1.9.3';
 
 export class ComponentLoader {
   /**
@@ -8,6 +8,7 @@ export class ComponentLoader {
     const components = [
       { id: 'header-container', file: './html/header.html' },
       { id: 'hero-banner-container', file: './html/hero-banner.html' },
+      { id: 'mini-editor-container', file: './html/mini-editor.html' },
       { id: 'step3-container', file: './html/step3-design.html' },
       { id: 'step1-container', file: './html/step1-info.html' },
       { id: 'step2-container', file: './html/step2-icon.html' },

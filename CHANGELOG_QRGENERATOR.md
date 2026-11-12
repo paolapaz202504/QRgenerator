@@ -4,6 +4,18 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.3] — 2026-11-12
+### ⚡ Mini-Editor Interactivo Gratuito en la Portada y Demostración en Vivo
+
+#### Novedades y Mejoras
+- **Nuevo Mini-Editor Demostrativo en la Página de Inicio:** Ahora puedes probar la creación de códigos QR directamente en la portada sin necesidad de registrarte ni iniciar sesión. Escribe tu enlace web o menú y visualiza el código QR generado en tiempo real.
+- **Selector Rápido de Sector:** Elige con un solo clic el tipo de negocio que deseas representar (Restaurante, Salón, Comercio o General) para que tu código QR se genere con el estilo adecuado.
+- **Personalización sin Perder tu Trabajo:** Al hacer clic en "Personalizar", el sistema traslada automáticamente tu enlace y el estilo seleccionado al Editor Completo para que continúes refinándolo con colores, logotipos y marcos avanzados sin tener que volver a escribir nada.
+- **Descarga Inmediata en Formato PNG:** Descarga de forma directa el código QR generado en la demostración para comprobar su legibilidad y nitidez al instante.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas inmediatas y generación fluida de códigos QR en menos de tres segundos.
+
+---
+
 ## [v1.9.2] — 2026-11-12
 ### 🚀 Menú Principal Consistente y Secuencial, Acceso Directo a Contacto y Persistencia de Usuario
 

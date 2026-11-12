@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.9.2`  
+**Versión Actual:** `v1.9.3`  
 **Última Actualización:** 12 de Noviembre de 2026  
-**Estado General:** 🟢 Orden Secuencial Estricto de Menú (Inicio ➔ Soluciones ➔ Editor ➔ Precios ➔ Nosotros ➔ Ayuda ➔ Contacto), Persistencia Universal de Usuario en Navbar (`nav-auth.js`) y Redirección a Contacto en Nosotros v1.9.2 (38/38 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
+**Estado General:** 🟢 Mini-Editor Interactivo Gratuito en la Home (Demostración sin Registro), Handoff a /editor (?url=...&preset=...) y Descarga PNG v1.9.3 (39/39 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
 
 ---
 
@@ -11,11 +11,11 @@
 
 ```mermaid
 flowchart LR
-    A["Orden Secuencial del Menú\n(Inicio ➔ Soluciones ➔ Editor ➔ Precios ➔ Nosotros ➔ Ayuda ➔ Contacto)"] --> B["Persistencia Universal de Usuario\n(nav-auth.js en Todas las Páginas)"]
-    B --> C["Widget de Perfil / Botón Ingreso\n(Sincronizado en Contacto y Secundarias)"]
-    C --> D["Enlace a Contacto en Nosotros\n(Redirección Directa a /contacto)"]
-    D --> E["Certificación QA & DoD\n(38/38 Pruebas Pasadas al 100%)"]
-    E --> F["🚀 QRbey SaaS v1.9.2: Despliegue a Producción OnRender"]
+    A["Hero de Propuesta de Valor\n(Marketing claro en 5 segundos)"] --> B["Mini-Editor en Home\n(Prueba instantánea gratuita)"]
+    B --> C["Handoff Fluido a /editor\n(?url=...&preset=...)"]
+    C --> D["Editor Completo Precargado\n(Estilo y URL listos para personalizar)"]
+    D --> E["Certificación QA & DoD\n(39/39 Pruebas Pasadas al 100%)"]
+    E --> F["🚀 QRbey SaaS v1.9.3: Despliegue a Producción OnRender"]
     
     style A fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style B fill:#dcfce7,stroke:#16a34a,stroke-width:2px

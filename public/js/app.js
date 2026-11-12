@@ -11,6 +11,7 @@ import { PlanModal } from './components/PlanModal.js';
 import { ProfileModal } from './components/ProfileModal.js';
 import { HeroBanner } from './components/HeroBanner.js';
 import { FaqSection } from './components/FaqSection.js';
+import { MiniEditor } from './components/MiniEditor.js';
 
 class Application {
   async init() {
@@ -21,6 +22,7 @@ class Application {
 
     // 2. Instantiate and mount UI Component controllers after DOM is populated
     this.heroBanner = new HeroBanner();
+    this.miniEditor = new MiniEditor();
     this.designPicker = new DesignPicker();
     this.iconPicker = new IconPicker();
     this.colorCustomizer = new ColorCustomizer();
@@ -41,6 +43,7 @@ class Application {
 
     // Mount UI Components
     this.heroBanner.mount();
+    this.miniEditor.mount();
     this.designPicker.mount();
     this.iconPicker.mount();
     this.colorCustomizer.mount();
@@ -93,30 +96,82 @@ class Application {
     if (res.success) {
       const urlParams = new URLSearchParams(window.location.search);
       const catParam = urlParams.get('cat');
+      const queryUrl = urlParams.get('url');
+      const presetParam = urlParams.get('preset');
+
       let initialCategory = 'Gastronomía';
-      
-      if (catParam && res.categories) {
+      let initialTitle = 'Menú Digital';
+      let initialBanner = 'Escanéame';
+
+      // Soporte Handoff desde Mini-Editor (?url=...&preset=...)
+      if (presetParam) {
+        const pLower = presetParam.toLowerCase().trim();
+        if (pLower === 'restaurante') {
+          initialCategory = 'Gastronomía';
+          initialTitle = 'Menú Restaurante';
+          initialBanner = 'MENÚ';
+        } else if (pLower === 'salon') {
+          initialCategory = 'Belleza';
+          initialTitle = 'Citas & Salón';
+          initialBanner = 'RESERVAS';
+        } else if (pLower === 'comercio') {
+          initialCategory = 'Compras';
+          initialTitle = 'WiFi & Tienda';
+          initialBanner = 'CONÉCTATE';
+        } else if (pLower === 'generico') {
+          initialCategory = 'Gastronomía';
+          initialTitle = 'Mi Código QR';
+          initialBanner = 'ESCANÉAME';
+        }
+      } else if (catParam && res.categories) {
         const found = res.categories.find(c => c.toLowerCase() === catParam.toLowerCase());
         if (found) initialCategory = found;
       } else if (res.categories && res.categories.length) {
         initialCategory = res.categories[0];
       }
 
+      // Buscar el diseño idóneo según la categoría seleccionada
+      let initialDesign = res.designs.length ? { ...res.designs[0] } : null;
+      if (initialCategory && res.designs) {
+        const matchingDesign = res.designs.find(d => d.category === initialCategory);
+        if (matchingDesign) initialDesign = { ...matchingDesign };
+      }
+
+      const initialUrl = queryUrl ? queryUrl.trim() : 'https://qrbey.com';
+
       appState.setState({
         categories: res.categories || [],
         designs: res.designs || [],
         patterns: res.patterns || [],
-        currentDesign: res.designs.length ? { ...res.designs[0] } : null,
-        activeCategory: initialCategory
+        currentDesign: initialDesign,
+        activeCategory: initialCategory,
+        url: initialUrl,
+        title: initialTitle,
+        bannerText: initialBanner
       }, 'INIT_DATA');
 
-      // Si el usuario navegó con ?cat= o #step1-container, hacer scroll al generador
-      if (catParam || window.location.hash === '#step1-container') {
+      // Sincronizar inputs del formulario si se pasaron parámetros por query string
+      if (queryUrl || presetParam || catParam || window.location.hash === '#step1-container') {
         setTimeout(() => {
-          const step1 = document.getElementById('step1-container');
-          if (step1) {
-            step1.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            const inputUrl = document.getElementById('qr-url');
+          const inputUrl = document.getElementById('qr-url');
+          if (inputUrl && queryUrl) {
+            inputUrl.value = queryUrl.trim();
+          }
+
+          const inputTitle = document.getElementById('qr-title');
+          if (inputTitle && initialTitle) {
+            inputTitle.value = initialTitle;
+          }
+
+          const inputBanner = document.getElementById('qr-banner-text');
+          if (inputBanner && initialBanner) {
+            inputBanner.value = initialBanner;
+          }
+
+          // Si estamos en /editor o hay parámetros de handoff, hacer scroll suave al generador
+          const targetSection = document.getElementById('editor') || document.getElementById('step1-container');
+          if (targetSection && (queryUrl || presetParam || catParam)) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             if (inputUrl) inputUrl.focus();
           }
         }, 300);

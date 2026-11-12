@@ -1201,6 +1201,70 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 39: Mini-Editor en Home (Demostración Gratuita sin Registro) y Handoff hacia /editor
+  await test('Mini-Editor: Demostración en Home entre Hero y Cómo Funciona, estados y Handoff hacia /editor', async () => {
+    const fs = require('fs');
+    const indexHtml = fs.readFileSync('public/index.html', 'utf8');
+
+    // 1. Ubicación estricta: entre #hero y #como-funciona
+    const posHero = indexHtml.indexOf('id="hero"');
+    const posMiniEditor = indexHtml.indexOf('id="mini-editor"');
+    const posComoFunciona = indexHtml.indexOf('id="como-funciona"');
+
+    if (posHero === -1 || posMiniEditor === -1 || posComoFunciona === -1) {
+      throw new Error('Falta id="hero", id="mini-editor" o id="como-funciona" en public/index.html');
+    }
+
+    if (!(posHero < posMiniEditor && posMiniEditor < posComoFunciona)) {
+      throw new Error('El Mini-Editor debe ubicarse estrictamente después del Hero y antes de Cómo funciona');
+    }
+
+    // 2. Elementos obligatorios y accesibilidad en el Mini-Editor
+    if (!indexHtml.includes('id="mini-qr-input"') || !indexHtml.includes('id="mini-qr-btn"')) {
+      throw new Error('El Mini-Editor no contiene el input #mini-qr-input o el botón #mini-qr-btn');
+    }
+    if (!indexHtml.includes('aria-live="polite"') || !indexHtml.includes('id="mini-result"')) {
+      throw new Error('El contenedor de resultado #mini-result debe incluir aria-live="polite" para accesibilidad');
+    }
+    if (!indexHtml.includes('id="mini-btn-customize"') || !indexHtml.includes('id="mini-btn-download"')) {
+      throw new Error('El Mini-Editor no contiene los botones de acción #mini-btn-customize y #mini-btn-download');
+    }
+
+    // 3. Chips de presets de negocio presentes
+    const presets = ['restaurante', 'salon', 'comercio', 'generico'];
+    for (const p of presets) {
+      if (!indexHtml.includes(`data-preset="${p}"`)) {
+        throw new Error(`El chip para el preset "${p}" no está presente en el Mini-Editor`);
+      }
+    }
+
+    // 4. Componente JS MiniEditor.js existe y maneja normalización y handoff
+    const miniEditorJs = fs.readFileSync('public/js/components/MiniEditor.js', 'utf8');
+    if (!miniEditorJs.includes('normalizeUrl') || !miniEditorJs.includes('https://')) {
+      throw new Error('MiniEditor.js debe implementar normalización automática con https://');
+    }
+    if (!miniEditorJs.includes('/editor?url=') || !miniEditorJs.includes('preset=')) {
+      throw new Error('MiniEditor.js debe construir el enlace de handoff hacia /editor?url=...&preset=...');
+    }
+
+    // 5. Soporte en app.js para leer y precargar ?url= y ?preset= en /editor
+    const appJs = fs.readFileSync('public/js/app.js', 'utf8');
+    if (!appJs.includes("urlParams.get('url')") || !appJs.includes("urlParams.get('preset')")) {
+      throw new Error('app.js debe leer los parámetros query url y preset');
+    }
+
+    // 6. Verificación de generación de QR anónima en endpoint /api/generate
+    const demoGenRes = await makeRequest('/api/generate', 'POST', {
+      url: 'https://mirestaurante.com/menu',
+      isExplicitGenerate: false,
+      designId: 'design-gastronomia-1',
+      targetWidth: 400
+    });
+    if (demoGenRes.statusCode !== 200 || !demoGenRes.headers['content-type'].includes('image/png')) {
+      throw new Error(`Generación anónima falló: HTTP ${demoGenRes.statusCode}`);
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');
