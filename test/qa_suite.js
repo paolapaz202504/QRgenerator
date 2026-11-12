@@ -1317,6 +1317,49 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 41: Ejemplos de Códigos QR Estáticos en Home (Restaurantes, Salones, Comercios, General)
+  await test('Muestrario de Códigos QR Estáticos en Home: Existencia y Marcado Responsivo en #hero', async () => {
+    const fs = require('fs');
+
+    const sampleImages = [
+      'public/img/qr_restaurante.png',
+      'public/img/qr_salon.png',
+      'public/img/qr_comercios.png',
+      'public/img/qr_general.png'
+    ];
+
+    // 1. Verificación de existencia y tamaño de archivos físicos
+    for (const imgPath of sampleImages) {
+      if (!fs.existsSync(imgPath)) {
+        throw new Error(`Falta el archivo de imagen de ejemplo requerido: ${imgPath}`);
+      }
+      const stat = fs.statSync(imgPath);
+      if (stat.size < 10000) {
+        throw new Error(`El archivo ${imgPath} tiene un tamaño sospechosamente pequeño (${stat.size} bytes)`);
+      }
+    }
+
+    // 2. Verificación de marcado en public/index.html
+    const indexHtml = fs.readFileSync('public/index.html', 'utf8');
+    if (!indexHtml.includes('/img/qr_restaurante.png') || !indexHtml.includes('/img/qr_salon.png') || 
+        !indexHtml.includes('/img/qr_comercios.png') || !indexHtml.includes('/img/qr_general.png')) {
+      throw new Error('public/index.html debe incluir los 4 ejemplos de códigos QR estáticos dentro de #hero');
+    }
+
+    // 3. Verificación de marcado en public/html/hero.html
+    const heroHtml = fs.readFileSync('public/html/hero.html', 'utf8');
+    if (!heroHtml.includes('/img/qr_restaurante.png') || !heroHtml.includes('/img/qr_salon.png') || 
+        !heroHtml.includes('/img/qr_comercios.png') || !heroHtml.includes('/img/qr_general.png')) {
+      throw new Error('public/html/hero.html debe incluir los 4 ejemplos de códigos QR estáticos');
+    }
+
+    // 4. Verificación de respuesta HTTP del servidor estático para una de las imágenes
+    const imgRes = await makeRequest('/img/qr_restaurante.png', 'GET');
+    if (imgRes.statusCode !== 200 || !imgRes.headers['content-type'].includes('image/png')) {
+      throw new Error(`El endpoint estático /img/qr_restaurante.png devolvió status ${imgRes.statusCode}`);
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

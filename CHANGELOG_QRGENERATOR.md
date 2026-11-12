@@ -4,6 +4,20 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.8] — 2026-11-12
+### 🖼️ Muestrario de Códigos QR Listos para Escanear en la Portada Principal
+
+#### Novedades y Mejoras
+- **Ejemplos Visuales Reales por Sector:** Ahora puedes ver e interactuar con 4 ejemplos reales de códigos QR listos para escanear en la portada principal, diseñados para los principales tipos de negocio:
+  - **Restaurantes & Gastronomía:** Código QR con estilo festivo para menús digitales y promociones Happy Hour.
+  - **Salones de Belleza & Spa:** Código QR con marco elegante para reservas directas por WhatsApp y catálogo de tratamientos.
+  - **Comercios Locales:** Código QR con conexión WiFi en un toque y vitrina de ofertas 24/7.
+  - **General & Negocios:** Código QR profesional para tarjetas de presentación digitales y enlaces web corporativos.
+- **Insignia "Escanear" e Interacción Rápida:** Cada tarjeta incluye un acceso directo para probar el código con la cámara de tu móvil, explorar la guía especializada del sector o saltar directamente al editor con ese estilo preconfigurado.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Carga diferida (*lazy-loading*) de imágenes de alta definición y diseño totalmente adaptativo en teléfonos, tablets y computadoras.
+
+---
+
 ## [v1.9.7] — 2026-11-12
 ### 🌟 Galería de Íconos Vectoriales Completa y Control de Cierre Intuitivo en el Editor
 
