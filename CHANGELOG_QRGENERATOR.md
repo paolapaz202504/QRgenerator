@@ -4,6 +4,18 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.4] — 2026-11-12
+### 🍸 Plantilla "Happy Hour" Predeterminada y Título Personalizable en el Mini-Editor
+
+#### Novedades y Mejoras
+- **Plantilla Especializada "Happy Hour" para Restaurantes:** Al seleccionar el sector "Restaurante" en el mini-editor de la portada, el sistema utiliza de forma predeterminada el diseño y estilo exclusivo "Happy Hour" de la categoría Gastronomía, brindando una presentación visual elegante, festiva y atractiva para cartas digitales y promociones gastronómicas.
+- **Nuevo Campo para Escribir el Título:** Se ha incorporado una casilla de texto intuitiva en el mini-editor para que puedas definir el título que acompañará a tu código QR (por ejemplo, "Happy Hour", "Menú del Día" o el nombre de tu local) antes de crearlo.
+- **Generación Instantánea con Título Integrado:** Al presionar "Generar QR", el sistema genera tu código QR en base al enlace introducido y le asigna el título escrito, permitiéndote previsualizarlo y descargarlo de inmediato con su rótulo.
+- **Traslado Completo al Editor Avanzado:** Al hacer clic en "Personalizar", tanto tu enlace como el título seleccionado y la plantilla "Happy Hour" se transfieren automáticamente al editor completo para continuar afinando tu diseño.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas más ágiles en el generador y renderizado visual nítido en todo tipo de pantallas.
+
+---
+
 ## [v1.9.3] — 2026-11-12
 ### ⚡ Mini-Editor Interactivo Gratuito en la Portada y Demostración en Vivo
 

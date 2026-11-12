@@ -156,7 +156,7 @@
             <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
               class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
               <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
-              <span>v1.9.3</span>
+              <span>v1.9.4</span>
             </button>
           </div>
           <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>
@@ -459,14 +459,31 @@
         <!-- Formulario Input + Área de Resultado -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center bg-slate-900/70 border border-slate-800 rounded-2xl p-4 sm:p-6 backdrop-blur-md">
           <!-- Columna Izquierda: Input y Botón -->
-          <div class="md:col-span-7 space-y-4 text-left">
-            <div class="space-y-1.5">
-              <label for="mini-qr-input" class="sr-only">URL o texto para el código QR</label>
+          <div class="md:col-span-7 space-y-3.5 text-left">
+            <!-- Campo 1: Título del Código QR -->
+            <div class="space-y-1">
+              <label for="mini-qr-title" class="block text-xs font-semibold text-slate-200">
+                <i class="fa-solid fa-heading text-indigo-400 mr-1"></i> Título del Código QR
+              </label>
+              <div class="relative">
+                <input type="text" id="mini-qr-title" maxlength="60" value="Happy Hour" placeholder="Escribe el título (ej: Happy Hour)" 
+                  class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-2.5 pl-10 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent text-xs sm:text-sm font-medium transition" />
+                <div class="absolute left-3.5 top-2.5 text-slate-400 text-sm">
+                  <i class="fa-solid fa-font"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Campo 2: Enlace o Dirección Web -->
+            <div class="space-y-1">
+              <label for="mini-qr-input" class="block text-xs font-semibold text-slate-200">
+                <i class="fa-solid fa-link text-indigo-400 mr-1"></i> Enlace o Dirección Web
+              </label>
               <div class="relative">
                 <input type="text" id="mini-qr-input" maxlength="500" placeholder="Escribe tu web o enlace (ej: mirestaurante.com/menu)" 
-                  class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-3 pl-11 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent text-xs sm:text-sm font-medium transition" />
-                <div class="absolute left-3.5 top-3.5 text-slate-400 text-sm">
-                  <i class="fa-solid fa-link"></i>
+                  class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-2.5 pl-10 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent text-xs sm:text-sm font-medium transition" />
+                <div class="absolute left-3.5 top-2.5 text-slate-400 text-sm">
+                  <i class="fa-solid fa-globe"></i>
                 </div>
               </div>
               <p id="mini-qr-hint" class="text-[11px] text-slate-400 pl-1 flex items-center gap-1.5">
@@ -475,9 +492,9 @@
               </p>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="pt-1">
               <button id="mini-qr-btn" type="button" disabled
-                class="flex-1 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-xl transition shadow-md shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer active:scale-95">
+                class="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-xl transition shadow-md shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer active:scale-95">
                 <i class="fa-solid fa-bolt-lightning text-amber-300"></i>
                 <span id="mini-qr-btn-text">Generar QR</span>
               </button>
@@ -1159,7 +1176,7 @@
 
     <!-- Copyright y Versión Oficial -->
     <div class="pt-1 sm:pt-2 text-slate-400 text-[10px] sm:text-[11px]">
-      <p>© 2026 <strong>QRbey</strong> — Generador & Diseñador de Códigos QR Empresariales. Versión 1.9.3.</p>
+      <p>© 2026 <strong>QRbey</strong> — Generador & Diseñador de Códigos QR Empresariales. Versión 1.9.4.</p>
     </div>
   </div>
 </footer>

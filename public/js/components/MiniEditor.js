@@ -6,6 +6,7 @@
 export class MiniEditor {
   constructor() {
     this.section = null;
+    this.titleInput = null;
     this.input = null;
     this.btn = null;
     this.btnText = null;
@@ -29,6 +30,7 @@ export class MiniEditor {
     this.section = document.getElementById('mini-editor');
     if (!this.section) return;
 
+    this.titleInput = document.getElementById('mini-qr-title');
     this.input = document.getElementById('mini-qr-input');
     this.btn = document.getElementById('mini-qr-btn');
     this.btnText = document.getElementById('mini-qr-btn-text');
@@ -54,13 +56,17 @@ export class MiniEditor {
       }
     });
 
-    // 2. Tecla Enter ejecuta generación
-    this.input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        if (!this.btn.disabled && !this.isGenerating) {
-          this.generate();
-        }
+    // 2. Tecla Enter ejecuta generación desde URL o Título
+    [this.input, this.titleInput].forEach(inp => {
+      if (inp) {
+        inp.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            if (!this.btn.disabled && !this.isGenerating) {
+              this.generate();
+            }
+          }
+        });
       }
     });
 
@@ -100,9 +106,27 @@ export class MiniEditor {
       }
     });
 
+    // Asignar plantilla y título sugerido según sector
+    if (this.titleInput) {
+      if (preset === 'restaurante') {
+        this.titleInput.value = 'Happy Hour';
+        this.titleInput.placeholder = 'Escribe el título (ej: Happy Hour)';
+      } else if (preset === 'salon') {
+        this.titleInput.value = 'Citas & Salón';
+        this.titleInput.placeholder = 'Escribe el título (ej: Citas & Salón)';
+      } else if (preset === 'comercio') {
+        this.titleInput.value = 'WiFi & Tienda';
+        this.titleInput.placeholder = 'Escribe el título (ej: WiFi & Tienda)';
+      } else {
+        this.titleInput.value = 'Mi Código QR';
+        this.titleInput.placeholder = 'Escribe el título (ej: Mi Código QR)';
+      }
+    }
+
     // Actualizar enlace de personalización si ya hay URL
     if (this.currentUrl) {
-      this.updateCustomizeLink(this.currentUrl, this.currentPreset);
+      const titleVal = this.titleInput ? this.titleInput.value.trim() : '';
+      this.updateCustomizeLink(this.currentUrl, this.currentPreset, titleVal);
     }
   }
 
@@ -116,9 +140,10 @@ export class MiniEditor {
     return text;
   }
 
-  updateCustomizeLink(url, preset) {
+  updateCustomizeLink(url, preset, title = '') {
     if (this.btnCustomize) {
-      this.btnCustomize.href = `/editor?url=${encodeURIComponent(url)}&preset=${encodeURIComponent(preset)}`;
+      const titleParam = title ? `&title=${encodeURIComponent(title)}` : '';
+      this.btnCustomize.href = `/editor?url=${encodeURIComponent(url)}&preset=${encodeURIComponent(preset)}${titleParam}`;
     }
   }
 
@@ -130,6 +155,10 @@ export class MiniEditor {
       this.showError('El texto no debe superar los 500 caracteres para asegurar la escaneabilidad del código.');
       return;
     }
+
+    const titleVal = (this.titleInput && this.titleInput.value.trim()) 
+      ? this.titleInput.value.trim() 
+      : (this.currentPreset === 'restaurante' ? 'Happy Hour' : 'Mi Código QR');
 
     const normalizedUrl = this.normalizeUrl(rawVal);
     this.currentUrl = normalizedUrl;
@@ -150,10 +179,23 @@ export class MiniEditor {
     }, 5000);
 
     // Mapear preset a diseño predeterminado
-    let designId = 'design-gastronomia-1';
-    if (this.currentPreset === 'salon') designId = 'design-belleza-1';
-    else if (this.currentPreset === 'comercio') designId = 'design-compras-1';
-    else if (this.currentPreset === 'generico') designId = 'design-gastronomia-1';
+    // Para Restaurante: utiliza la plantilla predeterminada nombrada "Happy Hour" de la categoría "Gastronomía" (design-gastronomia-6)
+    let designId = 'design-gastronomia-6';
+    let bannerText = 'HAPPY HOUR';
+
+    if (this.currentPreset === 'restaurante') {
+      designId = 'design-gastronomia-6'; // Plantilla "Happy Hour" en Gastronomía
+      bannerText = 'HAPPY HOUR';
+    } else if (this.currentPreset === 'salon') {
+      designId = 'design-belleza-1';
+      bannerText = 'RESERVAS';
+    } else if (this.currentPreset === 'comercio') {
+      designId = 'design-compras-1';
+      bannerText = 'CONÉCTATE';
+    } else if (this.currentPreset === 'generico') {
+      designId = 'design-gastronomia-6';
+      bannerText = 'ESCANÉAME';
+    }
 
     try {
       const response = await fetch('/api/generate', {
@@ -161,6 +203,8 @@ export class MiniEditor {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           url: normalizedUrl,
+          title: titleVal,
+          bannerText: bannerText,
           isExplicitGenerate: false, // Vista previa gratuita sin autenticación ni consumo de cuota
           designId: designId,
           targetWidth: 500
@@ -182,7 +226,7 @@ export class MiniEditor {
 
       // Mostrar estado de éxito
       this.showSuccess(this.currentBlobUrl);
-      this.updateCustomizeLink(normalizedUrl, this.currentPreset);
+      this.updateCustomizeLink(normalizedUrl, this.currentPreset, titleVal);
 
     } catch (err) {
       clearTimeout(timeoutTimer);

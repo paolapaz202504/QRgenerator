@@ -1220,8 +1220,8 @@ async function runTestSuite() {
     }
 
     // 2. Elementos obligatorios y accesibilidad en el Mini-Editor
-    if (!indexHtml.includes('id="mini-qr-input"') || !indexHtml.includes('id="mini-qr-btn"')) {
-      throw new Error('El Mini-Editor no contiene el input #mini-qr-input o el botón #mini-qr-btn');
+    if (!indexHtml.includes('id="mini-qr-input"') || !indexHtml.includes('id="mini-qr-btn"') || !indexHtml.includes('id="mini-qr-title"')) {
+      throw new Error('El Mini-Editor no contiene los inputs #mini-qr-input, #mini-qr-title o el botón #mini-qr-btn');
     }
     if (!indexHtml.includes('aria-live="polite"') || !indexHtml.includes('id="mini-result"')) {
       throw new Error('El contenedor de resultado #mini-result debe incluir aria-live="polite" para accesibilidad');
@@ -1238,26 +1238,31 @@ async function runTestSuite() {
       }
     }
 
-    // 4. Componente JS MiniEditor.js existe y maneja normalización y handoff
+    // 4. Componente JS MiniEditor.js existe y maneja plantilla Happy Hour, título y handoff
     const miniEditorJs = fs.readFileSync('public/js/components/MiniEditor.js', 'utf8');
     if (!miniEditorJs.includes('normalizeUrl') || !miniEditorJs.includes('https://')) {
       throw new Error('MiniEditor.js debe implementar normalización automática con https://');
+    }
+    if (!miniEditorJs.includes('design-gastronomia-6') || !miniEditorJs.includes('Happy Hour')) {
+      throw new Error('MiniEditor.js debe utilizar la plantilla Happy Hour (design-gastronomia-6) para Restaurante');
     }
     if (!miniEditorJs.includes('/editor?url=') || !miniEditorJs.includes('preset=')) {
       throw new Error('MiniEditor.js debe construir el enlace de handoff hacia /editor?url=...&preset=...');
     }
 
-    // 5. Soporte en app.js para leer y precargar ?url= y ?preset= en /editor
+    // 5. Soporte en app.js para leer y precargar ?url=, ?preset= y ?title= en /editor
     const appJs = fs.readFileSync('public/js/app.js', 'utf8');
-    if (!appJs.includes("urlParams.get('url')") || !appJs.includes("urlParams.get('preset')")) {
-      throw new Error('app.js debe leer los parámetros query url y preset');
+    if (!appJs.includes("urlParams.get('url')") || !appJs.includes("urlParams.get('preset')") || !appJs.includes("urlParams.get('title')")) {
+      throw new Error('app.js debe leer los parámetros query url, preset y title');
     }
 
-    // 6. Verificación de generación de QR anónima en endpoint /api/generate
+    // 6. Verificación de generación de QR con plantilla Happy Hour y título asignado
     const demoGenRes = await makeRequest('/api/generate', 'POST', {
       url: 'https://mirestaurante.com/menu',
+      title: 'Happy Hour 2x1 en Cócteles',
+      bannerText: 'HAPPY HOUR',
       isExplicitGenerate: false,
-      designId: 'design-gastronomia-1',
+      designId: 'design-gastronomia-6',
       targetWidth: 400
     });
     if (demoGenRes.statusCode !== 200 || !demoGenRes.headers['content-type'].includes('image/png')) {

@@ -98,29 +98,30 @@ class Application {
       const catParam = urlParams.get('cat');
       const queryUrl = urlParams.get('url');
       const presetParam = urlParams.get('preset');
+      const queryTitle = urlParams.get('title');
 
       let initialCategory = 'Gastronomía';
       let initialTitle = 'Menú Digital';
       let initialBanner = 'Escanéame';
 
-      // Soporte Handoff desde Mini-Editor (?url=...&preset=...)
+      // Soporte Handoff desde Mini-Editor (?url=...&preset=...&title=...)
       if (presetParam) {
         const pLower = presetParam.toLowerCase().trim();
         if (pLower === 'restaurante') {
           initialCategory = 'Gastronomía';
-          initialTitle = 'Menú Restaurante';
-          initialBanner = 'MENÚ';
+          initialTitle = queryTitle ? queryTitle.trim() : 'Happy Hour';
+          initialBanner = 'HAPPY HOUR';
         } else if (pLower === 'salon') {
           initialCategory = 'Belleza';
-          initialTitle = 'Citas & Salón';
+          initialTitle = queryTitle ? queryTitle.trim() : 'Citas & Salón';
           initialBanner = 'RESERVAS';
         } else if (pLower === 'comercio') {
           initialCategory = 'Compras';
-          initialTitle = 'WiFi & Tienda';
+          initialTitle = queryTitle ? queryTitle.trim() : 'WiFi & Tienda';
           initialBanner = 'CONÉCTATE';
         } else if (pLower === 'generico') {
           initialCategory = 'Gastronomía';
-          initialTitle = 'Mi Código QR';
+          initialTitle = queryTitle ? queryTitle.trim() : 'Mi Código QR';
           initialBanner = 'ESCANÉAME';
         }
       } else if (catParam && res.categories) {
@@ -130,10 +131,16 @@ class Application {
         initialCategory = res.categories[0];
       }
 
-      // Buscar el diseño idóneo según la categoría seleccionada
+      // Buscar el diseño idóneo según la categoría seleccionada (Priorizando "Happy Hour" para Restaurante)
       let initialDesign = res.designs.length ? { ...res.designs[0] } : null;
       if (initialCategory && res.designs) {
-        const matchingDesign = res.designs.find(d => d.category === initialCategory);
+        let matchingDesign = null;
+        if (presetParam && presetParam.toLowerCase().trim() === 'restaurante') {
+          matchingDesign = res.designs.find(d => d.id === 'design-gastronomia-6' || (d.category === 'Gastronomía' && d.name.toLowerCase().includes('happy hour')));
+        }
+        if (!matchingDesign) {
+          matchingDesign = res.designs.find(d => d.category === initialCategory);
+        }
         if (matchingDesign) initialDesign = { ...matchingDesign };
       }
 

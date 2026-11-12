@@ -39,14 +39,14 @@ function post(url, payload) {
 }
 
 async function run() {
-  console.log('Verifying live production on https://qrbey.onrender.com/ for v1.9.3 ...');
+  console.log('Verifying live production on https://qrbey.onrender.com/ for v1.9.4 ...');
 
   // 1. Check /api/health
   const health = await get('https://qrbey.onrender.com/api/health');
   console.log('Health status:', health.status, 'Payload:', health.data.trim());
   const healthJson = JSON.parse(health.data);
-  if (healthJson.version !== '1.9.3') {
-    throw new Error(`Expected version 1.9.3 but got ${healthJson.version}`);
+  if (healthJson.version !== '1.9.4') {
+    throw new Error(`Expected version 1.9.4 but got ${healthJson.version}`);
   }
 
   // 2. Check Home / contains #mini-editor between #hero and #como-funciona
@@ -62,29 +62,32 @@ async function run() {
   if (!ordered) throw new Error('Mini-editor position failed in home HTML');
 
   console.log('Mini-Editor has #mini-qr-input:', home.data.includes('id="mini-qr-input"'));
+  console.log('Mini-Editor has #mini-qr-title:', home.data.includes('id="mini-qr-title"'));
   console.log('Mini-Editor has #mini-qr-btn:', home.data.includes('id="mini-qr-btn"'));
   console.log('Mini-Editor has #mini-result (aria-live="polite"):', home.data.includes('id="mini-result"') && home.data.includes('aria-live="polite"'));
   console.log('Mini-Editor has #mini-btn-customize & #mini-btn-download:', home.data.includes('id="mini-btn-customize"') && home.data.includes('id="mini-btn-download"'));
   console.log('Mini-Editor has presets chips:', home.data.includes('data-preset="restaurante"') && home.data.includes('data-preset="salon"'));
 
-  if (!home.data.includes('id="mini-qr-input"') || !home.data.includes('id="mini-qr-btn"') || !home.data.includes('id="mini-result"')) {
+  if (!home.data.includes('id="mini-qr-input"') || !home.data.includes('id="mini-qr-title"') || !home.data.includes('id="mini-qr-btn"') || !home.data.includes('id="mini-result"')) {
     throw new Error('Mini-editor missing key interactive elements');
   }
 
-  // 3. Test Anonymous Generation on /api/generate
+  // 3. Test Demo Generation with Happy Hour template and assigned Title
   const demoGen = await post('https://qrbey.onrender.com/api/generate', {
     url: 'https://mirestaurante.com/menu',
+    title: 'Happy Hour 2x1',
+    bannerText: 'HAPPY HOUR',
     isExplicitGenerate: false,
-    designId: 'design-gastronomia-1',
+    designId: 'design-gastronomia-6',
     targetWidth: 400
   });
-  console.log('Anonymous Demo QR generation status:', demoGen.status, 'Content-Type:', demoGen.headers['content-type'], 'Bytes:', demoGen.data.length);
+  console.log('Anonymous Demo QR generation with Happy Hour status:', demoGen.status, 'Content-Type:', demoGen.headers['content-type'], 'Bytes:', demoGen.data.length);
   if (demoGen.status !== 200 || !demoGen.headers['content-type'].includes('image/png') || demoGen.data.length < 100) {
-    throw new Error('Anonymous Demo QR generation failed on live server');
+    throw new Error('Happy Hour Demo QR generation failed on live server');
   }
 
   // 4. Verify /editor route and step1 partial (containing #qr-url)
-  const editor = await get('https://qrbey.onrender.com/editor?url=https%3A%2F%2Fmirestaurante.com%2Fmenu&preset=restaurante');
+  const editor = await get('https://qrbey.onrender.com/editor?url=https%3A%2F%2Fmirestaurante.com%2Fmenu&preset=restaurante&title=Happy%20Hour');
   console.log('Editor status:', editor.status);
   console.log('Editor has #editor section:', editor.data.includes('id="editor"'));
   console.log('Editor has #step1-container:', editor.data.includes('id="step1-container"'));
@@ -96,7 +99,7 @@ async function run() {
     throw new Error('Editor route verification failed');
   }
 
-  console.log('\n🎉 ALL LIVE PRODUCTION VERIFICATIONS PASSED FOR v1.9.3!');
+  console.log('\n🎉 ALL LIVE PRODUCTION VERIFICATIONS PASSED FOR v1.9.4!');
 }
 
 run().catch(err => {

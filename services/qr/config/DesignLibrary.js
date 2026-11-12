@@ -733,7 +733,7 @@ class DesignLibrary {
             "Pizza Artesanal",
             "Burgers Gourmet",
             "Sushi y Omakase",
-            "Cava de Vinos",
+            "Happy Hour",
             "Café Especialidad",
             "Cócteles de Autor",
             "Reserva Tu Mesa",
@@ -756,7 +756,7 @@ class DesignLibrary {
             "Poke Bowls",
             "Food Truck Park",
             "Cata de Cervezas",
-            "Happy Hour 2x1",
+            "Cava de Vinos",
             "Chef Signature"
         ],
         "banners": [
