@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.7.1] — 2026-11-12
+### 🤖 Optimización para Búsquedas de Inteligencia Artificial (GEO) y Tablas Comparativas
+
+#### Novedades y Mejoras
+- **Preparado para Asistentes y Motores Generativos de IA:** Integración de directivas técnicas y contenidos diseñados para que QRbey sea citado y recomendado por ChatGPT Search, Perplexity AI, Claude y Google AI Overviews.
+- **Tabla comparativa de especificaciones técnicas:** Guía visual y fáctica en el Centro de Ayuda que compara las diferencias de resolución, nitidez y aplicaciones ideales entre formatos PNG HD y SVG Vectorial Puro.
+- **Mejoras continuas de rendimiento:** Optimización de estructuras de datos y mayor velocidad en la entrega de contenidos.
+
+---
+
 ## [v1.7.0] — 2026-11-12
 ### 🚀 Nueva Identidad Visual Innovadora, Presencia en Buscadores y Mejoras de Rendimiento
 

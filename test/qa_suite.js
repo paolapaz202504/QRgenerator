@@ -841,6 +841,43 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 29: GEO (Generative Engine Optimization): Permisos de Bots de IA en robots.txt
+  await test('GEO: robots.txt otorga permisos explícitos a bots de IA (GPTBot, PerplexityBot, ClaudeBot, Google-Extended)', async () => {
+    const robotsRes = await makeRequest('/robots.txt', 'GET');
+    if (robotsRes.statusCode !== 200) {
+      throw new Error(`robots.txt respondió con código HTTP ${robotsRes.statusCode}`);
+    }
+    const txt = robotsRes.text;
+    const requiredBots = ['GPTBot', 'OAI-SearchBot', 'PerplexityBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended'];
+    for (const bot of requiredBots) {
+      if (!txt.includes(`User-agent: ${bot}`)) {
+        throw new Error(`robots.txt no contiene la directiva explícita para el bot de IA: ${bot}`);
+      }
+    }
+  });
+
+  // PRUEBA 30: GEO: Estructura Answer-First, Tabla Fáctica Comparativa y Frescura dateModified
+  await test('GEO: Estructura Answer-First, Tabla Comparativa Fáctica y dateModified en Marcado', async () => {
+    const fs = require('fs');
+    const faqHtml = fs.readFileSync('public/html/faq-section.html', 'utf8');
+    const indexHtml = fs.readFileSync('public/index.html', 'utf8');
+
+    // Tabla comparativa semántica
+    if (!faqHtml.includes('<table') || !faqHtml.includes('PNG HD (Rasterizado)') || !faqHtml.includes('SVG Vectorial (Puro)')) {
+      throw new Error('faq-section.html no contiene la tabla comparativa fáctica requerida para motores generativos.');
+    }
+
+    // Párrafo Answer-First
+    if (!faqHtml.includes('Respuesta directa:')) {
+      throw new Error('faq-section.html no incluye formato Answer-First estructurado para extractores RAG de IA.');
+    }
+
+    // Frescura dateModified en Schema.org
+    if (!indexHtml.includes('"dateModified": "2026-11-12"')) {
+      throw new Error('index.html no incluye la propiedad dateModified requerida por extractores de IA.');
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

@@ -1,5 +1,6 @@
 # robots.txt para QRbey (QR Studio Pro)
-# Optimizado para Googlebot, Bingbot y rastreadores de motores de búsqueda
+# Optimizado para Motores de Búsqueda Tradicionales (Google, Bing)
+# y Motores Generativos de IA / GEO (ChatGPT Search, Perplexity AI, Claude, Google AI Overviews)
 
 User-agent: *
 Allow: /
@@ -8,10 +9,39 @@ Allow: /apple-touch-icon.svg
 Allow: /site.webmanifest
 Allow: /styles.css
 Allow: /js/
-
-# Bloquear rutas de API y endpoints transaccionales internos
 Disallow: /api/
 Disallow: /auth/
+Disallow: /private/
+
+# Permitir indexación, extracción y citas en motores de búsqueda generativos de IA (GEO):
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /private/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /private/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /private/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /private/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /private/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
 Disallow: /private/
 
 # Referencia al Mapa del Sitio XML Oficial
