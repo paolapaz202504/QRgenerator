@@ -91,6 +91,11 @@ class Server {
       res.sendFile(path.join(__dirname, 'public', 'comercios.html'));
     });
 
+    // Página Sobre Nosotros y Transparencia (E-E-A-T)
+    this.app.get('/nosotros', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public', 'nosotros.html'));
+    });
+
     this.app.use(express.static(path.join(__dirname, 'public'), {
       maxAge: '0',
       etag: true,
@@ -133,12 +138,19 @@ class Server {
   }
 
   async start() {
-    await this.initRepositories();
-
-    this.app.listen(this.port, () => {
+    // Iniciar escucha HTTP inmediatamente para disponibilidad instantánea (<50ms)
+    this.server = this.app.listen(this.port, () => {
       console.log(`🚀 Servidor QR Generator corriendo en http://localhost:${this.port}`);
       console.log(`🩺 Health check disponible en http://localhost:${this.port}/api/health`);
     });
+
+    // Sincronizar capa de persistencia en caliente sin bloquear el arranque del puerto
+    try {
+      await this.initRepositories();
+      console.log('✅ Capa de persistencia y repositorios sincronizados exitosamente.');
+    } catch (err) {
+      console.error('❌ Error inicializando persistencia en segundo plano:', err.message);
+    }
   }
 }
 

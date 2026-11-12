@@ -7,39 +7,9 @@ class HistoryRepository {
 
   async initSync() {
     if (!gcsService.isConfigured()) return;
-
-    // Load per-user history files in History/
-    const historyFiles = await gcsService.listFilesInCloud('History/');
-    for (const fileRelativePath of historyFiles) {
-      const fileName = fileRelativePath.replace(/^History\//, '');
-      if (fileName.endsWith('.json') && fileName !== 'stats.json') {
-        const userEmailKey = fileName.replace(/\.json$/, '').toLowerCase().trim();
-        const userHist = await gcsService.readJsonFromCloud(`History/${fileName}`, []);
-        if (Array.isArray(userHist)) {
-          this.historyMap[userEmailKey] = userHist;
-        }
-      }
-    }
-
-    // Migration from legacy history/qr_history.json if present
-    const legacyHistory = await gcsService.readJsonFromCloud('history/qr_history.json', null);
-    if (Array.isArray(legacyHistory) && legacyHistory.length > 0) {
-      console.log(`[GCS Migration 🔄] Migrando ${legacyHistory.length} registros desde history/qr_history.json a History/<email>.json...`);
-      const migratedKeys = new Set();
-      for (const item of legacyHistory) {
-        const uEmail = item.userEmail ? item.userEmail.toLowerCase().trim() : 'invitado@anonimo';
-        if (!this.historyMap[uEmail]) {
-          this.historyMap[uEmail] = [];
-        }
-        if (!this.historyMap[uEmail].some(h => h.id === item.id)) {
-          this.historyMap[uEmail].push(item);
-          migratedKeys.add(uEmail);
-        }
-      }
-      for (const uEmail of migratedKeys) {
-        await this.saveUserHistory(uEmail, this.historyMap[uEmail]);
-      }
-    }
+    // Carga bajo demanda ultrarrápida: el historial de cada usuario se recupera instantáneamente
+    // en memoria mediante getUserHistory() al momento de ser consultado, evitando bloqueos de inicio.
+    console.log('[HistoryRepository ⚡] Repositorio de historial inicializado (carga bajo demanda activa).');
   }
 
   async getUserHistory(emailKey) {

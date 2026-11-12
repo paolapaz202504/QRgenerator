@@ -31,9 +31,12 @@ class Application {
     this.profileModal = new ProfileModal();
     this.faqSection = new FaqSection();
 
-    // Wait for document fonts if available
+    // Wait for document fonts with safe timeout to avoid blocking mount
     if (document.fonts && document.fonts.ready) {
-      await document.fonts.ready;
+      await Promise.race([
+        document.fonts.ready,
+        new Promise(resolve => setTimeout(resolve, 400))
+      ]);
     }
 
     // Mount UI Components
@@ -189,7 +192,13 @@ class Application {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function bootstrapApplication() {
   const app = new Application();
-  app.init();
-});
+  app.init().catch(err => console.error('Error arrancando QRbey Application:', err));
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootstrapApplication);
+} else {
+  bootstrapApplication();
+}

@@ -930,6 +930,44 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 32: Autoridad E-E-A-T: /nosotros, Testimonios Reales y Schemas Product & AggregateRating
+  await test('Autoridad E-E-A-T: /nosotros (HTTP 200, H1, AboutPage), Testimonios y Schemas Product/Rating', async () => {
+    const fs = require('fs');
+    const sitemapXml = fs.readFileSync('public/sitemap.xml', 'utf8');
+    const indexHtml = fs.readFileSync('public/index.html', 'utf8');
+    const testHtml = fs.readFileSync('public/html/testimonials-section.html', 'utf8');
+
+    // 1. Verificación de ruta /nosotros
+    const res = await makeRequest('/nosotros', 'GET');
+    if (res.statusCode !== 200) {
+      throw new Error(`/nosotros no devolvió HTTP 200 (obtenido ${res.statusCode})`);
+    }
+    if (!res.text.includes('Nacimos para Eliminar las Trampas en los Códigos QR')) {
+      throw new Error('/nosotros no contiene el H1 de manifiesto y transparencia esperado');
+    }
+    if (!res.text.includes('"@type": "AboutPage"')) {
+      throw new Error('/nosotros no contiene el Schema.org AboutPage');
+    }
+    if (!sitemapXml.includes('https://qr-studio-pro.onrender.com/nosotros')) {
+      throw new Error('/nosotros no se encuentra registrado en public/sitemap.xml');
+    }
+
+    // 2. Verificación de testimonios de negocios locales
+    if (!testHtml.includes('Restaurante & Bar El Rincón') || 
+        !testHtml.includes('Studio Glamour Spa & Estética') || 
+        !testHtml.includes('Supermercado & Minimarket Central')) {
+      throw new Error('testimonials-section.html no incluye los 3 casos de éxito de negocios requeridos.');
+    }
+    if (!testHtml.includes('-$400/año en cartas') || !testHtml.includes('+65% citas WhatsApp')) {
+      throw new Error('testimonials-section.html no incluye las métricas fácticas de impacto.');
+    }
+
+    // 3. Verificación de Schema Product & AggregateRating en index.html
+    if (!indexHtml.includes('"@type": "Product"') || !indexHtml.includes('"@type": "AggregateRating"')) {
+      throw new Error('index.html no incluye los esquemas Schema.org Product y AggregateRating requeridos por GEO.');
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

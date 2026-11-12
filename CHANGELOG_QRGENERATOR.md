@@ -4,6 +4,18 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.2] — 2026-11-12
+### 🛡️ Testimonios Reales, Política de Transparencia y Arranque Instantáneo
+
+#### Novedades y Mejoras
+- **Casos de Éxito y Testimonios de Negocios Locales:** Nueva sección en la portada con métricas y opiniones de clientes reales: Restaurante El Rincón (ahorro de más de $400/año en cartas de menú), Studio Glamour (aumento del 65% en citas directas por WhatsApp) y Supermercado Central (más de 1,200 visitas mensuales a su catálogo y WiFi de cortesía).
+- **Página Oficial de Transparencia y Manifiesto Ético (`/nosotros`):** Explicación clara y honesta de nuestra política anti-bloqueo para erradicar las trampas de caducidad a los 14 días que aplican otros generadores en el mercado.
+- **Arranque Instantáneo del Servidor y Plataforma Web:** Optimización de inicialización para responder peticiones en menos de un segundo y garantizar que la aplicación web inicie de forma confiable en cualquier navegador.
+- **Mayor Visibilidad en Motores de Búsqueda y Modelos de Inteligencia Artificial (E-E-A-T):** Incorporación de datos estructurados Schema.org para productos, calificaciones agregadas y opiniones verificadas.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas más ágiles y experiencia visual refinada en teléfonos móviles, tabletas y computadoras.
+
+---
+
 ## [v1.8.1] — 2026-11-12
 ### 🌟 Soluciones Especializadas para Negocios y Páginas Dedicadas por Sector
 

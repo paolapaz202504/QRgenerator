@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.8.1';
+export const APP_VERSION = '1.8.2';
 
 export class ComponentLoader {
   /**
@@ -17,6 +17,7 @@ export class ComponentLoader {
       { id: 'action-buttons-container', file: './html/action-buttons.html' },
       { id: 'preview-download-container', file: './html/preview-download.html' },
       { id: 'history-container', file: './html/history-section.html' },
+      { id: 'testimonials-container', file: './html/testimonials-section.html' },
       { id: 'faq-container', file: './html/faq-section.html' },
       { id: 'modals-container', file: './html/modals.html' },
       { id: 'footer-container', file: './html/footer.html' }
