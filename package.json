@@ -1,6 +1,6 @@
 {
   "name": "qrgenerator",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "description": "QRbey - QR Studio Pro SaaS",
   "main": "server.js",
   "scripts": {

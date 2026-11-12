@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es" class="min-h-full bg-slate-50 text-slate-800">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentación API & Servidor MCP | QRbey</title>
+  <meta name="description" content="Documentación técnica y especificación de endpoints API y Model Context Protocol (MCP) para integración de agentes de IA con QRbey.">
+  <link rel="canonical" href="https://qrbey.onrender.com/api">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://qrbey.onrender.com/api">
+  <meta property="og:title" content="Documentación API & Servidor MCP | QRbey">
+  <meta property="og:description" content="Integra generación de códigos QR vectoriales y plantillas para pymes en agentes autónomos vía MCP y REST.">
+  <meta property="og:image" content="https://qrbey.onrender.com/favicon.svg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Documentación API & Servidor MCP | QRbey">
+  <meta name="twitter:description" content="Integra generación de códigos QR vectoriales y plantillas para pymes en agentes autónomos vía MCP y REST.">
+  <meta name="twitter:image" content="https://qrbey.onrender.com/favicon.svg">
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen flex flex-col font-['Plus_Jakarta_Sans'] bg-slate-50 text-slate-800 antialiased selection:bg-indigo-600 selection:text-white">
+
+  <!-- Header Navbar -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 text-slate-900 group">
+        <div class="w-9 h-9 rounded-xl bg-indigo-950 border border-indigo-400/30 flex items-center justify-center p-1 shadow-sm group-hover:scale-105 transition">
+          <img src="/favicon.svg" alt="QRbey Logo" class="w-full h-full object-contain">
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold font-['Outfit'] text-lg tracking-tight leading-none text-slate-900">QRbey</span>
+          <span class="text-[10px] font-semibold text-indigo-600 uppercase tracking-wider font-mono">Developers & AI MCP</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-600">
+        <a href="/" class="hover:text-indigo-600 transition">Inicio</a>
+        <a href="/restaurantes" class="hover:text-amber-600 transition">Restaurantes</a>
+        <a href="/salones-belleza" class="hover:text-pink-600 transition">Salones de Belleza</a>
+        <a href="/comercios" class="hover:text-emerald-600 transition">Comercios</a>
+        <a href="/sobre-nosotros" class="hover:text-indigo-600 transition">Sobre Nosotros</a>
+      </nav>
+
+      <a href="/#editor" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition shadow-xs">
+        Abrir Editor
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-12">
+
+    <!-- Header Section -->
+    <section class="text-center space-y-4">
+      <div class="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold px-3.5 py-1.5 rounded-full shadow-2xs">
+        <i class="fa-solid fa-robot text-indigo-600"></i>
+        <span>Integración para Claude Desktop, Cursor & Agentes Autónomos</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight leading-tight">
+        Documentación API & Servidor MCP para Agentes de IA
+      </h1>
+
+      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        Ejecuta generación de códigos QR vectoriales de alta definición y consulta de plantillas especializadas mediante el estándar Model Context Protocol (MCP) y REST API.
+      </p>
+    </section>
+
+    <!-- MCP Server Package Box -->
+    <section class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+        <div>
+          <span class="text-xs text-indigo-300 font-mono font-bold uppercase tracking-wider">Protocolo Oficial</span>
+          <h2 class="text-2xl font-bold font-['Outfit']">Servidor MCP (@qrbey/mcp)</h2>
+        </div>
+        <a href="https://github.com/paolapaz202504/QRgenerator" target="_blank" rel="noopener" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold px-4 py-2 rounded-xl transition flex items-center gap-2 self-start sm:self-auto">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span>Ver Repositorio MCP</span>
+        </a>
+      </div>
+
+      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+        Integra QRbey como un tool nativo en Claude Desktop, Smithery, Cursor o cualquier agente compatible con Model Context Protocol. Permite que el modelo de IA genere y devuelva enlaces QR directamente durante la conversación.
+      </p>
+
+      <!-- JSON Tool Schema -->
+      <div class="space-y-2">
+        <span class="text-xs font-mono text-indigo-300 font-semibold">Schema de la Herramienta (generate_qr):</span>
+        <pre class="bg-slate-950 text-indigo-200 p-4 rounded-2xl text-xs font-mono overflow-x-auto border border-white/10"><code>{
+  "name": "generate_qr",
+  "description": "Genera un código QR para un negocio de barrio (restaurante, salón, comercio). Devuelve la URL de la imagen.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "text": {"type": "string", "description": "URL o texto a codificar"},
+      "vertical": {"type": "string", "enum": ["restaurante", "salon", "comercio", "generico"]},
+      "style": {"type": "string", "enum": ["default", "con-logo", "vectorial"]}
+    },
+    "required": ["text"]
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- REST API Endpoints Table -->
+    <section class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+      <div>
+        <h2 class="text-xl font-bold font-['Outfit'] text-slate-900">Endpoints REST Disponibles</h2>
+        <p class="text-xs text-slate-500">Base URL: <code class="font-mono bg-slate-100 text-slate-800 px-2 py-0.5 rounded">https://qrbey.onrender.com/api</code></p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500 uppercase font-mono tracking-wider">
+              <th class="py-3 px-3">Método</th>
+              <th class="py-3 px-3">Ruta</th>
+              <th class="py-3 px-3">Descripción</th>
+              <th class="py-3 px-3">Acceso</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr>
+              <td class="py-3 px-3"><span class="bg-emerald-100 text-emerald-800 font-mono font-bold px-2 py-0.5 rounded">POST</span></td>
+              <td class="py-3 px-3 font-mono font-semibold text-slate-800">/generate</td>
+              <td class="py-3 px-3 text-slate-600">Genera código QR en PNG o SVG según configuración.</td>
+              <td class="py-3 px-3 text-slate-500">Público / Token</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3"><span class="bg-blue-100 text-blue-800 font-mono font-bold px-2 py-0.5 rounded">GET</span></td>
+              <td class="py-3 px-3 font-mono font-semibold text-slate-800">/config</td>
+              <td class="py-3 px-3 text-slate-600">Devuelve parámetros, límites y precios de los planes.</td>
+              <td class="py-3 px-3 text-slate-500">Público</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3"><span class="bg-blue-100 text-blue-800 font-mono font-bold px-2 py-0.5 rounded">GET</span></td>
+              <td class="py-3 px-3 font-mono font-semibold text-slate-800">/health</td>
+              <td class="py-3 px-3 text-slate-600">Diagnóstico de estado y uptime de la plataforma.</td>
+              <td class="py-3 px-3 text-slate-500">Público</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Request & Response Example -->
+    <section class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
+      <h3 class="text-base font-bold font-['Outfit'] text-slate-900">Ejemplo de Solicitud (cURL)</h3>
+      <pre class="bg-slate-900 text-slate-100 p-4 rounded-2xl text-xs font-mono overflow-x-auto"><code>curl -X POST https://qrbey.onrender.com/api/generate \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "text": "https://mi-restaurante.com/menu",
+    "vertical": "restaurante",
+    "style": "vectorial"
+  }'</code></pre>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-500 space-y-3">
+    <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600">
+      <a href="/" class="hover:text-indigo-600">Inicio</a>
+      <span>•</span>
+      <a href="/restaurantes" class="hover:text-amber-600">Restaurantes</a>
+      <span>•</span>
+      <a href="/salones-belleza" class="hover:text-pink-600">Salones de Belleza</a>
+      <span>•</span>
+      <a href="/comercios" class="hover:text-emerald-600">Comercios</a>
+      <span>•</span>
+      <a href="/sobre-nosotros" class="hover:text-indigo-600">Sobre Nosotros</a>
+      <span>•</span>
+      <a href="/api" class="text-indigo-700 font-bold">API</a>
+    </div>
+    <p>© 2026 QRbey. Plataforma y herramientas abiertas para desarrolladores y agentes de IA.</p>
+  </footer>
+
+</body>
+</html>

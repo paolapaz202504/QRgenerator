@@ -1,500 +1,242 @@
 <!DOCTYPE html>
-<html lang="es" class="min-h-full bg-slate-50 text-slate-800">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Anti-Cache Directives -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-
-  <title>Menú QR para Restaurantes y Cafeterías | Actualiza Precios sin Reimprimir | QRbey</title>
-  
-  <!-- Primary SEO & GEO Metadata -->
-  <meta name="title" content="Menú QR para Restaurantes y Cafeterías | Actualiza Precios sin Reimprimir | QRbey">
-  <meta name="description" content="Crea el código QR para el menú de tu restaurante en 2 minutos. Actualiza platillos y precios al instante sin reimprimir las cartas. Exporta en SVG vectorial nativo de alta resistencia para soportes acrílicos y mesas.">
-  <meta name="keywords" content="menu qr restaurante, codigo qr para cartas de restaurante, menu digital qr sin reimprimir, qr para mesas de bar, generador qr restaurante svg, qrbey">
-  <meta name="author" content="QRbey">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <title>Menú QR para Restaurantes sin Reimprimir | QRbey</title>
+  <meta name="description" content="Crea menús QR digitales para tu restaurante o cafetería. Actualiza platillos y precios en tiempo real sin volver a imprimir cartas. Códigos permanentes.">
   <link rel="canonical" href="https://qrbey.onrender.com/restaurantes">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Open Graph / Social Sharing -->
-  <meta property="og:type" content="article">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
   <meta property="og:url" content="https://qrbey.onrender.com/restaurantes">
-  <meta property="og:title" content="Menú QR para Restaurantes y Cafeterías | Sin Reimprimir Carta | QRbey">
-  <meta property="og:description" content="Diseña el menú QR de tu restaurante en 2 minutos. Comensales escanean sin instalar apps. Códigos permanentes y exportación en SVG vectorial para soportes acrílicos.">
+  <meta property="og:title" content="Menú QR para Restaurantes sin Reimprimir | QRbey">
+  <meta property="og:description" content="Actualiza tu carta o menú del día al instante sin costes de reimpresión. Códigos QR dinámicos para mesas y barras.">
   <meta property="og:image" content="https://qrbey.onrender.com/favicon.svg">
-  <meta property="og:site_name" content="QRbey">
-  <meta property="og:locale" content="es_ES">
 
-  <!-- Twitter / X Metadata -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Menú QR para Restaurantes y Cafeterías | QRbey">
-  <meta name="twitter:description" content="Actualiza platillos y precios al instante sin volver a imprimir tus cartas. Exportación profesional en SVG vectorial de alta durabilidad.">
+  <meta name="twitter:title" content="Menú QR para Restaurantes sin Reimprimir | QRbey">
+  <meta name="twitter:description" content="Actualiza tu carta o menú del día al instante sin costes de reimpresión. Códigos QR dinámicos para mesas y barras.">
   <meta name="twitter:image" content="https://qrbey.onrender.com/favicon.svg">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
-
-  <!-- JSON-LD Structured Data (GEO & Schema.org) -->
+  <!-- Schema.org JSON-LD (FAQPage + BreadcrumbList + Organization) -->
   <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Menú QR para Restaurantes y Cafeterías — QRbey",
-      "url": "https://qrbey.onrender.com/restaurantes",
-      "description": "Solución especializada de códigos QR para restaurantes, bares y cafeterías. Permite actualizar precios y menús sin reimprimir cartas físicas, con nivel de corrección H para uso diario en mesas.",
-      "inLanguage": "es",
-      "dateModified": "2026-11-12",
-      "publisher": {
-        "@type": "Organization",
-        "name": "QRbey",
-        "url": "https://qrbey.onrender.com/"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Inicio",
-          "item": "https://qrbey.onrender.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Restaurantes & Cafeterías",
-          "item": "https://qrbey.onrender.com/restaurantes"
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Qué pasa si cambio los precios del menú?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No tienes que volver a imprimir ningún código. Con un QR dinámico modificas el enlace o archivo de tu menú en el panel y el código ya impreso en tus mesas dirigirá de inmediato a los nuevos precios."
         }
-      ]
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "QRbey para Restaurantes — Menús QR Dinámicos",
-      "image": "https://qrbey.onrender.com/favicon.svg",
-      "description": "Generador de códigos QR para menús digitales de restaurantes. Sin caducidad oculta, exportación SVG vectorial pura y escaneos ilimitados para comensales.",
-      "brand": {
-        "@type": "Brand",
-        "name": "QRbey"
       },
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "url": "https://qrbey.onrender.com/restaurantes"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "¿Qué pasa si cambio los precios de mi menú después de imprimir el código QR?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Tus comensales verán los precios actualizados inmediatamente al escanear, sin necesidad de reimprimir los códigos QR de tus mesas ni cambiar los soportes acrílicos."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Cómo imprimir códigos QR para mesas que soporten el uso diario y manchas?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Descarga en formato SVG vectorial nativo desde QRbey e imprime sobre vinilo laminado o soportes acrílicos con nivel de corrección H (30%) para máxima durabilidad frente a rayones y reflejos."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Mis clientes necesitan descargar una aplicación para ver la carta del restaurante?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. Los comensales solo apuntan la cámara de su teléfono móvil (Android o iPhone) y acceden a la carta digital de forma instantánea en su navegador web sin instalar nada."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Cuánto cuesta crear un menú QR para restaurante en QRbey?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Puedes empezar 100% gratis con escaneos ilimitados sin caducidad, o desbloquear personalización avanzada de marca y descargas SVG ilimitadas en el Plan Pro por solo $9.99/mes."
-          }
+      {
+        "@type": "Question",
+        "name": "¿El QR caduca?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, los códigos QR creados con QRbey no tienen caducidad sorpresa. Tus clientes podrán escanearlos siempre sin riesgo de que se desactiven tras imprimirlos."
         }
-      ]
-    }
-  ]
+      },
+      {
+        "@type": "Question",
+        "name": "¿Puedo personalizarlo con mi logo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, puedes colocar el logotipo de tu restaurante en el centro del código, elegir colores que armonicen con tu identidad corporativa y seleccionar marcos con texto como 'Escanear Menú'."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Funciona sin internet en el local?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El comensal solo necesita conexión a datos móviles en su smartphone para abrir el menú digital; el código QR se lee de forma instantánea con la cámara de cualquier teléfono."
+        }
+      }
+    ]
+  }
   </script>
 
-  <!-- Tailwind CSS & FontAwesome -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://qrbey.onrender.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Restaurantes",
+        "item": "https://qrbey.onrender.com/restaurantes"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "QRbey",
+    "url": "https://qrbey.onrender.com/",
+    "logo": "https://qrbey.onrender.com/favicon.svg"
+  }
+  </script>
+
+  <!-- Google Fonts & Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="min-h-screen flex flex-col font-['Plus_Jakarta_Sans'] bg-slate-50 text-slate-800 antialiased selection:bg-amber-500 selection:text-white">
+<body class="bg-slate-50 text-slate-800 font-['Plus_Jakarta_Sans'] antialiased">
 
-  <!-- Navbar Específico -->
-  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+  <!-- Header Navbar -->
+  <header class="border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2.5 text-slate-900 group">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center text-white shadow-sm shadow-amber-500/30 group-hover:scale-105 transition">
-          <i class="fa-solid fa-utensils text-sm"></i>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-extrabold font-['Outfit'] text-lg tracking-tight leading-none text-slate-900">QRbey</span>
-          <span class="text-[10px] font-semibold text-amber-600 uppercase tracking-wider font-mono">Restaurantes & Bares</span>
-        </div>
+      <a href="/" class="flex items-center gap-3">
+        <img src="/favicon.svg" alt="QRbey Logo" class="w-9 h-9 rounded-xl">
+        <span class="text-xl font-bold font-['Outfit'] text-slate-900">QRbey</span>
       </a>
-
-      <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-600">
-        <a href="#beneficios" class="hover:text-amber-600 transition">Beneficios</a>
-        <a href="#como-funciona" class="hover:text-amber-600 transition">Cómo Funciona</a>
-        <a href="#comparativa" class="hover:text-amber-600 transition">Ahorro vs Papel</a>
-        <a href="#faq" class="hover:text-amber-600 transition">Preguntas Frecuentes</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+        <a href="/" class="hover:text-indigo-600 transition">Inicio</a>
+        <a href="/restaurantes" class="text-amber-700 font-bold border-b-2 border-amber-500 pb-1">Restaurantes</a>
+        <a href="/salones-belleza" class="hover:text-pink-600 transition">Salones de Belleza</a>
+        <a href="/comercios" class="hover:text-emerald-600 transition">Comercios</a>
+        <a href="/sobre-nosotros" class="hover:text-indigo-600 transition">Sobre Nosotros</a>
       </nav>
-
-      <div class="flex items-center gap-3">
-        <a href="/?cat=Gastronomía#step1-container" 
-          class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 active:scale-95 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-sm transition">
-          <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-          <span>Diseñar mi Menú QR</span>
-        </a>
-      </div>
+      <a href="/#editor" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition shadow-xs">
+        Crear QR Ahora
+      </a>
     </div>
   </header>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 sm:space-y-16">
-    
-    <!-- Breadcrumb Navegacional -->
-    <nav aria-label="Breadcrumb" class="text-xs text-slate-500 flex items-center gap-2">
-      <a href="/" class="hover:text-slate-900 transition flex items-center gap-1">
-        <i class="fa-solid fa-house text-[10px]"></i> Inicio
-      </a>
-      <span>/</span>
-      <span class="text-amber-600 font-semibold">Menús QR para Restaurantes</span>
-    </nav>
-
-    <!-- Hero Section de la Vertical -->
-    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-gradient-to-br from-white via-amber-50/40 to-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs relative overflow-hidden">
-      <div class="absolute -top-24 -right-24 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="lg:col-span-7 space-y-4 sm:space-y-6">
-        <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-2xs">
-          <i class="fa-solid fa-utensils text-amber-600"></i>
-          <span>Especializado para Restaurantes, Cafeterías y Bares</span>
-        </div>
-
-        <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight leading-tight">
-          Código QR para Menús de Restaurante: Actualiza tu Carta sin Reimprimir
-        </h1>
-
-        <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-          Permite a tus comensales escanear con la cámara y consultar platillos, precios y el menú del día al instante. Cuando cambies los precios, solo actualizas tu enlace; <strong>nunca tendrás que volver a imprimir los códigos QR de tus mesas</strong>.
-        </p>
-
-        <!-- Bullet Highlights -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-semibold text-slate-700 pt-1">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-check text-emerald-600"></i>
-            <span>Exportación SVG Vectorial puro para acrílicos</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-check text-emerald-600"></i>
-            <span>Nivel de corrección H (30% anti-manchas)</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-check text-emerald-600"></i>
-            <span>Sin instalación de apps para tus clientes</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-check text-emerald-600"></i>
-            <span>Escaneos ilimitados sin caducidad sorpresa</span>
-          </div>
-        </div>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap items-center gap-3 pt-2">
-          <a href="/?cat=Gastronomía#step1-container" 
-            class="bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold px-6 py-3 rounded-2xl text-sm flex items-center gap-2 shadow-md shadow-amber-600/20 transition">
-            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-            <span>Crear Menú QR Gratis</span>
-          </a>
-          <a href="#como-funciona" 
-            class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold px-5 py-3 rounded-2xl text-sm flex items-center gap-2 transition shadow-2xs">
-            <span>Ver cómo funciona</span>
-            <i class="fa-solid fa-arrow-down text-xs text-slate-400"></i>
-          </a>
-        </div>
+  <!-- Hero Vertical -->
+  <main class="max-w-5xl mx-auto px-4 py-10 sm:py-14 space-y-12">
+    <section class="text-center space-y-4">
+      <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold px-3.5 py-1.5 rounded-full shadow-2xs">
+        <i class="fa-solid fa-utensils text-amber-600"></i>
+        <span>Solución Especializada para Gastronomía</span>
       </div>
-
-      <!-- Mockup Visual del Menú QR para Mesas -->
-      <div class="lg:col-span-5 flex justify-center">
-        <div class="bg-white border-2 border-slate-200 rounded-3xl p-6 shadow-xl max-w-xs w-full text-center space-y-4 relative">
-          <div class="bg-amber-500 text-white font-bold text-xs py-1 px-4 rounded-full inline-block uppercase tracking-wider font-mono">
-            Mesa 12 • VER MENÚ
-          </div>
-          <!-- QR Card Demo -->
-          <div class="bg-amber-50/60 border border-amber-200/80 rounded-2xl p-5 flex flex-col items-center justify-center space-y-3">
-            <div class="w-40 h-40 bg-white rounded-xl border border-slate-200 flex items-center justify-center p-3 shadow-inner">
-              <img src="/favicon.svg" alt="Ejemplo de Código QR Menú" class="w-full h-full object-contain">
-            </div>
-            <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-              <i class="fa-solid fa-camera text-amber-600"></i>
-              <span>Apunta la cámara para ordenar</span>
-            </div>
-          </div>
-          <p class="text-[11px] text-slate-500">
-            Impreso en acrílico de 10x15cm con SVG vectorial de alta definición.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Beneficios Clave del Sector -->
-    <section id="beneficios" class="space-y-6">
-      <div class="text-center max-w-2xl mx-auto space-y-2">
-        <h2 class="text-xl sm:text-3xl font-extrabold font-['Outfit'] text-slate-900">
-          Diseñado para la Realidad Operativa de tu Restaurante
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-600">
-          Tres ventajas indispensables que los generadores genéricos no te ofrecen.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-3 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center font-bold text-lg">
-            <i class="fa-solid fa-rotate"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Cero Reimpresión de Cartas</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Si subes el precio de un corte de carne o agregas una bebida de temporada en tu menú digital, el código QR de la mesa sigue siendo exactamente el mismo. Tus comensales ven los cambios en tiempo real.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-3 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center justify-center font-bold text-lg">
-            <i class="fa-solid fa-vector-square"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">SVG Vectorial Puro para Imprenta</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            A diferencia de los archivos PNG que se pixelan al agrandarse, el formato SVG vectorial de QRbey mantiene una nitidez geométrica matemática infinita, ideal para grabados en madera, acrílicos o vinilos.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-3 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center font-bold text-lg">
-            <i class="fa-solid fa-shield-halved"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Nivel de Corrección H (30%)</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            En un restaurante hay manchas de salsas, rayones por cubiertos y reflejos de luz. Gracias al nivel de tolerancia H, el código QR se puede leer perfectamente incluso con el 30% de su superficie dañada.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Cómo Funciona en 3 Pasos -->
-    <section id="como-funciona" class="bg-slate-100/70 border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6">
-      <div class="max-w-2xl space-y-2">
-        <span class="text-xs font-bold text-amber-700 font-mono uppercase tracking-wider">Flujo de Creación</span>
-        <h2 class="text-xl sm:text-2xl font-extrabold font-['Outfit'] text-slate-900">
-          Tu Menú QR Listo para Exhibir en 3 Pasos
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-2">
-          <div class="w-7 h-7 rounded-lg bg-amber-500 text-white font-bold text-xs flex items-center justify-center">1</div>
-          <h3 class="text-sm font-bold text-slate-900">Pega el Enlace de tu Menú</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Ingresa la URL de tu menú en PDF de Google Drive, tu sitio web oficial o tu perfil de Instagram.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-2">
-          <div class="w-7 h-7 rounded-lg bg-amber-500 text-white font-bold text-xs flex items-center justify-center">2</div>
-          <h3 class="text-sm font-bold text-slate-900">Elige Estilo Gastronómico</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Selecciona entre 30 plantillas diseñadas para restaurantes, ajusta colores y añade el logo de tu local.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-2">
-          <div class="w-7 h-7 rounded-lg bg-amber-500 text-white font-bold text-xs flex items-center justify-center">3</div>
-          <h3 class="text-sm font-bold text-slate-900">Descarga e Imprime</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Descarga en SVG vectorial para tu imprenta de confianza o en PNG de alta resolución para impresión directa.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tabla Comparativa Fáctica: Menú Físico vs Menú QR QRbey -->
-    <section id="comparativa" class="space-y-4">
-      <div class="space-y-2">
-        <h2 class="text-xl sm:text-2xl font-extrabold font-['Outfit'] text-slate-900">
-          Comparativa de Costos: Carta Impresa vs Menú QR Digital
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-600">
-          Evaluación económica y operativa para un restaurante promedio de 15 mesas.
-        </p>
-      </div>
-
-      <div class="overflow-x-auto border border-slate-200 rounded-2xl bg-white shadow-2xs">
-        <table class="w-full text-left text-xs text-slate-700">
-          <thead class="bg-slate-50 border-b border-slate-200 text-slate-900 font-bold uppercase tracking-wider font-mono">
-            <tr>
-              <th class="p-3.5">Criterio de Evaluación</th>
-              <th class="p-3.5 text-rose-700 bg-rose-50/50">Carta Impresa en Papel</th>
-              <th class="p-3.5 text-emerald-800 bg-emerald-50/50">Menú QR Digital (QRbey)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            <tr>
-              <td class="p-3.5 font-semibold text-slate-900">Costo Anual Estimado</td>
-              <td class="p-3.5 text-rose-700">$300 - $800 USD en reimpresiones frecuentes</td>
-              <td class="p-3.5 text-emerald-800 font-bold">$0 (Plan Gratis) o $9.99/mes (Plan Pro)</td>
-            </tr>
-            <tr>
-              <td class="p-3.5 font-semibold text-slate-900">Tiempo de Actualización</td>
-              <td class="p-3.5">3 a 7 días hábiles (diseño + imprenta)</td>
-              <td class="p-3.5 text-emerald-800 font-bold">Inmediato (menos de 1 minuto)</td>
-            </tr>
-            <tr>
-              <td class="p-3.5 font-semibold text-slate-900">Higiene y Durabilidad</td>
-              <td class="p-3.5">Desgaste, roturas y manchas de grasa</td>
-              <td class="p-3.5 text-emerald-800 font-bold">100% Higiénico en el móvil del cliente</td>
-            </tr>
-            <tr>
-              <td class="p-3.5 font-semibold text-slate-900">Imágenes y Platillos</td>
-              <td class="p-3.5">Espacio limitado por el tamaño de la hoja</td>
-              <td class="p-3.5 text-emerald-800 font-bold">Fotografías HD y descripciones ilimitadas</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- FAQ GEO (Answer-First) -->
-    <section id="faq" class="space-y-4">
-      <div class="space-y-1">
-        <h2 class="text-xl sm:text-2xl font-extrabold font-['Outfit'] text-slate-900">
-          Preguntas Frecuentes sobre Menús QR
-        </h2>
-        <p class="text-xs text-slate-500">Respuestas directas y claras a las dudas más comunes de restaurantes.</p>
-      </div>
-
-      <div class="space-y-3">
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1.5 shadow-2xs">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-circle-question text-amber-600 text-xs"></i>
-            ¿Qué pasa si cambio los precios de mi menú después de imprimir el código QR?
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed pl-5 font-medium">
-            <strong>Respuesta directa:</strong> Tus comensales verán los precios actualizados inmediatamente al escanear, sin necesidad de reimprimir los códigos QR de tus mesas ni cambiar los soportes acrílicos.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1.5 shadow-2xs">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-circle-question text-amber-600 text-xs"></i>
-            ¿Cómo imprimir códigos QR para mesas que soporten el uso diario y manchas?
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed pl-5 font-medium">
-            <strong>Respuesta directa:</strong> Descarga en formato SVG vectorial nativo desde QRbey e imprime sobre vinilo laminado o soportes acrílicos con nivel de corrección H (30%) para máxima durabilidad frente a rayones y reflejos.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1.5 shadow-2xs">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-circle-question text-amber-600 text-xs"></i>
-            ¿Mis clientes necesitan descargar una aplicación para ver la carta?
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed pl-5 font-medium">
-            <strong>Respuesta directa:</strong> No. Los comensales solo apuntan la cámara de su teléfono móvil (Android o iPhone) y acceden a la carta digital de forma instantánea en su navegador web sin instalar nada.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1.5 shadow-2xs">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-circle-question text-amber-600 text-xs"></i>
-            ¿Cuánto cuesta crear un menú QR para restaurante en QRbey?
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed pl-5 font-medium">
-            <strong>Respuesta directa:</strong> Puedes empezar 100% gratis con escaneos ilimitados sin caducidad, o desbloquear personalización avanzada de marca y descargas SVG ilimitadas en el Plan Pro por solo $9.99/mes.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Banner Final CTA -->
-    <section class="bg-gradient-to-r from-amber-500 to-amber-600 rounded-3xl p-6 sm:p-10 text-white text-center space-y-4 shadow-lg shadow-amber-500/20">
-      <h2 class="text-2xl sm:text-3xl font-extrabold font-['Outfit']">
-        Digitaliza la Carta de tu Restaurante en Menos de 2 Minutos
-      </h2>
-      <p class="text-xs sm:text-sm text-amber-100 max-w-xl mx-auto">
-        Únete a cientos de restaurantes que ya ahorran en imprenta y ofrecen una experiencia de servicio moderna a sus clientes.
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto">
+        Código QR para menús de restaurante: actualiza tu carta sin reimprimir
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        Reemplaza las cartas de papel dañadas por menús QR interactivos para mesas. Actualiza platillos, precios y menú del día al instante sin gastar en reimpresiones.
       </p>
       <div class="pt-2">
-        <a href="/?cat=Gastronomía#step1-container" 
-          class="bg-white hover:bg-slate-50 text-amber-800 font-extrabold px-6 py-3 rounded-2xl text-sm inline-flex items-center gap-2 shadow-md transition active:scale-95">
-          <i class="fa-solid fa-wand-magic-sparkles text-amber-600 text-xs"></i>
-          <span>Empezar Gratis Ahora</span>
+        <a href="/#editor" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm sm:text-base px-6 py-3 rounded-xl transition shadow-md shadow-amber-600/20 inline-flex items-center gap-2">
+          <i class="fa-solid fa-utensils text-xs"></i>
+          <span>Crear el QR de mi restaurante</span>
         </a>
       </div>
     </section>
 
+    <!-- Cómo Funciona (3 pasos) -->
+    <section class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+      <h2 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 text-center">
+        Cómo funciona en 3 pasos
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-sm">1</div>
+          <h3 class="font-bold text-slate-900">Crear</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Introduce el enlace a tu menú en PDF, Instagram o web. Selecciona los colores de tu marca y añade tu logotipo.</p>
+        </div>
+        <div class="space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-sm">2</div>
+          <h3 class="font-bold text-slate-900">Imprimir</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Descarga en SVG vectorial o PNG de alta resolución para imprimir en stickers acrílicos, mesas o portamenús.</p>
+        </div>
+        <div class="space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-sm">3</div>
+          <h3 class="font-bold text-slate-900">Actualizar</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Modifica platillos, promociones y precios en cualquier momento desde tu panel sin cambiar el QR físico.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Caso de Estudio Real -->
+    <section class="bg-amber-50/60 border border-amber-200/80 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
+      <div class="flex items-center gap-1.5 text-amber-500 text-xs font-bold">
+        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        <span class="text-amber-800 ml-1">Caso de Estudio Real</span>
+      </div>
+      <blockquote class="text-sm sm:text-base text-slate-700 italic leading-relaxed">
+        "En nuestro restaurante cambiamos el menú de almuerzos cada semana. Con QRbey pegamos stickers acrílicos en cada mesa una sola vez y actualizamos el enlace en el panel. Cero reimpresiones y ahorro del 100% en papelería."
+      </blockquote>
+      <div class="border-t border-amber-200/60 pt-3 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-amber-200 text-amber-900 font-bold flex items-center justify-center text-sm shrink-0">DC</div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm">Don Carlos M.</h4>
+          <p class="text-xs text-slate-600">Restaurante & Parrillada La Casona — 100% ahorro en reimpresión</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Vertical -->
+    <section class="space-y-6">
+      <h2 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 text-center">
+        Preguntas Frecuentes sobre Menús QR
+      </h2>
+      <div class="space-y-3">
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-1.5">
+          <h3 class="font-bold text-slate-900 text-sm">¿Qué pasa si cambio los precios del menú?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">No tienes que volver a imprimir ningún código. Con un QR dinámico modificas el enlace o archivo de tu menú en el panel y el código ya impreso en tus mesas dirigirá de inmediato a los nuevos precios.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-1.5">
+          <h3 class="font-bold text-slate-900 text-sm">¿El QR caduca?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">No, los códigos QR creados con QRbey no tienen caducidad sorpresa. Tus clientes podrán escanearlos siempre sin riesgo de que se desactiven tras imprimirlos.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-1.5">
+          <h3 class="font-bold text-slate-900 text-sm">¿Puedo personalizarlo con mi logo?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Sí, puedes colocar el logotipo de tu restaurante en el centro del código, elegir colores que armonicen con tu identidad corporativa y seleccionar marcos con texto como 'Escanear Menú'.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-1.5">
+          <h3 class="font-bold text-slate-900 text-sm">¿Funciona sin internet en el local?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">El comensal solo necesita conexión a datos móviles en su smartphone para abrir el menú digital; el código QR se lee de forma instantánea con la cámara de cualquier teléfono.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="text-center bg-gradient-to-br from-amber-500 to-amber-700 text-white rounded-3xl p-8 sm:p-10 space-y-4 shadow-xl">
+      <h2 class="text-2xl sm:text-3xl font-extrabold font-['Outfit']">Digitaliza la Carta de tu Restaurante Hoy</h2>
+      <p class="text-xs sm:text-sm text-amber-100 max-w-xl mx-auto">Empieza gratis en 2 minutos. Descargas vectoriales sin marcas de agua.</p>
+      <a href="/#editor" class="bg-white hover:bg-slate-100 text-amber-900 font-bold text-sm px-6 py-3 rounded-xl transition inline-block shadow-md">
+        Crear el QR de mi restaurante
+      </a>
+    </section>
   </main>
 
-  <!-- Footer con Navegación Cruzada a Otras Verticales -->
-  <footer class="bg-white border-t border-slate-200 mt-12 py-8 text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        <div>
-          <span class="font-bold text-slate-900 block mb-2 font-['Outfit'] text-sm">QRbey para Negocios</span>
-          <p class="text-[11px] text-slate-500 leading-relaxed">
-            Plataforma líder de códigos QR vectoriales y dinámicos para pymes y negocios locales de habla hispana.
-          </p>
-        </div>
-        <div>
-          <span class="font-bold text-slate-900 block mb-2 font-mono uppercase tracking-wider text-[11px]">Soluciones Verticales</span>
-          <ul class="space-y-1.5 text-slate-600">
-            <li><a href="/restaurantes" class="text-amber-600 font-bold hover:underline">Menús para Restaurantes</a></li>
-            <li><a href="/salones-belleza" class="hover:text-pink-600 transition">Salones de Belleza & Spas</a></li>
-            <li><a href="/comercios" class="hover:text-emerald-600 transition">Comercios & WiFi Tiendas</a></li>
-          </ul>
-        </div>
-        <div>
-          <span class="font-bold text-slate-900 block mb-2 font-mono uppercase tracking-wider text-[11px]">Herramientas</span>
-          <ul class="space-y-1.5 text-slate-600">
-            <li><a href="/#step3-container" class="hover:text-indigo-600 transition">Galería de 600 Diseños</a></li>
-            <li><a href="/#step1-container" class="hover:text-indigo-600 transition">Generador SVG Vectorial</a></li>
-            <li><a href="/#faq-container" class="hover:text-indigo-600 transition">Centro de Ayuda</a></li>
-          </ul>
-        </div>
-        <div>
-          <span class="font-bold text-slate-900 block mb-2 font-mono uppercase tracking-wider text-[11px]">Contacto & Soporte</span>
-          <p class="text-[11px] text-slate-600">Atención oficial: <a href="mailto:qrbeyconctact@gmail.com" class="text-indigo-600 font-semibold hover:underline">qrbeyconctact@gmail.com</a></p>
-          <span class="inline-block mt-2 text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono font-bold">Versión 1.8.0</span>
-        </div>
-      </div>
-      <div class="border-t border-slate-100 pt-4 flex flex-wrap items-center justify-between gap-2 text-[11px]">
-        <p>&copy; 2026 QRbey. Todos los derechos reservados.</p>
-        <p>Códigos QR sin caducidad • SVG Vectorial Puro • Nivel de Corrección H</p>
-      </div>
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-500 space-y-3">
+    <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600">
+      <a href="/" class="hover:text-indigo-600">Inicio</a>
+      <span>•</span>
+      <a href="/restaurantes" class="text-amber-700">Restaurantes</a>
+      <span>•</span>
+      <a href="/salones-belleza" class="hover:text-pink-600">Salones de Belleza</a>
+      <span>•</span>
+      <a href="/comercios" class="hover:text-emerald-600">Comercios</a>
+      <span>•</span>
+      <a href="/#planes" class="hover:text-indigo-600">Planes</a>
+      <span>•</span>
+      <a href="/sobre-nosotros" class="hover:text-indigo-600">Sobre Nosotros</a>
     </div>
+    <p>© 2026 QRbey. Códigos QR dinámicos para restaurantes y negocios de barrio.</p>
   </footer>
 
 </body>

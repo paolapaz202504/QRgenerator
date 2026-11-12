@@ -1,0 +1,13 @@
+{
+  "name": "@qrbey/mcp",
+  "version": "1.0.0",
+  "description": "Servidor Model Context Protocol (MCP) oficial para QRbey — Generación de códigos QR y plantillas para negocios de barrio.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node dist/tests/smoke.test.js || ts-node tests/smoke.test.ts"
+  },
+  "keywords": ["mcp", "model-context-protocol", "qrbey", "qr-generator", "ai-tools"],
+  "author": "QRbey DevTeam",
+  "license": "MIT"
+}

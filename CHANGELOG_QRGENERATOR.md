@@ -4,6 +4,19 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.6] — 2026-11-12
+### 🚀 Nueva Portada Comercial, Páginas Dedicadas por Negocio y Transparencia Total
+
+#### Novedades y Mejoras
+- **Nueva Portada Comercial de Bienvenida:** Ahora al ingresar a QRbey eres recibido por una propuesta de valor nítida con botones directos para comenzar a diseñar tu código o consultar los planes disponibles, situando el editor de forma accesible justo a continuación.
+- **Páginas de Aterrizaje Especializadas por Tipo de Negocio:** Se integran accesos y páginas independientes para Restaurantes (menús digitales que se actualizan sin reimprimir), Salones de Belleza (reservas directas por WhatsApp) y Comercios (conexión WiFi instantánea y catálogo de ofertas).
+- **Sección de Planes y Precios Visible en Página:** Consulta directa y transparente de los beneficios de los planes Gratuito, Profesional y Corporativo con selección en un solo clic.
+- **Sección Sobre Nosotros y Política Anti-Bloqueo:** Página navegable de transparencia que garantiza que tus códigos QR impresos nunca caducarán por sorpresa.
+- **Centro de Ayuda con Respuestas Directas:** Sección de preguntas frecuentes enriquecida con información clara sobre descargas vectoriales y personalización.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Refactorización integral de la estructura visual para máxima rapidez y compatibilidad con asistentes digitales.
+
+---
+
 ## [v1.8.5] — 2026-11-12
 ### 🎨 Menú Principal Rediseñado, Panel de Usuario Ergonómico y Sincronización de Planes
 

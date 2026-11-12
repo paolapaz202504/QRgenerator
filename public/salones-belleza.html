@@ -1,416 +1,242 @@
 <!DOCTYPE html>
-<html lang="es" class="min-h-full bg-slate-50 text-slate-800">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Anti-Cache Directives -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-
-  <title>Códigos QR para Salones de Belleza y Spas | Citas por WhatsApp y Fidelización | QRbey</title>
-  
-  <!-- Primary SEO & GEO Metadata -->
-  <meta name="title" content="Códigos QR para Salones de Belleza y Spas | Citas por WhatsApp y Fidelización | QRbey">
-  <meta name="description" content="Genera códigos QR para salones de belleza, estéticas, barberías y spas. Permite a tus clientas agendar citas por WhatsApp, ver tu catálogo de servicios y dejar reseñas en Google desde el espejo o mostrador.">
-  <meta name="keywords" content="codigo qr para salon de belleza, qr para agendar citas whatsapp, qr catalogo peluqueria, qr para barberias, fidelizacion salon belleza qr, qrbey">
-  <meta name="author" content="QRbey">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <title>QR para Salones de Belleza: Citas y Agenda | QRbey</title>
+  <meta name="description" content="Códigos QR dinámicos para salones de belleza y spas. Agenda citas por WhatsApp, catálogo de servicios y promociones de fidelización en tu mostrador.">
   <link rel="canonical" href="https://qrbey.onrender.com/salones-belleza">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Open Graph / Social Sharing -->
-  <meta property="og:type" content="article">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
   <meta property="og:url" content="https://qrbey.onrender.com/salones-belleza">
-  <meta property="og:title" content="Códigos QR para Salones de Belleza y Spas | QRbey">
-  <meta property="og:description" content="Facilita reservas directas por WhatsApp y muestra tu catálogo de belleza en el móvil de tu clienta. Sin caducidad y con descarga vectorial de alta definición.">
+  <meta property="og:title" content="QR para Salones de Belleza: Citas y Agenda | QRbey">
+  <meta property="og:description" content="Agenda citas directas por WhatsApp y muestra tus servicios en el mostrador con códigos QR personalizados.">
   <meta property="og:image" content="https://qrbey.onrender.com/favicon.svg">
-  <meta property="og:site_name" content="QRbey">
-  <meta property="og:locale" content="es_ES">
 
-  <!-- Twitter / X Metadata -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Códigos QR para Salones de Belleza | QRbey">
-  <meta name="twitter:description" content="Multiplica las citas de tu salón o spa con códigos QR directos a WhatsApp, catálogo digital y reseñas en Google.">
+  <meta name="twitter:title" content="QR para Salones de Belleza: Citas y Agenda | QRbey">
+  <meta name="twitter:description" content="Agenda citas directas por WhatsApp y muestra tus servicios en el mostrador con códigos QR personalizados.">
   <meta name="twitter:image" content="https://qrbey.onrender.com/favicon.svg">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
-
-  <!-- JSON-LD Structured Data (GEO & Schema.org) -->
+  <!-- Schema.org JSON-LD (FAQPage + BreadcrumbList + Organization) -->
   <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Códigos QR para Salones de Belleza y Spas — QRbey",
-      "url": "https://qrbey.onrender.com/salones-belleza",
-      "description": "Herramienta especializada de códigos QR para estéticas, salones de belleza y barberías. Agendamiento de citas en WhatsApp, catálogo de servicios y captación de opiniones.",
-      "inLanguage": "es",
-      "dateModified": "2026-11-12",
-      "publisher": {
-        "@type": "Organization",
-        "name": "QRbey",
-        "url": "https://qrbey.onrender.com/"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Inicio",
-          "item": "https://qrbey.onrender.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Salones de Belleza & Spas",
-          "item": "https://qrbey.onrender.com/salones-belleza"
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cómo agenda una clienta por el QR?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La clienta escanea el código con su móvil y abre directamente una conversación de WhatsApp con un mensaje predeterminado para solicitar cita o consultar disponibilidad."
         }
-      ]
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "QRbey para Salones de Belleza — Citas y Fidelización",
-      "image": "https://qrbey.onrender.com/favicon.svg",
-      "description": "Generador de códigos QR para salones de belleza y barberías. Conexión en 1 clic con WhatsApp, catálogos de corte y fidelización sin límite de lecturas.",
-      "brand": {
-        "@type": "Brand",
-        "name": "QRbey"
       },
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "url": "https://qrbey.onrender.com/salones-belleza"
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "¿Cómo conectar un código QR directamente al WhatsApp de mi salón para agendar citas?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Ingresa el enlace directo wa.me con tu número y mensaje predeterminado en QRbey, añade el logo de WhatsApp y tus clientas agendarán en 1 toque."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Dónde es más conveniente colocar los códigos QR en una estética o peluquería?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "En las esquinas de los espejos de cada estación de trabajo, en el mostrador de cobro para solicitar reseñas de Google y en la tarjeta de citas física."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Puedo usar el código QR para que las clientas dejen reseñas en Google Maps?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Sí. Puedes enlazar directamente a la URL de reseñas de tu perfil de Google My Business para recibir calificaciones de 5 estrellas mientras pagan su servicio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Los códigos QR para salón de belleza tienen fecha de vencimiento?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. Todos los códigos generados en QRbey son 100% permanentes, por lo que puedes imprimirlos en tus tarjetas de visita o vinilos exteriores con total tranquilidad."
-          }
+      {
+        "@type": "Question",
+        "name": "¿Puedo cambiar el link de agenda después?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, puedes actualizar el número de WhatsApp o el enlace de tu sistema de reservas en cualquier momento sin necesidad de cambiar los adhesivos o carteles ya impresos."
         }
-      ]
-    }
-  ]
+      },
+      {
+        "@type": "Question",
+        "name": "¿El QR caduca?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, los códigos QR de QRbey son permanentes y no se desactivan con el tiempo, asegurando que tus clientas siempre puedan contactar a tu salón."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Funciona con WhatsApp Business?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Funciona a la perfección tanto con WhatsApp estándar como con cuentas de WhatsApp Business, permitiendo automatizar mensajes de bienvenida y respuestas rápidas."
+        }
+      }
+    ]
+  }
   </script>
 
-  <!-- Tailwind CSS & FontAwesome -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://qrbey.onrender.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Salones de Belleza",
+        "item": "https://qrbey.onrender.com/salones-belleza"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "QRbey",
+    "url": "https://qrbey.onrender.com/",
+    "logo": "https://qrbey.onrender.com/favicon.svg"
+  }
+  </script>
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="min-h-screen flex flex-col font-['Plus_Jakarta_Sans'] bg-slate-50 text-slate-800 antialiased selection:bg-pink-500 selection:text-white">
+<body class="bg-slate-50 text-slate-800 font-['Plus_Jakarta_Sans'] antialiased">
 
-  <!-- Navbar Específico -->
-  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+  <!-- Header Navbar -->
+  <header class="border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2.5 text-slate-900 group">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white shadow-sm shadow-pink-500/30 group-hover:scale-105 transition">
-          <i class="fa-solid fa-gem text-sm"></i>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-extrabold font-['Outfit'] text-lg tracking-tight leading-none text-slate-900">QRbey</span>
-          <span class="text-[10px] font-semibold text-pink-600 uppercase tracking-wider font-mono">Salones & Estética</span>
-        </div>
+      <a href="/" class="flex items-center gap-3">
+        <img src="/favicon.svg" alt="QRbey Logo" class="w-9 h-9 rounded-xl">
+        <span class="text-xl font-bold font-['Outfit'] text-slate-900">QRbey</span>
       </a>
-
-      <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-600">
-        <a href="#beneficios" class="hover:text-pink-600 transition">Beneficios</a>
-        <a href="#casos" class="hover:text-pink-600 transition">Casos de Uso</a>
-        <a href="#faq" class="hover:text-pink-600 transition">Preguntas Frecuentes</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+        <a href="/" class="hover:text-indigo-600 transition">Inicio</a>
+        <a href="/restaurantes" class="hover:text-amber-600 transition">Restaurantes</a>
+        <a href="/salones-belleza" class="text-pink-700 font-bold border-b-2 border-pink-500 pb-1">Salones de Belleza</a>
+        <a href="/comercios" class="hover:text-emerald-600 transition">Comercios</a>
+        <a href="/sobre-nosotros" class="hover:text-indigo-600 transition">Sobre Nosotros</a>
       </nav>
-
-      <div class="flex items-center gap-3">
-        <a href="/?cat=Belleza#step1-container" 
-          class="bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 active:scale-95 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-sm transition">
-          <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-          <span>Diseñar QR para Salón</span>
-        </a>
-      </div>
+      <a href="/#editor" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition shadow-xs">
+        Crear QR Ahora
+      </a>
     </div>
   </header>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 sm:space-y-16">
-    
-    <!-- Breadcrumb Navegacional -->
-    <nav aria-label="Breadcrumb" class="text-xs text-slate-500 flex items-center gap-2">
-      <a href="/" class="hover:text-slate-900 transition flex items-center gap-1">
-        <i class="fa-solid fa-house text-[10px]"></i> Inicio
-      </a>
-      <span>/</span>
-      <span class="text-pink-600 font-semibold">Salones de Belleza & Spas</span>
-    </nav>
-
-    <!-- Hero Section de la Vertical -->
-    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-gradient-to-br from-white via-pink-50/40 to-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs relative overflow-hidden">
-      <div class="absolute -top-24 -right-24 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="lg:col-span-7 space-y-4 sm:space-y-6">
-        <div class="inline-flex items-center gap-2 bg-pink-50 border border-pink-200 text-pink-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-2xs">
-          <i class="fa-solid fa-gem text-pink-600"></i>
-          <span>Especializado para Salones de Belleza, Estéticas y Barberías</span>
-        </div>
-
-        <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight leading-tight">
-          Códigos QR para Salones de Belleza: Reservas de Citas y Fidelización
-        </h1>
-
-        <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-          Facilita que tus clientas reserven su próximo turno por WhatsApp, exploren tu catálogo de cortes y tintes en su teléfono o te dejen una reseña de 5 estrellas en Google <strong>directamente desde el espejo de su estación de peinado</strong>.
-        </p>
-
-        <!-- Highlights -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-semibold text-slate-700 pt-1">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-check text-pink-600"></i>
-            <span>Enlace directo a WhatsApp en 1 clic</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-check text-pink-600"></i>
-            <span>Captación de reseñas en Google Maps</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-check text-pink-600"></i>
-            <span>Diseños elegantes con paleta estética</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-check text-pink-600"></i>
-            <span>Descarga en SVG y PNG sin caducidad</span>
-          </div>
-        </div>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap items-center gap-3 pt-2">
-          <a href="/?cat=Belleza#step1-container" 
-            class="bg-pink-600 hover:bg-pink-700 active:scale-95 text-white font-bold px-6 py-3 rounded-2xl text-sm flex items-center gap-2 shadow-md shadow-pink-600/20 transition">
-            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-            <span>Crear mi QR de Belleza Gratis</span>
-          </a>
-          <a href="#beneficios" 
-            class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold px-5 py-3 rounded-2xl text-sm flex items-center gap-2 transition shadow-2xs">
-            <span>Ver beneficios</span>
-            <i class="fa-solid fa-arrow-down text-xs text-slate-400"></i>
-          </a>
-        </div>
+  <!-- Hero Vertical -->
+  <main class="max-w-5xl mx-auto px-4 py-10 sm:py-14 space-y-12">
+    <section class="text-center space-y-4">
+      <div class="inline-flex items-center gap-2 bg-pink-50 border border-pink-200 text-pink-800 text-xs font-bold px-3.5 py-1.5 rounded-full shadow-2xs">
+        <i class="fa-solid fa-scissors text-pink-600"></i>
+        <span>Solución Especializada para Estética & Spas</span>
       </div>
-
-      <!-- Mockup Visual del Espejo con QR -->
-      <div class="lg:col-span-5 flex justify-center">
-        <div class="bg-white border-2 border-slate-200 rounded-3xl p-6 shadow-xl max-w-xs w-full text-center space-y-4 relative">
-          <div class="bg-pink-500 text-white font-bold text-xs py-1 px-4 rounded-full inline-block uppercase tracking-wider font-mono">
-            Estación 3 • AGENDA CITA
-          </div>
-          <!-- QR Card Demo -->
-          <div class="bg-pink-50/60 border border-pink-200/80 rounded-2xl p-5 flex flex-col items-center justify-center space-y-3">
-            <div class="w-40 h-40 bg-white rounded-xl border border-slate-200 flex items-center justify-center p-3 shadow-inner">
-              <img src="/favicon.svg" alt="Ejemplo de QR para Salón" class="w-full h-full object-contain">
-            </div>
-            <div class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-              <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
-              <span>Escanea para agendar tu retoque</span>
-            </div>
-          </div>
-          <p class="text-[11px] text-slate-500">
-            Adhesivo transparente en esquina de espejo de 8x8cm con SVG vectorial.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3 Casos de Uso del Salón -->
-    <section id="casos" class="space-y-6">
-      <div class="text-center max-w-2xl mx-auto space-y-2">
-        <h2 class="text-xl sm:text-3xl font-extrabold font-['Outfit'] text-slate-900">
-          3 Aplicaciones Clave para tu Salón o Spa
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-600">
-          Convierte cada visita en un cliente recurrente y fiel.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-3 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-xl bg-pink-50 border border-pink-200 text-pink-700 flex items-center justify-center font-bold text-lg">
-            <i class="fa-solid fa-calendar-check"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Citas Instantáneas por WhatsApp</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Mientras tu clienta espera que actúe el tinte o el tratamiento capilar, escanea el QR en el espejo y agenda su próximo retoque sin esperas ni llamadas.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-3 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 text-purple-700 flex items-center justify-center font-bold text-lg">
-            <i class="fa-solid fa-book-open"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Catálogo Visual & Lookbook</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Muestra fotografías en alta definición de peinados, uñas acrílicas, balayage y paquetes de spa directamente en su pantalla, facilitando que elijan servicios adicionales.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-3 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center font-bold text-lg">
-            <i class="fa-solid fa-star"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Reseñas de 5 Estrellas en Google</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">
-            Coloca un QR en recepción con un mensaje amigable: <em>"¿Te encantó tu cambio de look? Déjanos una reseña"</em>. Multiplica tu reputación y atrae nuevas clientas locales.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ GEO -->
-    <section id="faq" class="space-y-4">
-      <div class="space-y-1">
-        <h2 class="text-xl sm:text-2xl font-extrabold font-['Outfit'] text-slate-900">
-          Preguntas Frecuentes para Salones de Belleza
-        </h2>
-        <p class="text-xs text-slate-500">Respuestas directas y optimizadas para salones y profesionales de la estética.</p>
-      </div>
-
-      <div class="space-y-3">
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1.5 shadow-2xs">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-circle-question text-pink-600 text-xs"></i>
-            ¿Cómo conectar un código QR directamente al WhatsApp de mi salón para agendar citas?
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed pl-5 font-medium">
-            <strong>Respuesta directa:</strong> Ingresa el enlace directo wa.me con tu número y mensaje predeterminado en QRbey, añade el logo de WhatsApp y tus clientas agendarán en 1 toque.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1.5 shadow-2xs">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-circle-question text-pink-600 text-xs"></i>
-            ¿Dónde es más conveniente colocar los códigos QR en una estética o peluquería?
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed pl-5 font-medium">
-            <strong>Respuesta directa:</strong> En las esquinas de los espejos de cada estación de trabajo, en el mostrador de cobro para solicitar reseñas de Google y en la tarjeta de citas física.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1.5 shadow-2xs">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-circle-question text-pink-600 text-xs"></i>
-            ¿Puedo usar el código QR para que las clientas dejen reseñas en Google Maps?
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed pl-5 font-medium">
-            <strong>Respuesta directa:</strong> Sí. Puedes enlazar directamente a la URL de reseñas de tu perfil de Google My Business para recibir calificaciones de 5 estrellas mientras pagan su servicio.
-          </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-1.5 shadow-2xs">
-          <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-circle-question text-pink-600 text-xs"></i>
-            ¿Los códigos QR para salón de belleza tienen fecha de vencimiento?
-          </h3>
-          <p class="text-xs text-slate-600 leading-relaxed pl-5 font-medium">
-            <strong>Respuesta directa:</strong> No. Todos los códigos generados en QRbey son 100% permanentes, por lo que puedes imprimirlos en tus tarjetas de visita o vinilos exteriores con total tranquilidad.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Banner Final CTA -->
-    <section class="bg-gradient-to-r from-pink-500 to-rose-600 rounded-3xl p-6 sm:p-10 text-white text-center space-y-4 shadow-lg shadow-pink-500/20">
-      <h2 class="text-2xl sm:text-3xl font-extrabold font-['Outfit']">
-        Moderniza la Experiencia de tus Clientas Hoy Mismo
-      </h2>
-      <p class="text-xs sm:text-sm text-pink-100 max-w-xl mx-auto">
-        Crea códigos QR atractivos, con los colores de tu marca y listos para imprimir en vinilo o tarjetas en 2 minutos.
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto">
+        Código QR para salones de belleza: agenda citas y fideliza clientas sin reimprimir
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        Coloca un código QR elegante en tu mostrador o espejos para que tus clientas agenden directo por WhatsApp, descubran tus tratamientos y compartan tu perfil en redes.
       </p>
       <div class="pt-2">
-        <a href="/?cat=Belleza#step1-container" 
-          class="bg-white hover:bg-slate-50 text-pink-800 font-extrabold px-6 py-3 rounded-2xl text-sm inline-flex items-center gap-2 shadow-md transition active:scale-95">
-          <i class="fa-solid fa-wand-magic-sparkles text-pink-600 text-xs"></i>
-          <span>Diseñar mi QR de Belleza</span>
+        <a href="/#editor" class="bg-pink-600 hover:bg-pink-700 text-white font-bold text-sm sm:text-base px-6 py-3 rounded-xl transition shadow-md shadow-pink-600/20 inline-flex items-center gap-2">
+          <i class="fa-solid fa-scissors text-xs"></i>
+          <span>Crear el QR de mi salón</span>
         </a>
       </div>
     </section>
 
+    <!-- Cómo Funciona (3 pasos) -->
+    <section class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+      <h2 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 text-center">
+        Cómo funciona en 3 pasos
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-pink-100 text-pink-800 font-bold flex items-center justify-center text-sm">1</div>
+          <h3 class="font-bold text-slate-900">Configurar</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Introduce tu enlace de WhatsApp con mensaje prefijado (ej. "Hola, deseo agendar una cita de peluquería").</p>
+        </div>
+        <div class="space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-pink-100 text-pink-800 font-bold flex items-center justify-center text-sm">2</div>
+          <h3 class="font-bold text-slate-900">Personalizar & Imprimir</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Elige tonos rosas o pastel, inserta tu logotipo y descarga en alta calidad para tus tarjetas o expositores.</p>
+        </div>
+        <div class="space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-pink-100 text-pink-800 font-bold flex items-center justify-center text-sm">3</div>
+          <h3 class="font-bold text-slate-900">Recibir Citas</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Tus clientas escanean y chatean contigo al instante. Si cambias de número, actualízalo en el panel en segundos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Caso de Estudio Real -->
+    <section class="bg-pink-50/60 border border-pink-200/80 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
+      <div class="flex items-center gap-1.5 text-pink-500 text-xs font-bold">
+        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        <span class="text-pink-800 ml-1">Caso de Estudio Real</span>
+      </div>
+      <blockquote class="text-sm sm:text-base text-slate-700 italic leading-relaxed">
+        "Colocamos el QR en el mostrador para que nuestras clientas agenden directo por WhatsApp. El código tiene el tono rosa de nuestra marca y nuestro logo. Ha aumentado las reservas recurrentes en más de un 40%."
+      </blockquote>
+      <div class="border-t border-pink-200/60 pt-3 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-pink-200 text-pink-900 font-bold flex items-center justify-center text-sm shrink-0">SO</div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm">Sofía O.</h4>
+          <p class="text-xs text-slate-600">Directora en Bella Donna Studio — +40% reservas recurrentes</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Vertical -->
+    <section class="space-y-6">
+      <h2 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 text-center">
+        Preguntas Frecuentes sobre QR para Salones
+      </h2>
+      <div class="space-y-3">
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-1.5">
+          <h3 class="font-bold text-slate-900 text-sm">¿Cómo agenda una clienta por el QR?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">La clienta escanea el código con su móvil y abre directamente una conversación de WhatsApp con un mensaje predeterminado para solicitar cita o consultar disponibilidad.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-1.5">
+          <h3 class="font-bold text-slate-900 text-sm">¿Puedo cambiar el link de agenda después?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Sí, puedes actualizar el número de WhatsApp o el enlace de tu sistema de reservas en cualquier momento sin necesidad de cambiar los adhesivos o carteles ya impresos.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-1.5">
+          <h3 class="font-bold text-slate-900 text-sm">¿El QR caduca?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">No, los códigos QR de QRbey son permanentes y no se desactivan con el tiempo, asegurando que tus clientas siempre puedan contactar a tu salón.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-1.5">
+          <h3 class="font-bold text-slate-900 text-sm">¿Funciona con WhatsApp Business?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Funciona a la perfección tanto con WhatsApp estándar como con cuentas de WhatsApp Business, permitiendo automatizar mensajes de bienvenida y respuestas rápidas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="text-center bg-gradient-to-br from-pink-500 to-pink-700 text-white rounded-3xl p-8 sm:p-10 space-y-4 shadow-xl">
+      <h2 class="text-2xl sm:text-3xl font-extrabold font-['Outfit']">Multiplica las Reservas en tu Salón de Belleza</h2>
+      <p class="text-xs sm:text-sm text-pink-100 max-w-xl mx-auto">Diseña tu código con los colores de tu marca y conéctate con tus clientas.</p>
+      <a href="/#editor" class="bg-white hover:bg-slate-100 text-pink-900 font-bold text-sm px-6 py-3 rounded-xl transition inline-block shadow-md">
+        Crear el QR de mi salón
+      </a>
+    </section>
   </main>
 
-  <!-- Footer con Navegación Cruzada -->
-  <footer class="bg-white border-t border-slate-200 mt-12 py-8 text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        <div>
-          <span class="font-bold text-slate-900 block mb-2 font-['Outfit'] text-sm">QRbey para Negocios</span>
-          <p class="text-[11px] text-slate-500 leading-relaxed">
-            Plataforma líder de códigos QR vectoriales y dinámicos para pymes y negocios locales de habla hispana.
-          </p>
-        </div>
-        <div>
-          <span class="font-bold text-slate-900 block mb-2 font-mono uppercase tracking-wider text-[11px]">Soluciones Verticales</span>
-          <ul class="space-y-1.5 text-slate-600">
-            <li><a href="/restaurantes" class="hover:text-amber-600 transition">Menús para Restaurantes</a></li>
-            <li><a href="/salones-belleza" class="text-pink-600 font-bold hover:underline">Salones de Belleza & Spas</a></li>
-            <li><a href="/comercios" class="hover:text-emerald-600 transition">Comercios & WiFi Tiendas</a></li>
-          </ul>
-        </div>
-        <div>
-          <span class="font-bold text-slate-900 block mb-2 font-mono uppercase tracking-wider text-[11px]">Herramientas</span>
-          <ul class="space-y-1.5 text-slate-600">
-            <li><a href="/#step3-container" class="hover:text-indigo-600 transition">Galería de 600 Diseños</a></li>
-            <li><a href="/#step1-container" class="hover:text-indigo-600 transition">Generador SVG Vectorial</a></li>
-            <li><a href="/#faq-container" class="hover:text-indigo-600 transition">Centro de Ayuda</a></li>
-          </ul>
-        </div>
-        <div>
-          <span class="font-bold text-slate-900 block mb-2 font-mono uppercase tracking-wider text-[11px]">Contacto & Soporte</span>
-          <p class="text-[11px] text-slate-600">Atención oficial: <a href="mailto:qrbeyconctact@gmail.com" class="text-indigo-600 font-semibold hover:underline">qrbeyconctact@gmail.com</a></p>
-          <span class="inline-block mt-2 text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-mono font-bold">Versión 1.8.0</span>
-        </div>
-      </div>
-      <div class="border-t border-slate-100 pt-4 flex flex-wrap items-center justify-between gap-2 text-[11px]">
-        <p>&copy; 2026 QRbey. Todos los derechos reservados.</p>
-        <p>Códigos QR sin caducidad • SVG Vectorial Puro • Nivel de Corrección H</p>
-      </div>
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-500 space-y-3">
+    <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600">
+      <a href="/" class="hover:text-indigo-600">Inicio</a>
+      <span>•</span>
+      <a href="/restaurantes" class="hover:text-amber-600">Restaurantes</a>
+      <span>•</span>
+      <a href="/salones-belleza" class="text-pink-700">Salones de Belleza</a>
+      <span>•</span>
+      <a href="/comercios" class="hover:text-emerald-600">Comercios</a>
+      <span>•</span>
+      <a href="/#planes" class="hover:text-indigo-600">Planes</a>
+      <span>•</span>
+      <a href="/sobre-nosotros" class="hover:text-indigo-600">Sobre Nosotros</a>
     </div>
+    <p>© 2026 QRbey. Códigos QR dinámicos para salones de belleza, estética y spas.</p>
   </footer>
 
 </body>

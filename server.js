@@ -92,8 +92,17 @@ class Server {
     });
 
     // Página Sobre Nosotros y Transparencia (E-E-A-T)
+    this.app.get('/sobre-nosotros', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public', 'sobre-nosotros.html'));
+    });
+
     this.app.get('/nosotros', (req, res) => {
       res.sendFile(path.join(__dirname, 'public', 'nosotros.html'));
+    });
+
+    // Documentación API para Desarrolladores y Agentes de IA (MCP)
+    this.app.get('/api', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public', 'api.html'));
     });
 
     this.app.use(express.static(path.join(__dirname, 'public'), {

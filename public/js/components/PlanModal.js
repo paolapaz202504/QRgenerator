@@ -62,6 +62,25 @@ export class PlanModal extends UIComponent {
       });
     }
 
+    // Bind In-Page Pricing Section Buttons
+    document.querySelectorAll('.btn-select-pro-plan').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (this.container) this.container.classList.remove('hidden');
+        if (this.btnBuyPro) this.btnBuyPro.focus();
+        this.updateDurationAndPrices();
+        this.updateActivePlanUI(appState.getState().user);
+      });
+    });
+
+    document.querySelectorAll('.btn-select-corp-plan').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (this.container) this.container.classList.remove('hidden');
+        if (this.btnBuyCorporate) this.btnBuyCorporate.focus();
+        this.updateDurationAndPrices();
+        this.updateActivePlanUI(appState.getState().user);
+      });
+    });
+
     if (this.btnClosePlanModal) {
       this.btnClosePlanModal.addEventListener('click', () => {
         if (this.container) this.container.classList.add('hidden');
