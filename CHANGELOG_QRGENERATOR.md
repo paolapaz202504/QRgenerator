@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.6.1] — 2026-11-11
+### 💳 Renovación Inteligente de Planes y Confirmación de Seguridad al Cerrar Sesión
+
+#### Novedades y Mejoras
+- **Reinicio de contadores al pasar de Plan Gratis a Plan PRO:** Al adquirir el Plan PRO, tus créditos de diseño y códigos generados se reinician desde cero para que disfrutes de tu suscripción con el cupo completo disponible desde el primer día.
+- **Ampliación de límites al pasar de Plan PRO a Plan ENTERPRISE:** Si actualizas de Plan PRO a Plan ENTERPRISE, tus límites de créditos y códigos se incrementan de inmediato conservando intacto tu historial y el conteo previo de diseños realizados.
+- **Cuadro de diálogo de confirmación al cerrar sesión:** Al hacer clic en cerrar sesión (tanto en el menú principal como en tu panel de perfil), el sistema te solicitará una confirmación previa para evitar salidas accidentales y resguardar tu trabajo activo en pantalla.
+- **Mejoras de rendimiento y mayor estabilidad:** Optimizaciones en la verificación de límites y consistencia de datos de usuario.
+
+---
+
 ## [v1.6.0] — 2026-11-11
 ### 🚀 Sincronización Inmediata de Perfil y Vigencia desde la Fecha de Compra
 

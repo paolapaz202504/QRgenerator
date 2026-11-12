@@ -130,8 +130,19 @@ export class UserModal extends UIComponent {
     }
 
     if (this.btnLogout) {
-      this.btnLogout.addEventListener('click', () => {
-        appState.setState({ user: null }, 'USER_LOGGED_OUT');
+      this.btnLogout.addEventListener('click', async () => {
+        const { ModalService } = await import('../services/ModalService.js');
+        const confirmed = await ModalService.confirm({
+          title: '¿Cerrar Sesión?',
+          message: '¿Estás seguro de que deseas cerrar tu sesión en QRbey?',
+          icon: 'fa-right-from-bracket',
+          confirmText: 'Sí, Cerrar Sesión',
+          cancelText: 'Cancelar',
+          type: 'danger'
+        });
+        if (confirmed) {
+          appState.setState({ user: null }, 'USER_LOGGED_OUT');
+        }
       });
     }
 

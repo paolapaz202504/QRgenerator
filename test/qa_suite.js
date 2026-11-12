@@ -541,6 +541,133 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 21: Reglas de Venta de Planes: Free -> PRO reinicia créditos y códigos QR a 0
+  await test('Reglas de Venta: Free ➔ PRO reinicia créditos y códigos generados a 0 con nuevos límites', async () => {
+    const testUserEmail = `upgrade_free_pro_${Date.now()}@qrbey.com`;
+    
+    // 1. Crear usuario en Plan Free
+    await makeRequest('/api/auth/oauth-login', 'POST', {
+      email: testUserEmail,
+      name: 'Free Upgrade Tester',
+      provider: 'Google'
+    });
+
+    // 2. Consumir 5 créditos y generar 1 código QR
+    await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testUserEmail });
+    await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testUserEmail });
+    await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testUserEmail });
+    await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testUserEmail });
+    await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testUserEmail });
+
+    await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/free-usage',
+      title: 'QR Free',
+      userEmail: testUserEmail,
+      isExplicitGenerate: true
+    });
+
+    // 3. Comprar Plan PRO (Free -> PRO)
+    const upgradeRes = await makeRequest('/api/user/upgrade-plan', 'POST', {
+      userEmail: testUserEmail,
+      plan: 'pro',
+      months: 1
+    });
+
+    const upData = upgradeRes.json();
+    if (!upData.success || !upData.user) {
+      throw new Error('Error al actualizar plan a PRO');
+    }
+
+    if (upData.user.plan !== 'pro') {
+      throw new Error(`Plan esperado pro, recibido: ${upData.user.plan}`);
+    }
+    if (upData.user.creditsUsed !== 0) {
+      throw new Error(`Los créditos consumidos debían reiniciarse a 0 al pasar de Free a PRO, recibido: ${upData.user.creditsUsed}`);
+    }
+    if (upData.user.generationsCount !== 0) {
+      throw new Error(`Los códigos generados debían reiniciarse a 0 al pasar de Free a PRO, recibido: ${upData.user.generationsCount}`);
+    }
+    if (upData.user.maxCredits !== 2000) {
+      throw new Error(`Límite maxCredits esperado 2000, recibido: ${upData.user.maxCredits}`);
+    }
+    if (upData.user.maxDownloads !== 500) {
+      throw new Error(`Límite maxDownloads esperado 500, recibido: ${upData.user.maxDownloads}`);
+    }
+  });
+
+  // PRUEBA 22: Reglas de Venta de Planes: PRO -> ENTERPRISE conserva consumos y amplía límites
+  await test('Reglas de Venta: PRO ➔ ENTERPRISE amplía límites sin reiniciar créditos ni códigos generados', async () => {
+    const testUserEmail = `upgrade_pro_corp_${Date.now()}@qrbey.com`;
+    
+    // 1. Crear usuario directamente en Plan PRO
+    await makeRequest('/api/auth/oauth-login', 'POST', {
+      email: testUserEmail,
+      name: 'Pro Corp Tester',
+      provider: 'Google'
+    });
+    await makeRequest('/api/user/upgrade-plan', 'POST', {
+      userEmail: testUserEmail,
+      plan: 'pro',
+      months: 1
+    });
+
+    // 2. Consumir 12 créditos y generar 3 códigos QR en Plan PRO
+    for (let i = 0; i < 12; i++) {
+      await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testUserEmail });
+    }
+    for (let i = 0; i < 3; i++) {
+      await makeRequest('/api/generate', 'POST', {
+        url: `https://qrbey.com/pro-usage-${i}`,
+        title: `QR Pro ${i}`,
+        userEmail: testUserEmail,
+        isExplicitGenerate: true
+      });
+    }
+
+    // 3. Adquirir Plan ENTERPRISE / CORPORATE (PRO -> CORPORATE)
+    const upgradeRes = await makeRequest('/api/user/upgrade-plan', 'POST', {
+      userEmail: testUserEmail,
+      plan: 'corporate',
+      months: 1
+    });
+
+    const upData = upgradeRes.json();
+    if (!upData.success || !upData.user) {
+      throw new Error('Error al actualizar plan a Corporate');
+    }
+
+    if (upData.user.plan !== 'corporate') {
+      throw new Error(`Plan esperado corporate, recibido: ${upData.user.plan}`);
+    }
+    // Debe conservar los 12 créditos y 3 generaciones previas
+    if (upData.user.creditsUsed !== 12) {
+      throw new Error(`Al pasar de PRO a Corporate, los créditos consumidos debían conservarse (esperado 12), recibido: ${upData.user.creditsUsed}`);
+    }
+    if (upData.user.generationsCount !== 3) {
+      throw new Error(`Al pasar de PRO a Corporate, los códigos generados debían conservarse (esperado 3), recibido: ${upData.user.generationsCount}`);
+    }
+    if (upData.user.maxCredits !== 10000) {
+      throw new Error(`Límite maxCredits esperado 10000, recibido: ${upData.user.maxCredits}`);
+    }
+    if (upData.user.maxDownloads !== 2000) {
+      throw new Error(`Límite maxDownloads esperado 2000, recibido: ${upData.user.maxDownloads}`);
+    }
+  });
+
+  // PRUEBA 23: Confirmación Modal al Cerrar Sesión
+  await test('Confirmación Modal al Cerrar Sesión: Integración de ModalService.confirm en Navbar y Perfil', async () => {
+    const fs = require('fs');
+    const userModalCode = fs.readFileSync('public/js/components/UserModal.js', 'utf8');
+    const profileModalCode = fs.readFileSync('public/js/components/ProfileModal.js', 'utf8');
+
+    if (!userModalCode.includes('ModalService.confirm') || !userModalCode.includes('¿Cerrar Sesión?')) {
+      throw new Error('UserModal.js no solicita confirmación modal antes de cerrar sesión.');
+    }
+    if (!profileModalCode.includes('ModalService.confirm') || !profileModalCode.includes('¿Cerrar Sesión?')) {
+      throw new Error('ProfileModal.js no solicita confirmación modal antes de cerrar sesión.');
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

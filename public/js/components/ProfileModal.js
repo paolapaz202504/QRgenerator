@@ -69,9 +69,20 @@ export class ProfileModal extends UIComponent {
     }
 
     if (this.btnProfileLogout) {
-      this.btnProfileLogout.addEventListener('click', () => {
-        if (this.container) this.container.classList.add('hidden');
-        appState.setState({ user: null }, 'USER_LOGGED_OUT');
+      this.btnProfileLogout.addEventListener('click', async () => {
+        const { ModalService } = await import('../services/ModalService.js');
+        const confirmed = await ModalService.confirm({
+          title: '¿Cerrar Sesión?',
+          message: '¿Estás seguro de que deseas cerrar tu sesión en QRbey?',
+          icon: 'fa-right-from-bracket',
+          confirmText: 'Sí, Cerrar Sesión',
+          cancelText: 'Cancelar',
+          type: 'danger'
+        });
+        if (confirmed) {
+          if (this.container) this.container.classList.add('hidden');
+          appState.setState({ user: null }, 'USER_LOGGED_OUT');
+        }
       });
     }
   }

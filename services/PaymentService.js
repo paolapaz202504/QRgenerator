@@ -116,13 +116,30 @@ class PaymentService {
       return { success: false, error: 'Usuario no encontrado para aplicar el plan' };
     }
 
+    const previousPlan = (user.plan || 'free').toLowerCase();
+    const targetPlan = txn.plan.toLowerCase();
     const planConfig = config.getPlanConfig(txn.plan);
+
     user.plan = txn.plan;
     user.maxDownloads = planConfig.maxDownloads;
     user.maxCredits = planConfig.maxCredits;
     user.planDurationMonths = txn.durationMonths;
 
-    const expDate = new Date();
+    // Reglas de Negocio de Venta de Planes:
+    // 1) Si estaba en plan gratis y compra PRO (o plan de pago): créditos y códigos QR generados se reinician a 0.
+    // 2) Si estaba en plan PRO y adquiere ENTERPRISE (corporate): los límites suben pero NO se reinician créditos ni códigos generados.
+    if (previousPlan === 'free' && targetPlan !== 'free') {
+      user.creditsUsed = 0;
+      user.generationsCount = 0;
+      user.downloadsCount = 0;
+    }
+
+    const now = new Date();
+    const currentExp = user.expirationDate ? new Date(user.expirationDate) : null;
+    const baseDate = (currentExp && !isNaN(currentExp.getTime()) && currentExp > now)
+      ? currentExp
+      : now;
+    const expDate = new Date(baseDate);
     expDate.setMonth(expDate.getMonth() + txn.durationMonths);
     user.expirationDate = expDate.toISOString();
 
@@ -142,7 +159,7 @@ class PaymentService {
         maxDownloads: user.maxDownloads,
         downloadsCount: user.downloadsCount || 0,
         maxCredits: user.maxCredits,
-        creditsUsed: user.generationsCount || 0,
+        creditsUsed: user.creditsUsed || 0,
         generationsCount: user.generationsCount || 0,
         planDurationMonths: user.planDurationMonths,
         expirationDate: user.expirationDate
@@ -189,14 +206,31 @@ class PaymentService {
     if (userEmail && planKey) {
       const user = userRepository.findByEmail(userEmail);
       if (user) {
+        const previousPlan = (user.plan || 'free').toLowerCase();
+        const targetPlan = planKey.toLowerCase();
         const planConfig = config.getPlanConfig(planKey);
+
         user.plan = planKey;
         user.maxDownloads = planConfig.maxDownloads;
         user.maxCredits = planConfig.maxCredits;
         const months = parseInt(metadata.durationMonths || 1, 10);
         user.planDurationMonths = months;
 
-        const expDate = new Date();
+        // Reglas de Negocio de Venta de Planes:
+        // Free -> Pro/Corporate: reinicia créditos y códigos a 0
+        // Pro -> Corporate: sube límites pero NO reinicia créditos ni códigos
+        if (previousPlan === 'free' && targetPlan !== 'free') {
+          user.creditsUsed = 0;
+          user.generationsCount = 0;
+          user.downloadsCount = 0;
+        }
+
+        const now = new Date();
+        const currentExp = user.expirationDate ? new Date(user.expirationDate) : null;
+        const baseDate = (currentExp && !isNaN(currentExp.getTime()) && currentExp > now)
+          ? currentExp
+          : now;
+        const expDate = new Date(baseDate);
         expDate.setMonth(expDate.getMonth() + months);
         user.expirationDate = expDate.toISOString();
 

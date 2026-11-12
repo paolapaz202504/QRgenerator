@@ -39,9 +39,20 @@ export class ModalService {
       if (msgEl) msgEl.textContent = message;
       if (iconEl) iconEl.className = `fa-solid ${icon}`;
 
+      const iconContainer = document.getElementById('confirm-modal-icon-container');
+      if (iconContainer) {
+        if (icon === 'fa-right-from-bracket' || type === 'danger') {
+          iconContainer.className = 'w-16 h-16 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center text-3xl mx-auto';
+        } else if (type === 'warning') {
+          iconContainer.className = 'w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center text-3xl mx-auto';
+        } else {
+          iconContainer.className = 'w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center text-3xl mx-auto';
+        }
+      }
+
       if (btnConfirm) {
-        const iconHtml = type === 'danger' ? '<i class="fa-solid fa-trash-can"></i>' : '<i class="fa-solid fa-check"></i>';
-        btnConfirm.innerHTML = `${iconHtml} <span>${confirmText}</span>`;
+        const confirmIcon = icon === 'fa-right-from-bracket' ? 'fa-right-from-bracket' : (type === 'danger' ? 'fa-check' : 'fa-check');
+        btnConfirm.innerHTML = `<i class="fa-solid ${confirmIcon}"></i> <span>${confirmText}</span>`;
         if (type === 'danger') {
           btnConfirm.className = 'w-full sm:flex-1 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-bold py-3 px-4 rounded-xl text-xs shadow-lg shadow-rose-600/20 flex items-center justify-center gap-2 transition transform active:scale-95';
         } else {
