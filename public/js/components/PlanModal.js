@@ -62,25 +62,6 @@ export class PlanModal extends UIComponent {
       });
     }
 
-    // Bind In-Page Pricing Section Buttons
-    document.querySelectorAll('.btn-select-pro-plan').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (this.container) this.container.classList.remove('hidden');
-        if (this.btnBuyPro) this.btnBuyPro.focus();
-        this.updateDurationAndPrices();
-        this.updateActivePlanUI(appState.getState().user);
-      });
-    });
-
-    document.querySelectorAll('.btn-select-corp-plan').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (this.container) this.container.classList.remove('hidden');
-        if (this.btnBuyCorporate) this.btnBuyCorporate.focus();
-        this.updateDurationAndPrices();
-        this.updateActivePlanUI(appState.getState().user);
-      });
-    });
-
     if (this.btnClosePlanModal) {
       this.btnClosePlanModal.addEventListener('click', () => {
         if (this.container) this.container.classList.add('hidden');
@@ -99,41 +80,46 @@ export class PlanModal extends UIComponent {
       });
     }
 
-    if (this.durationInput) {
+    // Sincronización bidireccional de selector de duración (Meses)
+    const syncDuration = (val) => {
+      let months = parseInt(val, 10);
+      if (isNaN(months) || months < 1) months = 1;
+      if (months > 60) months = 60;
+      document.querySelectorAll('#plan-duration-months, .plan-duration-input').forEach(input => {
+        input.value = months;
+      });
+      this.updateDurationAndPrices(months);
+    };
+
+    document.querySelectorAll('#plan-duration-months, .plan-duration-input').forEach(input => {
       ['change', 'input'].forEach(evt => {
-        this.durationInput.addEventListener(evt, () => {
-          let val = parseInt(this.durationInput.value, 10);
-          if (isNaN(val) || val < 1) {
-            val = 1;
-            this.durationInput.value = 1;
-          }
-          this.updateDurationAndPrices();
+        input.addEventListener(evt, (e) => {
+          syncDuration(e.target.value);
         });
       });
-    }
+    });
 
-    if (this.btnMonthMinus) {
-      this.btnMonthMinus.addEventListener('click', () => {
-        let val = parseInt(this.durationInput ? this.durationInput.value : '1', 10) || 1;
-        if (val > 1) {
-          val--;
-          if (this.durationInput) this.durationInput.value = val;
-          this.updateDurationAndPrices();
+    document.querySelectorAll('#btn-month-minus, .btn-month-minus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = document.querySelector('#plan-duration-months, .plan-duration-input');
+        let current = parseInt(input ? input.value : '1', 10) || 1;
+        if (current > 1) {
+          syncDuration(current - 1);
         }
       });
-    }
+    });
 
-    if (this.btnMonthPlus) {
-      this.btnMonthPlus.addEventListener('click', () => {
-        let val = parseInt(this.durationInput ? this.durationInput.value : '1', 10) || 1;
-        val++;
-        if (this.durationInput) this.durationInput.value = val;
-        this.updateDurationAndPrices();
+    document.querySelectorAll('#btn-month-plus, .btn-month-plus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = document.querySelector('#plan-duration-months, .plan-duration-input');
+        let current = parseInt(input ? input.value : '1', 10) || 1;
+        syncDuration(current + 1);
       });
-    }
+    });
 
-    if (this.btnBuyPro) {
-      this.btnBuyPro.addEventListener('click', () => {
+    // Botones de Compra / Selección Plan Pro (tanto en Modal como en Sección In-Page)
+    document.querySelectorAll('#btn-buy-pro, .btn-select-pro-plan').forEach(btn => {
+      btn.addEventListener('click', () => {
         const user = appState.getState().user;
         const userPlan = (user && user.plan) ? user.plan.toLowerCase() : 'free';
         if (userPlan === 'pro') {
@@ -142,10 +128,11 @@ export class PlanModal extends UIComponent {
           this.handlePurchase('pro');
         }
       });
-    }
+    });
 
-    if (this.btnBuyCorporate) {
-      this.btnBuyCorporate.addEventListener('click', () => {
+    // Botones de Compra / Selección Plan Corporativo (tanto en Modal como en Sección In-Page)
+    document.querySelectorAll('#btn-buy-corporate, .btn-select-corp-plan').forEach(btn => {
+      btn.addEventListener('click', () => {
         const user = appState.getState().user;
         const userPlan = (user && user.plan) ? user.plan.toLowerCase() : 'free';
         if (userPlan === 'corporate') {
@@ -154,16 +141,17 @@ export class PlanModal extends UIComponent {
           this.handlePurchase('corporate');
         }
       });
-    }
+    });
 
     this.updateDurationAndPrices();
   }
 
-  updateDurationAndPrices() {
-    let months = parseInt(this.durationInput ? this.durationInput.value : '1', 10);
+  updateDurationAndPrices(forcedMonths) {
+    const input = document.querySelector('#plan-duration-months, .plan-duration-input');
+    let months = forcedMonths !== undefined ? forcedMonths : parseInt(input ? input.value : '1', 10);
     if (isNaN(months) || months < 1) {
       months = 1;
-      if (this.durationInput) this.durationInput.value = 1;
+      document.querySelectorAll('#plan-duration-months, .plan-duration-input').forEach(el => el.value = 1);
     }
 
     // Calculate expiration date: Today + N months
@@ -186,24 +174,32 @@ export class PlanModal extends UIComponent {
     const proTotalPrice = (proMonthly * months).toFixed(2);
     const corpTotalPrice = (corpMonthly * months).toFixed(2);
 
-    const priceProDisplay = document.getElementById('price-pro-display');
-    const priceProPeriod = document.getElementById('price-pro-period');
-    const expiryProDate = document.getElementById('expiry-pro-date');
-
-    const priceCorpDisplay = document.getElementById('price-corp-display');
-    const priceCorpPeriod = document.getElementById('price-corp-period');
-    const expiryCorpDate = document.getElementById('expiry-corp-date');
-
     const user = appState.getState().user;
     const userPlan = (user && user.plan) ? user.plan.toLowerCase() : 'free';
 
-    if (priceProDisplay) priceProDisplay.textContent = `$${proTotalPrice}`;
-    if (priceProPeriod) priceProPeriod.textContent = `/ ${months} mes${months > 1 ? 'es' : ''}`;
-    if (expiryProDate && userPlan !== 'pro') expiryProDate.textContent = formattedExpiry;
+    document.querySelectorAll('#price-pro-display, .price-pro-display').forEach(el => {
+      el.textContent = `$${proTotalPrice}`;
+    });
+    document.querySelectorAll('#price-pro-period, .price-pro-period').forEach(el => {
+      el.textContent = `/ ${months} mes${months > 1 ? 'es' : ''}`;
+    });
+    if (userPlan !== 'pro') {
+      document.querySelectorAll('#expiry-pro-date, .expiry-pro-date').forEach(el => {
+        el.textContent = formattedExpiry;
+      });
+    }
 
-    if (priceCorpDisplay) priceCorpDisplay.textContent = `$${corpTotalPrice}`;
-    if (priceCorpPeriod) priceCorpPeriod.textContent = `/ ${months} mes${months > 1 ? 'es' : ''}`;
-    if (expiryCorpDate && userPlan !== 'corporate') expiryCorpDate.textContent = formattedExpiry;
+    document.querySelectorAll('#price-corp-display, .price-corp-display').forEach(el => {
+      el.textContent = `$${corpTotalPrice}`;
+    });
+    document.querySelectorAll('#price-corp-period, .price-corp-period').forEach(el => {
+      el.textContent = `/ ${months} mes${months > 1 ? 'es' : ''}`;
+    });
+    if (userPlan !== 'corporate') {
+      document.querySelectorAll('#expiry-corp-date, .expiry-corp-date').forEach(el => {
+        el.textContent = formattedExpiry;
+      });
+    }
   }
 
   updateActivePlanUI(user) {
@@ -232,14 +228,13 @@ export class PlanModal extends UIComponent {
     // -------------------------------------------------------------
     // CARD 1: PLAN GRATUITO
     // -------------------------------------------------------------
-    if (this.badgeFree) {
+    document.querySelectorAll('#badge-status-free, .badge-status-free').forEach(el => {
       if (userPlan === 'free') {
-        // Regla 4: Muestra en la parte superior "plan activo" junto a un ícono
-        this.badgeFree.innerHTML = `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5 normal-case tracking-normal whitespace-nowrap"><i class="fa-solid fa-circle-check text-emerald-400"></i> Plan activo</span>`;
+        el.innerHTML = `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5 normal-case tracking-normal whitespace-nowrap"><i class="fa-solid fa-circle-check text-emerald-400"></i> Plan activo</span>`;
       } else {
-        this.badgeFree.innerHTML = ``;
+        el.innerHTML = ``;
       }
-    }
+    });
 
     if (this.btnSelectFree) {
       if (userPlan === 'free') {
@@ -256,73 +251,78 @@ export class PlanModal extends UIComponent {
     // -------------------------------------------------------------
     // CARD 2: PLAN PROFESIONAL
     // -------------------------------------------------------------
-    if (this.badgePro) {
-      this.badgePro.innerHTML = ``;
-    }
-
-    if (this.expiryProContainer) {
+    document.querySelectorAll('#badge-status-pro, .badge-status-pro').forEach(el => {
       if (userPlan === 'pro') {
-        this.expiryProContainer.classList.remove('hidden');
-        const expiryProDate = document.getElementById('expiry-pro-date');
-        if (expiryProDate) expiryProDate.textContent = expFormatted;
+        el.innerHTML = `<span class="bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5 normal-case tracking-normal whitespace-nowrap"><i class="fa-solid fa-circle-check text-indigo-400"></i> Plan activo</span>`;
       } else {
-        this.expiryProContainer.classList.add('hidden');
+        el.innerHTML = ``;
       }
+    });
+
+    document.querySelectorAll('#expiry-pro-container, .expiry-pro-container').forEach(container => {
+      if (userPlan === 'pro') {
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    });
+    if (userPlan === 'pro') {
+      document.querySelectorAll('#expiry-pro-date, .expiry-pro-date').forEach(el => el.textContent = expFormatted);
     }
 
-    if (this.btnBuyPro) {
+    document.querySelectorAll('#btn-buy-pro, .btn-select-pro-plan').forEach(btn => {
       if (userPlan === 'pro') {
-        // Reglas 3 & 6: Cancelar plan activo Pro
-        this.btnBuyPro.disabled = false;
-        this.btnBuyPro.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 transition transform active:scale-95 flex items-center justify-center gap-2';
-        this.btnBuyPro.innerHTML = '<i class="fa-solid fa-ban text-rose-400"></i> Cancelar Plan Pro';
+        btn.disabled = false;
+        btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
+        btn.innerHTML = '<i class="fa-solid fa-ban text-rose-400"></i> Cancelar Plan Pro';
       } else if (userPlan === 'corporate') {
-        this.btnBuyPro.disabled = true;
-        this.btnBuyPro.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-slate-900 text-slate-500 border border-slate-800 cursor-not-allowed text-center transition flex items-center justify-center gap-2';
-        this.btnBuyPro.innerHTML = '<i class="fa-solid fa-check text-slate-500"></i> Plan Profesional (Nivel Inferior)';
+        btn.disabled = true;
+        btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-slate-900 text-slate-500 border border-slate-800 cursor-not-allowed text-center transition flex items-center justify-center gap-2';
+        btn.innerHTML = '<i class="fa-solid fa-check text-slate-500"></i> Plan Profesional (Nivel Inferior)';
       } else {
-        // Regla 1: Usuario con plan gratuito puede actualizar a Pro
-        this.btnBuyPro.disabled = false;
-        this.btnBuyPro.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white shadow-lg shadow-indigo-500/25 transition transform active:scale-95 flex items-center justify-center gap-2';
-        this.btnBuyPro.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Comprar Plan Profesional';
+        btn.disabled = false;
+        btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20 transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
+        btn.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Pagar con Recurrente';
       }
-    }
+    });
 
     // -------------------------------------------------------------
     // CARD 3: PLAN CORPORATIVO (ENTERPRISE)
     // -------------------------------------------------------------
-    if (this.badgeCorporate) {
-      this.badgeCorporate.innerHTML = ``;
-    }
-
-    if (this.expiryCorpContainer) {
+    document.querySelectorAll('#badge-status-corporate, .badge-status-corporate').forEach(el => {
       if (userPlan === 'corporate') {
-        this.expiryCorpContainer.classList.remove('hidden');
-        const expiryCorpDate = document.getElementById('expiry-corp-date');
-        if (expiryCorpDate) expiryCorpDate.textContent = expFormatted;
+        el.innerHTML = `<span class="bg-purple-500/20 text-purple-400 border border-purple-500/40 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5 normal-case tracking-normal whitespace-nowrap"><i class="fa-solid fa-circle-check text-purple-400"></i> Plan activo</span>`;
       } else {
-        this.expiryCorpContainer.classList.add('hidden');
+        el.innerHTML = ``;
       }
+    });
+
+    document.querySelectorAll('#expiry-corp-container, .expiry-corp-container').forEach(container => {
+      if (userPlan === 'corporate') {
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    });
+    if (userPlan === 'corporate') {
+      document.querySelectorAll('#expiry-corp-date, .expiry-corp-date').forEach(el => el.textContent = expFormatted);
     }
 
-    if (this.btnBuyCorporate) {
+    document.querySelectorAll('#btn-buy-corporate, .btn-select-corp-plan').forEach(btn => {
       if (userPlan === 'corporate') {
-        // Reglas 3 & 6: Cancelar plan activo Corporativo
-        this.btnBuyCorporate.disabled = false;
-        this.btnBuyCorporate.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 transition transform active:scale-95 flex items-center justify-center gap-2';
-        this.btnBuyCorporate.innerHTML = '<i class="fa-solid fa-ban text-rose-400"></i> Cancelar Plan Corporativo';
+        btn.disabled = false;
+        btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
+        btn.innerHTML = '<i class="fa-solid fa-ban text-rose-400"></i> Cancelar Plan Corporativo';
       } else if (userPlan === 'pro') {
-        // Regla 2: Usuario con plan Pro activo puede actualizar al plan Enterprise/Corporativo
-        this.btnBuyCorporate.disabled = false;
-        this.btnBuyCorporate.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg shadow-purple-500/25 transition transform active:scale-95 flex items-center justify-center gap-2';
-        this.btnBuyCorporate.innerHTML = '<i class="fa-solid fa-arrow-up-right-dots text-amber-300"></i> Actualizar a Plan Corporativo';
+        btn.disabled = false;
+        btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
+        btn.innerHTML = '<i class="fa-solid fa-arrow-up-right-dots text-amber-300"></i> Actualizar a Plan Corporativo';
       } else {
-        // Regla 1: Usuario con plan gratuito puede actualizar a Enterprise
-        this.btnBuyCorporate.disabled = false;
-        this.btnBuyCorporate.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg shadow-purple-500/25 transition transform active:scale-95 flex items-center justify-center gap-2';
-        this.btnBuyCorporate.innerHTML = '<i class="fa-solid fa-crown text-amber-300"></i> Comprar Plan Corporativo';
+        btn.disabled = false;
+        btn.className = 'w-full py-3.5 px-4 rounded-xl font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer';
+        btn.innerHTML = '<i class="fa-solid fa-crown text-amber-400"></i> Pagar con Recurrente';
       }
-    }
+    });
   }
 
   async handlePurchase(targetPlan) {
@@ -334,7 +334,8 @@ export class PlanModal extends UIComponent {
       return;
     }
 
-    let months = parseInt(this.durationInput ? this.durationInput.value : '1', 10);
+    const durInput = document.querySelector('#plan-duration-months, .plan-duration-input');
+    let months = parseInt(durInput ? durInput.value : '1', 10);
     if (isNaN(months) || months < 1) months = 1;
 
     const planNames = { pro: 'Plan Profesional', corporate: 'Plan Corporativo' };

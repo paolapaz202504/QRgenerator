@@ -919,7 +919,7 @@ async function runTestSuite() {
       }
 
       // 4. Enlace directo al generador
-      if (!res.text.includes(landing.categoryParam) && !res.text.includes('/#editor')) {
+      if (!res.text.includes(landing.categoryParam) && !res.text.includes('/editor') && !res.text.includes('/#editor')) {
         throw new Error(`${landing.path} no contiene el enlace de retorno al editor`);
       }
 

@@ -91,6 +91,13 @@ class Server {
       res.sendFile(path.join(__dirname, 'public', 'comercios.html'));
     });
 
+    // Editor de Códigos QR Dedicado (/editor)
+    this.app.get('/editor', (req, res) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, proxy-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.sendFile(path.join(__dirname, 'public', 'editor.html'));
+    });
+
     // Página Sobre Nosotros y Transparencia (E-E-A-T)
     this.app.get('/sobre-nosotros', (req, res) => {
       res.sendFile(path.join(__dirname, 'public', 'sobre-nosotros.html'));

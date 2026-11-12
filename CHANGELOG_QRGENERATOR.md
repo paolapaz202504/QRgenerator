@@ -4,6 +4,18 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.8] — 2026-11-12
+### 🚀 Menú Principal Reorganizado, Nueva Página de Editor y Sincronización Integral de Planes
+
+#### Novedades y Mejoras
+- **Menú Principal Más Claro y Directo:** Reorganización completa de la navegación principal iniciando con **"Inicio"** para volver siempre a la portada de bienvenida, seguido de las soluciones para **Restaurantes**, **Salones** y **Comercios**, la nueva sección directa **"Editor"** y la página institucional **"Nosotros"**.
+- **Acceso Más Rápido a tus Códigos ("Mis QR"):** El botón de acceso a tu biblioteca de códigos guardados se simplifica a **"Mis QR"** para mayor comodidad en pantallas táctiles y teléfonos móviles.
+- **Nueva Página Dedicada para el Editor de Códigos (/editor):** Ahora puedes acceder al estudio completo de diseño en una página propia y despejada (`/editor`), manteniendo la página principal enfocada en la presentación comercial y casos de éxito de tu negocio.
+- **Calculadora y Planes Totalmente Sincronizados:** El selector de meses y cotización que ves al pulsar *"Mi Plan"* ahora se muestra de forma idéntica en la sección de precios de la página, permitiéndote calcular tu inversión y contratar en un solo paso con Recurrente.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas más ágiles, navegación fluida entre páginas y diseño ergonómico para todo tipo de pantallas.
+
+---
+
 ## [v1.8.7] — 2026-11-12
 ### 🌟 Elevación de Portada Comercial, Validación Semántica JSON-LD y Mapa de Sitio Estricto
 

@@ -3,20 +3,20 @@
   <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-4 flex-nowrap">
     <!-- Brand / Logo Area -->
     <div class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
-      <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-md shadow-indigo-500/20 shrink-0 border border-indigo-400/30 flex items-center justify-center bg-indigo-950 group">
+      <a href="/" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-md shadow-indigo-500/20 shrink-0 border border-indigo-400/30 flex items-center justify-center bg-indigo-950 group">
         <img src="/favicon.svg" alt="QRbey Logo" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
-      </div>
+      </a>
       <div class="min-w-0 flex items-center gap-1.5 sm:gap-2">
         <div>
           <div class="flex items-center gap-1.5 sm:gap-2">
-            <span class="text-lg sm:text-xl font-bold font-['Outfit'] tracking-tight text-slate-900">
+            <a href="/" class="text-lg sm:text-xl font-bold font-['Outfit'] tracking-tight text-slate-900 hover:text-indigo-600 transition">
               QRbey
-            </span>
+            </a>
             <!-- Changelog Modal Trigger Badge (Estándar DevTeam) -->
             <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
               class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
               <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
-              <span>v1.8.6</span>
+              <span>v1.8.8</span>
             </button>
           </div>
           <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>
@@ -24,23 +24,31 @@
       </div>
     </div>
 
-    <!-- Navegación Directa por Verticales y Sobre Nosotros (SEO & Conversión) -->
+    <!-- Navegación Directa: Inicio, Restaurantes, Salones, Comercios, Editor y Nosotros -->
     <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold text-slate-600">
-      <a href="/restaurantes" class="px-2.5 py-1.5 rounded-lg hover:text-amber-700 hover:bg-amber-50 transition flex items-center gap-1.5">
+      <a href="/" class="nav-item-inicio px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-house text-indigo-600 text-[11px]"></i>
+        <span>Inicio</span>
+      </a>
+      <a href="/restaurantes" class="nav-item-restaurantes px-2.5 py-1.5 rounded-lg hover:text-amber-700 hover:bg-amber-50 transition flex items-center gap-1.5">
         <i class="fa-solid fa-utensils text-amber-600 text-[11px]"></i>
         <span>Restaurantes</span>
       </a>
-      <a href="/salones-belleza" class="px-2.5 py-1.5 rounded-lg hover:text-pink-700 hover:bg-pink-50 transition flex items-center gap-1.5">
+      <a href="/salones-belleza" class="nav-item-salones px-2.5 py-1.5 rounded-lg hover:text-pink-700 hover:bg-pink-50 transition flex items-center gap-1.5">
         <i class="fa-solid fa-scissors text-pink-500 text-[11px]"></i>
         <span>Salones</span>
       </a>
-      <a href="/comercios" class="px-2.5 py-1.5 rounded-lg hover:text-emerald-700 hover:bg-emerald-50 transition flex items-center gap-1.5">
+      <a href="/comercios" class="nav-item-comercios px-2.5 py-1.5 rounded-lg hover:text-emerald-700 hover:bg-emerald-50 transition flex items-center gap-1.5">
         <i class="fa-solid fa-store text-emerald-600 text-[11px]"></i>
         <span>Comercios</span>
       </a>
-      <a href="/sobre-nosotros" class="px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+      <a href="/editor" class="nav-item-editor px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-sliders text-indigo-600 text-[11px]"></i>
+        <span>Editor</span>
+      </a>
+      <a href="/sobre-nosotros" class="nav-item-nosotros px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
         <i class="fa-solid fa-shield-halved text-indigo-600 text-[11px]"></i>
-        <span>Sobre Nosotros</span>
+        <span>Nosotros</span>
       </a>
     </nav>
 
@@ -54,12 +62,11 @@
         <span class="hidden sm:inline">Mi Plan</span>
       </button>
 
-      <!-- Botón Mis Códigos QR / Historial -->
-      <button id="btn-open-history" type="button" title="Historial de Códigos QR"
+      <!-- Botón Mis QR / Historial -->
+      <button id="btn-open-history" type="button" title="Mis Códigos QR Generados"
         class="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0">
         <i class="fa-solid fa-list-check text-indigo-600 text-xs"></i>
-        <span class="hidden md:inline">Mis Códigos QR</span>
-        <span class="inline md:hidden text-[11px] sm:text-xs">QRs</span>
+        <span class="inline">Mis QR</span>
       </button>
 
       <!-- Botón Ayuda / FAQ -->
@@ -89,7 +96,11 @@
   </div>
 
   <!-- Sub-barra de Accesos Directos para Móviles y Tablets (< lg) -->
-  <div class="lg:hidden bg-slate-50/95 border-t border-slate-200/80 px-2 py-1.5 flex items-center justify-around text-[11px] font-semibold text-slate-600">
+  <div class="lg:hidden bg-slate-50/95 border-t border-slate-200/80 px-2 py-1.5 flex items-center justify-around text-[11px] font-semibold text-slate-600 overflow-x-auto">
+    <a href="/" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+      <i class="fa-solid fa-house text-indigo-600 text-[10px]"></i>
+      <span>Inicio</span>
+    </a>
     <a href="/restaurantes" class="px-2 py-1 rounded-md hover:text-amber-700 hover:bg-amber-50/80 flex items-center gap-1 shrink-0">
       <i class="fa-solid fa-utensils text-amber-600 text-[10px]"></i>
       <span>Restaurantes</span>
@@ -102,9 +113,24 @@
       <i class="fa-solid fa-store text-emerald-600 text-[10px]"></i>
       <span>Comercios</span>
     </a>
+    <a href="/editor" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+      <i class="fa-solid fa-sliders text-indigo-600 text-[10px]"></i>
+      <span>Editor</span>
+    </a>
     <a href="/sobre-nosotros" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
       <i class="fa-solid fa-shield-halved text-indigo-600 text-[10px]"></i>
       <span>Nosotros</span>
     </a>
   </div>
+  <script>
+    (function() {
+      const p = window.location.pathname.replace(/\/$/, '') || '/';
+      document.querySelectorAll('header nav a, header div.lg\\:hidden a').forEach(a => {
+        const h = (a.getAttribute('href') || '').replace(/\/$/, '') || '/';
+        if (h === p) {
+          a.classList.add('bg-indigo-50', 'text-indigo-700', 'font-bold');
+        }
+      });
+    })();
+  </script>
 </header>

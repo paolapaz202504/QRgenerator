@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es" class="min-h-full bg-slate-50 text-slate-800">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Anti-Cache Directives -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <title>Editor de Códigos QR Dinámicos — Diseña, Personaliza y Descarga | QRbey</title>
+  
+  <!-- SEO & GEO Metadata -->
+  <meta name="title" content="Editor de Códigos QR Dinámicos — Diseña, Personaliza y Descarga | QRbey">
+  <meta name="description" content="Diseña tu código QR dinámico en 2 minutos. Personaliza colores, marcos, logotipos y patrones. Descargas en PNG de alta definición y formato vectorial SVG.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://qrbey.onrender.com/editor">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://qrbey.onrender.com/editor">
+  <meta property="og:title" content="Editor de Códigos QR Dinámicos — QRbey">
+  <meta property="og:description" content="Diseña tu código QR en tiempo real con más de 20 patrones, marcos corporativos y logo. Descargas vectoriales sin marcas de agua.">
+  <meta property="og:image" content="https://qrbey.onrender.com/favicon.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Google Analytics 4 (GA4) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    window.QRBEY_GA_ID = window.QRBEY_GA_ID || 'G-QRBEY2026';
+    gtag('config', window.QRBEY_GA_ID, { send_page_view: true, anonymize_ip: true });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QRBEY2026"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="min-h-screen flex flex-col font-['Plus_Jakarta_Sans'] bg-slate-50 text-slate-800 antialiased selection:bg-indigo-600 selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 max-w-sm pointer-events-none"></div>
+
+  <!-- Header Navbar Component Container -->
+  <div id="header-container" class="sticky top-0 z-50">
+    <!-- Header Navbar Component (Light SaaS Theme - Multi-Device Responsive) -->
+    <header class="border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-xs">
+      <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-4 flex-nowrap">
+        <!-- Brand / Logo Area -->
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
+          <a href="/" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-md shadow-indigo-500/20 shrink-0 border border-indigo-400/30 flex items-center justify-center bg-indigo-950 group">
+            <img src="/favicon.svg" alt="QRbey Logo" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+          </a>
+          <div class="min-w-0 flex items-center gap-1.5 sm:gap-2">
+            <div>
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <a href="/" class="text-lg sm:text-xl font-bold font-['Outfit'] tracking-tight text-slate-900 hover:text-indigo-600 transition">
+                  QRbey
+                </a>
+                <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
+                  class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
+                  <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
+                  <span>v1.8.8</span>
+                </button>
+              </div>
+              <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navegación Directa: Inicio, Restaurantes, Salones, Comercios, Editor y Nosotros -->
+        <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold text-slate-600">
+          <a href="/" class="px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-house text-indigo-600 text-[11px]"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="/restaurantes" class="px-2.5 py-1.5 rounded-lg hover:text-amber-700 hover:bg-amber-50 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-utensils text-amber-600 text-[11px]"></i>
+            <span>Restaurantes</span>
+          </a>
+          <a href="/salones-belleza" class="px-2.5 py-1.5 rounded-lg hover:text-pink-700 hover:bg-pink-50 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-scissors text-pink-500 text-[11px]"></i>
+            <span>Salones</span>
+          </a>
+          <a href="/comercios" class="px-2.5 py-1.5 rounded-lg hover:text-emerald-700 hover:bg-emerald-50 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-store text-emerald-600 text-[11px]"></i>
+            <span>Comercios</span>
+          </a>
+          <a href="/editor" class="bg-indigo-50 text-indigo-700 border border-indigo-200/80 px-2.5 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-sliders text-indigo-600 text-[11px]"></i>
+            <span>Editor</span>
+          </a>
+          <a href="/sobre-nosotros" class="px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-indigo-600 text-[11px]"></i>
+            <span>Nosotros</span>
+          </a>
+        </nav>
+
+        <!-- Action Buttons & User Panel -->
+        <div class="flex items-center gap-1.5 sm:gap-2.5 flex-nowrap shrink-0">
+          <button id="btn-open-plans" type="button" title="Ver Planes y Precios"
+            class="flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0 cursor-pointer">
+            <i class="fa-solid fa-gem text-amber-600 text-xs"></i>
+            <span class="hidden sm:inline">Mi Plan</span>
+          </button>
+
+          <button id="btn-open-history" type="button" title="Mis Códigos QR Generados"
+            class="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0 cursor-pointer">
+            <i class="fa-solid fa-list-check text-indigo-600 text-xs"></i>
+            <span class="inline">Mis QR</span>
+          </button>
+
+          <button id="btn-open-faq" type="button" title="Centro de Ayuda y Preguntas Frecuentes"
+            class="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0 cursor-pointer">
+            <i class="fa-solid fa-circle-question text-cyan-600 text-xs"></i>
+            <span class="hidden sm:inline">Ayuda</span>
+          </button>
+
+          <!-- User Widget (Logged In) -->
+          <button id="user-profile-widget" type="button" title="Ver Mi Perfil"
+            class="hidden flex items-center gap-1.5 sm:gap-2 bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-300 rounded-full py-1 px-2.5 sm:px-3 text-xs transition cursor-pointer group shadow-2xs shrink-0">
+            <img id="user-avatar" src="" alt="Avatar" class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-300 object-cover border border-slate-200 group-hover:scale-105 transition shrink-0">
+            <span id="user-name" class="font-semibold text-slate-800 group-hover:text-indigo-700 transition truncate max-w-[70px] xs:max-w-[90px] sm:max-w-[130px]"></span>
+            <span class="text-[11px] text-indigo-600 font-medium group-hover:underline shrink-0 hidden xs:inline">(ver perfil)</span>
+          </button>
+
+          <!-- User Widget (Logged Out) -->
+          <button id="btn-open-oauth" type="button" title="Iniciar Sesión o Registrarse"
+            class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-semibold px-2.5 sm:px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition whitespace-nowrap shrink-0 cursor-pointer">
+            <i class="fa-solid fa-user-plus text-xs"></i>
+            <span class="hidden sm:inline">Registro / Ingreso</span>
+            <span class="inline sm:hidden text-[11px]">Ingreso</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Sub-bar -->
+      <div class="lg:hidden bg-slate-50/95 border-t border-slate-200/80 px-2 py-1.5 flex items-center justify-around text-[11px] font-semibold text-slate-600 overflow-x-auto">
+        <a href="/" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+          <i class="fa-solid fa-house text-indigo-600 text-[10px]"></i>
+          <span>Inicio</span>
+        </a>
+        <a href="/restaurantes" class="px-2 py-1 rounded-md hover:text-amber-700 hover:bg-amber-50/80 flex items-center gap-1 shrink-0">
+          <i class="fa-solid fa-utensils text-amber-600 text-[10px]"></i>
+          <span>Restaurantes</span>
+        </a>
+        <a href="/salones-belleza" class="px-2 py-1 rounded-md hover:text-pink-700 hover:bg-pink-50/80 flex items-center gap-1 shrink-0">
+          <i class="fa-solid fa-scissors text-pink-500 text-[10px]"></i>
+          <span>Salones</span>
+        </a>
+        <a href="/comercios" class="px-2 py-1 rounded-md hover:text-emerald-700 hover:bg-emerald-50/80 flex items-center gap-1 shrink-0">
+          <i class="fa-solid fa-store text-emerald-600 text-[10px]"></i>
+          <span>Comercios</span>
+        </a>
+        <a href="/editor" class="px-2 py-1 rounded-md text-indigo-700 bg-indigo-50 font-bold flex items-center gap-1 shrink-0">
+          <i class="fa-solid fa-sliders text-indigo-600 text-[10px]"></i>
+          <span>Editor</span>
+        </a>
+        <a href="/sobre-nosotros" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+          <i class="fa-solid fa-shield-halved text-indigo-600 text-[10px]"></i>
+          <span>Nosotros</span>
+        </a>
+      </div>
+    </header>
+  </div>
+
+  <!-- Main Content Layout: El Editor Completo de Códigos QR -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
+    
+    <!-- Breadcrumb de Navegación -->
+    <nav class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+      <a href="/" class="hover:text-indigo-600 flex items-center gap-1">
+        <i class="fa-solid fa-house text-[10px]"></i>
+        <span>Inicio</span>
+      </a>
+      <span class="text-slate-300">/</span>
+      <span class="text-slate-800 font-bold">Editor de Códigos QR</span>
+    </nav>
+
+    <!-- Sección Editor: Pruébalo ahora: diseña tu QR en 2 minutos -->
+    <section id="editor" class="space-y-4 pt-1">
+      <div class="border-b border-slate-200 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h1 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 tracking-tight flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-indigo-600"></i>
+            <span>Pruébalo ahora: diseña tu QR en 2 minutos</span>
+          </h1>
+          <p class="text-xs text-slate-500">Personaliza cada detalle, visualiza en tiempo real y descarga sin marcas de agua.</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        
+        <!-- Left Column: Controls & Form (7 cols en pantallas grandes) -->
+        <div class="lg:col-span-7 space-y-4 sm:space-y-6">
+          <div id="step3-container"></div>
+          <div id="step1-container"></div>
+          <div id="step2-container"></div>
+          <div id="step4-container"></div>
+          <div id="step5-finders-container"></div>
+          <div id="step6-frame-container"></div>
+          <div id="color-customizer-container" class="hidden"></div>
+          <div id="action-buttons-container"></div>
+        </div>
+
+        <!-- Right Column: Live Interactive Preview & Download (5 cols sticky en desktop) -->
+        <div class="lg:col-span-5 space-y-4 sm:space-y-6 lg:sticky lg:top-20 xl:top-24">
+          <div id="preview-download-container"></div>
+        </div>
+
+      </div>
+
+      <!-- Sección Incorporada: Historial y Tabla de Códigos QR Generados -->
+      <div id="history-container"></div>
+    </section>
+  </main>
+
+  <!-- Modales y Notificaciones -->
+  <div id="modals-container"></div>
+  <div id="footer-container"></div>
+
+  <!-- Main ES Module Application Script -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
