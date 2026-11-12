@@ -83,12 +83,17 @@ async function run() {
     throw new Error('Anonymous Demo QR generation failed on live server');
   }
 
-  // 4. Verify /editor handles url and preset parameters
+  // 4. Verify /editor route and step1 partial (containing #qr-url)
   const editor = await get('https://qrbey.onrender.com/editor?url=https%3A%2F%2Fmirestaurante.com%2Fmenu&preset=restaurante');
   console.log('Editor status:', editor.status);
-  console.log('Editor has #qr-url:', editor.data.includes('id="qr-url"'));
-  if (editor.status !== 200 || !editor.data.includes('id="qr-url"')) {
-    throw new Error('Editor route failed');
+  console.log('Editor has #editor section:', editor.data.includes('id="editor"'));
+  console.log('Editor has #step1-container:', editor.data.includes('id="step1-container"'));
+  
+  const step1 = await get('https://qrbey.onrender.com/html/step1-info.html');
+  console.log('Step 1 partial has #qr-url:', step1.data.includes('id="qr-url"'));
+  
+  if (editor.status !== 200 || !editor.data.includes('id="editor"') || !step1.data.includes('id="qr-url"')) {
+    throw new Error('Editor route verification failed');
   }
 
   console.log('\n🎉 ALL LIVE PRODUCTION VERIFICATIONS PASSED FOR v1.9.3!');
