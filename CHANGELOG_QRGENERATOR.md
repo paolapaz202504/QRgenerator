@@ -4,6 +4,20 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.1] — 2026-11-12
+### 🌟 Soluciones Especializadas para Negocios y Páginas Dedicadas por Sector
+
+#### Novedades y Mejoras
+- **Páginas Dedicadas para tu Tipo de Negocio:** Incorporación de 3 guías y centros de recursos especializados:
+  - **Restaurantes y Cafeterías (`/restaurantes`):** Cómo crear menús QR digitales en mesas, cartas actualizables en tiempo real sin reimprimir y comparativa de costos de papel vs digital.
+  - **Salones de Belleza & Spas (`/salones-belleza`):** Citas directas por WhatsApp, catálogo visual de tratamientos y captación de reseñas en Google.
+  - **Comercios y Tiendas Locales (`/comercios`):** Conexión WiFi instantánea para clientes en mostrador sin escribir contraseñas y vitrina de ofertas 24/7.
+- **Conexión Directa desde las Guías al Diseñador:** Al pulsar "Crear Menú QR" o "Diseñar QR" desde cualquiera de las guías, el diseñador se abre automáticamente posicionado en las plantillas ideales para tu sector.
+- **Mayor Descubrimiento en Motores de Búsqueda y Modelos de Inteligencia Artificial:** Páginas verticales enriquecidas con respuestas modulares directas (GEO) y datos estructurados para facilitar recomendaciones canónicas en asistentes virtuales.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas más fluidas en dispositivos móviles, tabletas y computadoras.
+
+---
+
 ## [v1.8.0] — 2026-11-12
 ### 🏪 Códigos QR para Negocios de Barrio, Nueva Portada de Alto Impacto y Navegación Intuitiva
 

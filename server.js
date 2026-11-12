@@ -78,6 +78,19 @@ class Server {
       res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
     });
 
+    // Landing Pages Verticales (GEO / SEO Nichos de Mercado)
+    this.app.get('/restaurantes', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public', 'restaurantes.html'));
+    });
+
+    this.app.get('/salones-belleza', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public', 'salones-belleza.html'));
+    });
+
+    this.app.get('/comercios', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public', 'comercios.html'));
+    });
+
     this.app.use(express.static(path.join(__dirname, 'public'), {
       maxAge: '0',
       etag: true,

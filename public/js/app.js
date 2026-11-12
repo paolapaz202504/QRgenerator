@@ -51,12 +51,36 @@ class Application {
     // Fetch initial data from backend API
     const res = await ApiService.getDesigns();
     if (res.success) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('cat');
+      let initialCategory = 'Gastronomía';
+      
+      if (catParam && res.categories) {
+        const found = res.categories.find(c => c.toLowerCase() === catParam.toLowerCase());
+        if (found) initialCategory = found;
+      } else if (res.categories && res.categories.length) {
+        initialCategory = res.categories[0];
+      }
+
       appState.setState({
         categories: res.categories || [],
         designs: res.designs || [],
         patterns: res.patterns || [],
-        currentDesign: res.designs.length ? { ...res.designs[0] } : null
+        currentDesign: res.designs.length ? { ...res.designs[0] } : null,
+        activeCategory: initialCategory
       }, 'INIT_DATA');
+
+      // Si el usuario navegó con ?cat= o #step1-container, hacer scroll al generador
+      if (catParam || window.location.hash === '#step1-container') {
+        setTimeout(() => {
+          const step1 = document.getElementById('step1-container');
+          if (step1) {
+            step1.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const inputUrl = document.getElementById('qr-url');
+            if (inputUrl) inputUrl.focus();
+          }
+        }, 300);
+      }
     }
 
     // Smooth Scroll for History Button

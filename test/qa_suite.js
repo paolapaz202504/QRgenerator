@@ -878,6 +878,58 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 31: Páginas de Aterrizaje Verticales por Nicho (Restaurantes, Salones de Belleza, Comercios)
+  await test('Páginas de Aterrizaje Verticales: /restaurantes, /salones-belleza, /comercios (HTTP 200, H1, FAQ Schema y Sitemap)', async () => {
+    const fs = require('fs');
+    const sitemapXml = fs.readFileSync('public/sitemap.xml', 'utf8');
+
+    const landings = [
+      {
+        path: '/restaurantes',
+        expectedH1: 'Código QR para Menús de Restaurante: Actualiza tu Carta sin Reimprimir',
+        categoryParam: 'Gastronomía'
+      },
+      {
+        path: '/salones-belleza',
+        expectedH1: 'Códigos QR para Salones de Belleza: Reservas de Citas y Fidelización',
+        categoryParam: 'Belleza'
+      },
+      {
+        path: '/comercios',
+        expectedH1: 'Códigos QR para Tiendas: Conexión WiFi, Catálogo de Ofertas y Cobros',
+        categoryParam: 'Compras'
+      }
+    ];
+
+    for (const landing of landings) {
+      // 1. Respuesta HTTP 200
+      const res = await makeRequest(landing.path, 'GET');
+      if (res.statusCode !== 200) {
+        throw new Error(`${landing.path} no devolvió HTTP 200 (obtenido ${res.statusCode})`);
+      }
+
+      // 2. Encabezado H1 de alta conversión
+      if (!res.text.includes(landing.expectedH1)) {
+        throw new Error(`${landing.path} no contiene el H1 esperado: "${landing.expectedH1}"`);
+      }
+
+      // 3. Schema.org FAQPage y WebPage
+      if (!res.text.includes('"@type": "FAQPage"') || !res.text.includes('"@type": "WebPage"')) {
+        throw new Error(`${landing.path} no contiene los esquemas Schema.org requeridos (FAQPage / WebPage)`);
+      }
+
+      // 4. Enlace directo al generador con ?cat=
+      if (!res.text.includes(`/?cat=${landing.categoryParam}#step1-container`)) {
+        throw new Error(`${landing.path} no contiene el enlace de retorno con ?cat=${landing.categoryParam}#step1-container`);
+      }
+
+      // 5. Presencia en sitemap.xml
+      if (!sitemapXml.includes(`https://qr-studio-pro.onrender.com${landing.path}`)) {
+        throw new Error(`${landing.path} no se encuentra registrado en public/sitemap.xml`);
+      }
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');
