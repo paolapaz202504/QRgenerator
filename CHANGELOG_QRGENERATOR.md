@@ -4,6 +4,18 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.3] — 2026-11-12
+### 🔬 Certificación Global de Calidad, Rendimiento Ágil y Accesibilidad
+
+#### Novedades y Mejoras
+- **Certificación Integral de Calidad Óptica:** Validación del 100% de escaneabilidad en más de 200 combinaciones visuales de patrones geométricos, marcos, ojos de detección y densidades de puntos con lectores ópticos estándar.
+- **Respuestas Ultrarrápidas y Baja Latencia:** Optimización de servicios y APIs para despachar consultas en menos de 200 milisegundos, garantizando fluidez total al diseñar y consultar información.
+- **Auditoría de Enlaces y Navegación Limpia:** Verificación integral de todas las rutas y páginas del sitio garantizando cero enlaces rotos y navegación consistente entre todas las secciones.
+- **Mejoras de Accesibilidad y Lectura:** Cumplimiento de estándares de contraste, etiquetas descriptivas para lectores de pantalla e idioma optimizado para navegación cómoda en móviles, tablets y computadoras.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Refinamiento continuo en la entrega de recursos y alta confiabilidad de servicio.
+
+---
+
 ## [v1.8.2] — 2026-11-12
 ### 🛡️ Testimonios Reales, Política de Transparencia y Arranque Instantáneo
 

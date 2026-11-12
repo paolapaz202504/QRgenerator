@@ -968,6 +968,100 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 33: Latencia y Rendimiento de Endpoints API (< 200ms)
+  await test('Latencia y Rendimiento de Endpoints API: /api/health, /api/config y /api/designs (< 200ms)', async () => {
+    const endpoints = ['/api/health', '/api/config', '/api/designs'];
+    for (const ep of endpoints) {
+      const start = Date.now();
+      const res = await makeRequest(ep, 'GET');
+      const elapsed = Date.now() - start;
+      if (res.statusCode !== 200) {
+        throw new Error(`${ep} no respondió HTTP 200`);
+      }
+      if (elapsed > 200) {
+        throw new Error(`Latencia excesiva en ${ep}: ${elapsed}ms (máximo permitido 200ms)`);
+      }
+    }
+  });
+
+  // PRUEBA 34: Auditoría de Enlaces Internos y Ausencia de Enlaces Rotos (404)
+  await test('Auditoría de Enlaces Internos: Verificación de rutas públicas y ausencia de enlaces rotos', async () => {
+    const publicRoutes = ['/', '/restaurantes', '/salones-belleza', '/comercios', '/nosotros'];
+    for (const route of publicRoutes) {
+      const res = await makeRequest(route, 'GET');
+      if (res.statusCode !== 200) {
+        throw new Error(`La ruta pública ${route} devolvió código de error HTTP ${res.statusCode}`);
+      }
+      // Verificar que no contenga referencias a rutas 404 o rutas rotas
+      if (res.text.includes('href="/undefined"') || res.text.includes('href="/null"')) {
+        throw new Error(`La ruta ${route} contiene enlaces rotos (undefined/null)`);
+      }
+    }
+  });
+
+  // PRUEBA 35: Estándares de Accesibilidad (WCAG), Idioma Español y Metadatos Móviles
+  await test('Accesibilidad & Mobile-Friendly: Atributos lang="es", viewport responsivo y etiquetas alt', async () => {
+    const fs = require('fs');
+    const htmlFiles = [
+      'public/index.html',
+      'public/restaurantes.html',
+      'public/salones-belleza.html',
+      'public/comercios.html',
+      'public/nosotros.html'
+    ];
+
+    for (const file of htmlFiles) {
+      const content = fs.readFileSync(file, 'utf8');
+      if (!content.includes('lang="es"')) {
+        throw new Error(`${file} no especifica el atributo lang="es" requerido para accesibilidad y SEO.`);
+      }
+      if (!content.includes('name="viewport"') || !content.includes('width=device-width')) {
+        throw new Error(`${file} no contiene la etiqueta meta viewport responsiva.`);
+      }
+      if (content.includes('<img') && !content.includes('alt="')) {
+        throw new Error(`${file} contiene etiquetas <img> sin atributo alt para lectores de pantalla.`);
+      }
+    }
+  });
+
+  // PRUEBA 36: Matriz de Salida Dual: Validación Estructural de SVG Vectorial Puro y PNG Rasterizado
+  await test('Matriz de Salida Dual: Estructura matemática válida en SVG Vectorial Puro y PNG Rasterizado', async () => {
+    // 1. Generación PNG Binario Directo
+    const pngRes = await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/qa/dual-matrix',
+      format: 'png',
+      isExplicitGenerate: false
+    });
+    if (pngRes.statusCode !== 200) {
+      throw new Error(`Generación PNG falló con status ${pngRes.statusCode}`);
+    }
+    if (!pngRes.headers['content-type'].includes('image/png')) {
+      throw new Error(`Content-Type esperado image/png, recibido: ${pngRes.headers['content-type']}`);
+    }
+    const pngBuf = pngRes.buffer;
+    // Cabecera mágica PNG: 89 50 4E 47
+    if (pngBuf[0] !== 0x89 || pngBuf[1] !== 0x50 || pngBuf[2] !== 0x4E || pngBuf[3] !== 0x47) {
+      throw new Error('La cabecera mágica del archivo PNG no es válida');
+    }
+
+    // 2. Generación SVG Vectorial Puro
+    const svgRes = await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/qa/dual-matrix',
+      format: 'svg',
+      isExplicitGenerate: false
+    });
+    if (svgRes.statusCode !== 200) {
+      throw new Error(`Generación SVG falló con status ${svgRes.statusCode}`);
+    }
+    if (!svgRes.headers['content-type'].includes('image/svg+xml')) {
+      throw new Error(`Content-Type esperado image/svg+xml, recibido: ${svgRes.headers['content-type']}`);
+    }
+    const svgText = svgRes.text;
+    if (!svgText.includes('<svg') || !svgText.includes('viewBox') || !svgText.includes('xmlns="http://www.w3.org/2000/svg"')) {
+      throw new Error('La salida SVG no cumple con la estructura XML estándar del W3C');
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');
