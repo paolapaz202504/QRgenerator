@@ -4,6 +4,15 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.5.9] — 2026-11-11
+### 📅 Cálculo Dinámico y Preciso de Vigencia de Suscripciones
+
+#### Novedades y Mejoras
+- **Vigencia calculada en tiempo real:** Se eliminaron fechas de respaldo estáticas; la fecha de vencimiento se calcula de forma dinámica y precisa según el día exacto de activación y la duración en meses contratada.
+- **Transparencia en Mi Plan y Mi Perfil:** Visualización exacta y consistente del periodo activo de tu cuenta tanto al momento de contratar como durante toda la vigencia del servicio.
+
+---
+
 ## [v1.5.8] — 2026-11-11
 ### 🔒 Cierre Automático de Acceso y Experiencia de Pestaña Única
 

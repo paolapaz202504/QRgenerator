@@ -170,9 +170,24 @@ export class PlanModal extends UIComponent {
 
   updateActivePlanUI(user) {
     const userPlan = (user && user.plan) ? user.plan.toLowerCase() : 'free';
-    const expFormatted = (user && user.expirationDate)
-      ? new Date(user.expirationDate).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })
-      : '31/12/2026';
+    
+    // Cálculo dinámico y preciso de fecha de vencimiento sin valores fijos
+    let expFormatted = '';
+    if (user && user.expirationDate) {
+      const d = new Date(user.expirationDate);
+      if (!isNaN(d.getTime())) {
+        expFormatted = d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      }
+    }
+
+    if (!expFormatted && userPlan !== 'free') {
+      const months = (user && user.planDurationMonths) ? parseInt(user.planDurationMonths, 10) : 1;
+      const validMonths = isNaN(months) || months < 1 ? 1 : months;
+      const baseDate = (user && user.createdAt) ? new Date(user.createdAt) : new Date();
+      const autoExp = new Date(baseDate);
+      autoExp.setMonth(autoExp.getMonth() + validMonths);
+      expFormatted = autoExp.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
 
     // -------------------------------------------------------------
     // CARD 1: PLAN GRATUITO
