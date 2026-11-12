@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.7] — 2026-11-12
+### 🌟 Galería de Íconos Vectoriales Completa y Control de Cierre Intuitivo en el Editor
+
+#### Novedades y Mejoras
+- **Catálogo Completo de Íconos en Todas las Categorías:** Al ingresar a la galería de íconos del editor, ahora cuentas con la colección completa y exhaustiva en cada sección: más de 140 íconos oficiales de Redes Sociales, Marcas y Pagos, más de 120 opciones de Naturaleza, Mascotas y Clima, y colecciones extensas de Símbolos Universales y Vectores Profesionales para personalizar tus códigos QR al máximo.
+- **Botón de Cierre Claro y Siempre Accesible:** Se ha integrado un botón de cierre circular con ícono nítido y de alto contraste en la esquina superior de la galería, acompañado de un botón de cierre en el pie y soporte para cerrar la ventana haciendo clic fuera de ella o pulsando la tecla Escape, brindando una experiencia fluida y cómoda.
+- **Contador Dinámico de Íconos Disponibles:** Ahora puedes ver en tiempo real la cantidad exacta de íconos disponibles en cada categoría según tu búsqueda o selección activa.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Apertura instantánea del catálogo visual, navegación sin demoras y rendimiento optimizado en dispositivos móviles y de escritorio.
+
+---
+
 ## [v1.9.6] — 2026-11-12
 ### 👁️ Contraste Mejorado y Tipografía Nítida en el Historial de Códigos QR Generados
 

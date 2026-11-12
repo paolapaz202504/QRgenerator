@@ -1270,6 +1270,53 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 40: Galería Completa de Íconos Vectoriales (140+ en Redes y Catálogos Exhaustivos en cada Sección, Botón Cerrar con Icono y Delegación)
+  await test('Galería de Íconos en /editor: Catálogo Completo por Sección y Cierre Resiliente', async () => {
+    const fs = require('fs');
+
+    // 1. Verificación del modal en modals.html
+    const modalsHtml = fs.readFileSync('public/html/modals.html', 'utf8');
+    if (!modalsHtml.includes('id="icon-gallery-modal"')) {
+      throw new Error('No se encontró el modal #icon-gallery-modal en modals.html');
+    }
+    if (!modalsHtml.includes('id="btn-close-icon-gallery"') || !modalsHtml.includes('id="btn-close-gallery-footer"')) {
+      throw new Error('El modal debe contener los botones #btn-close-icon-gallery y #btn-close-gallery-footer');
+    }
+    // Verificación de ícono SVG en ambos botones de cierre
+    if (!modalsHtml.includes('M6 18L18 6M6 6l12 12')) {
+      throw new Error('Los botones de cierre del modal deben incluir icono visual SVG garantizado');
+    }
+
+    // 2. Verificación del componente IconPicker.js y catálogo ICON_SOURCES
+    const iconPickerJs = fs.readFileSync('public/js/components/IconPicker.js', 'utf8');
+    if (!iconPickerJs.includes('ICON_SOURCES')) {
+      throw new Error('IconPicker.js debe exportar ICON_SOURCES');
+    }
+
+    // Comprobar que contiene delegación de eventos para el cierre y Escape
+    if (!iconPickerJs.includes('#btn-close-icon-gallery') || !iconPickerJs.includes('#btn-close-gallery-footer')) {
+      throw new Error('IconPicker.js debe controlar el cierre en #btn-close-icon-gallery y #btn-close-gallery-footer');
+    }
+    if (!iconPickerJs.includes("e.key === 'Escape'") || !iconPickerJs.includes('backdrop')) {
+      throw new Error('IconPicker.js debe soportar cierre por tecla Escape y clic en backdrop');
+    }
+
+    // 3. Importación dinámica para verificar conteo de íconos en ICON_SOURCES
+    const { ICON_SOURCES } = await import('../public/js/components/IconPicker.js');
+    if (!ICON_SOURCES.brands || ICON_SOURCES.brands.full.length < 130) {
+      throw new Error(`Sección 'brands' debe contener todos los íconos (al menos 130, encontrados: ${ICON_SOURCES.brands?.full?.length})`);
+    }
+    if (!ICON_SOURCES.animals || ICON_SOURCES.animals.full.length < 100) {
+      throw new Error(`Sección 'animals' debe contener todos los íconos (al menos 100, encontrados: ${ICON_SOURCES.animals?.full?.length})`);
+    }
+    if (!ICON_SOURCES.tabler || ICON_SOURCES.tabler.full.length < 130) {
+      throw new Error(`Sección 'tabler' debe contener todos los íconos (al menos 130, encontrados: ${ICON_SOURCES.tabler?.full?.length})`);
+    }
+    if (!ICON_SOURCES.fontawesome || ICON_SOURCES.fontawesome.full.length < 130) {
+      throw new Error(`Sección 'fontawesome' debe contener todos los íconos (al menos 130, encontrados: ${ICON_SOURCES.fontawesome?.full?.length})`);
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

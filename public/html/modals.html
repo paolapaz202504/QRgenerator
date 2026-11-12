@@ -1075,9 +1075,11 @@
 <div id="icon-gallery-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6">
   <div class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 sm:p-8 max-w-4xl w-full shadow-2xl space-y-4 sm:space-y-5 relative flex flex-col max-h-[92vh]">
     
-    <!-- Botón Cerrar -->
-    <button id="btn-close-icon-gallery" type="button" class="absolute top-4 right-4 sm:top-5 sm:right-5 text-slate-400 hover:text-slate-600 text-lg transition">
-      <i class="fa-solid fa-xmark"></i>
+    <!-- Botón Cerrar Modal -->
+    <button id="btn-close-icon-gallery" type="button" class="absolute top-4 sm:top-5 right-4 sm:right-5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition z-30 cursor-pointer shadow-xs border border-slate-200" title="Cerrar galería" aria-label="Cerrar">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
     </button>
 
     <!-- Encabezado Modal -->
@@ -1133,8 +1135,11 @@
     <!-- Pie Modal -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-3 border-t border-slate-100 text-[11px] sm:text-xs text-slate-500">
       <span>Haz clic sobre cualquier ícono para usarlo inmediatamente en tu código QR.</span>
-      <button id="btn-close-gallery-footer" type="button" class="w-full sm:w-auto px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition">
-        Cerrar Galería
+      <button id="btn-close-gallery-footer" type="button" class="w-full sm:w-auto px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 font-semibold rounded-xl text-xs transition cursor-pointer flex items-center justify-center gap-1.5 border border-slate-200 shadow-2xs">
+        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+        <span>Cerrar Galería</span>
       </button>
     </div>
 
