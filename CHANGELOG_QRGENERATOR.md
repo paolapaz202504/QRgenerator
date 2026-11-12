@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.6] — 2026-11-12
+### 👁️ Contraste Mejorado y Tipografía Nítida en el Historial de Códigos QR Generados
+
+#### Novedades y Mejoras
+- **Mayor Claridad y Legibilidad en tus Códigos Guardados:** Los títulos y nombres de cada código QR en la tabla del historial ahora se presentan en tono oscuro de alto contraste, garantizando una lectura cómoda, nítida y descansada en cualquier pantalla o nivel de iluminación.
+- **Visualización Limpia de Fechas y Enlaces:** Toda la información complementaria de tus códigos (enlace de destino, fecha, hora y formato) cuenta con una presentación visual uniforme y moderna que facilita identificar rápidamente cada QR generado.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas ágiles en la consulta de registros, paginación suave y navegación optimizada para un consumo mínimo de datos.
+
+---
+
 ## [v1.9.5] — 2026-11-12
 ### 🎨 Plantillas Especializadas Persistentes en el Mini-Editor y Botones Simplificados
 

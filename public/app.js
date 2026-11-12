@@ -716,7 +716,17 @@ function applyHistoryFiltersAndRender() {
   if (totalBadge) totalBadge.textContent = `${historyTableData.length} Registros`;
 
   if (totalItems === 0) {
-    tbody.innerHTML = '';
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5" class="py-12 text-center">
+          <div class="flex flex-col items-center justify-center gap-2 text-slate-500">
+            <i class="fa-solid fa-inbox text-3xl text-slate-300"></i>
+            <p class="font-semibold text-slate-700 text-sm">No se encontraron códigos QR en el historial</p>
+            <p class="text-xs text-slate-400">Genera tu primer código QR para verlo reflejado en esta lista.</p>
+          </div>
+        </td>
+      </tr>
+    `;
     if (emptyState) emptyState.classList.remove('hidden');
     if (paginationInfo) paginationInfo.textContent = 'Mostrando 0 a 0 de 0 registros';
     if (paginationControls) paginationControls.innerHTML = '';
@@ -738,7 +748,7 @@ function applyHistoryFiltersAndRender() {
   tbody.innerHTML = '';
   pageItems.forEach((item) => {
     const tr = document.createElement('tr');
-    tr.className = 'hover:bg-slate-900/60 transition border-b border-slate-800/40';
+    tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
 
     const qrImageSrc = item.imageDataUrl || item.imagePath || ('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(item.url));
     const formattedDate = formatDateWithTimezone(item.createdAt);
@@ -747,7 +757,7 @@ function applyHistoryFiltersAndRender() {
     tr.innerHTML = `
       <!-- Columna 1: Miniatura -->
       <td class="py-3 px-4">
-        <div class="btn-preview-qr cursor-pointer w-14 h-14 bg-white rounded-xl p-1 flex items-center justify-center border border-slate-700/60 shadow-sm hover:scale-105 transition transform" title="Haz clic para ver la vista ampliada">
+        <div class="btn-preview-qr cursor-pointer w-14 h-14 bg-white rounded-xl p-1 flex items-center justify-center border border-slate-200 shadow-xs hover:scale-105 transition transform" title="Haz clic para ver la vista ampliada">
           <img src="${qrImageSrc}" alt="${escapeXml(item.title || 'QR')}" class="w-full h-full object-contain">
         </div>
       </td>
@@ -755,7 +765,7 @@ function applyHistoryFiltersAndRender() {
       <!-- Columna 2: Título o Nombre del QR -->
       <td class="py-3 px-4">
         <div class="flex flex-col">
-          <span class="font-bold text-slate-100 text-xs">${escapeXml(item.title || 'Código QR')}</span>
+          <span class="font-bold text-slate-900 text-xs">${escapeXml(item.title || 'Código QR')}</span>
           <span class="text-[10px] text-slate-500 font-mono">ID: ${escapeXml(item.id || 'N/A')}</span>
         </div>
       </td>
@@ -763,7 +773,7 @@ function applyHistoryFiltersAndRender() {
       <!-- Columna 3: Enlace de Destino -->
       <td class="py-3 px-4 max-w-[240px]">
         <a href="${escapeXml(item.url)}" target="_blank" title="Abrir en nueva pestaña: ${escapeXml(item.url)}" 
-          class="text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center gap-1.5 truncate max-w-full hover:underline">
+          class="text-indigo-600 hover:text-indigo-800 font-medium inline-flex items-center gap-1.5 truncate max-w-full hover:underline">
           <i class="fa-solid fa-arrow-up-right-from-square text-[10px] flex-shrink-0"></i>
           <span class="truncate">${escapeXml(item.url)}</span>
         </a>
@@ -771,19 +781,19 @@ function applyHistoryFiltersAndRender() {
 
       <!-- Columna 4: Fecha y Hora (Zona Horaria) -->
       <td class="py-3 px-4 whitespace-nowrap">
-        <span class="font-mono text-slate-300 text-[11px] bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">
-          <i class="fa-regular fa-clock text-indigo-400 mr-1"></i>${escapeXml(formattedDate)}
+        <span class="font-mono text-slate-700 text-[11px] bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
+          <i class="fa-regular fa-clock text-indigo-600 mr-1"></i>${escapeXml(formattedDate)}
         </span>
       </td>
 
       <!-- Columna 5: Acciones (Ver Ampliada + Descargar) -->
       <td class="py-3 px-4 text-center">
         <div class="flex items-center justify-center gap-2">
-          <button type="button" class="btn-preview-qr bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-2.5 py-1.5 rounded-xl text-xs inline-flex items-center gap-1 shadow transition transform active:scale-95" title="Ver imagen ampliada">
-            <i class="fa-solid fa-eye text-indigo-400"></i> Ver
+          <button type="button" class="btn-preview-qr bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-semibold px-2.5 py-1.5 rounded-xl text-xs inline-flex items-center gap-1 shadow-xs transition transform active:scale-95" title="Ver imagen ampliada">
+            <i class="fa-solid fa-eye text-indigo-600"></i> Ver
           </button>
           <a href="${qrImageSrc}" download="QR_${cleanTitle}.png" 
-            class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-2.5 py-1.5 rounded-xl text-xs inline-flex items-center gap-1 shadow transition transform active:scale-95" title="Descargar imagen PNG">
+            class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-2.5 py-1.5 rounded-xl text-xs inline-flex items-center gap-1 shadow-xs transition transform active:scale-95" title="Descargar imagen PNG">
             <i class="fa-solid fa-download"></i> Descargar
           </a>
         </div>
@@ -815,8 +825,8 @@ function applyHistoryFiltersAndRender() {
     prevBtn.disabled = (historyCurrentPage === 1);
     prevBtn.className = `px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1 transition ${
       historyCurrentPage === 1 
-        ? 'opacity-40 border-slate-800 bg-slate-900 text-slate-500 cursor-not-allowed' 
-        : 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+        ? 'opacity-40 border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed' 
+        : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-50'
     }`;
     prevBtn.innerHTML = `<i class="fa-solid fa-chevron-left text-[10px]"></i> Anterior`;
     prevBtn.addEventListener('click', () => {
@@ -832,7 +842,7 @@ function applyHistoryFiltersAndRender() {
       if (totalPages > 7 && Math.abs(p - historyCurrentPage) > 2 && p !== 1 && p !== totalPages) {
         if (p === 2 || p === totalPages - 1) {
           const dots = document.createElement('span');
-          dots.className = 'px-1.5 text-slate-500 text-xs';
+          dots.className = 'px-1.5 text-slate-400 text-xs';
           dots.textContent = '...';
           paginationControls.appendChild(dots);
         }
@@ -844,8 +854,8 @@ function applyHistoryFiltersAndRender() {
       const isCurrent = (p === historyCurrentPage);
       pageBtn.className = `w-8 h-8 rounded-xl border text-xs font-bold transition flex items-center justify-center ${
         isCurrent 
-          ? 'bg-indigo-600 border-indigo-500 text-white shadow-md shadow-indigo-500/20' 
-          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+          ? 'bg-indigo-600 border-indigo-500 text-white shadow-xs' 
+          : 'bg-white border-slate-300 text-slate-700 hover:text-indigo-600 hover:bg-slate-50'
       }`;
       pageBtn.textContent = p;
       pageBtn.addEventListener('click', () => {
@@ -861,8 +871,8 @@ function applyHistoryFiltersAndRender() {
     nextBtn.disabled = (historyCurrentPage === totalPages);
     nextBtn.className = `px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1 transition ${
       historyCurrentPage === totalPages 
-        ? 'opacity-40 border-slate-800 bg-slate-900 text-slate-500 cursor-not-allowed' 
-        : 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700'
+        ? 'opacity-40 border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed' 
+        : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-50'
     }`;
     nextBtn.innerHTML = `Siguiente <i class="fa-solid fa-chevron-right text-[10px]"></i>`;
     nextBtn.addEventListener('click', () => {

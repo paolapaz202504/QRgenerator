@@ -193,7 +193,7 @@ export class HistoryTable extends UIComponent {
     this.container.innerHTML = '';
     pageItems.forEach(item => {
       const tr = document.createElement('tr');
-      tr.className = 'hover:bg-slate-900/60 transition border-b border-slate-800/40';
+      tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
 
       const qrImageSrc = item.imageDataUrl || item.imagePath || ('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + encodeURIComponent(item.url));
       const formattedDate = this.formatDateWithTimezone(item.createdAt);
@@ -201,31 +201,31 @@ export class HistoryTable extends UIComponent {
 
       tr.innerHTML = `
         <td class="py-3 px-4">
-          <div class="btn-preview-qr cursor-pointer w-14 h-14 bg-white rounded-xl p-1 flex items-center justify-center border border-slate-700/60 shadow-sm hover:scale-105 transition transform" title="Haz clic para ver la vista ampliada">
+          <div class="btn-preview-qr cursor-pointer w-14 h-14 bg-white rounded-xl p-1 flex items-center justify-center border border-slate-200 shadow-xs hover:scale-105 transition transform" title="Haz clic para ver la vista ampliada">
             <img src="${qrImageSrc}" alt="QR Miniatura" class="max-h-full max-w-full object-contain rounded">
           </div>
         </td>
-        <td class="py-3 px-4 font-semibold text-slate-100">
+        <td class="py-3 px-4 font-bold text-slate-900">
           <div class="truncate max-w-[220px]" title="${item.title || 'Código QR'}">${item.title || 'Código QR'}</div>
-          <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20 mt-1 inline-block">${(item.format || 'png').toUpperCase()} • ${item.resolution || 800}px</span>
+          <span class="text-[10px] font-mono text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200 mt-1 inline-block">${(item.format || 'png').toUpperCase()} • ${item.resolution || 800}px</span>
         </td>
-        <td class="py-3 px-4 text-slate-300">
-          <a href="${item.url}" target="_blank" class="text-indigo-400 hover:text-indigo-300 hover:underline inline-flex items-center gap-1 truncate max-w-[240px]" title="${item.url}">
+        <td class="py-3 px-4 text-slate-600">
+          <a href="${item.url}" target="_blank" class="text-indigo-600 hover:text-indigo-800 hover:underline inline-flex items-center gap-1 truncate max-w-[240px]" title="${item.url}">
             <i class="fa-solid fa-link text-[10px]"></i>
             <span class="truncate">${item.url}</span>
           </a>
         </td>
-        <td class="py-3 px-4 text-slate-400 font-mono text-[11px]">
-          ${formattedDate}
+        <td class="py-3 px-4 text-slate-600 font-mono text-[11px]">
+          <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">${formattedDate}</span>
         </td>
         <td class="py-3 px-4 text-center">
           <div class="flex items-center justify-center gap-1.5">
-            <button type="button" class="btn-preview-qr bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 border border-indigo-500/30 hover:border-indigo-500 px-2.5 py-1.5 rounded-xl font-semibold transition inline-flex items-center gap-1 text-[11px]" title="Ver Vista Ampliada Modal">
-              <i class="fa-solid fa-expand"></i>
+            <button type="button" class="btn-preview-qr bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-2.5 py-1.5 rounded-xl font-semibold transition inline-flex items-center gap-1 text-[11px]" title="Ver Vista Ampliada Modal">
+              <i class="fa-solid fa-expand text-indigo-600"></i>
               <span class="hidden sm:inline">Ver</span>
             </button>
-            <a href="${qrImageSrc}" download="QR_${cleanTitle}.png" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-500 px-2.5 py-1.5 rounded-xl font-semibold transition inline-flex items-center gap-1 text-[11px]" title="Descargar nuevamente este Código QR">
-              <i class="fa-solid fa-download text-emerald-400"></i>
+            <a href="${qrImageSrc}" download="QR_${cleanTitle}.png" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1.5 rounded-xl font-semibold transition inline-flex items-center gap-1 text-[11px] shadow-xs" title="Descargar nuevamente este Código QR">
+              <i class="fa-solid fa-download"></i>
             </a>
           </div>
         </td>
@@ -254,8 +254,8 @@ export class HistoryTable extends UIComponent {
     prevBtn.disabled = (this.currentPage === 1);
     prevBtn.className = `px-3 py-1.5 rounded-xl border text-xs font-semibold transition ${
       this.currentPage === 1
-        ? 'opacity-40 cursor-not-allowed bg-slate-900 border-slate-800 text-slate-500'
-        : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200'
+        ? 'opacity-40 cursor-not-allowed bg-slate-50 border-slate-200 text-slate-400'
+        : 'bg-white hover:bg-slate-50 border-slate-300 text-slate-700'
     }`;
     prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left mr-1"></i> Ant';
     prevBtn.addEventListener('click', () => {
@@ -270,7 +270,7 @@ export class HistoryTable extends UIComponent {
       if (totalPages > 7 && Math.abs(p - this.currentPage) > 2 && p !== 1 && p !== totalPages) {
         if (p === 2 || p === totalPages - 1) {
           const dots = document.createElement('span');
-          dots.className = 'px-1 text-slate-500';
+          dots.className = 'px-1 text-slate-400';
           dots.textContent = '...';
           this.paginationControls.appendChild(dots);
         }
@@ -281,8 +281,8 @@ export class HistoryTable extends UIComponent {
       pBtn.type = 'button';
       pBtn.className = `px-3 py-1.5 rounded-xl border text-xs font-semibold transition ${
         p === this.currentPage
-          ? 'bg-indigo-600 border-indigo-500 text-white shadow-md font-bold'
-          : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:border-slate-700'
+          ? 'bg-indigo-600 border-indigo-500 text-white shadow-xs font-bold'
+          : 'bg-white border-slate-300 text-slate-700 hover:text-indigo-600 hover:bg-slate-50'
       }`;
       pBtn.textContent = p;
       pBtn.addEventListener('click', () => {
@@ -297,8 +297,8 @@ export class HistoryTable extends UIComponent {
     nextBtn.disabled = (this.currentPage === totalPages);
     nextBtn.className = `px-3 py-1.5 rounded-xl border text-xs font-semibold transition ${
       this.currentPage === totalPages
-        ? 'opacity-40 cursor-not-allowed bg-slate-900 border-slate-800 text-slate-500'
-        : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200'
+        ? 'opacity-40 cursor-not-allowed bg-slate-50 border-slate-200 text-slate-400'
+        : 'bg-white hover:bg-slate-50 border-slate-300 text-slate-700'
     }`;
     nextBtn.innerHTML = 'Sig <i class="fa-solid fa-chevron-right ml-1"></i>';
     nextBtn.addEventListener('click', () => {
