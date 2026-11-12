@@ -1064,14 +1064,17 @@ async function runTestSuite() {
     }
   });
 
-  // PRUEBA 37: Menú Reorganizado (Precios, Soluciones y Sectores con 3 submenús e iconos, Ayuda a /#faq y Contacto)
-  await test('Menú Reorganizado: Precios, Soluciones y Sectores (Restaurantes, Salones, Comercios), Ayuda a /#faq y Breadcrumbs', async () => {
+  // PRUEBA 37: Menú Reorganizado (Precios, Soluciones y Sectores sin botón Crear QR, Submenú Editor y Mis QR, sin Breadcrumbs en Nosotros y Contacto)
+  await test('Menú Reorganizado: Precios, Soluciones y Sectores sin Crear QR, Submenú Editor/Mis QR, sin Breadcrumbs en Nosotros/Contacto', async () => {
     const fs = require('fs');
     const headerHtml = fs.readFileSync('public/html/header.html', 'utf8');
 
-    // 1. Botón Precios presente
+    // 1. Botón Precios presente y Mis QR retirado del menú principal
     if (!headerHtml.includes('Precios') || !headerHtml.includes('id="btn-open-plans"')) {
       throw new Error('El botón Precios no se encuentra correctamente identificado en header.html');
+    }
+    if (headerHtml.includes('Mis QR')) {
+      throw new Error('El menú principal no debe contener la opción "Mis QR"');
     }
 
     // 2. Menú Soluciones y Sectores con icono y 3 submenús
@@ -1098,19 +1101,40 @@ async function runTestSuite() {
       throw new Error('El menú Contacto no está presente en header.html');
     }
 
-    // 5. Breadcrumbs estáticos presentes en páginas secundarias
-    const secondaryPages = [
-      'public/editor.html',
+    // 5. En opciones de Soluciones y Sectores NO debe agregarse el botón "Crear QR"
+    const solutionPages = [
       'public/restaurantes.html',
       'public/salones-belleza.html',
-      'public/comercios.html',
-      'public/sobre-nosotros.html',
-      'public/contacto.html'
+      'public/comercios.html'
     ];
-    for (const page of secondaryPages) {
+    for (const page of solutionPages) {
       const content = fs.readFileSync(page, 'utf8');
+      if (content.includes('Crear QR')) {
+        throw new Error(`La página ${page} de Soluciones y Sectores no debe contener el botón "Crear QR" en el menú.`);
+      }
       if (!content.includes('aria-label="Breadcrumb"') || !content.includes('Inicio')) {
-        throw new Error(`La página secundaria ${page} no contiene el breadcrumb estático de navegación.`);
+        throw new Error(`La página de soluciones ${page} debe conservar su breadcrumb.`);
+      }
+    }
+
+    // 6. En Editor: se eliminan breadcrumbs duplicados y se agrega submenú con Editor y Mis QR
+    const editorHtml = fs.readFileSync('public/editor.html', 'utf8');
+    if (editorHtml.includes('aria-label="Breadcrumb"') || editorHtml.includes('breadcrumb')) {
+      throw new Error('public/editor.html no debe contener breadcrumb.');
+    }
+    if (!editorHtml.includes('tab-nav-editor') || !editorHtml.includes('Pruébalo ahora: diseña tu QR en 2 minutos')) {
+      throw new Error('public/editor.html no contiene la opción "Editor (Pruébalo ahora: diseña tu QR en 2 minutos)" en el submenú.');
+    }
+    if (!editorHtml.includes('id="btn-open-history"') || !editorHtml.includes('Historial de Códigos QR Generados')) {
+      throw new Error('public/editor.html no contiene la opción "Mis QR (Historial de Códigos QR Generados)" en el submenú.');
+    }
+
+    // 7. Se retiran los breadcrumbs de nosotros y contacto
+    const noBreadcrumbs = ['public/nosotros.html', 'public/sobre-nosotros.html', 'public/contacto.html'];
+    for (const page of noBreadcrumbs) {
+      const content = fs.readFileSync(page, 'utf8');
+      if (content.includes('aria-label="Breadcrumb"')) {
+        throw new Error(`La página ${page} no debe contener breadcrumbs.`);
       }
     }
   });

@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.9.0`  
+**Versión Actual:** `v1.9.1`  
 **Última Actualización:** 12 de Noviembre de 2026  
-**Estado General:** 🟢 Menú Unificado 'Soluciones y Sectores', Página de Contacto (/contacto), Botón 'Precios', Ayuda Directa a /#faq y Breadcrumbs v1.9.0 Completada al 100% (38/38 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
+**Estado General:** 🟢 Menú Principal Depurado, Submenú Dedicado en /editor (Editor & Mis QR), Soluciones sin Botón Redundante 'Crear QR' y Breadcrumbs Optimizados v1.9.1 (38/38 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
 
 ---
 
@@ -11,12 +11,12 @@
 
 ```mermaid
 flowchart LR
-    A["Menú 'Soluciones y Sectores'\n(Restaurantes, Salones, Comercios con Iconos)"] --> B["Botón 'Precios' & Ayuda Directa\n(Acceso Rápido y Enlace a /#faq)"]
-    B --> C["Página & API de Contacto (/contacto)\n(Formulario y Endpoint POST /api/contact)"]
-    C --> D["Breadcrumbs Estáticos\n(Guía de Navegación en Páginas Secundarias)"]
-    D --> E["Menú Persistente Reutilizable\n(Sincronizado en Todas las Páginas)"]
+    A["Menú Principal Depurado\n(Sin 'Mis QR' en Barra Superior)"] --> B["Soluciones y Sectores sin 'Crear QR'\n(Restaurantes, Salones, Comercios Despejados)"]
+    B --> C["Submenú Dedicado en /editor\n(Editor y Mis QR Visibles y Accesibles)"]
+    C --> D["Breadcrumbs Optimizados\n(Retirados en Nosotros y Contacto)"]
+    D --> E["Navegación Fluida & Scroll Suave\n(Sincronizada con Historial y Editor)"]
     E --> F["Certificación QA & DoD\n(38/38 Pruebas Pasadas al 100%)"]
-    F --> G["🚀 QRbey SaaS v1.9.0: Despliegue a Producción OnRender"]
+    F --> G["🚀 QRbey SaaS v1.9.1: Despliegue a Producción OnRender"]
     
     style C fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px

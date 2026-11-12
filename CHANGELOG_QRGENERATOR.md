@@ -4,6 +4,18 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.1] — 2026-11-12
+### 🎯 Navegación Simplificada, Submenú Dedicado en Editor y Experiencia Visual Depurada
+
+#### Novedades y Mejoras
+- **Menú Principal Más Limpio:** Se retira la opción "Mis QR" del menú principal superior para mantener una barra de navegación concisa, profesional y despejada en todas las páginas.
+- **Nuevo Submenú Dedicado en el Editor:** Al ingresar al Editor ahora cuentas con un submenú superior visible con acceso directo tanto al diseñador interactivo (*"Editor — Pruébalo ahora: diseña tu QR en 2 minutos"*) como a tu historial personal (*"Mis QR — Historial de Códigos QR Generados"*), permitiéndote alternar entre ambas herramientas en un solo clic.
+- **Navegación Enfocada en Soluciones Comerciales:** En las páginas de soluciones especializadas (Restaurantes, Salones de Belleza y Comercios Locales) la barra superior se mantiene limpia y libre de botones redundantes, permitiéndote concentrarte en el valor de cada solución para tu negocio.
+- **Experiencia de Lectura Despejada:** Se retiran las barras de navegación secundarias en las páginas de Nosotros y Contacto para ofrecer una presentación más limpia y directa.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Mejoras en la navegación fluida y desplazamiento ergonómico en todo tipo de pantallas.
+
+---
+
 ## [v1.9.0] — 2026-11-12
 ### 🌟 Menú Unificado de Soluciones, Nueva Página de Contacto, Botón Precios y Guía de Navegación
 

@@ -105,15 +105,30 @@ class Application {
       }
     }
 
-    // Smooth Scroll for History Button
+    // Smooth Scroll for Editor Sub-menu Option
+    const tabNavEditor = document.getElementById('tab-nav-editor');
+    if (tabNavEditor) {
+      tabNavEditor.addEventListener('click', (e) => {
+        const editorSec = document.getElementById('editor');
+        if (editorSec) {
+          e.preventDefault();
+          editorSec.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    // Smooth Scroll for History Button / Tab
     const btnOpenHistory = document.getElementById('btn-open-history');
     if (btnOpenHistory) {
-      btnOpenHistory.addEventListener('click', () => {
-        const section = document.getElementById('section-history');
+      btnOpenHistory.addEventListener('click', (e) => {
+        const section = document.getElementById('section-history') || document.getElementById('history-container');
         if (section) {
+          e.preventDefault();
           section.scrollIntoView({ behavior: 'smooth' });
         }
-        this.historyTable.fetchHistory();
+        if (this.historyTable && typeof this.historyTable.fetchHistory === 'function') {
+          this.historyTable.fetchHistory();
+        }
       });
     }
 
