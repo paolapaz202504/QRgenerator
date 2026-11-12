@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.8.4`  
+**Versión Actual:** `v1.8.5`  
 **Última Actualización:** 12 de Noviembre de 2026  
-**Estado General:** 🟢 Plan de Revisión y Optimización SEO/GEO/UX v1.8.4 Completado al 100% (Pre-renderizado Estático Inicial, Enlaces Prominentes en Navbar, Canónicos Canónicos Oficiales https://qrbey.onrender.com/, Casos de Estudio Verificados | 36/36 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
+**Estado General:** 🟢 Reorganización de Menú Principal & Sincronización Centralizada de Planes (.env Single Source of Truth) v1.8.5 Completada al 100% (36/36 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
 
 ---
 

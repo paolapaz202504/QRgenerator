@@ -51,6 +51,25 @@ class Application {
     this.profileModal.mount();
     this.faqSection.mount();
 
+    // Sincronizar configuración de planes y cuotas desde .env (Única fuente de verdad)
+    try {
+      const configRes = await ApiService.getConfig();
+      if (configRes && configRes.success && configRes.plans) {
+        appState.setState({ plans: configRes.plans }, 'CONFIG_LOADED');
+        const currentUser = appState.getState().user;
+        if (currentUser) {
+          const pConfig = appState.getPlanConfig(currentUser.plan);
+          if (pConfig) {
+            currentUser.maxCredits = pConfig.maxCredits;
+            currentUser.maxDownloads = pConfig.maxDownloads;
+            appState.setState({ user: currentUser }, 'PLAN_UPDATED');
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('[App] Error al sincronizar configuración de planes con backend:', e);
+    }
+
     // Fetch initial data from backend API
     const res = await ApiService.getDesigns();
     if (res.success) {

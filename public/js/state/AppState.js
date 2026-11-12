@@ -67,23 +67,46 @@ export class AppState {
       patternColor: '#475569',
       titlePosition: 'bottom',
       titleOffsetY: 0,
-      history: []
+      history: [],
+      // Centralized plans configuration (Single Source of Truth initialized with .env defaults)
+      plans: {
+        free: { id: 'free', name: 'Plan Gratuito', priceMonthly: 0, maxDownloads: 15, maxCredits: 50, isMonthly: false },
+        pro: { id: 'pro', name: 'Plan Profesional', priceMonthly: 9.99, maxDownloads: 500, maxCredits: 2000, isMonthly: true },
+        corporate: { id: 'corporate', name: 'Plan Corporativo', priceMonthly: 29.99, maxDownloads: 2000, maxCredits: 10000, isMonthly: true }
+      }
     };
 
     this.loadPersistedUser();
   }
 
+  /**
+   * Helper to obtain plan limits and pricing directly from centralized config (.env source of truth)
+   */
+  getPlanConfig(planId = 'free') {
+    let key = (planId || 'free').toLowerCase();
+    if (key === 'enterprise') key = 'corporate';
+    if (this.state.plans && this.state.plans[key]) {
+      return this.state.plans[key];
+    }
+    const defaultPlans = {
+      free: { id: 'free', name: 'Plan Gratuito', priceMonthly: 0, maxDownloads: 15, maxCredits: 50, isMonthly: false },
+      pro: { id: 'pro', name: 'Plan Profesional', priceMonthly: 9.99, maxDownloads: 500, maxCredits: 2000, isMonthly: true },
+      corporate: { id: 'corporate', name: 'Plan Corporativo', priceMonthly: 29.99, maxDownloads: 2000, maxCredits: 10000, isMonthly: true }
+    };
+    return defaultPlans[key] || defaultPlans.free;
+  }
+
   loadPersistedUser() {
+    if (typeof localStorage === 'undefined') return;
     try {
       const savedUserStr = localStorage.getItem('oauth_user');
       if (savedUserStr) {
         const u = JSON.parse(savedUserStr);
         if (u) {
-          const planKey = u.plan || 'free';
-          const maxCreds = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 2000 : 50);
-          const maxDl = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 500 : 15);
-          u.maxCredits = maxCreds;
-          u.maxDownloads = maxDl;
+          const planKey = (u.plan || 'free').toLowerCase();
+          const planConfig = this.getPlanConfig(planKey);
+          u.maxCredits = planConfig.maxCredits;
+          u.maxDownloads = planConfig.maxDownloads;
           this.state.user = u;
           localStorage.setItem('oauth_user', JSON.stringify(u));
         }
@@ -106,7 +129,7 @@ export class AppState {
 
   setState(partialState, eventKey = null) {
     this.state = { ...this.state, ...partialState };
-    if (partialState.user !== undefined) {
+    if (partialState.user !== undefined && typeof localStorage !== 'undefined') {
       if (this.state.user) {
         localStorage.setItem('oauth_user', JSON.stringify(this.state.user));
       } else {

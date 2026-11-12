@@ -158,8 +158,14 @@ export class PlanModal extends UIComponent {
       year: 'numeric'
     });
 
-    const proTotalPrice = (9.99 * months).toFixed(2);
-    const corpTotalPrice = (29.99 * months).toFixed(2);
+    const proPlan = appState.getPlanConfig('pro');
+    const corpPlan = appState.getPlanConfig('corporate');
+
+    const proMonthly = (proPlan && proPlan.priceMonthly !== undefined) ? proPlan.priceMonthly : 9.99;
+    const corpMonthly = (corpPlan && corpPlan.priceMonthly !== undefined) ? corpPlan.priceMonthly : 29.99;
+
+    const proTotalPrice = (proMonthly * months).toFixed(2);
+    const corpTotalPrice = (corpMonthly * months).toFixed(2);
 
     const priceProDisplay = document.getElementById('price-pro-display');
     const priceProPeriod = document.getElementById('price-pro-period');

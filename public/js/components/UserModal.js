@@ -282,14 +282,12 @@ export class UserModal extends UIComponent {
       if (this.userName) this.userName.textContent = user.name || user.email.split('@')[0];
       if (this.userAvatar) this.userAvatar.src = user.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(user.email)}`;
       
-      const planKey = user.plan || 'free';
-      const defaultMaxCredits = planKey === 'corporate' ? 10000 : (planKey === 'pro' ? 2000 : 50);
-      const defaultMaxDownloads = planKey === 'corporate' ? 2000 : (planKey === 'pro' ? 500 : 15);
-
+      const planKey = (user.plan || 'free').toLowerCase();
+      const planConfig = appState.getPlanConfig(planKey);
       const creditsUsed = user.creditsUsed || 0;
-      const genMax = user.maxCredits || defaultMaxCredits;
+      const genMax = user.maxCredits || planConfig.maxCredits;
       const qrUsed = user.generationsCount || 0;
-      const dlMax = user.maxDownloads || defaultMaxDownloads;
+      const dlMax = user.maxDownloads || planConfig.maxDownloads;
 
       const planBadge = document.getElementById('user-plan-badge');
       if (planBadge) {
@@ -318,8 +316,9 @@ export class UserModal extends UIComponent {
       this.userWidget.classList.add('hidden');
       if (this.btnOpenOAuth) this.btnOpenOAuth.classList.remove('hidden');
 
+      const freeConfig = appState.getPlanConfig('free');
       if (this.creditCounterBadge) {
-        this.creditCounterBadge.textContent = `0/50 Créditos`;
+        this.creditCounterBadge.textContent = `0/${freeConfig.maxCredits} Créditos`;
       }
     }
   }

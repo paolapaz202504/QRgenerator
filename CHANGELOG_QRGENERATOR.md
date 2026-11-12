@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.5] — 2026-11-12
+### 🎨 Menú Principal Rediseñado, Panel de Usuario Ergonómico y Sincronización de Planes
+
+#### Novedades y Mejoras
+- **Menú Principal Rediseñado y Más Despejado:** Reorganización ergonómica de la barra de navegación. Si estás desconectado, verás el botón principal de *"Registro / Ingreso"*; y al conectarte, verás un chip compacto con tu foto, nombre y la opción *(ver perfil)*. Al hacer clic, accedes a todos los detalles de tu cuenta en una ventana limpia y completa.
+- **Sincronización Exacta de Planes y Beneficios:** Integración centralizada de las cuotas de descargas y créditos de cada plan, asegurando que la información de tu cuenta siempre sea precisa y coherente.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Experiencia de uso más liviana, rápida y adaptada a dispositivos móviles y de escritorio.
+
+---
+
 ## [v1.8.4] — 2026-11-12
 ### ⚡ Carga Instantánea, Navegación Directa por Sector y Transparencia Verificada
 

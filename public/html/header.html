@@ -16,7 +16,7 @@
             <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
               class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
               <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
-              <span>v1.8.4</span>
+              <span>v1.8.5</span>
             </button>
           </div>
           <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>
@@ -44,23 +44,9 @@
       </a>
     </nav>
 
-    <!-- OAuth 2.0 User Profile Widget & Action Buttons -->
-    <div class="flex items-center gap-1 sm:gap-2 sm:gap-3 flex-nowrap shrink-0">
-      <!-- Widget Perfil Conectado (Responsive: oculta contadores secundarios en móviles y tablets estrechas) -->
-      <div id="user-profile-widget" class="hidden flex items-center gap-1.5 sm:gap-2.5 bg-slate-100 border border-slate-200 rounded-full px-2 sm:px-3 py-1 text-xs whitespace-nowrap shrink-0">
-        <img id="user-avatar" src="" alt="Avatar" class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-300 cursor-pointer hover:opacity-80 transition shrink-0" title="Ver Mi Perfil">
-        <span id="user-name" class="font-semibold text-slate-800 truncate max-w-[65px] xs:max-w-[85px] sm:max-w-[120px] cursor-pointer hover:text-indigo-600 transition" title="Ver Mi Perfil"></span>
-        <span id="user-plan-badge" class="hidden sm:inline-block bg-indigo-100 text-indigo-800 border border-indigo-200 px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider" title="Plan Actual">Plan Pro</span>
-        <span id="user-credit-counter" class="hidden md:inline-flex bg-cyan-50 text-cyan-700 border border-cyan-200 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold" title="Créditos de Generación Usados">0/50 Créditos</span>
-        <span id="user-download-counter" class="hidden lg:inline-flex bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold" title="Descargas Usadas">0/15 QRs</span>
-        <button id="btn-open-profile" type="button" title="Ver Mi Perfil" class="text-slate-500 hover:text-indigo-600 p-1 sm:p-0 transition">
-          <i class="fa-solid fa-id-card text-xs sm:text-sm"></i>
-        </button>
-        <button id="btn-logout" title="Cerrar Sesión" class="text-slate-500 hover:text-rose-600 p-1 sm:p-0 transition">
-          <i class="fa-solid fa-right-from-bracket text-xs sm:text-sm"></i>
-        </button>
-      </div>
-
+    <!-- Action Buttons & Reorganized User Panel -->
+    <div class="flex items-center gap-1.5 sm:gap-2.5 flex-nowrap shrink-0">
+      
       <!-- Botón Mi Plan -->
       <button id="btn-open-plans" type="button" title="Ver Planes y Precios"
         class="flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0">
@@ -83,9 +69,18 @@
         <span class="hidden sm:inline">Ayuda</span>
       </button>
 
-      <!-- Botón Registro / Ingreso -->
+      <!-- Panel Dinámico de Usuario: Registro/Ingreso (Desconectado) vs Icono, Nombre y (ver perfil) (Conectado) -->
+      <!-- 1. Estado Registrado / Autenticado -->
+      <button id="user-profile-widget" type="button" title="Ver Mi Perfil y Detalles de Cuenta"
+        class="hidden flex items-center gap-1.5 sm:gap-2 bg-slate-50 hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-300 rounded-full py-1 px-2.5 sm:px-3 text-xs transition cursor-pointer group shadow-2xs shrink-0">
+        <img id="user-avatar" src="" alt="Avatar" class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-300 object-cover border border-slate-200 group-hover:scale-105 transition shrink-0">
+        <span id="user-name" class="font-semibold text-slate-800 group-hover:text-indigo-700 transition truncate max-w-[70px] xs:max-w-[90px] sm:max-w-[130px]"></span>
+        <span class="text-[11px] text-indigo-600 font-medium group-hover:underline shrink-0 hidden xs:inline">(ver perfil)</span>
+      </button>
+
+      <!-- 2. Estado No Registrado / Desconectado -->
       <button id="btn-open-oauth" type="button" title="Iniciar Sesión o Registrarse"
-        class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-2.5 sm:px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0">
+        class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-semibold px-2.5 sm:px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition whitespace-nowrap shrink-0">
         <i class="fa-solid fa-user-plus text-xs"></i>
         <span class="hidden sm:inline">Registro / Ingreso</span>
         <span class="inline sm:hidden text-[11px]">Ingreso</span>

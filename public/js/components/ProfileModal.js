@@ -6,6 +6,7 @@ export class ProfileModal extends UIComponent {
     super('user-profile-modal');
 
     this.btnOpenProfile = document.getElementById('btn-open-profile');
+    this.userProfileWidget = document.getElementById('user-profile-widget');
     this.userAvatarHeader = document.getElementById('user-avatar');
     this.userNameHeader = document.getElementById('user-name');
 
@@ -30,7 +31,7 @@ export class ProfileModal extends UIComponent {
   }
 
   bindEvents() {
-    [this.btnOpenProfile, this.userAvatarHeader, this.userNameHeader].forEach(el => {
+    [this.btnOpenProfile, this.userProfileWidget, this.userAvatarHeader, this.userNameHeader].forEach(el => {
       if (el) {
         el.addEventListener('click', async () => {
           const state = appState.getState();
@@ -138,20 +139,19 @@ export class ProfileModal extends UIComponent {
       }
     }
 
-    // Credits & Downloads
-    const defaultMaxCredits = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 2000 : 50);
-    const defaultMaxDownloads = planKey === 'corporate' ? 999999 : (planKey === 'pro' ? 500 : 15);
+    // Credits & Downloads from .env via AppState Single Source of Truth
+    const planConfig = appState.getPlanConfig(planKey);
+    const maxCredits = user.maxCredits || planConfig.maxCredits;
+    const maxDownloads = user.maxDownloads || planConfig.maxDownloads;
 
     const creditsUsed = user.creditsUsed || 0;
-    const genMax = (user.maxCredits >= 999999 || planKey === 'corporate') ? '∞' : (user.maxCredits || defaultMaxCredits);
     const qrUsed = user.generationsCount || 0;
-    const dlMax = (user.maxDownloads >= 999999 || planKey === 'corporate') ? '∞' : (user.maxDownloads || defaultMaxDownloads);
 
     if (this.profileCredits) {
-      this.profileCredits.textContent = `${creditsUsed} / ${genMax} Créditos`;
+      this.profileCredits.textContent = `${creditsUsed} / ${maxCredits} Créditos`;
     }
     if (this.profileDownloads) {
-      this.profileDownloads.textContent = `${qrUsed} / ${dlMax} QRs`;
+      this.profileDownloads.textContent = `${qrUsed} / ${maxDownloads} QRs`;
     }
     if (this.profileProvider) {
       this.profileProvider.textContent = user.provider || 'Google OAuth 2.0';
