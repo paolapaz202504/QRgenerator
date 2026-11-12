@@ -222,7 +222,7 @@ export class QRPreview extends UIComponent {
       url: this.urlInput ? this.urlInput.value : 'QRbey',
       title: this.titleInput ? this.titleInput.value : 'QRbery',
       bannerText: this.bannerTextInput ? this.bannerTextInput.value : 'ESCANÉAME',
-      designId: design.id || 'design-institucional-1',
+      designId: design.id || 'design-gastronomia-1',
       bgColor: bgColorVal,
       qrColor: qrColorVal,
       frameColor: frameColorVal,

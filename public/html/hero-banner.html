@@ -1,8 +1,8 @@
-<!-- Hero Banner Informativo Superior (Light SaaS Theme - Multi-Device Responsive) -->
-<section id="section-hero-banner" class="bg-gradient-to-r from-white via-indigo-50/40 to-white border border-slate-200/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xs relative overflow-hidden transition-all duration-300">
+<!-- Hero Banner Informativo y Propuesta de Valor (Light SaaS Theme - Multi-Device Responsive) -->
+<section id="section-hero-banner" class="bg-gradient-to-br from-white via-indigo-50/50 to-slate-50 border border-slate-200/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xs relative overflow-hidden transition-all duration-300">
   <!-- Subtle Glow Highlights -->
-  <div class="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
-  <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
   <!-- Botón Ocultar/Plegar Banner (Adaptativo a móviles y escritorio) -->
   <button id="btn-toggle-hero-banner" type="button" 
@@ -13,91 +13,126 @@
   </button>
 
   <!-- Banner Content Container -->
-  <div id="hero-banner-content" class="space-y-4 sm:space-y-6 relative z-10">
-    <!-- Header Badge & Title -->
-    <div class="space-y-2 sm:space-y-3 max-w-3xl pr-10 sm:pr-0">
-      <div class="inline-flex items-center gap-1.5 sm:gap-2 bg-indigo-50 border border-indigo-200/70 text-indigo-700 text-[11px] sm:text-xs font-semibold px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shadow-2xs">
-        <i class="fa-solid fa-sparkles text-amber-500"></i>
-        <span>Plataforma Oficial • Generador QRbey</span>
+  <div id="hero-banner-content" class="space-y-5 sm:space-y-6 relative z-10">
+    <!-- Header Badge & Direct Value Proposition (Regla de los 5 Segundos) -->
+    <div class="space-y-2.5 sm:space-y-3 max-w-4xl pr-10 sm:pr-0">
+      <div class="inline-flex items-center gap-1.5 sm:gap-2 bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-[11px] sm:text-xs font-bold px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shadow-2xs">
+        <i class="fa-solid fa-store text-emerald-600"></i>
+        <span>Diseñado para Restaurantes, Salones, Abarroterías y Pymes</span>
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
       </div>
 
-      <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight leading-tight">
-        Genera & Personaliza Códigos QR de Alta Definición en 5 Sencillos Pasos
-      </h2>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight leading-tight">
+        Códigos QR Dinámicos para Negocios de Barrio
+      </h1>
 
-      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-        <strong>QRbey</strong> te permite diseñar códigos QR profesionales en 5 pasos sencillos. Personaliza colores de módulos y marcos, agrega tu propio logotipo HD o explora más de 5,000 íconos vectoriales. Exporta instantáneamente en formato PNG HD y SVG vectorial nativo sin marcas de agua.
+      <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
+        Crea el <strong class="text-amber-700 font-semibold">menú de tu restaurante</strong>, la <strong class="text-pink-600 font-semibold">tarjeta de citas de tu salón</strong> o el <strong class="text-emerald-700 font-semibold">WiFi de tu comercio</strong> en 2 minutos. <strong class="text-slate-900">Sin reimprimir</strong> cuando cambies precios o promociones. Códigos 100% permanentes sin caducidad sorpresa.
+        <span class="inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-0.5 rounded-md font-bold text-xs ml-1">
+          <i class="fa-solid fa-tag text-[10px]"></i> Desde $0/mes
+        </span>
       </p>
     </div>
 
-    <!-- 5 Steps Grid Info (Optimizado para Teléfonos, Tablets/iPad y Laptops) -->
-    <div class="space-y-2.5 sm:space-y-3 pt-1">
-      <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-700 font-mono flex items-center gap-2">
-        <i class="fa-solid fa-list-ol text-indigo-600"></i>
-        Pasos Disponibles para Crear tu Código QR:
-      </h3>
-      
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
-        <!-- Paso 1 -->
-        <div class="bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between space-y-2 hover:border-indigo-400 hover:shadow-sm transition shadow-2xs">
+    <!-- 3 Casos de Uso Verticales de Alta Conversión (Clickables para filtrar categorías) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 pt-1">
+      <!-- Caso 1: Restaurantes & Cafeterías -->
+      <div data-target-category="Gastronomía" class="group bg-white border border-slate-200/90 rounded-2xl p-4 flex flex-col justify-between hover:border-amber-400 hover:shadow-md transition cursor-pointer relative overflow-hidden shadow-2xs">
+        <div class="space-y-2">
           <div class="flex items-center justify-between">
-            <span class="w-6 h-6 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 font-bold text-xs flex items-center justify-center">1</span>
-            <i class="fa-solid fa-layer-group text-purple-600 text-sm"></i>
+            <span class="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-utensils text-sm"></i>
+            </span>
+            <span class="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
+              Restaurantes
+            </span>
           </div>
-          <div>
-            <h4 class="text-xs font-bold text-slate-900">1. Diseño por Categoría</h4>
-            <p class="text-[11px] text-slate-500 leading-normal mt-0.5 sm:mt-1">Elige entre 20 categorías temáticas y 600 plantillas de diseño.</p>
-          </div>
+          <h3 class="text-sm font-bold text-slate-900 group-hover:text-amber-600 transition flex items-center gap-1.5">
+            Menús & Cartas Digitales
+            <i class="fa-solid fa-arrow-right text-[10px] text-slate-400 group-hover:text-amber-500 group-hover:translate-x-1 transition-transform"></i>
+          </h3>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Actualiza platillos, precios y menú del día al instante. Tus comensales escanean con su móvil sin necesidad de descargar apps.
+          </p>
         </div>
-
-        <!-- Paso 2 -->
-        <div class="bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between space-y-2 hover:border-indigo-400 hover:shadow-sm transition shadow-2xs">
-          <div class="flex items-center justify-between">
-            <span class="w-6 h-6 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold text-xs flex items-center justify-center">2</span>
-            <i class="fa-solid fa-link text-indigo-600 text-sm"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-slate-900">2. Información & Fuentes</h4>
-            <p class="text-[11px] text-slate-500 leading-normal mt-0.5 sm:mt-1">Escribe tu URL, títulos y selecciona entre 25 tipografías Google Fonts.</p>
-          </div>
-        </div>
-
-        <!-- Paso 3 -->
-        <div class="bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between space-y-2 hover:border-indigo-400 hover:shadow-sm transition shadow-2xs">
-          <div class="flex items-center justify-between">
-            <span class="w-6 h-6 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-xs flex items-center justify-center">3</span>
-            <i class="fa-solid fa-icons text-emerald-600 text-sm"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-slate-900">3. Logotipo o Ícono</h4>
-            <p class="text-[11px] text-slate-500 leading-normal mt-0.5 sm:mt-1">Sube el logo de tu empresa o usa íconos de redes sociales y vectoriales.</p>
-          </div>
-        </div>
-
-        <!-- Paso 4 -->
-        <div class="bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between space-y-2 hover:border-indigo-400 hover:shadow-sm transition shadow-2xs">
-          <div class="flex items-center justify-between">
-            <span class="w-6 h-6 rounded-lg bg-pink-50 border border-pink-200 text-pink-700 font-bold text-xs flex items-center justify-center">4</span>
-            <i class="fa-solid fa-shapes text-pink-600 text-sm"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-slate-900">4. Formas de Puntos</h4>
-            <p class="text-[11px] text-slate-500 leading-normal mt-0.5 sm:mt-1">Configura el estilo de módulos y esquinas de lectura (ojos del QR).</p>
-          </div>
-        </div>
-
-        <!-- Paso 5 -->
-        <div class="bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between space-y-2 hover:border-indigo-400 hover:shadow-sm transition shadow-2xs">
-          <div class="flex items-center justify-between">
-            <span class="w-6 h-6 rounded-lg bg-cyan-50 border border-cyan-200 text-cyan-700 font-bold text-xs flex items-center justify-center">5</span>
-            <i class="fa-solid fa-palette text-cyan-600 text-sm"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-slate-900">5. Paleta de Colores</h4>
-            <p class="text-[11px] text-slate-500 leading-normal mt-0.5 sm:mt-1">Ajusta colores de fondo, módulos, bordes, degradados y siluetas a medida.</p>
-          </div>
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-semibold text-amber-700">
+          <span>Ver 30 plantillas de menú</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
         </div>
       </div>
+
+      <!-- Caso 2: Salones de Belleza & Spas -->
+      <div data-target-category="Belleza" class="group bg-white border border-slate-200/90 rounded-2xl p-4 flex flex-col justify-between hover:border-pink-400 hover:shadow-md transition cursor-pointer relative overflow-hidden shadow-2xs">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 text-pink-700 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-gem text-sm"></i>
+            </span>
+            <span class="text-[10px] font-bold text-pink-700 bg-pink-50 border border-pink-200 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
+              Salones & Spas
+            </span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-900 group-hover:text-pink-600 transition flex items-center gap-1.5">
+            Citas & Fidelización
+            <i class="fa-solid fa-arrow-right text-[10px] text-slate-400 group-hover:text-pink-500 group-hover:translate-x-1 transition-transform"></i>
+          </h3>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Facilita reservas directas por WhatsApp, catálogo de servicios de estética y promociones exclusivas en tu mostrador.
+          </p>
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-semibold text-pink-700">
+          <span>Ver 30 plantillas de belleza</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </div>
+      </div>
+
+      <!-- Caso 3: Supermercados, Abarroterías & Retail -->
+      <div data-target-category="Compras" class="group bg-white border border-slate-200/90 rounded-2xl p-4 flex flex-col justify-between hover:border-emerald-400 hover:shadow-md transition cursor-pointer relative overflow-hidden shadow-2xs">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-wifi text-sm"></i>
+            </span>
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
+              Comercios
+            </span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition flex items-center gap-1.5">
+            WiFi Clientes & Catálogo
+            <i class="fa-solid fa-arrow-right text-[10px] text-slate-400 group-hover:text-emerald-500 group-hover:translate-x-1 transition-transform"></i>
+          </h3>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Conexión en 1 clic al WiFi de tu local, promociones de fin de semana y enlace rápido a cobro o catálogo digital de productos.
+          </p>
+        </div>
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-semibold text-emerald-700">
+          <span>Ver 30 plantillas comerciales</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra de Ventajas Competitivas Transparentes (vs Bitly, Flowcode, Uniqode) -->
+    <div class="bg-white/80 border border-slate-200 rounded-xl p-3 sm:p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-700 shadow-2xs">
+      <div class="flex flex-wrap items-center gap-3 sm:gap-6 font-medium">
+        <span class="flex items-center gap-1.5 text-emerald-700 font-semibold">
+          <i class="fa-solid fa-circle-check text-emerald-600"></i> Códigos 100% Permanentes
+        </span>
+        <span class="flex items-center gap-1.5 text-indigo-700 font-semibold">
+          <i class="fa-solid fa-circle-check text-indigo-600"></i> Exportación SVG Vectorial & PNG HD
+        </span>
+        <span class="flex items-center gap-1.5 text-purple-700 font-semibold">
+          <i class="fa-solid fa-circle-check text-purple-600"></i> Sin Marcas de Agua Invasivas
+        </span>
+        <span class="flex items-center gap-1.5 text-slate-800 font-semibold">
+          <i class="fa-solid fa-circle-check text-slate-700"></i> Escaneos Ilimitados
+        </span>
+      </div>
+      <button id="hero-btn-start" type="button" 
+        class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-sm transition">
+        <i class="fa-solid fa-wand-magic-sparkles text-amber-300 text-xs"></i>
+        <span>Diseñar mi QR Ahora</span>
+      </button>
     </div>
   </div>
 </section>

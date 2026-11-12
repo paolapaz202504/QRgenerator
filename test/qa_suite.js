@@ -67,9 +67,9 @@ async function runTestSuite() {
   }
 
   if (!isReady) {
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 120; i++) {
       try {
-        await new Promise(r => setTimeout(r, 300));
+        await new Promise(r => setTimeout(r, 400));
         await makeRequest('/api/health');
         isReady = true;
         console.log('\n✅ Servidor listo y respondiendo en ' + BASE_URL + '\n');

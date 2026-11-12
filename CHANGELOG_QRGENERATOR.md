@@ -4,6 +4,18 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.0] — 2026-11-12
+### 🏪 Códigos QR para Negocios de Barrio, Nueva Portada de Alto Impacto y Navegación Intuitiva
+
+#### Novedades y Mejoras
+- **Nueva Portada y Propuesta de Valor Clara:** Diseño completamente renovado que te explica en 5 segundos cómo crear códigos QR profesionales para tu negocio local (Restaurantes, Salones de Belleza y Comercios).
+- **Acceso Directo por Caso de Uso:** Tres nuevas tarjetas interactivas que te llevan directamente a las plantillas exactas de tu sector: Menús y cartas digitales, Citas y fidelización, y WiFi con catálogo comercial.
+- **Catálogo de Diseños Enfocado en Negocios Reales:** Reorganización prioritaria de las categorías para que encuentres primero las soluciones más demandadas por restaurantes y tiendas, eliminando textos confusos o institucionales repetitivos.
+- **Garantías y Transparencia de Servicio:** Códigos 100% permanentes sin caducidad sorpresa, descargas en SVG vectorial nativo sin marcas de agua y escaneos ilimitados.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Refinamiento visual y de rendimiento en teléfonos, tablets y computadoras de escritorio.
+
+---
+
 ## [v1.7.1] — 2026-11-12
 ### 🤖 Optimización para Búsquedas de Inteligencia Artificial (GEO) y Tablas Comparativas
 

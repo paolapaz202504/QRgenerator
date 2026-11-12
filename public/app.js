@@ -1186,7 +1186,7 @@ async function generateQR(targetWidth = 600) {
         url: formattedUrl,
         title: title,
         bannerText: bannerText,
-        designId: currentDesign ? currentDesign.id : 'design-institucional-1',
+        designId: currentDesign ? currentDesign.id : 'design-gastronomia-1',
         customColors: {
           bgColor: currentDesign ? currentDesign.bgColor : '#ffffff',
           qrColor: currentDesign ? currentDesign.qrColor : '#111827',
@@ -1272,7 +1272,7 @@ async function downloadQR(format = 'png', resolution = 800) {
         url: formattedUrl,
         title: title,
         bannerText: bannerText,
-        designId: currentDesign ? currentDesign.id : 'design-institucional-1',
+        designId: currentDesign ? currentDesign.id : 'design-gastronomia-1',
         customColors: {
           bgColor: currentDesign ? currentDesign.bgColor : '#ffffff',
           qrColor: currentDesign ? currentDesign.qrColor : '#111827',

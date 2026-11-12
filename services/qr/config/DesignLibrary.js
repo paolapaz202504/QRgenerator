@@ -45,48 +45,48 @@ class DesignLibrary {
     const categoriesData = {
     "Institucional": {
         "titles": [
-            "Sede Corporativa Central",
-            "Portal de Innovación",
-            "Certificación Digital ISO",
-            "Acceso Seguro & Credencial",
-            "Gobierno Corporativo 360",
-            "Transparencia & Ética",
-            "Mesa de Ayuda Ejecutiva",
-            "Firma Digital Autenticada",
-            "Directorio de Liderazgo",
-            "Canal de Cumplimiento",
-            "Centro de Operaciones",
-            "Auditoría de Calidad",
-            "Plataforma de Clientes",
-            "Sala de Prensa Oficial",
-            "Atención Premium 24/7",
-            "Seguridad & Ciberdefensa",
-            "Registro de Proveedores",
-            "Ventanilla Digital Ágil",
-            "Alianzas Estratégicas",
-            "Sello de Sostenibilidad",
-            "Portal de Facturación",
-            "Bolsa de Oportunidades",
-            "Campus Corporativo",
-            "Identidad Verificada",
-            "Comité de Dirección",
-            "Reporte Integrado Anual",
-            "Consultoría & Dictámenes",
-            "Protocolo de Seguridad",
-            "Red Global de Negocios",
-            "Validador Oficial QR"
+            "Sitio Web Oficial",
+            "Tarjeta de Presentación",
+            "Atención al Cliente",
+            "Portafolio de Servicios",
+            "Contacto Profesional",
+            "Ubicación y Oficinas",
+            "Canal de Soporte",
+            "Información Corporativa",
+            "Directorio del Equipo",
+            "Canal de Consultas",
+            "Centro de Asistencia",
+            "Garantía de Servicio",
+            "Portal para Clientes",
+            "Noticias y Novedades",
+            "Atención Personalizada",
+            "Área de Seguridad",
+            "Contacto de Proveedores",
+            "Atención Digital",
+            "Alianzas y Negocios",
+            "Responsabilidad Social",
+            "Consultas y Facturas",
+            "Únete a Nuestro Equipo",
+            "Sede Principal",
+            "Perfil Verificado",
+            "Gerencia y Dirección",
+            "Reporte de Actividades",
+            "Asesoría Profesional",
+            "Guía de Información",
+            "Red Profesional",
+            "Código QR Oficial"
         ],
         "banners": [
-            "ACCESO OFICIAL",
-            "VALIDADO 2026",
-            "PORTAL DIGITAL",
-            "SEDE CENTRAL",
-            "CERTIFICADO ISO",
-            "CONFIANZA TOTAL",
-            "INFORMACIÓN SEGURA",
-            "CONEXIÓN SEGURA",
-            "TRÁMITE ÁGIL",
-            "SISTEMA INTEGRADO"
+            "CONTACTO",
+            "SITIO WEB",
+            "PORTAFOLIO",
+            "SERVICIOS",
+            "UBICACIÓN",
+            "CONÓCENOS",
+            "ATENCIÓN HOY",
+            "CONEXIÓN FÁCIL",
+            "INFO AQUÍ",
+            "ASISTENCIA"
         ],
         "icons": [
             "fa-building-columns",
@@ -650,7 +650,7 @@ class DesignLibrary {
             "PARTICIPA",
             "DONAR AHORA",
             "ADOPTA",
-            "ECO BARRIO",
+            "PROYECTO LOCAL",
             "VOLUNTARIOS",
             "UNIDOS HOY",
             "VECINOS UNIDOS",
@@ -2347,7 +2347,16 @@ class DesignLibrary {
       "#faf5ff", "#fff7ed", "#fdf2f8", "#f0f9ff", "#f8fafc", "#ffffff"
     ];
 
-    const catKeys = Object.keys(categoriesData);
+    const priorityOrder = [
+      'Gastronomía', 'Compras', 'Belleza', 'Comunidad', 'Tecnología',
+      'Salud', 'Viajes', 'Inmobiliaria', 'Educación', 'Eventos',
+      'Redes Sociales', 'Deportes', 'Entretenimiento', 'Finanzas',
+      'Institucional', 'Lujo', 'Música y Arte', 'Mascotas',
+      'Automotriz', 'Naturaleza'
+    ];
+    const catKeys = priorityOrder.filter(k => categoriesData[k]).concat(
+      Object.keys(categoriesData).filter(k => !priorityOrder.includes(k))
+    );
 
     catKeys.forEach((cat, catIdx) => {
       const theme = categoriesData[cat];

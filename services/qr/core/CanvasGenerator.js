@@ -15,7 +15,7 @@ class CanvasGenerator {
       url = 'QRbey',
       title = 'QRbery',
       bannerText = 'ESCANÉAME',
-      designId = 'design-institucional-1',
+      designId = 'design-gastronomia-1',
       customColors = {},
       customDotStyle,
       customEyeStyle,
