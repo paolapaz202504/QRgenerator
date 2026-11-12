@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es" class="min-h-full bg-slate-50 text-slate-800">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto & Soporte — QRbey: Asesoría para tu Negocio</title>
+  <meta name="description" content="Contáctanos para resolver dudas sobre planes, soporte técnico o asesoría en códigos QR para restaurantes, salones y comercios de barrio.">
+  <link rel="canonical" href="https://qrbey.onrender.com/contacto">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://qrbey.onrender.com/contacto">
+  <meta property="og:title" content="Contacto & Soporte — QRbey: Asesoría para tu Negocio">
+  <meta property="og:description" content="Escríbenos para resolver dudas técnicas, asesoría personalizada o soporte para tu negocio.">
+  <meta property="og:image" content="https://qrbey.onrender.com/favicon.svg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contacto & Soporte — QRbey: Asesoría para tu Negocio">
+  <meta name="twitter:description" content="Escríbenos para resolver dudas técnicas, asesoría personalizada o soporte para tu negocio.">
+  <meta name="twitter:image" content="https://qrbey.onrender.com/favicon.svg">
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Schema.org JSON-LD ContactPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contacto y Soporte — QRbey",
+    "description": "Página oficial de contacto y atención al cliente de QRbey para asistencia técnica y comercial.",
+    "url": "https://qrbey.onrender.com/contacto",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "QRbey",
+      "email": "qrbeyconctact@gmail.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "qrbeyconctact@gmail.com",
+        "availableLanguage": "Spanish"
+      }
+    }
+  }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col font-['Plus_Jakarta_Sans'] bg-slate-50 text-slate-800 antialiased selection:bg-indigo-600 selection:text-white">
+
+  <!-- Header Navbar Component Reutilizable -->
+  <header class="border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-xs">
+    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-4 flex-nowrap">
+      <!-- Brand / Logo Area -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
+        <a href="/" class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-md shadow-indigo-500/20 shrink-0 border border-indigo-400/30 flex items-center justify-center bg-indigo-950 group">
+          <img src="/favicon.svg" alt="QRbey Logo" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+        </a>
+        <div class="min-w-0 flex items-center gap-1.5 sm:gap-2">
+          <div>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <a href="/" class="text-lg sm:text-xl font-bold font-['Outfit'] tracking-tight text-slate-900 hover:text-indigo-600 transition">
+                QRbey
+              </a>
+              <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
+                class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
+                <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
+                <span>v1.9.0</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navegación Directa: Inicio, Soluciones y Sectores (Dropdown), Editor, Nosotros y Contacto -->
+      <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold text-slate-600">
+        <a href="/" class="nav-item-inicio px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-house text-indigo-600 text-[11px]"></i>
+          <span>Inicio</span>
+        </a>
+
+        <!-- Menú Desplegable Soluciones y Sectores -->
+        <div class="relative group/nav-dropdown">
+          <button type="button" class="nav-item-soluciones px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-layer-group text-indigo-600 text-[11px]"></i>
+            <span>Soluciones y Sectores</span>
+            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 group-hover/nav-dropdown:rotate-180 transition-transform duration-200"></i>
+          </button>
+          <div class="absolute left-0 top-full pt-1.5 hidden group-hover/nav-dropdown:block z-50 w-56">
+            <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-1.5 backdrop-blur-md space-y-0.5">
+              <a href="/restaurantes" class="nav-sub-restaurantes flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:bg-amber-50 hover:text-amber-800 transition">
+                <span class="w-6 h-6 rounded-md bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-utensils text-xs"></i>
+                </span>
+                <div>
+                  <span class="font-bold block text-slate-900">Restaurantes</span>
+                  <span class="text-[10px] text-slate-500 font-normal">Menús QR digitales</span>
+                </div>
+              </a>
+              <a href="/salones-belleza" class="nav-sub-salones flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:bg-pink-50 hover:text-pink-800 transition">
+                <span class="w-6 h-6 rounded-md bg-pink-100 text-pink-600 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-scissors text-xs"></i>
+                </span>
+                <div>
+                  <span class="font-bold block text-slate-900">Salones</span>
+                  <span class="text-[10px] text-slate-500 font-normal">Citas por WhatsApp</span>
+                </div>
+              </a>
+              <a href="/comercios" class="nav-sub-comercios flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 transition">
+                <span class="w-6 h-6 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-store text-xs"></i>
+                </span>
+                <div>
+                  <span class="font-bold block text-slate-900">Comercios</span>
+                  <span class="text-[10px] text-slate-500 font-normal">WiFi y promociones</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="/editor" class="nav-item-editor px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-sliders text-indigo-600 text-[11px]"></i>
+          <span>Editor</span>
+        </a>
+        <a href="/sobre-nosotros" class="nav-item-nosotros px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-shield-halved text-indigo-600 text-[11px]"></i>
+          <span>Nosotros</span>
+        </a>
+        <a href="/contacto" class="nav-item-contacto px-2.5 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-bold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-envelope text-indigo-600 text-[11px]"></i>
+          <span>Contacto</span>
+        </a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-1.5 sm:gap-2.5 flex-nowrap shrink-0">
+        <a href="/#planes" id="btn-open-plans" title="Ver Precios y Planes"
+          class="flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0">
+          <i class="fa-solid fa-tags text-amber-600 text-xs"></i>
+          <span class="hidden sm:inline">Precios</span>
+        </a>
+        <a href="/#faq" id="btn-open-faq" title="Centro de Ayuda y Preguntas Frecuentes"
+          class="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold px-2 sm:px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition transform active:scale-95 whitespace-nowrap shrink-0">
+          <i class="fa-solid fa-circle-question text-cyan-600 text-xs"></i>
+          <span class="hidden sm:inline">Ayuda</span>
+        </a>
+        <a href="/editor" class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-semibold px-2.5 sm:px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs shadow-xs transition whitespace-nowrap shrink-0">
+          <i class="fa-solid fa-qrcode text-xs"></i>
+          <span>Crear QR</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Sub-barra Móvil -->
+    <div class="lg:hidden bg-slate-50/95 border-t border-slate-200/80 px-2 py-1.5 flex items-center justify-around text-[11px] font-semibold text-slate-600 overflow-x-auto gap-1">
+      <a href="/" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+        <i class="fa-solid fa-house text-indigo-600 text-[10px]"></i>
+        <span>Inicio</span>
+      </a>
+      <div class="relative group/mobile-dropdown shrink-0">
+        <button type="button" class="nav-m-soluciones px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 cursor-pointer">
+          <i class="fa-solid fa-layer-group text-indigo-600 text-[10px]"></i>
+          <span>Soluciones</span>
+          <i class="fa-solid fa-chevron-down text-[8px] text-slate-400"></i>
+        </button>
+        <div class="absolute left-0 top-full pt-1 hidden group-hover/mobile-dropdown:block z-50 w-44">
+          <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-1 space-y-0.5">
+            <a href="/restaurantes" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:bg-amber-50 hover:text-amber-700">
+              <i class="fa-solid fa-utensils text-amber-600 text-[10px] w-3.5"></i>
+              <span>Restaurantes</span>
+            </a>
+            <a href="/salones-belleza" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:bg-pink-50 hover:text-pink-700">
+              <i class="fa-solid fa-scissors text-pink-500 text-[10px] w-3.5"></i>
+              <span>Salones</span>
+            </a>
+            <a href="/comercios" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">
+              <i class="fa-solid fa-store text-emerald-600 text-[10px] w-3.5"></i>
+              <span>Comercios</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a href="/editor" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+        <i class="fa-solid fa-sliders text-indigo-600 text-[10px]"></i>
+        <span>Editor</span>
+      </a>
+      <a href="/sobre-nosotros" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+        <i class="fa-solid fa-shield-halved text-indigo-600 text-[10px]"></i>
+        <span>Nosotros</span>
+      </a>
+      <a href="/contacto" class="px-2 py-1 rounded-md bg-indigo-50 text-indigo-700 font-bold flex items-center gap-1 shrink-0">
+        <i class="fa-solid fa-envelope text-indigo-600 text-[10px]"></i>
+        <span>Contacto</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Breadcrumb Estático de Navegación -->
+  <nav aria-label="Breadcrumb" class="bg-slate-50/80 border-b border-slate-200/80 py-2.5 px-4 sm:px-6 lg:px-8 text-xs font-medium text-slate-500">
+    <div class="max-w-7xl mx-auto flex items-center gap-2 flex-wrap">
+      <a href="/" class="hover:text-indigo-600 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-house text-[10px] text-slate-400"></i>
+        <span>Inicio</span>
+      </a>
+      <i class="fa-solid fa-chevron-right text-[9px] text-slate-300"></i>
+      <span class="text-slate-800 font-semibold" aria-current="page">Contacto</span>
+    </div>
+  </nav>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-10 sm:space-y-12">
+
+    <!-- Hero / Header Section -->
+    <section class="text-center space-y-3 max-w-2xl mx-auto">
+      <div class="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold px-3.5 py-1.5 rounded-full shadow-2xs">
+        <i class="fa-solid fa-headset text-indigo-600"></i>
+        <span>Atención y Asesoría Personalizada</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-['Outfit'] text-slate-900 tracking-tight">
+        ¿Tienes Dudas o Necesitas Ayuda con tus Códigos QR?
+      </h1>
+      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Estamos listos para asesorarte en la digitalización de tu negocio: menús para restaurantes, citas para salones o promociones para comercios. Escríbenos y te responderemos en menos de 24 horas.
+      </p>
+    </section>
+
+    <!-- 2-Column Grid: Canales de Atención & Formulario -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Columna Izquierda: Información de Contacto & Confianza -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-6">
+          <h2 class="text-base sm:text-lg font-bold font-['Outfit'] text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-comments text-indigo-600"></i>
+            <span>Canales Directos</span>
+          </h2>
+
+          <div class="space-y-4 text-xs">
+            <div class="flex items-start gap-3.5">
+              <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-100">
+                <i class="fa-solid fa-envelope text-sm"></i>
+              </div>
+              <div>
+                <span class="font-bold text-slate-900 block">Correo Electrónico</span>
+                <a href="mailto:qrbeyconctact@gmail.com" class="text-indigo-600 hover:underline font-medium">qrbeyconctact@gmail.com</a>
+                <span class="text-[11px] text-slate-500 block">Respuesta garantizada en < 24h</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3.5">
+              <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
+                <i class="fa-solid fa-clock text-sm"></i>
+              </div>
+              <div>
+                <span class="font-bold text-slate-900 block">Horario de Atención</span>
+                <span class="text-slate-700 font-medium block">Lunes a Viernes: 8:00 AM - 6:00 PM</span>
+                <span class="text-[11px] text-slate-500 block">Sábados: 9:00 AM - 1:00 PM</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3.5">
+              <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
+                <i class="fa-solid fa-shield-check text-sm"></i>
+              </div>
+              <div>
+                <span class="font-bold text-slate-900 block">Compromiso Ético</span>
+                <span class="text-slate-600 block">Tus códigos nunca caducan por sorpresa ni requerirán rescate de suscripción.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Ayuda Rápida -->
+        <div class="bg-gradient-to-br from-indigo-950 to-slate-900 text-white rounded-3xl p-6 shadow-md space-y-3">
+          <div class="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>¿Preguntas Frecuentes?</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Puedes consultar nuestra guía interactiva sobre formatos vectoriales SVG, pasarela de pago Recurrente y configuración de menús.
+          </p>
+          <a href="/#faq" class="inline-flex items-center gap-2 text-xs font-bold text-indigo-300 hover:text-white transition">
+            <span>Ir al Centro de Ayuda</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Formulario de Contacto -->
+      <div class="lg:col-span-7">
+        <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg sm:text-xl font-bold font-['Outfit'] text-slate-900">
+              Envíanos un Mensaje
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">
+              Completa el siguiente formulario y un especialista de QRbey se comunicará contigo.
+            </p>
+          </div>
+
+          <!-- Banner de Notificación -->
+          <div id="contact-alert" class="hidden rounded-2xl p-4 text-xs font-medium border flex items-start gap-3">
+            <i id="contact-alert-icon" class="fa-solid fa-circle-check text-base shrink-0 mt-0.5"></i>
+            <div id="contact-alert-msg" class="leading-relaxed"></div>
+          </div>
+
+          <!-- Formulario -->
+          <form id="contact-form" class="space-y-4">
+            
+            <!-- Nombre Completo -->
+            <div>
+              <label for="contact-name" class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-user text-slate-400 text-[11px]"></i>
+                <span>Nombre Completo <span class="text-rose-500">*</span></span>
+              </label>
+              <input type="text" id="contact-name" name="name" required placeholder="Ej. Carlos Mendoza"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-2xs">
+            </div>
+
+            <!-- Fila Correo y Teléfono -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Correo -->
+              <div>
+                <label for="contact-email" class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                  <i class="fa-solid fa-envelope text-slate-400 text-[11px]"></i>
+                  <span>Correo Electrónico <span class="text-rose-500">*</span></span>
+                </label>
+                <input type="email" id="contact-email" name="email" required placeholder="ejemplo@negocio.com"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-2xs">
+              </div>
+
+              <!-- Teléfono -->
+              <div>
+                <label for="contact-phone" class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                  <i class="fa-solid fa-phone text-slate-400 text-[11px]"></i>
+                  <span>Teléfono / WhatsApp <span class="text-rose-500">*</span></span>
+                </label>
+                <input type="tel" id="contact-phone" name="phone" required placeholder="Ej. +502 5555-1234"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-2xs">
+              </div>
+            </div>
+
+            <!-- Asunto -->
+            <div>
+              <label for="contact-subject" class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-tag text-slate-400 text-[11px]"></i>
+                <span>Asunto del Mensaje <span class="text-rose-500">*</span></span>
+              </label>
+              <select id="contact-subject" name="subject" required
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-2xs cursor-pointer">
+                <option value="">Selecciona el motivo de tu consulta...</option>
+                <option value="Consulta sobre Planes y Precios">Consulta sobre Planes y Precios (Pro / Corporativo)</option>
+                <option value="Soporte Técnico con Códigos QR">Soporte Técnico con Códigos QR</option>
+                <option value="Solución para Restaurantes">Solución para Restaurantes (Menú Digital)</option>
+                <option value="Solución para Salones">Solución para Salones de Belleza (Citas WhatsApp)</option>
+                <option value="Solución para Comercios">Solución para Comercios (WiFi y Catálogo)</option>
+                <option value="Integración Corporativa / API">Integración Corporativa o Facturación</option>
+                <option value="Otro Motivo">Otro Asunto</option>
+              </select>
+            </div>
+
+            <!-- Cuerpo del Mensaje -->
+            <div>
+              <label for="contact-message" class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-pen-to-square text-slate-400 text-[11px]"></i>
+                <span>Cuerpo del Mensaje / Consulta <span class="text-rose-500">*</span></span>
+              </label>
+              <textarea id="contact-message" name="message" rows="5" required
+                placeholder="Escribe aquí los detalles de tu consulta, qué tipo de negocio tienes o las dudas que deseas resolver..."
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-2xs resize-y"></textarea>
+            </div>
+
+            <!-- Botón de Envío -->
+            <button type="submit" id="btn-submit-contact"
+              class="w-full py-3.5 px-6 rounded-xl font-bold text-xs sm:text-sm bg-indigo-600 hover:bg-indigo-700 active:scale-98 text-white shadow-md shadow-indigo-600/20 transition flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+              <span>Enviar Mensaje</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Component Reutilizable -->
+  <footer class="border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-500 space-y-3 mt-12">
+    <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600">
+      <a href="/" class="hover:text-indigo-600">Inicio</a>
+      <span>•</span>
+      <a href="/restaurantes" class="hover:text-amber-600">Restaurantes</a>
+      <span>•</span>
+      <a href="/salones-belleza" class="hover:text-pink-600">Salones</a>
+      <span>•</span>
+      <a href="/comercios" class="hover:text-emerald-600">Comercios</a>
+      <span>•</span>
+      <a href="/editor" class="hover:text-indigo-600">Editor</a>
+      <span>•</span>
+      <a href="/sobre-nosotros" class="hover:text-indigo-600">Nosotros</a>
+      <span>•</span>
+      <a href="/contacto" class="text-indigo-700 font-bold">Contacto</a>
+    </div>
+    <p>© 2026 QRbey — Plataforma de Códigos QR Dinámicos para Negocios de Barrio. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Script de Envío Asíncrono del Formulario -->
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('btn-submit-contact');
+      const alertBox = document.getElementById('contact-alert');
+      const alertMsg = document.getElementById('contact-alert-msg');
+      const alertIcon = document.getElementById('contact-alert-icon');
+
+      const payload = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value,
+        subject: form.subject.value,
+        message: form.message.value
+      };
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i><span>Enviando...</span>';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        alertBox.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+
+        if (res.ok && data.success) {
+          alertBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-200');
+          alertIcon.className = 'fa-solid fa-circle-check text-base text-emerald-600 shrink-0 mt-0.5';
+          alertMsg.textContent = data.message || '¡Mensaje enviado con éxito! Nos comunicaremos contigo en breve.';
+          form.reset();
+        } else {
+          alertBox.classList.add('bg-rose-50', 'text-rose-800', 'border-rose-200');
+          alertIcon.className = 'fa-solid fa-triangle-exclamation text-base text-rose-600 shrink-0 mt-0.5';
+          alertMsg.textContent = data.error || 'Ocurrió un error al enviar tu mensaje. Intenta nuevamente.';
+        }
+      } catch (err) {
+        alertBox.classList.remove('hidden');
+        alertBox.classList.add('bg-rose-50', 'text-rose-800', 'border-rose-200');
+        alertIcon.className = 'fa-solid fa-circle-xmark text-base text-rose-600 shrink-0 mt-0.5';
+        alertMsg.textContent = 'Error de conexión con el servidor. Por favor verifica tu red e intenta de nuevo.';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane text-xs"></i><span>Enviar Mensaje</span>';
+      }
+    });
+  </script>
+</body>
+</html>

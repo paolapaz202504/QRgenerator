@@ -986,7 +986,7 @@ async function runTestSuite() {
 
   // PRUEBA 34: Auditoría de Enlaces Internos y Ausencia de Enlaces Rotos (404)
   await test('Auditoría de Enlaces Internos: Verificación de rutas públicas y ausencia de enlaces rotos', async () => {
-    const publicRoutes = ['/', '/restaurantes', '/salones-belleza', '/comercios', '/nosotros'];
+    const publicRoutes = ['/', '/restaurantes', '/salones-belleza', '/comercios', '/nosotros', '/editor', '/contacto'];
     for (const route of publicRoutes) {
       const res = await makeRequest(route, 'GET');
       if (res.statusCode !== 200) {
@@ -1007,7 +1007,9 @@ async function runTestSuite() {
       'public/restaurantes.html',
       'public/salones-belleza.html',
       'public/comercios.html',
-      'public/nosotros.html'
+      'public/nosotros.html',
+      'public/editor.html',
+      'public/contacto.html'
     ];
 
     for (const file of htmlFiles) {
@@ -1059,6 +1061,92 @@ async function runTestSuite() {
     const svgText = svgRes.text;
     if (!svgText.includes('<svg') || !svgText.includes('viewBox') || !svgText.includes('xmlns="http://www.w3.org/2000/svg"')) {
       throw new Error('La salida SVG no cumple con la estructura XML estándar del W3C');
+    }
+  });
+
+  // PRUEBA 37: Menú Reorganizado (Precios, Soluciones y Sectores con 3 submenús e iconos, Ayuda a /#faq y Contacto)
+  await test('Menú Reorganizado: Precios, Soluciones y Sectores (Restaurantes, Salones, Comercios), Ayuda a /#faq y Breadcrumbs', async () => {
+    const fs = require('fs');
+    const headerHtml = fs.readFileSync('public/html/header.html', 'utf8');
+
+    // 1. Botón Precios presente
+    if (!headerHtml.includes('Precios') || !headerHtml.includes('id="btn-open-plans"')) {
+      throw new Error('El botón Precios no se encuentra correctamente identificado en header.html');
+    }
+
+    // 2. Menú Soluciones y Sectores con icono y 3 submenús
+    if (!headerHtml.includes('Soluciones y Sectores') || !headerHtml.includes('fa-layer-group')) {
+      throw new Error('El menú "Soluciones y Sectores" con icono no está presente en header.html');
+    }
+    if (!headerHtml.includes('Restaurantes') || !headerHtml.includes('fa-utensils')) {
+      throw new Error('El submenú Restaurantes con icono fa-utensils no está presente');
+    }
+    if (!headerHtml.includes('Salones') || !headerHtml.includes('fa-scissors')) {
+      throw new Error('El submenú Salones con icono fa-scissors no está presente');
+    }
+    if (!headerHtml.includes('Comercios') || !headerHtml.includes('fa-store')) {
+      throw new Error('El submenú Comercios con icono fa-store no está presente');
+    }
+
+    // 3. Botón Ayuda apunta a /#faq
+    if (!headerHtml.includes('href="/#faq"') || !headerHtml.includes('id="btn-open-faq"')) {
+      throw new Error('El botón Ayuda no redirige a /#faq en header.html');
+    }
+
+    // 4. Enlace de Contacto en menú
+    if (!headerHtml.includes('href="/contacto"') || !headerHtml.includes('Contacto')) {
+      throw new Error('El menú Contacto no está presente en header.html');
+    }
+
+    // 5. Breadcrumbs estáticos presentes en páginas secundarias
+    const secondaryPages = [
+      'public/editor.html',
+      'public/restaurantes.html',
+      'public/salones-belleza.html',
+      'public/comercios.html',
+      'public/sobre-nosotros.html',
+      'public/contacto.html'
+    ];
+    for (const page of secondaryPages) {
+      const content = fs.readFileSync(page, 'utf8');
+      if (!content.includes('aria-label="Breadcrumb"') || !content.includes('Inicio')) {
+        throw new Error(`La página secundaria ${page} no contiene el breadcrumb estático de navegación.`);
+      }
+    }
+  });
+
+  // PRUEBA 38: Página de Contacto y Endpoint API POST /api/contact
+  await test('Contacto: Ruta /contacto (HTTP 200, H1, Formulario) y API POST /api/contact con validación', async () => {
+    // 1. GET /contacto responde HTTP 200
+    const pageRes = await makeRequest('/contacto', 'GET');
+    if (pageRes.statusCode !== 200) {
+      throw new Error(`/contacto no devolvió HTTP 200 (obtenido ${pageRes.statusCode})`);
+    }
+    if (!pageRes.text.includes('<h1') || !pageRes.text.includes('id="contact-form"')) {
+      throw new Error('/contacto no contiene encabezado H1 o formulario de contacto');
+    }
+
+    // 2. Validación de campos obligatorios en POST /api/contact (HTTP 400 ante datos incompletos)
+    const invalidRes = await makeRequest('/api/contact', 'POST', {
+      name: '',
+      email: 'invalido'
+    });
+    const invalidBody = invalidRes.json();
+    if (invalidRes.statusCode !== 400 || invalidBody.success !== false) {
+      throw new Error(`POST /api/contact debería responder HTTP 400 ante datos incompletos (obtenido ${invalidRes.statusCode})`);
+    }
+
+    // 3. Envío exitoso con payload completo (HTTP 200)
+    const validRes = await makeRequest('/api/contact', 'POST', {
+      name: 'Don Carlos Mendoza',
+      email: 'carlos.mendoza@casona.gt',
+      phone: '+502 5555-8899',
+      subject: 'Consulta sobre Menú Digital QR para Restaurante',
+      message: 'Buenas tardes, quisiera saber el costo de asesoría para digitalizar 35 mesas en mi restaurante.'
+    });
+    const validBody = validRes.json();
+    if (validRes.statusCode !== 200 || validBody.success !== true || !validBody.id) {
+      throw new Error(`POST /api/contact falló al procesar mensaje válido: ${JSON.stringify(validBody)}`);
     }
   });
 

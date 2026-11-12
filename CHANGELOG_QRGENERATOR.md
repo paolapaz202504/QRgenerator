@@ -4,6 +4,19 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.0] — 2026-11-12
+### 🌟 Menú Unificado de Soluciones, Nueva Página de Contacto, Botón Precios y Guía de Navegación
+
+#### Novedades y Mejoras
+- **Menú Consolidado "Soluciones y Sectores":** Se agrupan las soluciones especializadas para **Restaurantes**, **Salones** y **Comercios** en un único menú desplegable interactivo con iconos distintivos y descripciones rápidas, logrando una navegación mucho más ordenada tanto en computadoras como en teléfonos móviles.
+- **Acceso Directo a Precios ("Precios"):** El botón principal de consulta de tarifas se actualiza con la etiqueta clara **"Precios"**, facilitando la revisión inmediata de los planes disponibles desde cualquier pantalla.
+- **Botón de Ayuda con Enlace Directo:** El botón **"Ayuda"** ahora te traslada directamente al centro interactivo de preguntas frecuentes en la página principal para resolver cualquier inquietud al instante.
+- **Nueva Página de Contacto y Asistencia Directa (/contacto):** Ahora cuentas con un canal oficial y formulario estructurado para enviarnos tus consultas sobre implementación de códigos QR, soporte técnico o cotizaciones personalizadas, con confirmación inmediata de recepción.
+- **Guía de Navegación (Breadcrumbs) en Todas las Páginas:** Se incorpora una barra de ubicación clara debajo del menú principal en cada sección secundaria para que siempre sepas dónde estás y puedas volver al inicio en un solo clic.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Menú persistente y sincronizado con idénticas opciones e iconos en todas las páginas de la plataforma.
+
+---
+
 ## [v1.8.9] — 2026-11-12
 ### 💎 Experiencia Unificada de Planes, Gestión Activa de Suscripción y Botones Simplificados
 

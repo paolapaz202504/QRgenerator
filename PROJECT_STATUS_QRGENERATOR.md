@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.8.9`  
+**Versión Actual:** `v1.9.0`  
 **Última Actualización:** 12 de Noviembre de 2026  
-**Estado General:** 🟢 Componente de Planes Reutilizable 1:1 en Modal y Home, Botón 'Pagar' y Cambio de Plan Activo v1.8.9 Completada al 100% (36/36 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
+**Estado General:** 🟢 Menú Unificado 'Soluciones y Sectores', Página de Contacto (/contacto), Botón 'Precios', Ayuda Directa a /#faq y Breadcrumbs v1.9.0 Completada al 100% (38/38 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
 
 ---
 
@@ -11,12 +11,12 @@
 
 ```mermaid
 flowchart LR
-    A["Menú Principal Reorganizado\n(Inicio, Restaurantes, Salones, Comercios, Editor, Nosotros)"] --> B["Ruta Dedicada /editor\n(Diseño y Personalización Desacoplados de Home)"]
-    B --> C["Componente de Planes Reutilizable\n(HTML Unificado en Modal y Home)"]
-    C --> D["Botón 'Pagar' Directo\n(Eliminado 'con Recurrente' en PRO y CORP)"]
-    D --> E["Gestión Dinámica de Plan Activo\n(Cambio a Free, Upgrade y Downgrade Sincronizado)"]
-    E --> F["Certificación QA & DoD\n(36/36 Pruebas Pasadas al 100%)"]
-    F --> G["🚀 QRbey SaaS v1.8.9: Despliegue a Producción OnRender"]
+    A["Menú 'Soluciones y Sectores'\n(Restaurantes, Salones, Comercios con Iconos)"] --> B["Botón 'Precios' & Ayuda Directa\n(Acceso Rápido y Enlace a /#faq)"]
+    B --> C["Página & API de Contacto (/contacto)\n(Formulario y Endpoint POST /api/contact)"]
+    C --> D["Breadcrumbs Estáticos\n(Guía de Navegación en Páginas Secundarias)"]
+    D --> E["Menú Persistente Reutilizable\n(Sincronizado en Todas las Páginas)"]
+    E --> F["Certificación QA & DoD\n(38/38 Pruebas Pasadas al 100%)"]
+    F --> G["🚀 QRbey SaaS v1.9.0: Despliegue a Producción OnRender"]
     
     style C fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px

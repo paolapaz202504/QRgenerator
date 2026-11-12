@@ -34,6 +34,9 @@ gcs-key.json
 ehthumbs.db
 Thumbs.db
 
+# Storage
+storage/*.json
+
 # IDE and Editor files
 .vscode/*
 !.vscode/extensions.json

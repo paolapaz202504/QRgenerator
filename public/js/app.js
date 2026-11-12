@@ -120,9 +120,10 @@ class Application {
     // Smooth Scroll for FAQ Button
     const btnOpenFaq = document.getElementById('btn-open-faq');
     if (btnOpenFaq) {
-      btnOpenFaq.addEventListener('click', () => {
-        const section = document.getElementById('section-faq');
+      btnOpenFaq.addEventListener('click', (e) => {
+        const section = document.getElementById('faq') || document.getElementById('section-faq');
         if (section) {
+          e.preventDefault();
           section.scrollIntoView({ behavior: 'smooth' });
         }
       });

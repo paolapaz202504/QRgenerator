@@ -15,6 +15,7 @@ const qrRoutes = require('./routes/qrRoutes');
 const userRoutes = require('./routes/userRoutes');
 const healthRoutes = require('./routes/healthRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 class Server {
   constructor() {
@@ -107,6 +108,13 @@ class Server {
       res.sendFile(path.join(__dirname, 'public', 'nosotros.html'));
     });
 
+    // Página de Contacto y Soporte
+    this.app.get('/contacto', (req, res) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0, proxy-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.sendFile(path.join(__dirname, 'public', 'contacto.html'));
+    });
+
     // Documentación API para Desarrolladores y Agentes de IA (MCP)
     this.app.get('/api', (req, res) => {
       res.sendFile(path.join(__dirname, 'public', 'api.html'));
@@ -142,6 +150,9 @@ class Server {
     
     // Pasarela de Pagos Recurrente
     this.app.use('/api/payment', paymentRoutes);
+
+    // Mensajes de Contacto y Soporte
+    this.app.use('/api', contactRoutes);
   }
 
   async initRepositories() {
