@@ -1,9 +1,9 @@
 # Tablero de Control — QRgenerator (QRbey)
 
 **Coordinador:** `pmAgent` & Equipo Técnico `DevTeam`  
-**Versión Actual:** `v1.8.3`  
+**Versión Actual:** `v1.8.4`  
 **Última Actualización:** 12 de Noviembre de 2026  
-**Estado General:** 🟢 Plan Estratégico de Transformación Completado al 100% (Fases 1, 2, 3 y 4 | 36/36 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
+**Estado General:** 🟢 Plan de Revisión y Optimización SEO/GEO/UX v1.8.4 Completado al 100% (Pre-renderizado Estático Inicial, Enlaces Prominentes en Navbar, Canónicos Canónicos Oficiales https://qrbey.onrender.com/, Casos de Estudio Verificados | 36/36 Pruebas QA + 201/201 Matriz Visual Aprobadas al 100%)
 
 ---
 
@@ -11,12 +11,12 @@
 
 ```mermaid
 flowchart LR
-    A["Diagnóstico Crítico de Usuario\n(Saturación de Home & Visibilidad IA)"] --> B["Plan Estratégico Integral\n(pm, analyst, seo, front, devops)"]
-    B --> C["Fase 1: Limpieza Radical de Home\n(Hero 5s, 3 Casos de Uso, Gastronomía #1)"]
-    C --> D["Fase 2: 3 Landings Verticales\n(/restaurantes, /salones, /comercios)"]
-    D --> E["Fase 3: Autoridad E-E-A-T & Schemas\n(Testimonios, /nosotros, Product, Rating)"]
-    E --> F["Fase 4: QA 36 Pruebas & Matriz Visual\n(201/201 Escaneabilidad + Despliegue)"]
-    F --> G["🚀 QRbey SaaS: Líder en Negocios y Citado por IA (v1.8.3)"]
+    A["Review Crítico v1.8.2 en qrbey.onrender.com\n(Jerarquía Visual, Schema en HTML, Canónicos)"] --> B["Ajuste de Arquitectura DevTeam\n(front, seo, devops, qa, pm)"]
+    B --> C["Pre-renderizado Estático en index.html\n(Hero, Testimonios, FAQ y Footer directos)"]
+    C --> D["Navegación Navbar Prominente\n(Restaurantes, Salones, Comercios, Nosotros)"]
+    D --> E["Unificación de Dominio Canónico\n(https://qrbey.onrender.com en todo el sitio)"]
+    E --> F["Certificación QA & Matriz Visual\n(36/36 QA Suite + 201/201 Combinaciones)"]
+    F --> G["🚀 QRbey SaaS v1.8.4: Desplegado y Verificado en Render"]
     
     style C fill:#dcfce7,stroke:#16a34a,stroke-width:2px
     style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px

@@ -16,13 +16,33 @@
             <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
               class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
               <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
-              <span>v1.8.3</span>
+              <span>v1.8.4</span>
             </button>
           </div>
-          <p class="text-xs text-slate-500 font-medium hidden lg:block truncate max-w-xs xl:max-w-md">Diseña Códigos QR profesionales con logo, colores y estilo empresarial</p>
+          <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>
         </div>
       </div>
     </div>
+
+    <!-- Navegación Directa por Verticales y Sobre Nosotros (SEO & Conversión) -->
+    <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold text-slate-600">
+      <a href="/restaurantes" class="px-2.5 py-1.5 rounded-lg hover:text-amber-700 hover:bg-amber-50 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-utensils text-amber-600 text-[11px]"></i>
+        <span>Restaurantes</span>
+      </a>
+      <a href="/salones-belleza" class="px-2.5 py-1.5 rounded-lg hover:text-pink-700 hover:bg-pink-50 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-scissors text-pink-500 text-[11px]"></i>
+        <span>Salones</span>
+      </a>
+      <a href="/comercios" class="px-2.5 py-1.5 rounded-lg hover:text-emerald-700 hover:bg-emerald-50 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-store text-emerald-600 text-[11px]"></i>
+        <span>Comercios</span>
+      </a>
+      <a href="/nosotros" class="px-2.5 py-1.5 rounded-lg hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-shield-halved text-indigo-600 text-[11px]"></i>
+        <span>Sobre Nosotros</span>
+      </a>
+    </nav>
 
     <!-- OAuth 2.0 User Profile Widget & Action Buttons -->
     <div class="flex items-center gap-1 sm:gap-2 sm:gap-3 flex-nowrap shrink-0">
@@ -71,5 +91,25 @@
         <span class="inline sm:hidden text-[11px]">Ingreso</span>
       </button>
     </div>
+  </div>
+
+  <!-- Sub-barra de Accesos Directos para Móviles y Tablets (< lg) -->
+  <div class="lg:hidden bg-slate-50/95 border-t border-slate-200/80 px-2 py-1.5 flex items-center justify-around text-[11px] font-semibold text-slate-600">
+    <a href="/restaurantes" class="px-2 py-1 rounded-md hover:text-amber-700 hover:bg-amber-50/80 flex items-center gap-1 shrink-0">
+      <i class="fa-solid fa-utensils text-amber-600 text-[10px]"></i>
+      <span>Restaurantes</span>
+    </a>
+    <a href="/salones-belleza" class="px-2 py-1 rounded-md hover:text-pink-700 hover:bg-pink-50/80 flex items-center gap-1 shrink-0">
+      <i class="fa-solid fa-scissors text-pink-500 text-[10px]"></i>
+      <span>Salones</span>
+    </a>
+    <a href="/comercios" class="px-2 py-1 rounded-md hover:text-emerald-700 hover:bg-emerald-50/80 flex items-center gap-1 shrink-0">
+      <i class="fa-solid fa-store text-emerald-600 text-[10px]"></i>
+      <span>Comercios</span>
+    </a>
+    <a href="/nosotros" class="px-2 py-1 rounded-md hover:text-indigo-700 hover:bg-indigo-50/80 flex items-center gap-1 shrink-0">
+      <i class="fa-solid fa-shield-halved text-indigo-600 text-[10px]"></i>
+      <span>Nosotros</span>
+    </a>
   </div>
 </header>

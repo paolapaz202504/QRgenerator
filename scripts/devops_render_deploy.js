@@ -8,7 +8,7 @@ const pkg = require('../package.json');
 const TARGET_VERSION = pkg.version;
 
 const DEPLOY_HOOK = process.env.RENDER_DEPLOY_HOOK_URL || 'https://api.render.com/deploy/srv-dam6d4gu01pc73egvae0?key=tXtoboMPY_8';
-const HEALTH_URL = 'https://qr-studio-pro.onrender.com/api/health';
+const HEALTH_URL = 'https://qrbey.onrender.com/api/health';
 
 async function triggerDeploy() {
   console.log('🚀 [devOpsAgent] Disparando Despliegue en OnRender...');

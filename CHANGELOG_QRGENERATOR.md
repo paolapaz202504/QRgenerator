@@ -1,6 +1,17 @@
-# Historial de Novedades y Versiones — QR Studio Pro
+# Historial de Novedades y Versiones — QRbey
 
 Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas para los usuarios.
+
+---
+
+## [v1.8.4] — 2026-11-12
+### ⚡ Carga Instantánea, Navegación Directa por Sector y Transparencia Verificada
+
+#### Novedades y Mejoras
+- **Carga Instantánea de Bienvenida y Propuesta de Valor:** Visualización inmediata de la presentación inicial, beneficios clave y opciones de precios desde el primer instante en que abres la plataforma, orientando con total claridad a dueños de restaurantes, salones y comercios.
+- **Barra de Navegación Directa por Sectores:** Accesos rápidos permanentes en la cabecera tanto en computadoras como en teléfonos móviles hacia las guías dedicadas para Restaurantes, Salones de Belleza, Comercios Locales y la sección Sobre Nosotros.
+- **Transparencia y Casos de Estudio Verificados:** Documentación honesta y clara de los resultados obtenidos por negocios piloto reales que ahorran en costos de impresión y protegen sus códigos impresos contra caducidades sorpresa.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas inmediatas, menor consumo de datos móviles y compatibilidad optimizada con navegadores modernos.
 
 ---
 

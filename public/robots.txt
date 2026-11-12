@@ -45,4 +45,4 @@ Disallow: /api/
 Disallow: /private/
 
 # Referencia al Mapa del Sitio XML Oficial
-Sitemap: https://qr-studio-pro.onrender.com/sitemap.xml
+Sitemap: https://qrbey.onrender.com/sitemap.xml

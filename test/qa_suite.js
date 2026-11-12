@@ -783,7 +783,7 @@ async function runTestSuite() {
       throw new Error(`robots.txt respondió con código HTTP ${robotsRes.statusCode}`);
     }
     const robotsBody = robotsRes.text;
-    if (!robotsBody.includes('User-agent: *') || !robotsBody.includes('Sitemap: https://qr-studio-pro.onrender.com/sitemap.xml')) {
+    if (!robotsBody.includes('User-agent: *') || !robotsBody.includes('Sitemap: https://qrbey.onrender.com/sitemap.xml')) {
       throw new Error('robots.txt no contiene las directivas esenciales o la referencia al Sitemap oficial.');
     }
 
@@ -792,7 +792,7 @@ async function runTestSuite() {
       throw new Error(`sitemap.xml respondió con código HTTP ${sitemapRes.statusCode}`);
     }
     const sitemapBody = sitemapRes.text;
-    if (!sitemapBody.includes('<urlset') || !sitemapBody.includes('https://qr-studio-pro.onrender.com/')) {
+    if (!sitemapBody.includes('<urlset') || !sitemapBody.includes('https://qrbey.onrender.com/')) {
       throw new Error('sitemap.xml no contiene la estructura XML estándar o la URL canónica del proyecto.');
     }
   });
@@ -803,8 +803,8 @@ async function runTestSuite() {
     const indexHtml = fs.readFileSync('public/index.html', 'utf8');
 
     // Canonical oficial
-    if (!indexHtml.includes('<link rel="canonical" href="https://qr-studio-pro.onrender.com/">')) {
-      throw new Error('index.html no contiene el canonical canónico oficial hacia https://qr-studio-pro.onrender.com/');
+    if (!indexHtml.includes('<link rel="canonical" href="https://qrbey.onrender.com/">')) {
+      throw new Error('index.html no contiene el canonical canónico oficial hacia https://qrbey.onrender.com/');
     }
 
     // Googlebot y Bingbot
@@ -924,7 +924,7 @@ async function runTestSuite() {
       }
 
       // 5. Presencia en sitemap.xml
-      if (!sitemapXml.includes(`https://qr-studio-pro.onrender.com${landing.path}`)) {
+      if (!sitemapXml.includes(`https://qrbey.onrender.com${landing.path}`)) {
         throw new Error(`${landing.path} no se encuentra registrado en public/sitemap.xml`);
       }
     }
@@ -948,7 +948,7 @@ async function runTestSuite() {
     if (!res.text.includes('"@type": "AboutPage"')) {
       throw new Error('/nosotros no contiene el Schema.org AboutPage');
     }
-    if (!sitemapXml.includes('https://qr-studio-pro.onrender.com/nosotros')) {
+    if (!sitemapXml.includes('https://qrbey.onrender.com/nosotros')) {
       throw new Error('/nosotros no se encuentra registrado en public/sitemap.xml');
     }
 

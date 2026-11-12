@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: qr-studio-pro
+    name: qrbey
     env: node
     plan: free
     buildCommand: npm install
@@ -13,7 +13,7 @@ services:
       - key: PORT
         value: 3030
       - key: APP_URL
-        value: https://qr-studio-pro.onrender.com
+        value: https://qrbey.onrender.com
       - key: PLAN_FREE_MAX_DOWNLOADS
         value: "15"
       - key: PLAN_FREE_MAX_CREDITS
@@ -27,8 +27,8 @@ services:
       - key: PLAN_CORP_PRICE_MONTHLY
         value: "29.99"
       - key: PLAN_CORP_MAX_DOWNLOADS
-        value: "999999"
+        value: "2000"
       - key: PLAN_CORP_MAX_CREDITS
-        value: "999999"
+        value: "10000"
       - key: RECURRENTE_ENVIRONMENT
         value: sandbox

@@ -2,36 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://qr-studio-pro.onrender.com/</loc>
+    <loc>https://qrbey.onrender.com/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://qr-studio-pro.onrender.com/favicon.svg</image:loc>
-      <image:title>QRbey — Generador de Códigos QR Personalizados con Logo</image:title>
+      <image:loc>https://qrbey.onrender.com/favicon.svg</image:loc>
+      <image:title>QRbey — Códigos QR Dinámicos para Negocios de Barrio</image:title>
       <image:caption>Herramienta SaaS profesional para diseñar códigos QR vectoriales con colores, marcos e íconos.</image:caption>
     </image:image>
   </url>
   <url>
-    <loc>https://qr-studio-pro.onrender.com/restaurantes</loc>
+    <loc>https://qrbey.onrender.com/restaurantes</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://qr-studio-pro.onrender.com/salones-belleza</loc>
+    <loc>https://qrbey.onrender.com/salones-belleza</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://qr-studio-pro.onrender.com/comercios</loc>
+    <loc>https://qrbey.onrender.com/comercios</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://qr-studio-pro.onrender.com/nosotros</loc>
+    <loc>https://qrbey.onrender.com/nosotros</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.8.3';
+export const APP_VERSION = '1.8.4';
 
 export class ComponentLoader {
   /**
@@ -26,7 +26,7 @@ export class ComponentLoader {
     await Promise.all(
       components.map(async ({ id, file }) => {
         const container = document.getElementById(id);
-        if (!container) return;
+        if (!container || (container.children && container.children.length > 0)) return;
         try {
           const res = await fetch(`${file}?v=${APP_VERSION}`);
           if (res.ok) {
