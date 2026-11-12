@@ -64,7 +64,8 @@ class Config {
   }
 
   getPlanConfig(planId = 'free') {
-    const key = (planId || this.defaultPlanId).toLowerCase();
+    let key = (planId || this.defaultPlanId).toLowerCase();
+    if (key === 'enterprise') key = 'corporate';
     return this.plans[key] || this.plans.free;
   }
 

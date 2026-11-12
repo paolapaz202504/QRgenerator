@@ -541,8 +541,8 @@ async function runTestSuite() {
     }
   });
 
-  // PRUEBA 21: Reglas de Venta de Planes: Free -> PRO reinicia créditos y códigos QR a 0
-  await test('Reglas de Venta: Free ➔ PRO reinicia créditos y códigos generados a 0 con nuevos límites', async () => {
+  // PRUEBA 21: Reglas de Venta de Planes: Free -> PRO/ENTERPRISE reinicia créditos y códigos QR a 0
+  await test('Reglas de Venta: Free ➔ PRO y Free ➔ ENTERPRISE reinicia créditos y códigos generados a 0 con nuevos límites', async () => {
     const testUserEmail = `upgrade_free_pro_${Date.now()}@qrbey.com`;
     
     // 1. Crear usuario en Plan Free
@@ -592,6 +592,40 @@ async function runTestSuite() {
     }
     if (upData.user.maxDownloads !== 500) {
       throw new Error(`Límite maxDownloads esperado 500, recibido: ${upData.user.maxDownloads}`);
+    }
+
+    // 4. Probar también compra directa de Free -> ENTERPRISE
+    const testUserEmail2 = `upgrade_free_corp_${Date.now()}@qrbey.com`;
+    await makeRequest('/api/auth/oauth-login', 'POST', {
+      email: testUserEmail2,
+      name: 'Free to Corp Tester',
+      provider: 'Google'
+    });
+    await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testUserEmail2 });
+    await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/free-usage-2',
+      title: 'QR Free 2',
+      userEmail: testUserEmail2,
+      isExplicitGenerate: true
+    });
+
+    const upgradeCorpRes = await makeRequest('/api/user/upgrade-plan', 'POST', {
+      userEmail: testUserEmail2,
+      plan: 'enterprise',
+      months: 1
+    });
+    const upCorpData = upgradeCorpRes.json();
+    if (!upCorpData.success || !upCorpData.user) {
+      throw new Error('Error al actualizar plan directo a Enterprise');
+    }
+    if (upCorpData.user.plan !== 'corporate') {
+      throw new Error(`Plan esperado corporate, recibido: ${upCorpData.user.plan}`);
+    }
+    if (upCorpData.user.creditsUsed !== 0 || upCorpData.user.generationsCount !== 0) {
+      throw new Error('Los créditos y códigos generados debían reiniciarse a 0 al pasar de Free a Enterprise');
+    }
+    if (upCorpData.user.maxCredits !== 10000 || upCorpData.user.maxDownloads !== 2000) {
+      throw new Error('Límites incorrectos al pasar de Free a Enterprise');
     }
   });
 
@@ -654,7 +688,65 @@ async function runTestSuite() {
     }
   });
 
-  // PRUEBA 23: Confirmación Modal al Cerrar Sesión
+  // PRUEBA 23: Reglas de Venta de Planes: PRO/ENTERPRISE -> GRATIS asigna límites de Free y reinicia créditos y QRs a 0
+  await test('Reglas de Venta: PRO/ENTERPRISE ➔ GRATIS asigna límites del plan Gratis y reinicia créditos y códigos a 0', async () => {
+    const testUserEmail = `downgrade_to_free_${Date.now()}@qrbey.com`;
+    
+    // 1. Crear usuario y asignarle Corporate
+    await makeRequest('/api/auth/oauth-login', 'POST', {
+      email: testUserEmail,
+      name: 'Downgrade Tester',
+      provider: 'Google'
+    });
+    await makeRequest('/api/user/upgrade-plan', 'POST', {
+      userEmail: testUserEmail,
+      plan: 'corporate',
+      months: 1
+    });
+
+    // 2. Consumir créditos y generar códigos
+    for (let i = 0; i < 8; i++) {
+      await makeRequest('/api/user/consume-credit', 'POST', { userEmail: testUserEmail });
+    }
+    await makeRequest('/api/generate', 'POST', {
+      url: 'https://qrbey.com/corp-to-free',
+      title: 'QR Corp To Free',
+      userEmail: testUserEmail,
+      isExplicitGenerate: true
+    });
+
+    // 3. Volver a Plan GRATIS
+    const toFreeRes = await makeRequest('/api/user/upgrade-plan', 'POST', {
+      userEmail: testUserEmail,
+      plan: 'free',
+      months: 1
+    });
+    const freeData = toFreeRes.json();
+    if (!freeData.success || !freeData.user) {
+      throw new Error('Error al volver al plan Free');
+    }
+
+    if (freeData.user.plan !== 'free') {
+      throw new Error(`Plan esperado free, recibido: ${freeData.user.plan}`);
+    }
+    if (freeData.user.creditsUsed !== 0) {
+      throw new Error(`Al volver a Gratis, los créditos consumidos deben ser 0, recibido: ${freeData.user.creditsUsed}`);
+    }
+    if (freeData.user.generationsCount !== 0) {
+      throw new Error(`Al volver a Gratis, los códigos generados deben ser 0, recibido: ${freeData.user.generationsCount}`);
+    }
+    if (freeData.user.maxCredits !== 50) {
+      throw new Error(`Límite maxCredits para Gratis esperado 50, recibido: ${freeData.user.maxCredits}`);
+    }
+    if (freeData.user.maxDownloads !== 15) {
+      throw new Error(`Límite maxDownloads para Gratis esperado 15, recibido: ${freeData.user.maxDownloads}`);
+    }
+    if (freeData.user.expirationDate !== null) {
+      throw new Error(`La fecha de vencimiento en Gratis debe ser null, recibido: ${freeData.user.expirationDate}`);
+    }
+  });
+
+  // PRUEBA 24: Confirmación Modal al Cerrar Sesión
   await test('Confirmación Modal al Cerrar Sesión: Integración de ModalService.confirm en Navbar y Perfil', async () => {
     const fs = require('fs');
     const userModalCode = fs.readFileSync('public/js/components/UserModal.js', 'utf8');

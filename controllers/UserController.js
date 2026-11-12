@@ -82,7 +82,8 @@ class UserController {
       }
 
       const previousPlan = (user.plan || 'free').toLowerCase();
-      const planKey = plan.toLowerCase();
+      let planKey = plan.toLowerCase();
+      if (planKey === 'enterprise') planKey = 'corporate';
       const planConfig = config.getPlanConfig(planKey);
       const numMonths = Math.max(1, parseInt(months, 10) || 1);
 
@@ -91,10 +92,19 @@ class UserController {
       user.maxCredits = planConfig.maxCredits;
       user.planDurationMonths = numMonths;
 
-      // Reglas de Negocio de Venta de Planes:
-      // 1) Si estaba en plan gratis y compra PRO (o plan de pago): créditos y códigos QR se reinician a 0.
-      // 2) Si estaba en plan PRO y adquiere ENTERPRISE (corporate): los límites suben pero NO se reinician créditos ni códigos.
+      // Reglas de Negocio en la Compra/Cambio de Planes:
+      // 1) De GRATIS a PRO/ENTERPRISE: Asigna límites del plan, créditos consumidos 0 y QRs consumidos 0.
       if (previousPlan === 'free' && planKey !== 'free') {
+        user.creditsUsed = 0;
+        user.generationsCount = 0;
+        user.downloadsCount = 0;
+      }
+      // 2) De PRO a ENTERPRISE (corporate): Asigna límites de ENTERPRISE y deja como están los créditos y QRs consumidos.
+      else if (previousPlan === 'pro' && (planKey === 'corporate' || planKey === 'enterprise')) {
+        // Se dejan como están creditsUsed, generationsCount y downloadsCount
+      }
+      // 3) De PRO/ENTERPRISE a GRATIS: Asigna límites del plan GRATIS, créditos consumidos 0 y QRs consumidos 0.
+      else if (previousPlan !== 'free' && planKey === 'free') {
         user.creditsUsed = 0;
         user.generationsCount = 0;
         user.downloadsCount = 0;
@@ -163,6 +173,9 @@ class UserController {
       user.maxCredits = planConfig.maxCredits;
       user.planDurationMonths = 1;
       user.expirationDate = null;
+      user.creditsUsed = 0;
+      user.generationsCount = 0;
+      user.downloadsCount = 0;
 
       await userRepository.saveUser(user);
 

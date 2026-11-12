@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.6.2] — 2026-11-12
+### ⚙️ Flexibilidad y Coherencia Total en la Transición de Planes
+
+#### Novedades y Mejoras
+- **Transición de Plan Gratis a PRO o ENTERPRISE:** Al adquirir un nuevo plan desde la cuenta gratuita, se asignan los límites correspondientes al plan seleccionado y se reinician automáticamente los créditos consumidos a 0 y los códigos QR generados a 0 para iniciar con la cuota completa.
+- **Transición de Plan PRO a ENTERPRISE:** Al mejorar al plan ENTERPRISE, se asignan los nuevos límites ampliados del plan corporativo conservando intactos los créditos consumidos y la cantidad de códigos QR creados previamente.
+- **Transición de Plan PRO/ENTERPRISE a Plan Gratis:** Al retornar al plan gratuito, se asignan los límites estándar del plan base y se reinician a 0 los créditos consumidos y los códigos QR generados.
+- **Mayor estabilidad del sistema:** Optimizaciones en la validación de suscripciones y en la consistencia de datos de usuario.
+
+---
+
 ## [v1.6.1] — 2026-11-11
 ### 💳 Renovación Inteligente de Planes y Confirmación de Seguridad al Cerrar Sesión
 
