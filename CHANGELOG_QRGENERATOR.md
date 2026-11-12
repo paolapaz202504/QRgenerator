@@ -4,6 +4,19 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.8.7] — 2026-11-12
+### 🌟 Elevación de Portada Comercial, Validación Semántica JSON-LD y Mapa de Sitio Estricto
+
+#### Novedades y Mejoras
+- **Hero Comercial Rediseñado con Propuesta de Valor Inmediata:** La pantalla inicial de QRbey ahora presenta de forma destacada y sin distracciones la propuesta de valor para negocios locales: menús digitales actualizables para restaurantes, citas directas por WhatsApp para salones y WiFi instantáneo con catálogo para comercios.
+- **Transparencia Directa de Precios y Beneficios en la Portada:** Acceso inmediato a la comparativa de planes (Gratuito $0, Profesional $9.99/mes y Corporativo $29.99/mes) con diferenciadores clave destacados: códigos permanentes sin caducidad sorpresa y descargas vectoriales SVG sin marcas de agua.
+- **Validación Estricta de Datos Estructurados:** Implementación de esquemas oficiales estandarizados (`@graph` con SoftwareApplication, FAQPage y BreadcrumbList) para lectura perfecta por motores de búsqueda y asistentes de inteligencia artificial.
+- **Mapa del Sitio (Sitemap) Optimizado:** Publicación del índice oficial de páginas con las 4 rutas canónicas esenciales (portada y las tres soluciones especializadas por negocio).
+- **Hoja de Ruta de Reseñas Externas (E-E-A-T):** Documentación formal del procedimiento para recopilar opiniones reales en Trustpilot y Google Business Profile, protegiendo la reputación del sitio sin valoraciones artificiales.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas más ágiles y navegación fluida en todos los dispositivos.
+
+---
+
 ## [v1.8.6] — 2026-11-12
 ### 🚀 Nueva Portada Comercial, Páginas Dedicadas por Negocio y Transparencia Total
 

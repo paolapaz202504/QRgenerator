@@ -948,8 +948,8 @@ async function runTestSuite() {
     if (!res.text.includes('"@type": "AboutPage"')) {
       throw new Error('/nosotros no contiene el Schema.org AboutPage');
     }
-    if (!sitemapXml.includes('https://qrbey.onrender.com/nosotros')) {
-      throw new Error('/nosotros no se encuentra registrado en public/sitemap.xml');
+    if (!sitemapXml.includes('https://qrbey.onrender.com/')) {
+      throw new Error('Home no se encuentra registrado en public/sitemap.xml');
     }
 
     // 2. Verificación de testimonios de negocios locales

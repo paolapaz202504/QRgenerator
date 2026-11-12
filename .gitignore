@@ -4,7 +4,8 @@ jspm_packages/
 web_modules/
 
 # custom folders
-docs/
+docs/*
+!docs/reviews-strategy.md
 scratch/
 
 # Logs and debugging
