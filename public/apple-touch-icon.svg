@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="qrbey-bg-apple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81" />
+      <stop offset="50%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <linearGradient id="qrbey-accent-apple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="80%" stop-color="#818cf8" />
+    </linearGradient>
+    <linearGradient id="qrbey-spark-apple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="50%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="128" fill="url(#qrbey-bg-apple)" />
+  <g transform="translate(68, 68)">
+    <rect x="0" y="0" width="112" height="112" rx="30" fill="none" stroke="#ffffff" stroke-width="20" />
+    <rect x="32" y="32" width="48" height="48" rx="14" fill="url(#qrbey-accent-apple)" />
+  </g>
+  <g transform="translate(332, 68)">
+    <rect x="0" y="0" width="112" height="112" rx="30" fill="none" stroke="#ffffff" stroke-width="20" />
+    <rect x="32" y="32" width="48" height="48" rx="14" fill="url(#qrbey-accent-apple)" />
+  </g>
+  <g transform="translate(68, 332)">
+    <rect x="0" y="0" width="112" height="112" rx="30" fill="none" stroke="#ffffff" stroke-width="20" />
+    <rect x="32" y="32" width="48" height="48" rx="14" fill="url(#qrbey-accent-apple)" />
+  </g>
+  <circle cx="256" cy="124" r="16" fill="#e0e7ff" />
+  <circle cx="124" cy="256" r="16" fill="#e0e7ff" />
+  <rect x="332" y="332" width="42" height="42" rx="14" fill="url(#qrbey-accent-apple)" />
+  <rect x="402" y="332" width="42" height="42" rx="14" fill="#ffffff" />
+  <rect x="332" y="402" width="42" height="42" rx="14" fill="#ffffff" />
+  <rect x="402" y="402" width="42" height="42" rx="14" fill="url(#qrbey-spark-apple)" />
+  <g transform="translate(256, 256)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" opacity="0.2" />
+    <path d="M 0 -54 Q 0 0 -54 0 Q 0 0 0 54 Q 0 0 54 0 Q 0 0 0 -54 Z" fill="url(#qrbey-spark-apple)" />
+    <circle cx="0" cy="0" r="12" fill="#ffffff" />
+  </g>
+</svg>

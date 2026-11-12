@@ -2,6 +2,7 @@ import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
 import { ApiService } from '../services/ApiService.js';
 import { ModalService } from '../services/ModalService.js';
+import { AnalyticsService } from '../services/AnalyticsService.js';
 
 export class PlanModal extends UIComponent {
   constructor() {
@@ -55,6 +56,7 @@ export class PlanModal extends UIComponent {
           }
         }
         if (this.container) this.container.classList.remove('hidden');
+        AnalyticsService.trackPlanView('all');
         this.updateDurationAndPrices();
         this.updateActivePlanUI(appState.getState().user);
       });

@@ -760,6 +760,87 @@ async function runTestSuite() {
     }
   });
 
+  // PRUEBA 25: Icono Innovador de Código QR (Favicon SVG & Apple Touch Icon)
+  await test('Icono Innovador: Existencia y estructura de favicon.svg y apple-touch-icon.svg', async () => {
+    const fs = require('fs');
+    if (!fs.existsSync('public/favicon.svg')) {
+      throw new Error('No se encontró el archivo public/favicon.svg');
+    }
+    if (!fs.existsSync('public/apple-touch-icon.svg')) {
+      throw new Error('No se encontró el archivo public/apple-touch-icon.svg');
+    }
+
+    const faviconSvg = fs.readFileSync('public/favicon.svg', 'utf8');
+    if (!faviconSvg.includes('<svg') || !faviconSvg.includes('qrbey-bg') || !faviconSvg.includes('Finder Pattern')) {
+      throw new Error('El favicon SVG no cuenta con la estructura geométrica innovadora esperada.');
+    }
+  });
+
+  // PRUEBA 26: Control de Rastreadores: Endpoint /robots.txt y /sitemap.xml
+  await test('Control de Rastreadores SEO: /robots.txt y /sitemap.xml responden HTTP 200 con formato válido', async () => {
+    const robotsRes = await makeRequest('/robots.txt', 'GET');
+    if (robotsRes.statusCode !== 200) {
+      throw new Error(`robots.txt respondió con código HTTP ${robotsRes.statusCode}`);
+    }
+    const robotsBody = robotsRes.text;
+    if (!robotsBody.includes('User-agent: *') || !robotsBody.includes('Sitemap: https://qr-studio-pro.onrender.com/sitemap.xml')) {
+      throw new Error('robots.txt no contiene las directivas esenciales o la referencia al Sitemap oficial.');
+    }
+
+    const sitemapRes = await makeRequest('/sitemap.xml', 'GET');
+    if (sitemapRes.statusCode !== 200) {
+      throw new Error(`sitemap.xml respondió con código HTTP ${sitemapRes.statusCode}`);
+    }
+    const sitemapBody = sitemapRes.text;
+    if (!sitemapBody.includes('<urlset') || !sitemapBody.includes('https://qr-studio-pro.onrender.com/')) {
+      throw new Error('sitemap.xml no contiene la estructura XML estándar o la URL canónica del proyecto.');
+    }
+  });
+
+  // PRUEBA 27: Metadatos SEO On-Page y Datos Estructurados Schema.org
+  await test('Metadatos SEO & Schema.org JSON-LD: Verificación en index.html', async () => {
+    const fs = require('fs');
+    const indexHtml = fs.readFileSync('public/index.html', 'utf8');
+
+    // Canonical oficial
+    if (!indexHtml.includes('<link rel="canonical" href="https://qr-studio-pro.onrender.com/">')) {
+      throw new Error('index.html no contiene el canonical canónico oficial hacia https://qr-studio-pro.onrender.com/');
+    }
+
+    // Googlebot y Bingbot
+    if (!indexHtml.includes('name="googlebot"') || !indexHtml.includes('name="bingbot"')) {
+      throw new Error('index.html no contiene directivas explícitas para Googlebot y Bingbot.');
+    }
+
+    // Open Graph y Twitter Cards
+    if (!indexHtml.includes('property="og:image"') || !indexHtml.includes('name="twitter:card"')) {
+      throw new Error('index.html no contiene etiquetas completas de Open Graph o Twitter Cards.');
+    }
+
+    // Schema.org JSON-LD
+    if (!indexHtml.includes('WebApplication') || !indexHtml.includes('FAQPage') || !indexHtml.includes('Organization')) {
+      throw new Error('index.html no contiene los esquemas Schema.org requeridos (WebApplication, FAQPage, Organization).');
+    }
+  });
+
+  // PRUEBA 28: Integración de Google Analytics 4 (GA4 / GTM)
+  await test('Telemetría Google Analytics 4 (GA4 / GTM): Integración desacoplada y servicio cliente', async () => {
+    const fs = require('fs');
+    const indexHtml = fs.readFileSync('public/index.html', 'utf8');
+    if (!indexHtml.includes('googletagmanager.com/gtag/js') || !indexHtml.includes('window.dataLayer')) {
+      throw new Error('index.html no inicializa el script o dataLayer de Google Analytics.');
+    }
+
+    if (!fs.existsSync('public/js/services/AnalyticsService.js')) {
+      throw new Error('No se encontró el servicio client-side public/js/services/AnalyticsService.js');
+    }
+
+    const analyticsCode = fs.readFileSync('public/js/services/AnalyticsService.js', 'utf8');
+    if (!analyticsCode.includes('trackQrGeneration') || !analyticsCode.includes('trackQrDownload')) {
+      throw new Error('AnalyticsService no cuenta con los métodos de seguimiento requeridos.');
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');

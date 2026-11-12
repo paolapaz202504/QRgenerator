@@ -65,6 +65,19 @@ class Server {
       res.sendFile(path.join(__dirname, 'public', 'index.html'));
     });
 
+    // SEO Endpoints explícitos para Googlebot, Bingbot y rastreadores
+    this.app.get('/robots.txt', (req, res) => {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+    });
+
+    this.app.get('/sitemap.xml', (req, res) => {
+      res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
+    });
+
     this.app.use(express.static(path.join(__dirname, 'public'), {
       maxAge: '0',
       etag: true,

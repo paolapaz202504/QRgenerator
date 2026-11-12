@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.7.0] — 2026-11-12
+### 🚀 Nueva Identidad Visual Innovadora, Presencia en Buscadores y Mejoras de Rendimiento
+
+#### Novedades y Mejoras
+- **Nuevo isotipo vectorial oficial:** Estreno de un nuevo icono de alta fidelidad que reinterpreta los códigos QR con estilo squircle moderno, gradientes cibernéticos y núcleo de escaneo estelar, visible con máxima nitidez en todas las resoluciones.
+- **Mayor visibilidad y presencia en buscadores:** Optimización completa para que QRbey sea descubierto con rapidez y precisión en Google y Bing, incluyendo mapas de sitio y fichas informativas estructuradas.
+- **Navegación fluida y carga ultrarrápida:** Mejoras continuas en la velocidad de despacho de recursos y en la estabilidad de la plataforma.
+
+---
+
 ## [v1.6.2] — 2026-11-12
 ### ⚙️ Flexibilidad y Coherencia Total en la Transición de Planes
 

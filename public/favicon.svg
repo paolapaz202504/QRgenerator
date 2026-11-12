@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Gradiente de fondo squircle principal -->
+    <linearGradient id="qrbey-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81" />
+      <stop offset="50%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+
+    <!-- Gradiente de módulos de escaneo -->
+    <linearGradient id="qrbey-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+
+    <!-- Gradiente de destello central (Scanner Core) -->
+    <linearGradient id="qrbey-spark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="50%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+
+    <!-- Gradiente de brillo superior de cristal (Glassmorphism) -->
+    <linearGradient id="qrbey-glass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28" />
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.04" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Filtro de sombra suave y resplandor -->
+    <filter id="qrbey-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#4338ca" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base con Sombra -->
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="url(#qrbey-bg)" filter="url(#qrbey-glow)" />
+
+  <!-- Capa de brillo de cristal superior -->
+  <rect x="32" y="32" width="448" height="224" rx="112" fill="url(#qrbey-glass)" />
+
+  <!-- Finder Pattern 1: Superior Izquierdo -->
+  <g transform="translate(92, 92)">
+    <!-- Marco Exterior -->
+    <rect x="0" y="0" width="108" height="108" rx="28" fill="none" stroke="#ffffff" stroke-width="18" />
+    <!-- Núcleo Interior Cian/Violeta -->
+    <rect x="30" y="30" width="48" height="48" rx="14" fill="url(#qrbey-accent)" />
+  </g>
+
+  <!-- Finder Pattern 2: Superior Derecho -->
+  <g transform="translate(312, 92)">
+    <!-- Marco Exterior -->
+    <rect x="0" y="0" width="108" height="108" rx="28" fill="none" stroke="#ffffff" stroke-width="18" />
+    <!-- Núcleo Interior Cian/Violeta -->
+    <rect x="30" y="30" width="48" height="48" rx="14" fill="url(#qrbey-accent)" />
+  </g>
+
+  <!-- Finder Pattern 3: Inferior Izquierdo -->
+  <g transform="translate(92, 312)">
+    <!-- Marco Exterior -->
+    <rect x="0" y="0" width="108" height="108" rx="28" fill="none" stroke="#ffffff" stroke-width="18" />
+    <!-- Núcleo Interior Cian/Violeta -->
+    <rect x="30" y="30" width="48" height="48" rx="14" fill="url(#qrbey-accent)" />
+  </g>
+
+  <!-- Módulos de Datos Sincronizados y Conectividad -->
+  <!-- Barra de tiempo horizontal conectiva -->
+  <circle cx="256" cy="120" r="14" fill="#e0e7ff" opacity="0.9" />
+  <circle cx="256" cy="164" r="14" fill="url(#qrbey-accent)" />
+
+  <!-- Barra de tiempo vertical conectiva -->
+  <circle cx="120" cy="256" r="14" fill="#e0e7ff" opacity="0.9" />
+  <circle cx="164" cy="256" r="14" fill="url(#qrbey-accent)" />
+
+  <!-- Módulos esquina inferior derecha -->
+  <rect x="312" y="312" width="38" height="38" rx="12" fill="url(#qrbey-accent)" />
+  <rect x="382" y="312" width="38" height="38" rx="12" fill="#ffffff" opacity="0.9" />
+  <rect x="312" y="382" width="38" height="38" rx="12" fill="#ffffff" opacity="0.9" />
+  <rect x="382" y="382" width="38" height="38" rx="12" fill="url(#qrbey-spark)" />
+
+  <!-- Núcleo Central: Láser / Estrella Innovadora de Escaneo y Generación -->
+  <g transform="translate(256, 256)">
+    <!-- Resplandor central -->
+    <circle cx="0" cy="0" r="42" fill="#ffffff" opacity="0.15" />
+    <!-- Rombo dinámico / Estrella de escaneo de 4 puntas -->
+    <path d="M 0 -48 Q 0 0 -48 0 Q 0 0 0 48 Q 0 0 48 0 Q 0 0 0 -48 Z" fill="url(#qrbey-spark)" />
+    <!-- Núcleo brillante blanco -->
+    <circle cx="0" cy="0" r="10" fill="#ffffff" />
+  </g>
+</svg>

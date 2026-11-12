@@ -1,5 +1,18 @@
-# robots.txt for QRbey
+# robots.txt para QRbey (QR Studio Pro)
+# Optimizado para Googlebot, Bingbot y rastreadores de motores de búsqueda
+
 User-agent: *
 Allow: /
+Allow: /favicon.svg
+Allow: /apple-touch-icon.svg
+Allow: /site.webmanifest
+Allow: /styles.css
+Allow: /js/
 
-Sitemap: http://localhost:3030/sitemap.xml
+# Bloquear rutas de API y endpoints transaccionales internos
+Disallow: /api/
+Disallow: /auth/
+Disallow: /private/
+
+# Referencia al Mapa del Sitio XML Oficial
+Sitemap: https://qr-studio-pro.onrender.com/sitemap.xml

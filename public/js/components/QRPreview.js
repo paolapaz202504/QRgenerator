@@ -2,6 +2,7 @@ import { UIComponent } from './UIComponent.js';
 import { appState } from '../state/AppState.js';
 import { ApiService } from '../services/ApiService.js';
 import { ModalService } from '../services/ModalService.js';
+import { AnalyticsService } from '../services/AnalyticsService.js';
 import { renderIconToDataUrl, getIconClass } from '../utils/iconRender.js';
 
 export class QRPreview extends UIComponent {
@@ -352,6 +353,7 @@ export class QRPreview extends UIComponent {
             generationsCount: (state.user.generationsCount || 0) + 1
           };
           appState.setState({ user: updatedUser }, 'QR_GENERATED');
+          AnalyticsService.trackQrGeneration('png', state.user.plan || 'free');
         }
       }
     } catch (err) {
@@ -427,6 +429,7 @@ export class QRPreview extends UIComponent {
         document.body.removeChild(link);
         setTimeout(() => URL.revokeObjectURL(downloadBlobUrl), 5000);
 
+        AnalyticsService.trackQrDownload(format);
         appState.notify('HISTORY_UPDATED');
       } else if (trackRes.message) {
         await ModalService.alert({
