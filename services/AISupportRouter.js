@@ -297,12 +297,8 @@ ${context}`;
 
     if (matchedFaq) {
       console.log(`[AISupportRouter 📚] Respuesta provista por Base de Conocimiento FAQ (${matchedFaq.id})`);
-      const extraContact = (this.isWhatsAppEnabled && waLink)
-        ? `\n\n*¿Tienes alguna otra duda o requieres atención personalizada? Puedes escribirnos directamente a WhatsApp:* [Contactar Asesor](${waLink})`
-        : `\n\n*¿Tienes alguna otra duda o requieres atención personalizada? Puedes escribirnos a ${this.supportEmail} o dejarnos un mensaje en /contacto.*`;
-
       return {
-        reply: `${matchedFaq.answer}${extraContact}`,
+        reply: matchedFaq.answer,
         provider: 'knowledge_base',
         conversationId: conversationId || 'conv_' + Date.now(),
         whatsappLink: waLink
