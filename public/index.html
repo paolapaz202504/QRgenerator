@@ -60,29 +60,127 @@
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "SoftwareApplication",
-        "name": "QRbey",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web",
+        "@type": "WebSite",
+        "@id": "https://qrbey.onrender.com/#website",
         "url": "https://qrbey.onrender.com/",
-        "description": "Códigos QR dinámicos para restaurantes, salones y comercios de barrio. Actualiza menús, agenda citas o comparte tu WiFi sin reimprimir.",
-        "dateModified": "2026-11-12",
-        "offers": [
-          {"@type": "Offer", "name": "Gratuito", "price": "0", "priceCurrency": "USD"},
-          {"@type": "Offer", "name": "Profesional", "price": "9.99", "priceCurrency": "USD"},
-          {"@type": "Offer", "name": "Corporativo", "price": "29.99", "priceCurrency": "USD"}
-        ],
+        "name": "QRbey",
+        "description": "Generador de códigos QR dinámicos para restaurantes, salones y comercios de barrio.",
         "publisher": {
-          "@type": "Organization",
-          "name": "QRbey",
-          "url": "https://qrbey.onrender.com/"
-        }
+          "@id": "https://qrbey.onrender.com/#organization"
+        },
+        "inLanguage": "es"
       },
       {
         "@type": "Organization",
+        "@id": "https://qrbey.onrender.com/#organization",
         "name": "QRbey",
         "url": "https://qrbey.onrender.com/",
-        "logo": "https://qrbey.onrender.com/favicon.svg"
+        "logo": "https://qrbey.onrender.com/favicon.svg",
+        "description": "Plataforma de generación y diseño de códigos QR dinámicos vectoriales y permanentes para restaurantes, salones y comercios de barrio.",
+        "foundingDate": "2026",
+        "sameAs": [
+          "https://www.instagram.com/QR.bey/",
+          "https://www.facebook.com/qrbey"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "qrbeyconctact@gmail.com",
+          "contactType": "customer support",
+          "availableLanguage": ["es", "en"]
+        },
+        "knowsAbout": [
+          "Códigos QR Dinámicos",
+          "Menús Digitales para Restaurantes",
+          "Sistemas de Citas por WhatsApp",
+          "Diseño Vectorial SVG de Códigos QR",
+          "Estándares ISO/IEC 18004"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://qrbey.onrender.com/#software",
+        "name": "QRbey",
+        "applicationCategory": "BusinessApplication",
+        "applicationSubCategory": "QR Code Generator SaaS",
+        "operatingSystem": "Web",
+        "url": "https://qrbey.onrender.com/",
+        "softwareVersion": "1.10.0",
+        "dateModified": "2026-11-13",
+        "description": "Crea códigos QR dinámicos para menús de restaurantes, agendas de salones y WiFi de comercios sin reimprimir.",
+        "publisher": {
+          "@id": "https://qrbey.onrender.com/#organization"
+        },
+        "featureList": [
+          "Códigos QR dinámicos sin necesidad de reimpresión",
+          "22 patrones geométricos y 600 combinaciones de diseño",
+          "Exportación dual SVG vectorial y PNG rasterizado en alta resolución",
+          "Marcos temáticos para restaurantes, salones y comercios de barrio",
+          "Garantía de permanencia sin caducidad forzada"
+        ],
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Plan Gratuito",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "description": "50 créditos y 5 descargas mensuales para comenzar a digitalizar tu negocio."
+          },
+          {
+            "@type": "Offer",
+            "name": "Plan Profesional",
+            "price": "9.99",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "description": "2,000 créditos y 500 descargas mensuales con soporte prioritario y exportación SVG ilimitada."
+          },
+          {
+            "@type": "Offer",
+            "name": "Plan Corporativo",
+            "price": "29.99",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "description": "10,000 créditos y descargas ilimitadas para cadenas, franquicias y agencias."
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://qrbey.onrender.com/#faqpage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Los códigos QR generados caducan o dejan de funcionar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No, los códigos QR creados con QRbey son permanentes y no tienen fecha de caducidad sorpresa. Tus clientes podrán escanearlos siempre sin riesgo de que se desactiven tras imprimirlos en carteles, mesas o empaques."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué pasa si cambio los precios o platillos de mi menú?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Al utilizar códigos QR dinámicos, puedes actualizar el enlace de destino o archivo de menú en cualquier momento desde tu panel sin necesidad de volver a imprimir nuevos códigos en tus mesas."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿En qué formatos puedo descargar los códigos para imprenta?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Puedes descargar en PNG de alta definición (hasta 2000px) para medios digitales y en formato SVG vectorial puro para imprenta profesional, rotulación o grabado láser sin pérdida de nitidez."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Puedo personalizar los códigos con los colores y el logotipo de mi negocio?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí, dispones de 22 patrones de puntos geométricos, marcos temáticos decorativos, selector de colores con armonía visual e integración de tu logotipo o ícono central con garantía de escaneabilidad óptica."
+            }
+          }
+        ]
       }
     ]
   }
@@ -156,7 +254,7 @@
             <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
               class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
               <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
-              <span>v1.9.9</span>
+              <span>v1.10.0</span>
             </button>
           </div>
           <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>

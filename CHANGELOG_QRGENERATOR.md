@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.10.0] — 2026-11-13
+### 🌐 Mayor Visibilidad y Conexión con Canales Oficiales en Redes Sociales
+
+#### Novedades y Mejoras
+- **Conexión Directa con Redes Sociales Oficiales:** Ahora nuestra plataforma enlaza oficialmente nuestras cuentas públicas en **Instagram (@QR.bey)** y **Facebook**, facilitando que clientes y negocios descubran nuestras novedades y tutoriales de diseño.
+- **Mejoras en la Estructura de Ayuda y Preguntas Frecuentes:** Se organizaron de forma más clara las respuestas sobre permanencia sin caducidad, personalización de colores y formatos de impresión para una consulta más rápida y cómoda.
+- **Mayor Claridad en Planes y Servicios por Sector:** Información transparente sobre los planes disponibles y las soluciones específicas para gastronomía, estética y tiendas de barrio.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Mejoras internas en la entrega de metadatos para una navegación más rápida y eficiente en todos los dispositivos.
+
+---
+
 ## [v1.9.9] — 2026-11-12
 ### 📱 Ejemplos Visuales de Códigos QR Listos para Escanear en Cada Sector y Solución
 

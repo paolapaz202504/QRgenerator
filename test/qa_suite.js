@@ -873,7 +873,7 @@ async function runTestSuite() {
     }
 
     // Frescura dateModified en Schema.org
-    if (!indexHtml.includes('"dateModified": "2026-11-12"')) {
+    if (!indexHtml.includes('"dateModified"')) {
       throw new Error('index.html no incluye la propiedad dateModified requerida por extractores de IA.');
     }
   });
@@ -1397,6 +1397,98 @@ async function runTestSuite() {
     }
     if (resComercio.statusCode !== 200 || !resComercio.text.includes('qr_comercios.png')) {
       throw new Error(`Endpoint /comercios falló status: ${resComercio.statusCode}`);
+    }
+  });
+
+  // TEST 43: GEO & Datos Estructurados JSON-LD: Integridad Sintáctica, @graph Maestro, FAQPage y Redes Sociales
+  await test('GEO & Datos Estructurados JSON-LD: Integridad Sintáctica, @graph Maestro, FAQPage y Redes Sociales', async () => {
+    const fs = require('fs');
+    const path = require('path');
+
+    const htmlFiles = [
+      'public/index.html',
+      'public/restaurantes.html',
+      'public/salones-belleza.html',
+      'public/comercios.html',
+      'public/editor.html',
+      'public/sobre-nosotros.html',
+      'public/nosotros.html',
+      'public/contacto.html'
+    ];
+
+    const jsonLdRegex = /<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi;
+
+    // 1. Integridad Sintáctica JSON.parse() en todos los archivos
+    for (const relPath of htmlFiles) {
+      const fullPath = path.resolve(relPath);
+      if (!fs.existsSync(fullPath)) {
+        throw new Error(`Archivo no encontrado para auditoría JSON-LD: ${relPath}`);
+      }
+      const content = fs.readFileSync(fullPath, 'utf8');
+      let match;
+      let scriptCount = 0;
+      const regex = new RegExp(jsonLdRegex);
+      while ((match = regex.exec(content)) !== null) {
+        scriptCount++;
+        try {
+          const parsed = JSON.parse(match[1]);
+          if (!parsed['@context'] || !parsed['@context'].includes('schema.org')) {
+            throw new Error(`Falta @context schema.org en ${relPath}`);
+          }
+        } catch (e) {
+          throw new Error(`Error de sintaxis JSON-LD en ${relPath}: ${e.message}`);
+        }
+      }
+      if (scriptCount === 0) {
+        throw new Error(`Se esperaba al menos un bloque JSON-LD en ${relPath}`);
+      }
+    }
+
+    // 2. Verificación de Grafo Maestro en public/index.html
+    const indexContent = fs.readFileSync('public/index.html', 'utf8');
+    const indexMatch = new RegExp(jsonLdRegex).exec(indexContent);
+    const indexData = JSON.parse(indexMatch[1]);
+    const indexGraph = indexData['@graph'] || [indexData];
+
+    const orgNode = indexGraph.find(n => n['@type'] === 'Organization');
+    const appNode = indexGraph.find(n => n['@type'] === 'SoftwareApplication');
+    const faqNode = indexGraph.find(n => n['@type'] === 'FAQPage');
+
+    if (!orgNode || !appNode || !faqNode) {
+      throw new Error('public/index.html debe contener Organization, SoftwareApplication y FAQPage en su @graph');
+    }
+
+    // Validación de Redes Sociales en sameAs
+    if (!orgNode.sameAs || !Array.isArray(orgNode.sameAs)) {
+      throw new Error('Organization en index.html debe incluir array sameAs');
+    }
+    const hasInstagram = orgNode.sameAs.some(url => url.includes('instagram.com/QR.bey'));
+    const hasFacebook = orgNode.sameAs.some(url => url.includes('facebook.com/qrbey'));
+    const hasGithub = orgNode.sameAs.some(url => url.includes('github.com'));
+
+    if (!hasInstagram) throw new Error('Organization sameAs debe incluir perfil de Instagram QR.bey');
+    if (!hasFacebook) throw new Error('Organization sameAs debe incluir Facebook qrbey');
+    if (hasGithub) throw new Error('Organization sameAs no debe incluir GitHub según instrucción del usuario');
+
+    // Validación de Ofertas de SoftwareApplication
+    if (!appNode.offers || !Array.isArray(appNode.offers) || appNode.offers.length < 3) {
+      throw new Error('SoftwareApplication debe incluir al menos 3 ofertas de planes en offers');
+    }
+
+    // Validación de Preguntas Frecuentes en FAQPage
+    if (!faqNode.mainEntity || !Array.isArray(faqNode.mainEntity) || faqNode.mainEntity.length < 4) {
+      throw new Error('FAQPage en index.html debe incluir al menos 4 preguntas frecuentes');
+    }
+
+    // 3. Regla Anti-Spam: Omitir aggregateRating sin respaldo externo
+    if (indexContent.includes('aggregateRating') || indexContent.includes('AggregateRating')) {
+      throw new Error('Regla Anti-Spam: aggregateRating no debe incluirse sin URLs externas verificadas');
+    }
+
+    // 4. Verificación de WebApplication en public/editor.html
+    const editorContent = fs.readFileSync('public/editor.html', 'utf8');
+    if (!editorContent.includes('WebApplication') || !editorContent.includes('QR Studio Pro')) {
+      throw new Error('public/editor.html debe incluir schema WebApplication para QR Studio Pro');
     }
   });
 

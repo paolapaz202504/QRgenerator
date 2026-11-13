@@ -21,76 +21,109 @@
   <meta name="twitter:description" content="Agenda citas directas por WhatsApp y muestra tus servicios en el mostrador con códigos QR personalizados.">
   <meta name="twitter:image" content="https://qrbey.onrender.com/favicon.svg">
 
-  <!-- Schema.org JSON-LD (FAQPage + BreadcrumbList + Organization) -->
+  <!-- Schema.org JSON-LD Unified @graph (BreadcrumbList + Service + FAQPage + Organization) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
+    "@graph": [
       {
-        "@type": "Question",
-        "name": "¿Cómo agenda una clienta por el QR?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "La clienta escanea el código con su móvil y abre directamente una conversación de WhatsApp con un mensaje predeterminado para solicitar cita o consultar disponibilidad."
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://qrbey.onrender.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Soluciones y Sectores",
+            "item": "https://qrbey.onrender.com/#verticales"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Salones de Belleza",
+            "item": "https://qrbey.onrender.com/salones-belleza"
+          }
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://qrbey.onrender.com/salones-belleza#service",
+        "name": "Códigos QR para Salones de Belleza, Peluquerías y Spas",
+        "serviceType": "Sistemas de Citas por WhatsApp y Catálogo Digital",
+        "description": "Coloca códigos QR elegantes en mostradores y espejos para que tus clientas agenden directo por WhatsApp, descubran tratamientos y compartan tu negocio sin reimprimir cartelería.",
+        "provider": {
+          "@type": "Organization",
+          "name": "QRbey",
+          "url": "https://qrbey.onrender.com/",
+          "logo": "https://qrbey.onrender.com/favicon.svg",
+          "sameAs": [
+            "https://www.instagram.com/QR.bey/",
+            "https://www.facebook.com/qrbey"
+          ]
+        },
+        "areaServed": "Global",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Planes QR para Salones de Belleza",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "name": "Plan Gratuito",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            {
+              "@type": "Offer",
+              "name": "Plan Profesional",
+              "price": "9.99",
+              "priceCurrency": "USD"
+            }
+          ]
         }
       },
       {
-        "@type": "Question",
-        "name": "¿Puedo cambiar el link de agenda después?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Sí, puedes actualizar el número de WhatsApp o el enlace de tu sistema de reservas en cualquier momento sin necesidad de cambiar los adhesivos o carteles ya impresos."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿El QR caduca?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No, los códigos QR de QRbey son permanentes y no se desactivan con el tiempo, asegurando que tus clientas siempre puedan contactar a tu salón."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "¿Funciona con WhatsApp Business?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Funciona a la perfección tanto con WhatsApp estándar como con cuentas de WhatsApp Business, permitiendo automatizar mensajes de bienvenida y respuestas rápidas."
-        }
+        "@type": "FAQPage",
+        "@id": "https://qrbey.onrender.com/salones-belleza#faqpage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo agenda una clienta por el QR?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "La clienta escanea el código con su móvil y abre directamente una conversación de WhatsApp con un mensaje predeterminado para solicitar cita o consultar disponibilidad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Puedo cambiar el link de agenda después?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí, puedes actualizar el número de WhatsApp o el enlace de tu sistema de reservas en cualquier momento sin necesidad de cambiar los adhesivos o carteles ya impresos."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿El QR caduca?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No, los códigos QR de QRbey son permanentes y no se desactivan con el tiempo, asegurando que tus clientas siempre puedan contactar a tu salón."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Funciona con WhatsApp Business?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Funciona a la perfección tanto con WhatsApp estándar como con cuentas de WhatsApp Business, permitiendo automatizar mensajes de bienvenida y respuestas rápidas."
+            }
+          }
+        ]
       }
     ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Inicio",
-        "item": "https://qrbey.onrender.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Salones de Belleza",
-        "item": "https://qrbey.onrender.com/salones-belleza"
-      }
-    ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "QRbey",
-    "url": "https://qrbey.onrender.com/",
-    "logo": "https://qrbey.onrender.com/favicon.svg"
   }
   </script>
 
@@ -121,7 +154,7 @@
               <button id="btn-open-changelog" type="button" title="Ver Historial de Cambios / Novedades"
                 class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 text-[10px] sm:text-[11px] font-mono font-bold px-1.5 sm:px-2 py-0.5 rounded-full flex items-center gap-1 transition active:scale-95 shadow-2xs">
                 <i class="fa-solid fa-code-branch text-[8px] sm:text-[9px]"></i>
-                <span>v1.9.9</span>
+                <span>v1.10.0</span>
               </button>
             </div>
             <p class="text-xs text-slate-500 font-medium hidden xl:block truncate max-w-xs">Códigos QR dinámicos para negocios de barrio</p>
