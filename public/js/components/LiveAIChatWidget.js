@@ -443,11 +443,11 @@
         });
       } catch (err) {
         const errorReply = [
-          'Tuvimos un problema temporal de conexión. Puedes contactarnos a través de nuestros canales oficiales:\n',
-          'Otros Medios de contacto:',
+          'Tuvimos un problema temporal de conexión.\n',
+          'Contactos:',
           `1. WhatsApp: ${this.whatsappLink || 'No disponible'}`,
-          `2. Correo Electrónico: ${this.supportEmail || 'No disponible'}`,
-          `3. Sitio web: ${window.location.origin}`,
+          `2. Correo: ${this.supportEmail || 'No disponible'}`,
+          `3. Web: ${window.location.origin}`,
           `4. Facebook: ${this.facebookUrl || 'https://www.facebook.com/qrbey'}`,
           `5. Instagram: ${this.instagramUrl || 'https://www.instagram.com/QR.bey/'}`
         ].join('\n');

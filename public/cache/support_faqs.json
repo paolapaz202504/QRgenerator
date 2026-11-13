@@ -62,13 +62,13 @@
       {
         "id": "faq_contacto_humano",
         "question": "¿Cómo puedo hablar con una persona de soporte?",
-        "answer": "Puedes comunicarte directamente con nuestro equipo de atención a través de cualquiera de nuestros canales oficiales:\n\nOtros Medios de contacto:\n1. WhatsApp: {{WHATSAPP_LINK}}\n2. Correo Electrónico: {{SUPPORT_EMAIL}}\n3. Sitio web: {{APP_URL}}\n4. Facebook: {{FACEBOOK_URL}}\n5. Instagram: {{INSTAGRAM_URL}}",
+        "answer": "Puedes comunicarte directamente con nuestro equipo de atención a través de cualquiera de nuestros canales oficiales:\n\nContactos:\n1. WhatsApp: {{WHATSAPP_LINK}}\n2. Correo: {{SUPPORT_EMAIL}}\n3. Web: {{APP_URL}}\n4. Facebook: {{FACEBOOK_URL}}\n5. Instagram: {{INSTAGRAM_URL}}",
         "keywords": ["humano", "asesor", "persona", "whatsapp", "correo", "teléfono", "hablar", "ayuda directa", "contacto", "soporte"]
       },
       {
         "id": "faq_redes_sociales",
         "question": "¿Cuáles son las redes sociales oficiales de QRbey?",
-        "answer": "Puedes seguirnos y comunicarte con nosotros en nuestros canales oficiales:\n\nOtros Medios de contacto:\n1. WhatsApp: {{WHATSAPP_LINK}}\n2. Correo Electrónico: {{SUPPORT_EMAIL}}\n3. Sitio web: {{APP_URL}}\n4. Facebook: {{FACEBOOK_URL}}\n5. Instagram: {{INSTAGRAM_URL}}",
+        "answer": "Puedes seguirnos y comunicarte con nosotros en nuestros canales oficiales:\n\nContactos:\n1. WhatsApp: {{WHATSAPP_LINK}}\n2. Correo: {{SUPPORT_EMAIL}}\n3. Web: {{APP_URL}}\n4. Facebook: {{FACEBOOK_URL}}\n5. Instagram: {{INSTAGRAM_URL}}",
         "keywords": ["redes", "instagram", "facebook", "comunidad", "seguir", "sociales"]
       }
     ]

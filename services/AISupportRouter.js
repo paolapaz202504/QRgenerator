@@ -15,7 +15,7 @@ class AISupportRouter {
     this.faqs = this.loadFaqs();
   }
 
-  getContactChannelsMessage(customHeader = 'Otros Medios de contacto:') {
+  getContactChannelsMessage(customHeader = 'Contactos:') {
     const cleanWaPhone = (this.whatsappPhone || '').replace(/[^0-9]/g, '');
     const waDisplay = (this.isWhatsAppEnabled && cleanWaPhone)
       ? `https://wa.me/${cleanWaPhone}`
@@ -24,11 +24,28 @@ class AISupportRouter {
     return [
       customHeader,
       `1. WhatsApp: ${waDisplay}`,
-      `2. Correo Electrónico: ${this.supportEmail || 'No disponible'}`,
-      `3. Sitio web: ${this.appUrl || 'https://qrbey.onrender.com'}`,
+      `2. Correo: ${this.supportEmail || 'No disponible'}`,
+      `3. Web: ${this.appUrl || 'https://qrbey.onrender.com'}`,
       `4. Facebook: ${this.facebookUrl || 'No disponible'}`,
       `5. Instagram: ${this.instagramUrl || 'No disponible'}`
     ].join('\n');
+  }
+
+  formatFinalResponse({ reply, provider, conversationId, whatsappLink, escalated = false }) {
+    let finalReply = (reply || '').trim();
+    if (!finalReply.includes('Contactos:') && !finalReply.includes('Otros Medios de contacto:')) {
+      finalReply = `${finalReply}\n\n${this.getContactChannelsMessage()}`;
+    } else {
+      finalReply = finalReply.replace(/Otros Medios de contacto:/g, 'Contactos:');
+    }
+
+    return {
+      reply: finalReply,
+      provider,
+      conversationId: conversationId || 'conv_' + Date.now(),
+      whatsappLink: whatsappLink !== undefined ? whatsappLink : this.generateWhatsAppLink(),
+      escalated
+    };
   }
 
   checkGreeting(text = '') {
@@ -200,36 +217,32 @@ ${context}`;
     const cleanMessage = (message || '').trim();
 
     if (!cleanMessage) {
-      return {
+      return this.formatFinalResponse({
         reply: 'Hola, ¿en qué puedo ayudarte hoy con tus códigos QR?',
         provider: 'static_welcome',
-        conversationId: conversationId || 'conv_' + Date.now(),
-        whatsappLink: this.generateWhatsAppLink()
-      };
+        conversationId
+      });
     }
 
     // 1. Detección de Prompt Injection
     if (this.checkPromptInjection(cleanMessage)) {
-      return {
+      return this.formatFinalResponse({
         reply: 'Lo siento, no puedo procesar esa solicitud. Estoy diseñado para asistirte con el uso, diseño y planes de códigos QR en QRbey. ¿Hay algo sobre nuestra plataforma en lo que pueda orientarte?',
         provider: 'security_filter',
-        conversationId: conversationId || 'conv_' + Date.now(),
-        whatsappLink: this.generateWhatsAppLink()
-      };
+        conversationId
+      });
     }
 
     // 2. Detección de Solicitud de Escalamiento Humano
     if (this.checkHumanHandoff(cleanMessage)) {
       const waLink = this.generateWhatsAppLink({ reason: cleanMessage });
-      const reply = this.getContactChannelsMessage();
-
-      return {
-        reply,
+      return this.formatFinalResponse({
+        reply: this.getContactChannelsMessage(),
         provider: 'human_handoff',
-        conversationId: conversationId || 'conv_' + Date.now(),
+        conversationId,
         whatsappLink: waLink,
         escalated: true
-      };
+      });
     }
 
     // 3. Intento Primario: DeepSeek API (Timeout 8000ms)
@@ -279,12 +292,11 @@ ${context}`;
           const reply = data.choices?.[0]?.message?.content?.trim();
           if (reply) {
             console.log(`[AISupportRouter 🤖] Respuesta generada exitosamente con DeepSeek en ${Date.now() - startTime}ms`);
-            return {
+            return this.formatFinalResponse({
               reply,
               provider: 'deepseek',
-              conversationId: conversationId || 'conv_' + Date.now(),
-              whatsappLink: this.generateWhatsAppLink()
-            };
+              conversationId
+            });
           }
         } else {
           const errData = await response.json().catch(() => ({}));
@@ -325,12 +337,11 @@ ${context}`;
           const reply = data.choices?.[0]?.message?.content?.trim();
           if (reply) {
             console.log(`[AISupportRouter ⚡] Respuesta generada exitosamente con Zhipu AI (GLM) en ${Date.now() - startTime}ms`);
-            return {
+            return this.formatFinalResponse({
               reply,
               provider: 'zhipu',
-              conversationId: conversationId || 'conv_' + Date.now(),
-              whatsappLink: this.generateWhatsAppLink()
-            };
+              conversationId
+            });
           }
         }
       } catch (zhipuErr) {
@@ -344,12 +355,12 @@ ${context}`;
 
     if (matchedFaq) {
       console.log(`[AISupportRouter 📚] Respuesta provista por Base de Conocimiento FAQ (${matchedFaq.id})`);
-      return {
+      return this.formatFinalResponse({
         reply: matchedFaq.answer,
         provider: 'knowledge_base',
-        conversationId: conversationId || 'conv_' + Date.now(),
+        conversationId,
         whatsappLink: waLink
-      };
+      });
     }
 
     // 6. Contingencia Final Amigable con Escalamiento
@@ -359,12 +370,12 @@ ${context}`;
         this.getContactChannelsMessage()
       ].join('\n');
 
-      return {
+      return this.formatFinalResponse({
         reply: greetingReply,
         provider: 'greeting_welcome',
-        conversationId: conversationId || 'conv_' + Date.now(),
+        conversationId,
         whatsappLink: waLink
-      };
+      });
     }
 
     const fallbackReply = [
@@ -372,12 +383,12 @@ ${context}`;
       this.getContactChannelsMessage()
     ].join('\n');
 
-    return {
+    return this.formatFinalResponse({
       reply: fallbackReply,
       provider: 'fallback_contingency',
-      conversationId: conversationId || 'conv_' + Date.now(),
+      conversationId,
       whatsappLink: waLink
-    };
+    });
   }
 }
 
