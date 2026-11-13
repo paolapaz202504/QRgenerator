@@ -1,0 +1,76 @@
+[
+  {
+    "category": "Planes y Precios",
+    "items": [
+      {
+        "id": "faq_planes",
+        "question": "¿Cuáles son los planes y precios de QRbey?",
+        "answer": "QRbey ofrece tres planes adaptados a tus necesidades: 1) Plan Gratuito ($0 USD): incluye 15 descargas y 50 créditos para generar y probar códigos QR personalizados sin costo. 2) Plan Profesional ($9.99 USD/mes): incluye 500 descargas mensuales, 2,000 créditos, plantillas premium y exportación en alta resolución. 3) Plan Corporativo ($29.99 USD/mes): incluye 2,000 descargas mensuales, 10,000 créditos, soporte prioritario y acceso completo a la API para empresas.",
+        "keywords": ["planes", "precios", "costo", "gratis", "pro", "profesional", "corporativo", "suscripción", "mensual"]
+      },
+      {
+        "id": "faq_creditos",
+        "question": "¿Cómo funcionan los créditos y descargas?",
+        "answer": "Cada vez que generas una vista previa o personalizas un código QR se consumen créditos del plan. Al exportar y descargar el código final en formato PNG o SVG se contabiliza una descarga de tu saldo disponible. En el plan gratuito los créditos y descargas son estáticos de bienvenida, mientras que en los planes Pro y Corporativo se renuevan mensualmente.",
+        "keywords": ["créditos", "descargas", "consumo", "saldo", "límite"]
+      }
+    ]
+  },
+  {
+    "category": "Diseño y Personalización de Códigos QR",
+    "items": [
+      {
+        "id": "faq_personalizacion",
+        "question": "¿Qué elementos puedo personalizar en mi código QR?",
+        "answer": "Puedes personalizar prácticamente todo: colores de primer plano (sólidos y degradados lineales o radiales), color de fondo, estilos de módulos (puntos, cuadrados, barras, diamantes), estilos y marcos de ojos (cuadrados, redondeados, círculos), logotipos centrales personalizados con ajuste de tamaño y marcos decorativos con texto (Call to Action como 'Escanéame', 'Menú Digital', 'Promoción').",
+        "keywords": ["personalizar", "colores", "logo", "degradado", "ojos", "marcos", "diseño", "estilo"]
+      },
+      {
+        "id": "faq_formatos",
+        "question": "¿En qué formatos puedo descargar mi código QR?",
+        "answer": "Puedes descargar tus códigos QR en formato PNG en alta definición (ideal para impresión y redes sociales), WebP ultraligero para sitios web y formato SVG vectorial escalable sin pérdida de calidad (ideal para señalética, viniles y gigantografías).",
+        "keywords": ["formatos", "png", "svg", "vectorial", "descargar", "impresión", "calidad", "resolución"]
+      },
+      {
+        "id": "faq_escaneabilidad",
+        "question": "¿Los códigos QR personalizados garantizan escaneabilidad?",
+        "answer": "Sí. Todos los códigos generados en QRbey utilizan un nivel de corrección de errores óptimo (High o Quartile) y pasan por una matriz de validación óptica automática para asegurar que cualquier smartphone con iOS o Android pueda leerlos de inmediato sin fallas.",
+        "keywords": ["escaneable", "lectura", "garantía", "cámara", "celular", "iphone", "android"]
+      }
+    ]
+  },
+  {
+    "category": "Pagos y Facturación",
+    "items": [
+      {
+        "id": "faq_metodos_pago",
+        "question": "¿Cuáles son los métodos de pago aceptados?",
+        "answer": "Aceptamos tarjetas de crédito y débito Visa y Mastercard a través de nuestra pasarela segura Recurrente, así como transferencias bancarias locales sin recargos adicionales. Todos los cobros se procesan bajo estándares de cifrado bancario PCI-DSS.",
+        "keywords": ["pago", "tarjeta", "visa", "mastercard", "transferencia", "recurrente", "seguridad"]
+      },
+      {
+        "id": "faq_cancelacion",
+        "question": "¿Puedo cancelar mi suscripción en cualquier momento?",
+        "answer": "Sí, puedes cancelar la renovación automática de tu suscripción en cualquier momento desde tu panel de usuario o comunicándote con soporte. Mantendrás acceso a los beneficios de tu plan hasta el final del periodo pagado.",
+        "keywords": ["cancelar", "cancelación", "reembolso", "baja", "suscripción"]
+      }
+    ]
+  },
+  {
+    "category": "Soporte y Contacto Directo",
+    "items": [
+      {
+        "id": "faq_contacto_humano",
+        "question": "¿Cómo puedo hablar con una persona de soporte?",
+        "answer": "Puedes comunicarte de inmediato con un asesor humano a través de nuestro WhatsApp oficial de soporte al +52 962 450 3691, enviarnos un correo a qrbyeconctact@gmail.com o dejarnos un mensaje en el formulario de la sección /contacto. Atendemos de lunes a domingo.",
+        "keywords": ["humano", "asesor", "persona", "whatsapp", "correo", "teléfono", "hablar", "ayuda directa"]
+      },
+      {
+        "id": "faq_redes_sociales",
+        "question": "¿Cuáles son las redes sociales oficiales de QRbey?",
+        "answer": "Encuéntranos en Instagram como @QR.bey (https://www.instagram.com/QR.bey/) y en Facebook como QRbey (https://www.facebook.com/qrbey).",
+        "keywords": ["redes", "instagram", "facebook", "comunidad", "seguir"]
+      }
+    ]
+  }
+]

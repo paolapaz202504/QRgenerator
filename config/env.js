@@ -61,6 +61,21 @@ class Config {
       webhookSecret: process.env.RECURRENTE_WEBHOOK_SECRET || '',
       currency: process.env.RECURRENTE_CURRENCY || 'USD'
     };
+
+    // Soporte Omnicanal 24/7 & Asistente IA (DeepSeek, WhatsApp, Meta, Email)
+    const rawWaPhone = (process.env.WHATSAPP_SUPPORT_PHONE || '').replace(/[^0-9]/g, '');
+    const isWaEnabled = rawWaPhone.length >= 8;
+
+    this.support = {
+      deepseekApiKey: process.env.DEEPSEEK_API_KEY || '',
+      zhipuApiKey: process.env.ZHIPU_API_KEY || '',
+      whatsappPhone: isWaEnabled ? rawWaPhone : null,
+      whatsappEnabled: isWaEnabled,
+      supportEmail: process.env.SUPPORT_EMAIL || 'qrbyeconctact@gmail.com',
+      metaVerifyToken: process.env.META_VERIFY_TOKEN || 'qrbey_support_webhook_secure_token_2026',
+      metaAppSecret: process.env.META_APP_SECRET || '',
+      pageAccessToken: process.env.PAGE_ACCESS_TOKEN || ''
+    };
   }
 
   getPlanConfig(planId = 'free') {

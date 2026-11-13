@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.11.0] — 2026-11-13
+### 🤖 Asistente Virtual Inteligente 24/7 y Atención Rápida por WhatsApp
+
+#### Novedades y Mejoras
+- **Asistente de Soporte 24/7 en Vivo:** Incorporamos un widget de chat flotante disponible en todas las pantallas del sitio. El asistente responde al instante cualquier duda sobre diseño de códigos QR, colores, logotipos, planes disponibles y métodos de pago.
+- **Atención Humana Directa por WhatsApp (+52 962 450 3691):** Si necesitas hablar con una persona, el asistente te conecta en un solo clic con nuestro equipo de atención humana por WhatsApp, o puedes utilizar el nuevo botón de WhatsApp ubicado en el pie de página.
+- **Sugerencias Rápidas y Preguntas Frecuentes:** Botones interactivos dentro del chat para consultar planes, opciones de personalización y medios de pago con un solo toque.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Respuestas inmediatas y navegación fluida y ligera adaptada a dispositivos móviles y computadoras.
+
+---
+
 ## [v1.10.2] — 2026-11-13
 ### 🧭 Navegación Uniforme y Menú Principal Consistente en Todas las Secciones
 

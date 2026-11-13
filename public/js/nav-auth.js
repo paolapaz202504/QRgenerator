@@ -123,4 +123,20 @@
 
   // Exponer para llamadas imperativas
   window.syncNavAuth = syncNavAuth;
+
+  // Carga universal del Widget de Soporte y Chat con IA 24/7 (supportAgent)
+  function injectChatWidget() {
+    if (document.getElementById('qrbey-chat-script') || window.LiveAIChatWidgetLoaded) return;
+    const script = document.createElement('script');
+    script.id = 'qrbey-chat-script';
+    script.src = '/js/components/LiveAIChatWidget.js?v=1.11.0';
+    script.defer = true;
+    document.body.appendChild(script);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectChatWidget);
+  } else {
+    injectChatWidget();
+  }
 })();

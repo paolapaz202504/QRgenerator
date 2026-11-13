@@ -16,6 +16,7 @@ const userRoutes = require('./routes/userRoutes');
 const healthRoutes = require('./routes/healthRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const supportRoutes = require('./routes/supportRoutes');
 
 class Server {
   constructor() {
@@ -153,6 +154,7 @@ class Server {
 
     // Mensajes de Contacto y Soporte
     this.app.use('/api', contactRoutes);
+    this.app.use('/api', supportRoutes);
   }
 
   async initRepositories() {
