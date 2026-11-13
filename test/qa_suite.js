@@ -1492,6 +1492,32 @@ async function runTestSuite() {
     }
   });
 
+  // TEST 44: Enlaces Visuales a Redes Sociales Oficiales (Instagram @QR.bey y Facebook)
+  await test('Redes Sociales Oficiales: Enlaces Visuales a Instagram (@QR.bey) y Facebook en Footer y Contacto', async () => {
+    const fs = require('fs');
+
+    const pagesWithSocial = [
+      'public/html/footer.html',
+      'public/index.html',
+      'public/contacto.html',
+      'public/restaurantes.html',
+      'public/salones-belleza.html',
+      'public/comercios.html',
+      'public/sobre-nosotros.html',
+      'public/nosotros.html'
+    ];
+
+    for (const relPath of pagesWithSocial) {
+      const content = fs.readFileSync(relPath, 'utf8');
+      if (!content.includes('instagram.com/QR.bey')) {
+        throw new Error(`${relPath} debe incluir enlace visual hacia Instagram @QR.bey`);
+      }
+      if (!content.includes('facebook.com/qrbey')) {
+        throw new Error(`${relPath} debe incluir enlace visual hacia Facebook qrbey`);
+      }
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');
