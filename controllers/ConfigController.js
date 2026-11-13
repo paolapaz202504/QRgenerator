@@ -13,6 +13,10 @@ class ConfigController {
         environment: config.recurrente.environment,
         publicKey: config.recurrente.publicKey,
         currency: config.recurrente.currency
+      },
+      social: {
+        instagram: config.social.instagram,
+        facebook: config.social.facebook
       }
     });
   }

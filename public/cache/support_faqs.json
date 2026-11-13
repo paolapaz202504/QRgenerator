@@ -62,14 +62,14 @@
       {
         "id": "faq_contacto_humano",
         "question": "¿Cómo puedo hablar con una persona de soporte?",
-        "answer": "Puedes comunicarte de inmediato con un asesor humano a través de nuestro WhatsApp oficial de soporte al +52 962 450 3691, enviarnos un correo a qrbyeconctact@gmail.com o dejarnos un mensaje en el formulario de la sección /contacto. Atendemos de lunes a domingo.",
-        "keywords": ["humano", "asesor", "persona", "whatsapp", "correo", "teléfono", "hablar", "ayuda directa"]
+        "answer": "Puedes comunicarte directamente con nuestro equipo de atención a través de cualquiera de nuestros canales oficiales:\n\nOtros Medios de contacto:\n1. WhatsApp: {{WHATSAPP_LINK}}\n2. Correo Electrónico: {{SUPPORT_EMAIL}}\n3. Sitio web: {{APP_URL}}\n4. Facebook: {{FACEBOOK_URL}}\n5. Instagram: {{INSTAGRAM_URL}}",
+        "keywords": ["humano", "asesor", "persona", "whatsapp", "correo", "teléfono", "hablar", "ayuda directa", "contacto", "soporte"]
       },
       {
         "id": "faq_redes_sociales",
         "question": "¿Cuáles son las redes sociales oficiales de QRbey?",
-        "answer": "Encuéntranos en Instagram como @QR.bey (https://www.instagram.com/QR.bey/) y en Facebook como QRbey (https://www.facebook.com/qrbey).",
-        "keywords": ["redes", "instagram", "facebook", "comunidad", "seguir"]
+        "answer": "Puedes seguirnos y comunicarte con nosotros en nuestros canales oficiales:\n\nOtros Medios de contacto:\n1. WhatsApp: {{WHATSAPP_LINK}}\n2. Correo Electrónico: {{SUPPORT_EMAIL}}\n3. Sitio web: {{APP_URL}}\n4. Facebook: {{FACEBOOK_URL}}\n5. Instagram: {{INSTAGRAM_URL}}",
+        "keywords": ["redes", "instagram", "facebook", "comunidad", "seguir", "sociales"]
       }
     ]
   }

@@ -84,6 +84,7 @@ class SupportController {
       return res.status(500).json({
         success: false,
         error: 'Ocurrió un error al procesar el mensaje.',
+        reply: aiSupportRouter.getContactChannelsMessage('Ocurrió un error temporal al procesar tu solicitud. Puedes comunicarte directamente a través de cualquiera de nuestros medios oficiales:'),
         whatsappLink: aiSupportRouter.generateWhatsAppLink()
       });
     }
@@ -108,7 +109,11 @@ class SupportController {
         whatsappPhone: isEnabled ? config.support.whatsappPhone : null,
         whatsappFormatted: isEnabled ? `+${config.support.whatsappPhone}` : null,
         whatsappLink: isEnabled ? aiSupportRouter.generateWhatsAppLink() : null,
-        supportEmail: config.support.supportEmail
+        supportEmail: config.support.supportEmail,
+        social: {
+          instagram: config.social.instagram,
+          facebook: config.social.facebook
+        }
       });
     } catch (e) {
       return res.status(500).json({ success: false, error: 'Error al obtener configuración de soporte' });

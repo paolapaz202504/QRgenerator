@@ -9,14 +9,62 @@ class AISupportRouter {
     this.whatsappPhone = config.support.whatsappPhone || null;
     this.isWhatsAppEnabled = !!(config.support.whatsappEnabled && this.whatsappPhone);
     this.supportEmail = config.support.supportEmail || '';
+    this.appUrl = config.appUrl || (config.isProduction ? 'https://qrbey.onrender.com' : 'http://localhost:3030');
+    this.facebookUrl = (config.social && config.social.facebook) || process.env.FACEBOOK_URL || '';
+    this.instagramUrl = (config.social && config.social.instagram) || process.env.INSTAGRAM_URL || '';
     this.faqs = this.loadFaqs();
+  }
+
+  getContactChannelsMessage(customHeader = 'Otros Medios de contacto:') {
+    const cleanWaPhone = (this.whatsappPhone || '').replace(/[^0-9]/g, '');
+    const waDisplay = (this.isWhatsAppEnabled && cleanWaPhone)
+      ? `https://wa.me/${cleanWaPhone}`
+      : 'No disponible';
+
+    return [
+      customHeader,
+      `1. WhatsApp: ${waDisplay}`,
+      `2. Correo Electrónico: ${this.supportEmail || 'No disponible'}`,
+      `3. Sitio web: ${this.appUrl || 'https://qrbey.onrender.com'}`,
+      `4. Facebook: ${this.facebookUrl || 'No disponible'}`,
+      `5. Instagram: ${this.instagramUrl || 'No disponible'}`
+    ].join('\n');
+  }
+
+  checkGreeting(text = '') {
+    if (!text || typeof text !== 'string') return false;
+    const clean = text.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, '');
+    const greetingWords = ['hola', 'buen dia', 'buenos dias', 'buenas tardes', 'buenas noches', 'saludos', 'buenas', 'que tal', 'hey', 'hello', 'hi'];
+    return greetingWords.some(g => clean === g || clean.startsWith(g + ' ') || clean.endsWith(' ' + g));
   }
 
   loadFaqs() {
     try {
       const faqPath = path.join(__dirname, '..', 'public', 'cache', 'support_faqs.json');
       if (fs.existsSync(faqPath)) {
-        return JSON.parse(fs.readFileSync(faqPath, 'utf8'));
+        let content = fs.readFileSync(faqPath, 'utf8');
+
+        const cleanWaPhone = (this.whatsappPhone || '').replace(/[^0-9]/g, '');
+        const waLink = (this.isWhatsAppEnabled && cleanWaPhone)
+          ? `https://wa.me/${cleanWaPhone}`
+          : 'No disponible';
+        const waPhoneDisplay = (this.isWhatsAppEnabled && cleanWaPhone)
+          ? `+${cleanWaPhone}`
+          : 'No disponible';
+        const email = this.supportEmail || 'No disponible';
+        const appUrl = this.appUrl || 'https://qrbey.onrender.com';
+        const fb = this.facebookUrl || 'No disponible';
+        const insta = this.instagramUrl || 'No disponible';
+
+        content = content
+          .replace(/\{\{WHATSAPP_LINK\}\}/g, waLink)
+          .replace(/\{\{WHATSAPP_PHONE\}\}/g, waPhoneDisplay)
+          .replace(/\{\{SUPPORT_EMAIL\}\}/g, email)
+          .replace(/\{\{APP_URL\}\}/g, appUrl)
+          .replace(/\{\{FACEBOOK_URL\}\}/g, fb)
+          .replace(/\{\{INSTAGRAM_URL\}\}/g, insta);
+
+        return JSON.parse(content);
       }
     } catch (e) {
       console.warn('[AISupportRouter] No se pudo leer support_faqs.json:', e.message);
@@ -140,7 +188,8 @@ Tu misión es resolver dudas sobre generación de códigos QR, personalización 
 DIRECTRICES OBLIGATORIAS:
 1. Responde siempre en español, de forma empática, clara, respetuosa y profesional.
 2. Utiliza respuestas concisas orientadas a la acción (máximo 3 párrafos cortos).
-3. Si el usuario desea hablar con una persona o asistencia personalizada, indícale los medios de contacto oficiales: ${this.isWhatsAppEnabled && this.whatsappPhone ? `WhatsApp al +${this.whatsappPhone}, correo a ${this.supportEmail} o formulario en /contacto` : `correo a ${this.supportEmail} o formulario de contacto en /contacto`}.
+3. Si el usuario desea hablar con una persona o asistencia personalizada, indícale los medios de contacto oficiales:
+${this.getContactChannelsMessage()}
 4. Respeta estrictamente los datos de la base de conocimiento y nunca inventes promociones no autorizadas.
 
 ${context}`;
@@ -172,19 +221,7 @@ ${context}`;
     // 2. Detección de Solicitud de Escalamiento Humano
     if (this.checkHumanHandoff(cleanMessage)) {
       const waLink = this.generateWhatsAppLink({ reason: cleanMessage });
-      const cleanWaPhone = (this.whatsappPhone || '').replace(/[^0-9]/g, '');
-      const waDisplay = (this.isWhatsAppEnabled && cleanWaPhone)
-        ? `https://wa.me/${cleanWaPhone}`
-        : 'No disponible';
-
-      const reply = [
-        'Otros Medios de contacto:',
-        `1. WhatsApp: ${waDisplay}`,
-        `2. Correo Electrónico: ${this.supportEmail}`,
-        '3. Sitio web: https://qrbey.onrender.com',
-        '4. Facebook: https://www.facebook.com/qrbey',
-        '5. Instagram: https://www.instagram.com/QR.bey/'
-      ].join('\n');
+      const reply = this.getContactChannelsMessage();
 
       return {
         reply,
@@ -316,12 +353,27 @@ ${context}`;
     }
 
     // 6. Contingencia Final Amigable con Escalamiento
-    const finalReply = (this.isWhatsAppEnabled && waLink)
-      ? `Gracias por comunicarte con QRbey. En este momento estoy experimentando una alta demanda de consultas, pero con gusto puedo orientarte sobre nuestros planes, diseños de QR y descargas, o si lo prefieres, puedes conectarte directamente con nuestro equipo de atención humana por WhatsApp haciendo clic aquí: [Hablar con Asesor en WhatsApp](${waLink}).`
-      : `Gracias por comunicarte con QRbey. En este momento estoy experimentando una alta demanda de consultas, pero con gusto puedo orientarte sobre nuestros planes, diseños de QR y descargas. Si requieres atención personalizada, puedes escribirnos a ${this.supportEmail} o enviarnos un mensaje en la sección /contacto.`;
+    if (this.checkGreeting(cleanMessage)) {
+      const greetingReply = [
+        '¡Hola! 👋 Bienvenido a QRbey. ¿En qué podemos orientarte hoy con tus códigos QR? Puedes consultarme sobre nuestros planes, diseño y personalización, formatos de descarga o métodos de pago.\n',
+        this.getContactChannelsMessage()
+      ].join('\n');
+
+      return {
+        reply: greetingReply,
+        provider: 'greeting_welcome',
+        conversationId: conversationId || 'conv_' + Date.now(),
+        whatsappLink: waLink
+      };
+    }
+
+    const fallbackReply = [
+      '¡Hola! Con gusto puedo orientarte sobre nuestros planes, diseño de códigos QR, descargas y métodos de pago. Si requieres atención personalizada o deseas comunicarte con nuestro equipo, ponemos a tu disposición nuestros canales oficiales:\n',
+      this.getContactChannelsMessage()
+    ].join('\n');
 
     return {
-      reply: finalReply,
+      reply: fallbackReply,
       provider: 'fallback_contingency',
       conversationId: conversationId || 'conv_' + Date.now(),
       whatsappLink: waLink

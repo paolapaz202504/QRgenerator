@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.11.5] — 2026-11-13
+### 💬 Respuestas Amigables, Canales Centralizados y Disponibilidad Local de Privacidad
+
+#### Novedades y Mejoras
+- **Respuestas Más Claras, Cálidas y Concisas:** El asistente virtual ahora responde con saludos cordiales y directos ante cualquier interacción inicial o consulta general, ofreciendo de forma estructurada y sin textos innecesarios todos nuestros medios de atención directa.
+- **Canales Oficiales Centralizados y Actualizados:** Todos los canales de comunicación (WhatsApp, correo electrónico, sitio web, Facebook e Instagram) se gestionan ahora de forma sincronizada y dinámica para garantizar que siempre cuentes con los enlaces más precisos.
+- **Acceso Inmediato a Políticas de Privacidad en Entorno Local:** Garantizada la visualización fluida de la sección de privacidad tanto en desarrollo como en producción.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema.**
+
+---
+
 ## [v1.11.4] — 2026-11-13
 ### 🧭 Navegación Uniforme en Privacidad y Fortalecimiento de Seguridad
 

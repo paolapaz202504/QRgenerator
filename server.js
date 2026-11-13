@@ -122,7 +122,7 @@ class Server {
     });
 
     // Política de Privacidad (Requerido por Meta / Facebook App Review y Live Mode)
-    this.app.get(['/privacidad', '/privacy', '/politica-privacidad'], (req, res) => {
+    this.app.get(['/privacidad', '/privacidad/', '/privacy', '/privacy/', '/politica-privacidad', '/politica-privacidad/'], (req, res) => {
       res.setHeader('Cache-Control', 'public, max-age=3600');
       res.sendFile(path.join(__dirname, 'public', 'privacidad.html'));
     });

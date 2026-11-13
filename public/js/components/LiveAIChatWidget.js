@@ -64,6 +64,9 @@
           this.whatsappEnabled = !!data.whatsappEnabled;
           this.whatsappLink = data.whatsappLink || null;
           this.whatsappFormatted = data.whatsappFormatted || null;
+          this.supportEmail = data.supportEmail || 'soporte@qrbey.com';
+          this.facebookUrl = (data.social && data.social.facebook) || 'https://www.facebook.com/qrbey';
+          this.instagramUrl = (data.social && data.social.instagram) || 'https://www.instagram.com/QR.bey/';
 
           const waHeaderBtn = document.getElementById('qrbey-chat-wa-header-btn');
           const waDisclaimer = document.getElementById('qrbey-chat-disclaimer-text');
@@ -84,7 +87,7 @@
           } else {
             if (waHeaderBtn) waHeaderBtn.classList.add('hidden');
             if (waDisclaimer) {
-              waDisclaimer.innerHTML = `Asistencia 24/7 con DeepSeek AI · Soporte: <a href="mailto:qrbyeconctact@gmail.com" class="text-indigo-600 font-semibold hover:underline">qrbyeconctact@gmail.com</a>`;
+              waDisclaimer.innerHTML = `Asistencia 24/7 con DeepSeek AI · Soporte: <a href="mailto:${this.supportEmail}" class="text-indigo-600 font-semibold hover:underline">${this.supportEmail}</a>`;
             }
             if (footerWaBtn) {
               footerWaBtn.classList.add('hidden');
@@ -439,9 +442,15 @@
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         });
       } catch (err) {
-        const errorReply = (this.whatsappEnabled && this.whatsappLink)
-          ? `Tuvimos un problema temporal de conexión. Puedes escribirnos directamente a WhatsApp: [Hablar con Asesor](${this.whatsappLink})`
-          : `Tuvimos un problema temporal de conexión. Puedes escribirnos a qrbyeconctact@gmail.com o dejarnos un mensaje en la sección /contacto.`;
+        const errorReply = [
+          'Tuvimos un problema temporal de conexión. Puedes contactarnos a través de nuestros canales oficiales:\n',
+          'Otros Medios de contacto:',
+          `1. WhatsApp: ${this.whatsappLink || 'No disponible'}`,
+          `2. Correo Electrónico: ${this.supportEmail || 'No disponible'}`,
+          `3. Sitio web: ${window.location.origin}`,
+          `4. Facebook: ${this.facebookUrl || 'https://www.facebook.com/qrbey'}`,
+          `5. Instagram: ${this.instagramUrl || 'https://www.instagram.com/QR.bey/'}`
+        ].join('\n');
 
         this.messages.push({
           sender: 'bot',

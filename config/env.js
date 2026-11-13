@@ -8,7 +8,13 @@ class Config {
     this.envFolder = this.isProduction ? 'prod' : 'dev';
     this.gcsBucketName = process.env.GCS_BUCKET_NAME || '';
     this.googleClientId = process.env.GOOGLE_CLIENT_ID || '';
-    this.appUrl = process.env.APP_URL || `http://localhost:${this.port}`;
+    this.appUrl = process.env.APP_URL || (this.isProduction ? 'https://qrbey.onrender.com' : `http://localhost:${this.port}`);
+
+    // Redes Sociales Oficiales
+    this.social = {
+      instagram: process.env.INSTAGRAM_URL || '',
+      facebook: process.env.FACEBOOK_URL || ''
+    };
 
     // Centralized Plan Limits and Pricing from .env
     const defaultPlans = {
