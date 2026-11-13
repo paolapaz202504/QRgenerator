@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.10.2] — 2026-11-13
+### 🧭 Navegación Uniforme y Menú Principal Consistente en Todas las Secciones
+
+#### Novedades y Mejoras
+- **Menú Principal Visible en Todo Momento:** La barra de navegación superior ahora se mantiene fija y accesible de forma idéntica en toda la plataforma (incluyendo la sección de documentación técnica `/api`), permitiendo regresar o cambiar de sección rápidamente desde cualquier pantalla.
+- **Respeto a la Estructura Oficial de Opciones:** Se estandarizaron las opciones de navegación conservando exactamente las opciones oficiales del sistema (Inicio, Soluciones y Sectores, Editor, Precios, Nosotros, Ayuda, Contacto e Ingreso de usuario), evitando enlaces o botones adicionales fuera de norma.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Sincronización transparente de inicio de sesión y pie de página institucional optimizado para dispositivos móviles y de escritorio.
+
+---
+
 ## [v1.10.1] — 2026-11-13
 ### 📱 Enlaces Directos a Redes Sociales Oficiales en Pie de Página y Contacto
 

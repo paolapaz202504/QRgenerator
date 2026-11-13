@@ -1164,6 +1164,31 @@ async function runTestSuite() {
         throw new Error(`La página ${page} no debe contener breadcrumbs.`);
       }
     }
+
+    // 9. En /api: menú principal oficial visible en todo momento, orden estricto, sin elementos adicionales y con nav-auth.js
+    const apiHtml = fs.readFileSync('public/api.html', 'utf8');
+    if (!apiHtml.includes('sticky top-0 z-50')) {
+      throw new Error('public/api.html debe tener el menú principal sticky top-0 z-50 visible en todo momento.');
+    }
+    const apiPosInicio = apiHtml.indexOf('nav-item-inicio');
+    const apiPosSoluciones = apiHtml.indexOf('nav-item-soluciones');
+    const apiPosEditor = apiHtml.indexOf('nav-item-editor');
+    const apiPosPrecios = apiHtml.indexOf('nav-item-precios');
+    const apiPosNosotros = apiHtml.indexOf('nav-item-nosotros');
+    const apiPosAyuda = apiHtml.indexOf('nav-item-ayuda');
+    const apiPosContacto = apiHtml.indexOf('nav-item-contacto');
+    if (apiPosInicio === -1 || apiPosSoluciones === -1 || apiPosEditor === -1 || apiPosPrecios === -1 || apiPosNosotros === -1 || apiPosAyuda === -1 || apiPosContacto === -1) {
+      throw new Error('public/api.html carece de los elementos oficiales del menú principal.');
+    }
+    if (!(apiPosInicio < apiPosSoluciones && apiPosSoluciones < apiPosEditor && apiPosEditor < apiPosPrecios && apiPosPrecios < apiPosNosotros && apiPosNosotros < apiPosAyuda && apiPosAyuda < apiPosContacto)) {
+      throw new Error('public/api.html no sigue el orden secuencial estricto del menú principal.');
+    }
+    if (apiHtml.includes('Abrir Editor') || apiHtml.includes('Developers & AI MCP')) {
+      throw new Error('public/api.html no debe incluir elementos adicionales o diferentes en el menú principal.');
+    }
+    if (!apiHtml.includes('id="user-profile-widget"') || !apiHtml.includes('id="btn-open-oauth"') || !apiHtml.includes('nav-auth.js')) {
+      throw new Error('public/api.html debe incluir los widgets de autenticación y el script nav-auth.js.');
+    }
   });
 
   // PRUEBA 38: Página de Contacto y Endpoint API POST /api/contact
