@@ -74,7 +74,8 @@ class Config {
       supportEmail: process.env.SUPPORT_EMAIL || 'qrbyeconctact@gmail.com',
       metaVerifyToken: process.env.META_VERIFY_TOKEN || 'qrbey_support_webhook_secure_token_2026',
       metaAppSecret: process.env.META_APP_SECRET || '',
-      pageAccessToken: process.env.PAGE_ACCESS_TOKEN || ''
+      pageAccessToken: process.env.PAGE_ACCESS_TOKEN || '',
+      pageId: process.env.PAGE_ID || process.env.META_PAGE_ID || '1428779763652699'
     };
   }
 

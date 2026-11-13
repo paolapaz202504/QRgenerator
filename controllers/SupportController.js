@@ -209,7 +209,8 @@ class SupportController {
         message: { text: textReply }
       };
 
-      const response = await fetch(`https://graph.facebook.com/v19.0/me/messages?access_token=${encodeURIComponent(pageAccessToken)}`, {
+      const targetPath = config.support.pageId ? `${config.support.pageId}/messages` : 'me/messages';
+      const response = await fetch(`https://graph.facebook.com/v19.0/${targetPath}?access_token=${encodeURIComponent(pageAccessToken)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -218,6 +219,9 @@ class SupportController {
       const data = await response.json();
       if (!response.ok) {
         console.error('❌ [Meta Graph API Error]:', data);
+        if (data.error && data.error.code === 100 && data.error.error_subcode === 33) {
+          console.error('💡 [Meta Hint]: El PAGE_ACCESS_TOKEN configurado es de Usuario o carece de permisos de Página. Se requiere un "Token de acceso a la página" con el permiso pages_messaging.');
+        }
         return false;
       }
       console.log(`📤 [Messenger Enviado] Respuesta entregada a ${recipientPsid} con éxito.`);
