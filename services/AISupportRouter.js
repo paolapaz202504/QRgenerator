@@ -8,7 +8,7 @@ class AISupportRouter {
     this.zhipuApiKey = config.support.zhipuApiKey;
     this.whatsappPhone = config.support.whatsappPhone || null;
     this.isWhatsAppEnabled = !!(config.support.whatsappEnabled && this.whatsappPhone);
-    this.supportEmail = config.support.supportEmail || 'qrbyeconctact@gmail.com';
+    this.supportEmail = config.support.supportEmail || '';
     this.faqs = this.loadFaqs();
   }
 

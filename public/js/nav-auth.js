@@ -109,9 +109,29 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', syncNavAuth);
+    document.addEventListener('DOMContentLoaded', () => {
+      syncNavAuth();
+      setupChangelogButton();
+    });
   } else {
     syncNavAuth();
+    setupChangelogButton();
+  }
+
+  function setupChangelogButton() {
+    const btnChangelog = document.getElementById('btn-open-changelog');
+    if (btnChangelog && !btnChangelog._hasNavListener) {
+      btnChangelog._hasNavListener = true;
+      btnChangelog.addEventListener('click', (e) => {
+        const isSpa = window.location.pathname === '/' || 
+                      window.location.pathname === '' || 
+                      window.location.pathname.endsWith('index.html');
+        if (!isSpa) {
+          e.preventDefault();
+          window.location.href = '/?changelog=1';
+        }
+      });
+    }
   }
 
   // Sincronización en tiempo real ante eventos de storage entre ventanas/pestañas

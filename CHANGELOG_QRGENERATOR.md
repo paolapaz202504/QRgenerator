@@ -4,6 +4,16 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.11.4] — 2026-11-13
+### 🧭 Navegación Uniforme en Privacidad y Fortalecimiento de Seguridad
+
+#### Novedades y Mejoras
+- **Menú Principal Completo y Sesión Persistente en Privacidad (/privacidad):** La página de Política de Privacidad ahora cuenta con la barra de navegación principal oficial, idéntica al resto de la plataforma, permitiendo acceder a todas las secciones del sitio y manteniendo visible en todo momento tu perfil y estado de sesión.
+- **Mayor Protección y Seguridad de la Información:** Se robusteció el aislamiento de credenciales y variables de entorno del sistema, asegurando que todos los parámetros de configuración se gestionen con los más altos estándares de seguridad en la nube.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Mejoras continuas en la navegación y experiencia general.
+
+---
+
 ## [v1.11.3] — 2026-11-13
 ### 📞 Canales de Contacto Directos y Simplificados
 

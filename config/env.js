@@ -6,7 +6,7 @@ class Config {
     this.nodeEnv = process.env.NODE_ENV || 'development';
     this.isProduction = (process.env.NODE_ENV === 'production') || (process.env.RENDER === 'true');
     this.envFolder = this.isProduction ? 'prod' : 'dev';
-    this.gcsBucketName = process.env.GCS_BUCKET_NAME || 'qr-studio-pro-bucket';
+    this.gcsBucketName = process.env.GCS_BUCKET_NAME || '';
     this.googleClientId = process.env.GOOGLE_CLIENT_ID || '';
     this.appUrl = process.env.APP_URL || `http://localhost:${this.port}`;
 
@@ -71,11 +71,11 @@ class Config {
       zhipuApiKey: process.env.ZHIPU_API_KEY || '',
       whatsappPhone: isWaEnabled ? rawWaPhone : null,
       whatsappEnabled: isWaEnabled,
-      supportEmail: process.env.SUPPORT_EMAIL || 'qrbyeconctact@gmail.com',
-      metaVerifyToken: process.env.META_VERIFY_TOKEN || 'qrbey_support_webhook_secure_token_2026',
+      supportEmail: process.env.SUPPORT_EMAIL || '',
+      metaVerifyToken: process.env.META_VERIFY_TOKEN || '',
       metaAppSecret: process.env.META_APP_SECRET || '',
       pageAccessToken: process.env.PAGE_ACCESS_TOKEN || '',
-      pageId: process.env.PAGE_ID || process.env.META_PAGE_ID || '1428779763652699'
+      pageId: process.env.PAGE_ID || process.env.META_PAGE_ID || ''
     };
   }
 

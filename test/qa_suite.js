@@ -1189,6 +1189,28 @@ async function runTestSuite() {
     if (!apiHtml.includes('id="user-profile-widget"') || !apiHtml.includes('id="btn-open-oauth"') || !apiHtml.includes('nav-auth.js')) {
       throw new Error('public/api.html debe incluir los widgets de autenticación y el script nav-auth.js.');
     }
+
+    // 10. En /privacidad: menú principal oficial visible en todo momento, orden estricto y con nav-auth.js
+    const privHtml = fs.readFileSync('public/privacidad.html', 'utf8');
+    if (!privHtml.includes('sticky top-0 z-50')) {
+      throw new Error('public/privacidad.html debe tener el menú principal sticky top-0 z-50 visible en todo momento.');
+    }
+    const privPosInicio = privHtml.indexOf('nav-item-inicio');
+    const privPosSoluciones = privHtml.indexOf('nav-item-soluciones');
+    const privPosEditor = privHtml.indexOf('nav-item-editor');
+    const privPosPrecios = privHtml.indexOf('nav-item-precios');
+    const privPosNosotros = privHtml.indexOf('nav-item-nosotros');
+    const privPosAyuda = privHtml.indexOf('nav-item-ayuda');
+    const privPosContacto = privHtml.indexOf('nav-item-contacto');
+    if (privPosInicio === -1 || privPosSoluciones === -1 || privPosEditor === -1 || privPosPrecios === -1 || privPosNosotros === -1 || privPosAyuda === -1 || privPosContacto === -1) {
+      throw new Error('public/privacidad.html carece de los elementos oficiales del menú principal.');
+    }
+    if (!(privPosInicio < privPosSoluciones && privPosSoluciones < privPosEditor && privPosEditor < privPosPrecios && privPosPrecios < privPosNosotros && privPosNosotros < privPosAyuda && privPosAyuda < privPosContacto)) {
+      throw new Error('public/privacidad.html no sigue el orden secuencial estricto del menú principal.');
+    }
+    if (!privHtml.includes('id="user-profile-widget"') || !privHtml.includes('id="btn-open-oauth"') || !privHtml.includes('nav-auth.js')) {
+      throw new Error('public/privacidad.html debe incluir los widgets de autenticación y el script nav-auth.js.');
+    }
   });
 
   // PRUEBA 38: Página de Contacto y Endpoint API POST /api/contact
@@ -1623,6 +1645,12 @@ async function runTestSuite() {
     const footerContent = fs.readFileSync('public/html/footer.html', 'utf8');
     if (!footerContent.includes('id="footer-whatsapp-btn"') || !footerContent.includes('hidden')) {
       throw new Error('footer.html debe incluir el botón con id footer-whatsapp-btn y clase hidden');
+    }
+
+    // 9. Seguridad en config/env.js: Sin credenciales ni datos sensibles quemados por defecto
+    const envJsContent = fs.readFileSync('config/env.js', 'utf8');
+    if (envJsContent.includes("'qrbey_support_webhook_secure_token_2026'") || envJsContent.includes("'1428779763652699'")) {
+      throw new Error('config/env.js no debe contener tokens de verificación o Page IDs quemados por defecto');
     }
   });
 
