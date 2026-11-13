@@ -4,6 +4,19 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.9.9] — 2026-11-12
+### 📱 Ejemplos Visuales de Códigos QR Listos para Escanear en Cada Sector y Solución
+
+#### Novedades y Mejoras
+- **Muestrario Real en Cada Página Especializada:** Ahora, al explorar las soluciones para tu negocio desde el menú "Soluciones y Sectores", encontrarás un ejemplo visual y funcional del código QR correspondiente a cada industria:
+  - **Restaurantes y Cafeterías (/restaurantes):** Ejemplo de código QR con marco temático para menús digitales y promociones en mesas, listo para probar con la cámara de tu teléfono y descargable en alta definición.
+  - **Salones de Belleza y Spas (/salones-belleza):** Ejemplo de código QR elegante en tonos pastel con enlace directo a citas por WhatsApp y catálogo de servicios para recepción y mostradores.
+  - **Comercios y Tiendas Locales (/comercios):** Ejemplo de código QR con marco de ofertas y conexión rápida a WiFi, vitrina de productos o pagos directos en caja.
+- **Acceso Rápido al Editor y Descarga de Muestra:** Cada ejemplo incluye botones para comenzar a personalizar ese mismo estilo directamente en el editor con un solo clic o descargar la imagen de prueba.
+- **Optimizaciones en la velocidad de carga y mayor estabilidad del sistema:** Integración ligera y eficiente de recursos visuales con carga progresiva para navegación ultrarrápida sin consumo excesivo de datos móviles.
+
+---
+
 ## [v1.9.8] — 2026-11-12
 ### 🖼️ Muestrario de Códigos QR Listos para Escanear en la Portada Principal
 

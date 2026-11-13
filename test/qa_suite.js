@@ -1360,6 +1360,46 @@ async function runTestSuite() {
     }
   });
 
+  // TEST 42: Muestrario de Códigos QR en Páginas Verticales de Soluciones y Sectores
+  await test('Soluciones y Sectores: Existencia de Código QR Correspondiente en cada Página Vertical', async () => {
+    const fs = require('fs');
+
+    // 1. Restaurantes: /restaurantes con /img/qr_restaurante.png
+    const restHtml = fs.readFileSync('public/restaurantes.html', 'utf8');
+    if (!restHtml.includes('/img/qr_restaurante.png') || !restHtml.includes('qr_restaurante_ejemplo.png')) {
+      throw new Error('public/restaurantes.html debe contener el código QR correspondiente /img/qr_restaurante.png');
+    }
+
+    // 2. Salones de Belleza: /salones-belleza con /img/qr_salon.png
+    const salonHtml = fs.readFileSync('public/salones-belleza.html', 'utf8');
+    if (!salonHtml.includes('/img/qr_salon.png') || !salonHtml.includes('qr_salon_ejemplo.png')) {
+      throw new Error('public/salones-belleza.html debe contener el código QR correspondiente /img/qr_salon.png');
+    }
+
+    // 3. Comercios: /comercios con /img/qr_comercios.png
+    const comercioHtml = fs.readFileSync('public/comercios.html', 'utf8');
+    if (!comercioHtml.includes('/img/qr_comercios.png') || !comercioHtml.includes('qr_comercios_ejemplo.png')) {
+      throw new Error('public/comercios.html debe contener el código QR correspondiente /img/qr_comercios.png');
+    }
+
+    // 4. Verificación de respuesta HTTP 200 desde el servidor
+    const [resRest, resSalon, resComercio] = await Promise.all([
+      makeRequest('/restaurantes', 'GET'),
+      makeRequest('/salones-belleza', 'GET'),
+      makeRequest('/comercios', 'GET')
+    ]);
+
+    if (resRest.statusCode !== 200 || !resRest.text.includes('qr_restaurante.png')) {
+      throw new Error(`Endpoint /restaurantes falló status: ${resRest.statusCode}`);
+    }
+    if (resSalon.statusCode !== 200 || !resSalon.text.includes('qr_salon.png')) {
+      throw new Error(`Endpoint /salones-belleza falló status: ${resSalon.statusCode}`);
+    }
+    if (resComercio.statusCode !== 200 || !resComercio.text.includes('qr_comercios.png')) {
+      throw new Error(`Endpoint /comercios falló status: ${resComercio.statusCode}`);
+    }
+  });
+
   console.log('\n==============================================================');
   console.log(`📊 RESULTADOS DE PRUEBAS: ${passed} APROBADAS | ${failed} FALLIDAS`);
   console.log('==============================================================');
