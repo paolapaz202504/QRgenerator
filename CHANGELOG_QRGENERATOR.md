@@ -4,6 +4,15 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.11.2] — 2026-11-13
+### ⚡ Mayor Claridad en Respuestas del Asistente Virtual y Optimización General
+
+#### Novedades y Mejoras
+- **Respuestas Directas y Precisas en el Asistente:** Las consultas frecuentes sobre planes, características de diseño, créditos y métodos de pago ahora se presentan de forma directa, limpia y concisa, permitiendo a los usuarios obtener información exacta al instante sin elementos innecesarios al final del mensaje.
+- **Optimizaciones en la velocidad de respuesta y mayor estabilidad del sistema:** Mejoras continuas en los tiempos de respuesta y estabilidad global de la plataforma y de los canales de asistencia.
+
+---
+
 ## [v1.11.1] — 2026-11-13
 ### 🛡️ Portal Oficial de Política de Privacidad y Cumplimiento de Datos
 
