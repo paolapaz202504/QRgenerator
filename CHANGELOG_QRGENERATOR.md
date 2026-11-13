@@ -4,6 +4,17 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.11.1] — 2026-11-13
+### 🛡️ Portal Oficial de Política de Privacidad y Cumplimiento de Datos
+
+#### Novedades y Mejoras
+- **Página de Política de Privacidad (/privacidad):** Incorporación de la sección pública y transparente de protección de datos personales y términos de privacidad, garantizando el cumplimiento de los estándares internacionales de seguridad y las directrices de plataformas asociadas como Meta (Facebook e Instagram).
+- **Acceso Directo en Pie de Página (Footer):** Enlace visible e institucional a la Política de Privacidad en el pie de página de todas las pantallas del sitio web.
+- **Acceso desde Mi Perfil:** Integración de un enlace directo a la Política de Privacidad y Tratamiento de Datos dentro de la ventana de perfil de usuario.
+- **Mayor estabilidad y seguridad en comunicaciones:** Optimización en las rutas de respuesta segura e integración de canales de atención al cliente.
+
+---
+
 ## [v1.11.0] — 2026-11-13
 ### 🤖 Asistente Virtual Inteligente 24/7 y Atención Rápida por WhatsApp
 

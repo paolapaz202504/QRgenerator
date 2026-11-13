@@ -121,6 +121,12 @@ class Server {
       res.sendFile(path.join(__dirname, 'public', 'api.html'));
     });
 
+    // Política de Privacidad (Requerido por Meta / Facebook App Review y Live Mode)
+    this.app.get(['/privacidad', '/privacy', '/politica-privacidad'], (req, res) => {
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      res.sendFile(path.join(__dirname, 'public', 'privacidad.html'));
+    });
+
     this.app.use(express.static(path.join(__dirname, 'public'), {
       maxAge: '0',
       etag: true,
