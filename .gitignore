@@ -3,10 +3,11 @@ node_modules/
 jspm_packages/
 web_modules/
 
-# custom folders
-docs/*
-!docs/reviews-strategy.md
+# Documentación, pruebas, métricas y borradores
+docs/
+test/
 scratch/
+metrics/
 
 # Logs and debugging
 logs
