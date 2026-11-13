@@ -4,6 +4,15 @@ Registro oficial de mejoras, nuevas funcionalidades y optimizaciones continuas p
 
 ---
 
+## [v1.11.3] — 2026-11-13
+### 📞 Canales de Contacto Directos y Simplificados
+
+#### Novedades y Mejoras
+- **Estructura Clara de Canales de Atención:** Al solicitar atención directa, el asistente presenta ahora de forma concisa, limpia y ordenada los canales oficiales de contacto (WhatsApp, Correo Electrónico, Sitio Web, Facebook e Instagram), facilitando la comunicación rápida a través del medio de tu preferencia.
+- **Optimizaciones en la velocidad de respuesta y mayor estabilidad del sistema:** Respuestas más ágiles y directas para una mejor experiencia de atención al usuario.
+
+---
+
 ## [v1.11.2] — 2026-11-13
 ### ⚡ Mayor Claridad en Respuestas del Asistente Virtual y Optimización General
 

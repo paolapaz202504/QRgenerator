@@ -172,9 +172,19 @@ ${context}`;
     // 2. Detección de Solicitud de Escalamiento Humano
     if (this.checkHumanHandoff(cleanMessage)) {
       const waLink = this.generateWhatsAppLink({ reason: cleanMessage });
-      const reply = (this.isWhatsAppEnabled && waLink)
-        ? `¡Con mucho gusto! Puedes comunicarte directamente con nuestro equipo de atención humana por WhatsApp al **+${this.whatsappPhone}** haciendo clic en el siguiente enlace: [Chatear por WhatsApp](${waLink}), o si lo prefieres, escríbenos a **${this.supportEmail}** o déjanos un mensaje en **/contacto**. Estamos a tu servicio.`
-        : `¡Con mucho gusto! Puedes comunicarte directamente con nuestro equipo de atención humana escribiéndonos a **${this.supportEmail}** o enviándonos un mensaje en el formulario de la sección **/contacto**. Nuestro equipo te responderá a la brevedad.`;
+      const cleanWaPhone = (this.whatsappPhone || '').replace(/[^0-9]/g, '');
+      const waDisplay = (this.isWhatsAppEnabled && cleanWaPhone)
+        ? `https://wa.me/${cleanWaPhone}`
+        : 'No disponible';
+
+      const reply = [
+        'Otros Medios de contacto:',
+        `1. WhatsApp: ${waDisplay}`,
+        `2. Correo Electrónico: ${this.supportEmail}`,
+        '3. Sitio web: https://qrbey.onrender.com',
+        '4. Facebook: https://www.facebook.com/qrbey',
+        '5. Instagram: https://www.instagram.com/QR.bey/'
+      ].join('\n');
 
       return {
         reply,
