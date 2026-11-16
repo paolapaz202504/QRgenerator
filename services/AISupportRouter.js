@@ -17,27 +17,48 @@ class AISupportRouter {
 
   getContactChannelsMessage(customHeader = 'Contactos:') {
     const cleanWaPhone = (this.whatsappPhone || '').replace(/[^0-9]/g, '');
-    const waDisplay = (this.isWhatsAppEnabled && cleanWaPhone)
-      ? `https://wa.me/${cleanWaPhone}`
-      : 'No disponible';
+    let waDisplay = '+52 962 450 3691';
+    if (this.isWhatsAppEnabled && cleanWaPhone) {
+      if (cleanWaPhone.length === 12 && cleanWaPhone.startsWith('52')) {
+        waDisplay = `+${cleanWaPhone.slice(0, 2)} ${cleanWaPhone.slice(2, 5)} ${cleanWaPhone.slice(5, 8)} ${cleanWaPhone.slice(8)}`;
+      } else {
+        waDisplay = `+${cleanWaPhone}`;
+      }
+    } else if (!this.isWhatsAppEnabled) {
+      waDisplay = 'No disponible';
+    }
+
+    const emailDisplay = this.supportEmail || 'qrbyeconctact@gmail.com';
+    let webDisplay = 'qrbey.onrender.com';
+    if (this.appUrl && !this.appUrl.includes('localhost')) {
+      webDisplay = this.appUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    }
+
+    let fbDisplay = '@qrbey';
+    if (this.facebookUrl) {
+      const part = this.facebookUrl.replace(/\/$/, '').split('/').pop();
+      if (part) fbDisplay = `@${part}`;
+    }
+
+    let igDisplay = '@QR.bey';
+    if (this.instagramUrl) {
+      const part = this.instagramUrl.replace(/\/$/, '').split('/').pop();
+      if (part) igDisplay = `@${part}`;
+    }
 
     return [
       customHeader,
-      `1. WhatsApp: ${waDisplay}`,
-      `2. Correo: ${this.supportEmail || 'No disponible'}`,
-      `3. Web: ${this.appUrl || 'https://qrbey.onrender.com'}`,
-      `4. Facebook: ${this.facebookUrl || 'No disponible'}`,
-      `5. Instagram: ${this.instagramUrl || 'No disponible'}`
+      '│',
+      `│ 1. 🟢 WhatsApp: ${waDisplay}`,
+      `│ 2. ✉️ Correo: ${emailDisplay}`,
+      `│ 3. 🌐 Web: ${webDisplay}`,
+      `│ 4. 📘 Facebook: ${fbDisplay}`,
+      `│ 5. 📸 Instagram: ${igDisplay}`
     ].join('\n');
   }
 
   formatFinalResponse({ reply, provider, conversationId, whatsappLink, escalated = false }) {
-    let finalReply = (reply || '').trim();
-    if (!finalReply.includes('Contactos:') && !finalReply.includes('Otros Medios de contacto:')) {
-      finalReply = `${finalReply}\n\n${this.getContactChannelsMessage()}`;
-    } else {
-      finalReply = finalReply.replace(/Otros Medios de contacto:/g, 'Contactos:');
-    }
+    const finalReply = (reply || '').trim();
 
     return {
       reply: finalReply,
@@ -72,8 +93,10 @@ class AISupportRouter {
         const appUrl = this.appUrl || 'https://qrbey.onrender.com';
         const fb = this.facebookUrl || 'No disponible';
         const insta = this.instagramUrl || 'No disponible';
+        const contactsBlock = this.getContactChannelsMessage().replace(/\n/g, '\\n');
 
         content = content
+          .replace(/\{\{CONTACTS_BLOCK\}\}/g, contactsBlock)
           .replace(/\{\{WHATSAPP_LINK\}\}/g, waLink)
           .replace(/\{\{WHATSAPP_PHONE\}\}/g, waPhoneDisplay)
           .replace(/\{\{SUPPORT_EMAIL\}\}/g, email)
@@ -204,9 +227,8 @@ Tu misión es resolver dudas sobre generación de códigos QR, personalización 
 
 DIRECTRICES OBLIGATORIAS:
 1. Responde siempre en español, de forma empática, clara, respetuosa y profesional.
-2. Utiliza respuestas concisas orientadas a la acción (máximo 3 párrafos cortos).
-3. Si el usuario desea hablar con una persona o asistencia personalizada, indícale los medios de contacto oficiales:
-${this.getContactChannelsMessage()}
+2. Estructura siempre tus respuestas con saltos de línea claros, espaciado adecuado y listas ordenadas (1), 2), 3) o viñetas •) cuando existan varios puntos, opciones o características. Nunca entregues bloques densos de texto plano sin separar.
+3. El soporte de QRbey es 100% automatizado con IA 24/7 (sin operadores humanos). Si el usuario solicita hablar con una persona, asesor o humano, indícale con amabilidad y transparencia que nuestro sistema es 100% automatizado para brindarle solución inmediata sin esperas, e invítalo a explicarte su duda o problema para resolverlo de inmediato aquí mismo.
 4. Respeta estrictamente los datos de la base de conocimiento y nunca inventes promociones no autorizadas.
 
 ${context}`;
@@ -218,7 +240,7 @@ ${context}`;
 
     if (!cleanMessage) {
       return this.formatFinalResponse({
-        reply: 'Hola, ¿en qué puedo ayudarte hoy con tus códigos QR?',
+        reply: '¡Hola! 👋 Bienvenido a QRbey.\n\n¿En qué puedo ayudarte hoy con tus códigos QR? Puedo orientarte sobre:\n\n1) Planes y precios (Gratis, Pro y Corporativo)\n2) Diseño y personalización de QR\n3) Formatos de descarga (PNG, WebP, SVG)\n4) Métodos de pago y facturación',
         provider: 'static_welcome',
         conversationId
       });
@@ -233,11 +255,13 @@ ${context}`;
       });
     }
 
-    // 2. Detección de Solicitud de Escalamiento Humano
+    // 2. Detección de Solicitud de Escalamiento Humano (Autoservicio Resolutivo 24/7)
     if (this.checkHumanHandoff(cleanMessage)) {
       const waLink = this.generateWhatsAppLink({ reason: cleanMessage });
+      const selfServiceReply = 'En QRbey nuestro sistema de soporte está 100% automatizado con inteligencia artificial para atenderte las 24 horas del día, los 7 días de la semana, sin filas ni tiempos de espera.\n\nNo contamos con operadores humanos, pero estoy completamente capacitado para ayudarte:\n\n1) Si tienes dudas de planes o facturación, dime cuál es tu consulta.\n2) Si tienes un problema con una descarga o diseño de QR, indícame qué sucede.\n3) Si necesitas dejar un reporte formal o administrativo, puedes escribirnos en /contacto.\n\nPor favor, cuéntame con detalle qué necesitas y con gusto te doy la solución inmediata.';
+
       return this.formatFinalResponse({
-        reply: this.getContactChannelsMessage(),
+        reply: selfServiceReply,
         provider: 'human_handoff',
         conversationId,
         whatsappLink: waLink,
@@ -363,12 +387,9 @@ ${context}`;
       });
     }
 
-    // 6. Contingencia Final Amigable con Escalamiento
+    // 6. Contingencia Final Amigable (Autoservicio Resolutivo 24/7)
     if (this.checkGreeting(cleanMessage)) {
-      const greetingReply = [
-        '¡Hola! 👋 Bienvenido a QRbey. ¿En qué podemos orientarte hoy con tus códigos QR? Puedes consultarme sobre nuestros planes, diseño y personalización, formatos de descarga o métodos de pago.\n',
-        this.getContactChannelsMessage()
-      ].join('\n');
+      const greetingReply = '¡Hola! 👋 Bienvenido a QRbey. Soy tu asistente virtual 24/7.\n\nEstoy aquí para resolver al instante cualquier duda sobre:\n\n1) Planes y precios (Gratuito, Profesional y Corporativo)\n2) Diseño y personalización (colores, marcos, logos)\n3) Formatos de descarga en alta resolución (PNG, WebP, SVG)\n4) Métodos de pago y facturación\n\n¿En qué te puedo orientar hoy?';
 
       return this.formatFinalResponse({
         reply: greetingReply,
@@ -378,10 +399,7 @@ ${context}`;
       });
     }
 
-    const fallbackReply = [
-      '¡Hola! Con gusto puedo orientarte sobre nuestros planes, diseño de códigos QR, descargas y métodos de pago. Si requieres atención personalizada o deseas comunicarte con nuestro equipo, ponemos a tu disposición nuestros canales oficiales:\n',
-      this.getContactChannelsMessage()
-    ].join('\n');
+    const fallbackReply = '¡Hola! Con gusto puedo orientarte sobre la plataforma QRbey.\n\nPor favor indícame tu duda sobre cualquiera de estos temas:\n\n1) Planes y precios (Gratuito, Profesional y Corporativo)\n2) Diseño y personalización de tus códigos QR\n3) Formatos de descarga (PNG, WebP y SVG vectorial)\n4) Métodos de pago y facturación\n\nCuéntame qué necesitas hacer y te ayudaré a resolverlo de inmediato.';
 
     return this.formatFinalResponse({
       reply: fallbackReply,

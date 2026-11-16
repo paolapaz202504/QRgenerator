@@ -5,13 +5,13 @@
       {
         "id": "faq_planes",
         "question": "¿Cuáles son los planes y precios de QRbey?",
-        "answer": "QRbey ofrece tres planes adaptados a tus necesidades: 1) Plan Gratuito ($0 USD): incluye 15 descargas y 50 créditos para generar y probar códigos QR personalizados sin costo. 2) Plan Profesional ($9.99 USD/mes): incluye 500 descargas mensuales, 2,000 créditos, plantillas premium y exportación en alta resolución. 3) Plan Corporativo ($29.99 USD/mes): incluye 2,000 descargas mensuales, 10,000 créditos, soporte prioritario y acceso completo a la API para empresas.",
+        "answer": "QRbey ofrece tres planes adaptados a tus necesidades:\n\n1) Plan Gratuito ($0 USD): incluye 15 descargas y 50 créditos para generar y probar códigos QR personalizados sin costo.\n\n2) Plan Profesional ($9.99 USD/mes): incluye 500 descargas mensuales, 2,000 créditos, plantillas premium y exportación en alta resolución.\n\n3) Plan Corporativo ($29.99 USD/mes): incluye 2,000 descargas mensuales, 10,000 créditos, soporte prioritario y acceso completo a la API para empresas.",
         "keywords": ["planes", "precios", "costo", "gratis", "pro", "profesional", "corporativo", "suscripción", "mensual"]
       },
       {
         "id": "faq_creditos",
         "question": "¿Cómo funcionan los créditos y descargas?",
-        "answer": "Cada vez que generas una vista previa o personalizas un código QR se consumen créditos del plan. Al exportar y descargar el código final en formato PNG o SVG se contabiliza una descarga de tu saldo disponible. En el plan gratuito los créditos y descargas son estáticos de bienvenida, mientras que en los planes Pro y Corporativo se renuevan mensualmente.",
+        "answer": "El sistema de créditos y descargas funciona de la siguiente manera:\n\n• Créditos: Se consumen cada vez que generas una vista previa o personalizas estilos, marcos o colores de un código QR.\n• Descargas: Se descuenta una descarga de tu saldo disponible únicamente al exportar el código final en PNG, WebP o SVG.\n• Renovación: En el Plan Gratuito los créditos y descargas son estáticos de bienvenida, mientras que en los Planes Pro y Corporativo se renuevan automáticamente cada mes.",
         "keywords": ["créditos", "descargas", "consumo", "saldo", "límite"]
       }
     ]
@@ -22,19 +22,19 @@
       {
         "id": "faq_personalizacion",
         "question": "¿Qué elementos puedo personalizar en mi código QR?",
-        "answer": "Puedes personalizar prácticamente todo: colores de primer plano (sólidos y degradados lineales o radiales), color de fondo, estilos de módulos (puntos, cuadrados, barras, diamantes), estilos y marcos de ojos (cuadrados, redondeados, círculos), logotipos centrales personalizados con ajuste de tamaño y marcos decorativos con texto (Call to Action como 'Escanéame', 'Menú Digital', 'Promoción').",
+        "answer": "Puedes personalizar completamente cada elemento de tu código QR:\n\n1) Colores: Primer plano (sólidos o degradados lineales/radiales) y color de fondo.\n2) Módulos y Puntos: Formas de puntos, cuadrados, barras, diamantes y esquinas redondeadas.\n3) Ojos del QR: Estilos exteriores e interiores (cuadrados, circulares, redondeados).\n4) Logotipo: Inserta tu logo central o ícono de marca con ajuste de escala.\n5) Marcos decorativos: Agrega marcos con llamadas a la acción (CTA) como 'Escanéame', 'Menú Digital' o 'Promoción'.",
         "keywords": ["personalizar", "colores", "logo", "degradado", "ojos", "marcos", "diseño", "estilo"]
       },
       {
         "id": "faq_formatos",
         "question": "¿En qué formatos puedo descargar mi código QR?",
-        "answer": "Puedes descargar tus códigos QR en formato PNG en alta definición (ideal para impresión y redes sociales), WebP ultraligero para sitios web y formato SVG vectorial escalable sin pérdida de calidad (ideal para señalética, viniles y gigantografías).",
+        "answer": "Puedes descargar tus códigos QR en tres formatos optimizados:\n\n1) PNG en Alta Definición: Ideal para publicaciones digitales, redes sociales e impresión estándar.\n2) WebP Ultraligero: Perfecto para páginas web y aplicaciones móviles por su máxima velocidad de carga.\n3) SVG Vectorial Escalable: Gráfico vectorial puro que no pierde resolución a ningún tamaño, ideal para gigantografías, vinilos y señalética.",
         "keywords": ["formatos", "png", "svg", "vectorial", "descargar", "impresión", "calidad", "resolución"]
       },
       {
         "id": "faq_escaneabilidad",
         "question": "¿Los códigos QR personalizados garantizan escaneabilidad?",
-        "answer": "Sí. Todos los códigos generados en QRbey utilizan un nivel de corrección de errores óptimo (High o Quartile) y pasan por una matriz de validación óptica automática para asegurar que cualquier smartphone con iOS o Android pueda leerlos de inmediato sin fallas.",
+        "answer": "Sí, la legibilidad de tus códigos QR está 100% garantizada:\n\n• Corrección de Errores: Nivel óptimo (High o Quartile) para tolerar logos centrales y decoraciones.\n• Validación Óptica Automática: Cada diseño pasa por un motor de escaneo con jsQR antes de generarse.\n• Compatibilidad Universal: Legible al instante por la cámara de cualquier teléfono iOS o Android.",
         "keywords": ["escaneable", "lectura", "garantía", "cámara", "celular", "iphone", "android"]
       }
     ]
@@ -45,13 +45,13 @@
       {
         "id": "faq_metodos_pago",
         "question": "¿Cuáles son los métodos de pago aceptados?",
-        "answer": "Aceptamos tarjetas de crédito y débito Visa y Mastercard a través de nuestra pasarela segura Recurrente, así como transferencias bancarias locales sin recargos adicionales. Todos los cobros se procesan bajo estándares de cifrado bancario PCI-DSS.",
+        "answer": "Aceptamos los siguientes métodos de pago seguros a través de nuestra pasarela Recurrente:\n\n1) Tarjetas de Crédito y Débito: Visa y Mastercard nacionales e internacionales.\n2) Transferencias Bancarias Locales: Directas y sin recargos adicionales.\n3) Seguridad Garantizada: Todos los pagos se procesan bajo cifrado bancario y certificación PCI-DSS.",
         "keywords": ["pago", "tarjeta", "visa", "mastercard", "transferencia", "recurrente", "seguridad"]
       },
       {
         "id": "faq_cancelacion",
         "question": "¿Puedo cancelar mi suscripción en cualquier momento?",
-        "answer": "Sí, puedes cancelar la renovación automática de tu suscripción en cualquier momento desde tu panel de usuario o comunicándote con soporte. Mantendrás acceso a los beneficios de tu plan hasta el final del periodo pagado.",
+        "answer": "Sí, tienes total libertad sobre tu suscripción:\n\n• Puedes cancelar la renovación automática en cualquier momento desde tu panel de usuario.\n• No existen plazos forzosos ni penalizaciones.\n• Mantendrás acceso a los beneficios y créditos de tu plan hasta el final del periodo facturado.",
         "keywords": ["cancelar", "cancelación", "reembolso", "baja", "suscripción"]
       }
     ]
@@ -62,13 +62,13 @@
       {
         "id": "faq_contacto_humano",
         "question": "¿Cómo puedo hablar con una persona de soporte?",
-        "answer": "Puedes comunicarte directamente con nuestro equipo de atención a través de cualquiera de nuestros canales oficiales:\n\nContactos:\n1. WhatsApp: {{WHATSAPP_LINK}}\n2. Correo: {{SUPPORT_EMAIL}}\n3. Web: {{APP_URL}}\n4. Facebook: {{FACEBOOK_URL}}\n5. Instagram: {{INSTAGRAM_URL}}",
+        "answer": "En QRbey nuestro soporte es 100% automatizado con Inteligencia Artificial 24/7:\n\n• Atención Inmediata: Respuestas al instante las 24 horas del día, los 7 días de la semana, sin filas ni esperas.\n• Autoservicio Total: Puedes consultarme directamente aquí sobre planes, facturación, descargas, diseño o errores técnicos.\n• Reportes Formales: Si requieres dejar un reporte formal o administrativo, dispones de nuestro formulario en /contacto.",
         "keywords": ["humano", "asesor", "persona", "whatsapp", "correo", "teléfono", "hablar", "ayuda directa", "contacto", "soporte"]
       },
       {
         "id": "faq_redes_sociales",
         "question": "¿Cuáles son las redes sociales oficiales de QRbey?",
-        "answer": "Puedes seguirnos y comunicarte con nosotros en nuestros canales oficiales:\n\nContactos:\n1. WhatsApp: {{WHATSAPP_LINK}}\n2. Correo: {{SUPPORT_EMAIL}}\n3. Web: {{APP_URL}}\n4. Facebook: {{FACEBOOK_URL}}\n5. Instagram: {{INSTAGRAM_URL}}",
+        "answer": "Puedes seguir nuestras novedades, lanzamientos y consejos en nuestras redes sociales oficiales:\n\n📘 Facebook: @qrbey (https://www.facebook.com/qrbey)\n📸 Instagram: @QR.bey (https://www.instagram.com/QR.bey/)",
         "keywords": ["redes", "instagram", "facebook", "comunidad", "seguir", "sociales"]
       }
     ]

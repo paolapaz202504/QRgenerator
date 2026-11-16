@@ -78,7 +78,7 @@
               waHeaderBtn.classList.remove('hidden');
             }
             if (waDisclaimer) {
-              waDisclaimer.innerHTML = `Asistencia 24/7 con DeepSeek AI · WhatsApp <a href="${this.whatsappLink}" target="_blank" class="text-indigo-600 font-semibold hover:underline">${this.whatsappFormatted || ''}</a>`;
+              waDisclaimer.innerHTML = `Asistencia 24/7 · WhatsApp <a href="${this.whatsappLink}" target="_blank" class="text-indigo-600 font-semibold hover:underline">${this.whatsappFormatted || ''}</a>`;
             }
             if (footerWaBtn) {
               footerWaBtn.href = this.whatsappLink;
@@ -87,7 +87,7 @@
           } else {
             if (waHeaderBtn) waHeaderBtn.classList.add('hidden');
             if (waDisclaimer) {
-              waDisclaimer.innerHTML = `Asistencia 24/7 con DeepSeek AI · Soporte: <a href="mailto:${this.supportEmail}" class="text-indigo-600 font-semibold hover:underline">${this.supportEmail}</a>`;
+              waDisclaimer.innerHTML = `Asistencia 24/7 · Soporte: <a href="mailto:${this.supportEmail}" class="text-indigo-600 font-semibold hover:underline">${this.supportEmail}</a>`;
             }
             if (footerWaBtn) {
               footerWaBtn.classList.add('hidden');
@@ -242,7 +242,7 @@
                 </h3>
                 <p class="text-[11px] text-indigo-100 flex items-center gap-1">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-300 inline-block"></span>
-                  <span>En línea · DeepSeek AI</span>
+                  <span>En línea · Asistente Virtual</span>
                 </p>
               </div>
             </div>
@@ -250,7 +250,7 @@
             <!-- Botones de Acción en Header -->
             <div class="flex items-center gap-1.5">
               <a id="qrbey-chat-wa-header-btn" href="#" target="_blank" rel="noopener noreferrer"
-                title="Hablar por WhatsApp con un Asesor Humano"
+                title="Atención WhatsApp 24/7"
                 class="hidden w-8 h-8 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-sm transition shadow-xs">
                 <i class="fa-brands fa-whatsapp"></i>
               </a>
@@ -266,7 +266,7 @@
             <button type="button" class="qrbey-chip" data-prompt="¿Cuáles son los planes y precios?">💰 Planes y precios</button>
             <button type="button" class="qrbey-chip" data-prompt="¿Cómo personalizo los colores y logo de mi QR?">🎨 Personalizar QR</button>
             <button type="button" class="qrbey-chip" data-prompt="¿Qué métodos de pago aceptan?">💳 Pagos aceptados</button>
-            <button type="button" class="qrbey-chip" data-prompt="Quiero hablar con un asesor humano">👤 Asesor humano</button>
+            <button type="button" class="qrbey-chip" data-prompt="¿En qué formatos puedo descargar mi código QR?">📥 Formatos de descarga</button>
           </div>
 
           <!-- Área de Mensajes -->
@@ -297,7 +297,7 @@
           <!-- Disclaimer inferior -->
           <div class="bg-slate-50 px-3 py-1 text-center border-t border-slate-100">
             <p id="qrbey-chat-disclaimer-text" class="text-[10px] text-slate-400">
-              Asistencia 24/7 con DeepSeek AI · Soporte: <a href="mailto:qrbyeconctact@gmail.com" class="text-indigo-600 font-semibold hover:underline">qrbyeconctact@gmail.com</a>
+              Asistencia 24/7 · Soporte: <a href="mailto:qrbyeconctact@gmail.com" class="text-indigo-600 font-semibold hover:underline">qrbyeconctact@gmail.com</a>
             </p>
           </div>
         </div>
@@ -363,6 +363,25 @@
       html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
       // Links
       html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+      // Autolink contactos interactivos en Web
+      html = html.replace(/(WhatsApp:\s*)(\+\d[\d\s]+)/gi, (match, p1, p2) => {
+        const clean = p2.replace(/[^\d]/g, '');
+        return `${p1}<a href="https://wa.me/${clean}" target="_blank" rel="noopener noreferrer" class="font-semibold text-emerald-600 hover:underline">${p2}</a>`;
+      });
+      html = html.replace(/(Correo:\s*)([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/gi, (match, p1, p2) => {
+        return `${p1}<a href="mailto:${p2}" class="font-semibold text-indigo-600 hover:underline">${p2}</a>`;
+      });
+      html = html.replace(/(Web:\s*)([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s<]*)?)/gi, (match, p1, p2) => {
+        return `${p1}<a href="https://${p2}" target="_blank" rel="noopener noreferrer" class="font-semibold text-indigo-600 hover:underline">${p2}</a>`;
+      });
+      html = html.replace(/(Facebook:\s*)@([a-zA-Z0-9._-]+)/gi, (match, p1, p2) => {
+        return `${p1}<a href="https://www.facebook.com/${p2}" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:underline">@${p2}</a>`;
+      });
+      html = html.replace(/(Instagram:\s*)@([a-zA-Z0-9._-]+)/gi, (match, p1, p2) => {
+        return `${p1}<a href="https://www.instagram.com/${p2}/" target="_blank" rel="noopener noreferrer" class="font-semibold text-pink-600 hover:underline">@${p2}</a>`;
+      });
+
       // Line breaks
       html = html.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>');
       return `<p>${html}</p>`;
@@ -442,15 +461,7 @@
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         });
       } catch (err) {
-        const errorReply = [
-          'Tuvimos un problema temporal de conexión.\n',
-          'Contactos:',
-          `1. WhatsApp: ${this.whatsappLink || 'No disponible'}`,
-          `2. Correo: ${this.supportEmail || 'No disponible'}`,
-          `3. Web: ${window.location.origin}`,
-          `4. Facebook: ${this.facebookUrl || 'https://www.facebook.com/qrbey'}`,
-          `5. Instagram: ${this.instagramUrl || 'https://www.instagram.com/QR.bey/'}`
-        ].join('\n');
+        const errorReply = 'Tuvimos un inconveniente temporal de conexión. Por favor reintenta tu consulta en unos momentos, o si el problema persiste, puedes enviarnos un reporte en la sección /contacto.';
 
         this.messages.push({
           sender: 'bot',

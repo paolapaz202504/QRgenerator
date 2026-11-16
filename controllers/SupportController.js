@@ -84,7 +84,7 @@ class SupportController {
       return res.status(500).json({
         success: false,
         error: 'Ocurrió un error al procesar el mensaje.',
-        reply: `Ocurrió un error temporal al procesar tu solicitud.\n\n${aiSupportRouter.getContactChannelsMessage('Contactos:')}`,
+        reply: 'Ocurrió un inconveniente temporal de conexión al procesar tu solicitud. Por favor intenta plantear tu consulta nuevamente en unos momentos o, si requieres registrar un reporte formal, puedes dejarnos un mensaje a través del formulario en /contacto.',
         whatsappLink: aiSupportRouter.generateWhatsAppLink()
       });
     }
